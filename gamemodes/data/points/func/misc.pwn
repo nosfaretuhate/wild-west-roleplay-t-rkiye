@@ -2,199 +2,159 @@ new advertiseTick [ MAX_PLAYERS ], playerLastTelegramPage [ MAX_PLAYERS ], bool:
 
 CMD:doorshout ( playerid, params [] ) {
 
-	new text [ 144 ] ;
+    new text [ 144 ] ;
 
-	if ( sscanf ( params, "s[144]", text ) ) {
+    if ( sscanf ( params, "s[144]", text ) ) {
 
-		return SendServerMessage ( playerid, "/doorshout [text]", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/doorshout [yazý]", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( strlen ( text ) > 144 || ! strlen ( text ) ) {
+    if ( strlen ( text ) > 144 || ! strlen ( text ) ) {
 
-		return SendServerMessage ( playerid, "No more than 144 characters please!", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Lütfen 144 karakterden fazla yazma!", MSG_TYPE_ERROR ) ;
+    }
 
-	new pointid = -1 ;
+    new pointid = -1 ;
 
-	for ( new i; i < MAX_POINTS; i ++ ) {
+    for ( new i; i < MAX_POINTS; i ++ ) {
 
-		if ( Point [ i ] [ point_id ] != -1 ) {
+        if ( Point [ i ] [ point_id ] != -1 ) {
 
-			if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_ext_x ],  Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int ] || 
-				 IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ] ) {
+            if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_ext_x ],  Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int ] || 
+                 IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ] ) {
 
-				pointid = i ;
-			}
+                pointid = i ;
+            }
 
-			else continue ;
-		}
+            else continue ;
+        }
 
-		else continue ;
-	}
+        else continue ;
+    }
 
-	if ( pointid == -1 ) {
+    if ( pointid == -1 ) {
 
-		return SendServerMessage ( playerid, "You're not near a door.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Bir kapýnýn yakýnýnda deðilsin.", MSG_TYPE_ERROR ) ;
+    }
 
-	foreach (new i: Player) {
+    foreach (new i: Player) {
 
-		if ( i == playerid ) {
+        if ( i == playerid ) {
 
-			continue ;
-		}
+            continue ;
+        }
 
-		if ( IsPlayerInRangeOfPoint(i, 2.5, Point [ pointid ] [ point_int_x ],  Point [ pointid ] [ point_int_y ], Point [ pointid ] [ point_int_z ] ) && GetPlayerVirtualWorld ( i ) == Point [ pointid ] [ point_int_vw ] && GetPlayerInterior ( i ) == Point [ pointid ] [ point_int_int ] ) {
-	
-			SendClientMessage(i, COLOR_BLUE, sprintf("%s shouts (door: outside): %s", ReturnUserName ( playerid, false ), text ) ) ;
-		}
-		
-		else if ( IsPlayerInRangeOfPoint(i, 2.5, Point [ pointid ] [ point_ext_x ],  Point [ pointid ] [ point_ext_y ], Point [ pointid ] [ point_ext_z ] ) && GetPlayerVirtualWorld ( i ) == Point [ pointid ] [ point_vw ] && GetPlayerInterior ( i ) == Point [ pointid ] [ point_int ] ) {
-	
-			SendClientMessage(i, COLOR_BLUE, sprintf("%s shouts (door: inside): %s", ReturnUserName ( playerid, false ), text ) ) ;
-		}
+        if ( IsPlayerInRangeOfPoint(i, 2.5, Point [ pointid ] [ point_int_x ],  Point [ pointid ] [ point_int_y ], Point [ pointid ] [ point_int_z ] ) && GetPlayerVirtualWorld ( i ) == Point [ pointid ] [ point_int_vw ] && GetPlayerInterior ( i ) == Point [ pointid ] [ point_int_int ] ) {
+    
+            SendClientMessage(i, COLOR_BLUE, sprintf("%s kapýdan baðýrýyor (dýþarýdan): %s", ReturnUserName ( playerid, false ), text ) ) ;
+        }
+        
+        else if ( IsPlayerInRangeOfPoint(i, 2.5, Point [ pointid ] [ point_ext_x ],  Point [ pointid ] [ point_ext_y ], Point [ pointid ] [ point_ext_z ] ) && GetPlayerVirtualWorld ( i ) == Point [ pointid ] [ point_vw ] && GetPlayerInterior ( i ) == Point [ pointid ] [ point_int ] ) {
+    
+            SendClientMessage(i, COLOR_BLUE, sprintf("%s kapýdan baðýrýyor (içeriden): %s", ReturnUserName ( playerid, false ), text ) ) ;
+        }
 
-		else continue ;
-	}
+        else continue ;
+    }
 
-	ProxDetector ( playerid, 30, -1, sprintf("%s shouts (door): %s", ReturnUserName ( playerid, false ), text) ) ;
+    ProxDetector ( playerid, 30, -1, sprintf("%s kapýdan baðýrýyor: %s", ReturnUserName ( playerid, false ), text) ) ;
 
-	return true ;
+    return true ;
 }
 
 CMD:ds ( playerid, params [] ) {
 
-	return cmd_doorshout ( playerid, params ) ;
+    return cmd_doorshout ( playerid, params ) ;
 }
 
 CMD:buytelegramnumber ( playerid, params [] ) {
 
-	return SendServerMessage(playerid,"This is currently disabled.",MSG_TYPE_ERROR);
-	/*
-	for ( new i; i < MAX_POINTS; i ++ ) {
-		if ( Point [ i ] [ point_id ] != -1 ) {
-			if ( IsPlayerInRangeOfPoint(playerid, 15.0, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && 
-				GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ] ) {
-
-				if ( Point [ i ] [ point_biztype ] == POINT_TYPE_POSTAL ) {
-
-					if ( Character [ playerid ] [ character_telegram_id ] != -1 ) {
-
-						return SendServerMessage ( playerid, "You already have a telegram number!", MSG_TYPE_ERROR ) ;
-					}
-
-					if ( Character [ playerid ] [ character_handmoney ] < 500 ) {
-
-						return SendServerMessage ( playerid, "You need $500 to buy a telegram number.", MSG_TYPE_ERROR ) ;
-					}
-
-					new query [ 128 ] ;
-
-					TakeCharacterMoney ( playerid, 500, MONEY_SLOT_HAND ) ;
-
-					Character [ playerid ] [ character_telegram_id ] = 10000 + Character [ playerid ] [ character_id ] ;
-
-					mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_telegram_id = %d WHERE character_id = %d", Character [ playerid ] [ character_telegram_id ], Character [ playerid ] [ character_id ] ) ;
-					mysql_tquery ( mysql, query ) ;
-
-					return SendServerMessage ( playerid, sprintf("You've bought a telegram number, your number is %i.", Character [ playerid ] [ character_telegram_id ] ), MSG_TYPE_INFO ) ;
-				}
-
-				else continue;
-			}
-			else continue;
-		}
-		else continue;
-	}
-
-	return SendServerMessage ( playerid, "You're not inside of a postal office!", MSG_TYPE_ERROR ) ;
-	*/
+    return SendServerMessage(playerid,"Bu özellik þu an devre dýþý.",MSG_TYPE_ERROR);
 }
 
 CMD:telegram ( playerid, params [] ) {
 
-	for ( new i; i < MAX_POINTS; i ++ ) {
-		if ( Point [ i ] [ point_id ] != -1 ) {
-			if ( IsPlayerInRangeOfPoint(playerid, 15.0, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && 
-				GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ] ) {
+    for ( new i; i < MAX_POINTS; i ++ ) {
+        if ( Point [ i ] [ point_id ] != -1 ) {
+            if ( IsPlayerInRangeOfPoint(playerid, 15.0, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && 
+                GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ] ) {
 
-				if ( Point [ i ] [ point_biztype ] == POINT_TYPE_POSTAL ) {
+                if ( Point [ i ] [ point_biztype ] == POINT_TYPE_POSTAL ) {
 
-					if ( Character [ playerid ] [ character_telegram_id ] == -1 ) {
+                    if ( Character [ playerid ] [ character_telegram_id ] == -1 ) {
 
-						return SendServerMessage ( playerid, "You don't have a telegram number!", MSG_TYPE_ERROR ) ;
-					}
+                        return SendServerMessage ( playerid, "Bir telgraf numaran yok!", MSG_TYPE_ERROR ) ;
+                    }
 
-					new telenumber, message [ 100 ] ;
+                    new telenumber, message [ 100 ] ;
 
-					if ( sscanf ( params, "ds[100]", telenumber, message ) ) {
+                    if ( sscanf ( params, "ds[100]", telenumber, message ) ) {
 
-						return SendServerMessage ( playerid, "/tele(gram) [number] [message]", MSG_TYPE_ERROR ) ;
-					}
+                        return SendServerMessage ( playerid, "/tele(gram) [numara] [mesaj]", MSG_TYPE_ERROR ) ;
+                    }
 
-					if ( telenumber == Character [ playerid ] [ character_telegram_id ] ) {
+                    if ( telenumber == Character [ playerid ] [ character_telegram_id ] ) {
 
-						return SendServerMessage ( playerid, "You cannot send a telegram to yourself!", MSG_TYPE_ERROR ) ;
-					}
+                        return SendServerMessage ( playerid, "Kendine telgraf gönderemezsin!", MSG_TYPE_ERROR ) ;
+                    }
 
-					//return SendServerMessage ( playerid, "Still in development.", MSG_TYPE_WARN ) ;
-					new query [ 256 ] ;
+                    new query [ 256 ] ;
 
-					inline CheckIfTeleNumberExists() {
+                    inline CheckIfTeleNumberExists() {
 
-						new rows;
+                        new rows;
 
-						cache_get_row_count ( rows ) ;
+                        cache_get_row_count ( rows ) ;
 
-						if ( rows ) {
+                        if ( rows ) {
 
-							new charid ;
+                            new charid ;
 
-							cache_get_value_int ( 0, "character_id", charid ) ;
+                            cache_get_value_int ( 0, "character_id", charid ) ;
 
-							mysql_format ( mysql, query, sizeof ( query ), "INSERT INTO telegrams (telegram_sender, telegram_reciever, telegram_message, telegram_date) VALUES (%d, %d, '%e', '%e')",
-								Character [ playerid ] [ character_telegram_id ], telenumber, message, ReturnServerTime() ) ;
-							mysql_tquery ( mysql, query ) ;
+                            mysql_format ( mysql, query, sizeof ( query ), "INSERT INTO telegrams (telegram_sender, telegram_reciever, telegram_message, telegram_date) VALUES (%d, %d, '%e', '%e')",
+                                Character [ playerid ] [ character_telegram_id ], telenumber, message, ReturnServerTime() ) ;
+                            mysql_tquery ( mysql, query ) ;
 
-							SendServerMessage ( playerid, sprintf("You have sent a telegram to %i.", telenumber ), MSG_TYPE_INFO ) ;
+                            SendServerMessage ( playerid, sprintf("%i numarasýna telgraf gönderdin.", telenumber ), MSG_TYPE_INFO ) ;
 
-							foreach ( new j : Player ) {
+                            foreach ( new j : Player ) {
 
-								if ( Character [ j ] [ character_id ] == charid ) {
+                                if ( Character [ j ] [ character_id ] == charid ) {
 
-									Init_LoadTelegrams ( j ) ;
-									SetTimerEx("RecieveTelegramMessage", 300000, false, "i", j);
-								}
-								else continue;
-							}
+                                    Init_LoadTelegrams ( j ) ;
+                                    SetTimerEx("RecieveTelegramMessage", 300000, false, "i", j);
+                                }
+                                else continue;
+                            }
 
-							return true ;
-						}
+                            return true ;
+                        }
 
-						else {
+                        else {
 
-							return SendServerMessage ( playerid, "That telegram number does not exist.", MSG_TYPE_ERROR ) ;
-						}
-					}
+                            return SendServerMessage ( playerid, "Bu telgraf numarasý mevcut deðil.", MSG_TYPE_ERROR ) ;
+                        }
+                    }
 
-					MySQL_TQueryInline ( mysql, using inline CheckIfTeleNumberExists, "SELECT character_id FROM characters WHERE character_telegram_id = %d", telenumber );
+                    MySQL_TQueryInline ( mysql, using inline CheckIfTeleNumberExists, "SELECT character_id FROM characters WHERE character_telegram_id = %d", telenumber );
 
-				}
-				else continue;
-			}
-			else continue;
-		}
-		else continue;
-	}
+                }
+                else continue;
+            }
+            else continue;
+        }
+        else continue;
+    }
 
-	return SendServerMessage ( playerid, "You're not inside of a postal office!", MSG_TYPE_ERROR ) ;
+    return SendServerMessage ( playerid, "Bir postane içinde deðilsin!", MSG_TYPE_ERROR ) ;
 }
 
 CMD:tele ( playerid, params [] ) return cmd_telegram ( playerid, params ) ;
 
 CMD:viewtelegrams ( playerid, params [] ) {
 
-	return SendClientMessage(playerid, -1, "Currently under development." ) ;
+	return SendClientMessage(playerid, -1, "ÞUANDA DEVRE DIÞI." ) ;
 
 	/*
 	for ( new i; i < MAX_POINTS; i ++ ) {
@@ -282,74 +242,74 @@ CMD:paycheck ( playerid, params [] ) {
 		else continue ;
 	}
 	*/
-	if(GetCharacterPointID(playerid) == -1) { return SendServerMessage ( playerid, "You're not inside of a postal office!", MSG_TYPE_ERROR ) ; }
-	else {
+if(GetCharacterPointID(playerid) == -1) { return SendServerMessage ( playerid, "Bir postane içinde deðilsin!", MSG_TYPE_ERROR ) ; }
+    else {
 
-		new id = GetCharacterPointID(playerid);
-		if(Point[id][point_biztype] == POINT_TYPE_POSTAL) {
+        new id = GetCharacterPointID(playerid);
+        if(Point[id][point_biztype] == POINT_TYPE_POSTAL) {
 
-			if(Character[playerid][character_paycheck] < 0) { return SendServerMessage(playerid,"You don't have any money to receive through a paycheck.",MSG_TYPE_ERROR); }
-			else if(Character[playerid][character_paycheck] == 0) {
+            if(Character[playerid][character_paycheck] < 0) { return SendServerMessage(playerid,"Maaþ olarak alabileceðin bir para bulunmuyor.",MSG_TYPE_ERROR); }
+            else if(Character[playerid][character_paycheck] == 0) {
 
-				if(Character[playerid][character_paychange] <= 0) { return SendServerMessage(playerid,"You don't have any money to receive through a paycheck.",MSG_TYPE_ERROR); }
-				else { goto receivePaycheck; }
-			}
+                if(Character[playerid][character_paychange] <= 0) { return SendServerMessage(playerid,"Maaþ olarak alabileceðin bir para bulunmuyor.",MSG_TYPE_ERROR); }
+                else { goto receivePaycheck; }
+            }
 
-			receivePaycheck:
+            receivePaycheck:
 
-			SendServerMessage(playerid,sprintf("You've received $%s.%02d from your paycheck.",IntegerWithDelimiter(Character[playerid][character_paycheck]),Character[playerid][character_paychange]),MSG_TYPE_INFO);
-			if(Character[playerid][character_paycheck] > 0) {
+            SendServerMessage(playerid,sprintf("Maaþýndan $%s.%02d aldýn.",IntegerWithDelimiter(Character[playerid][character_paycheck]),Character[playerid][character_paychange]),MSG_TYPE_INFO);
+            if(Character[playerid][character_paycheck] > 0) {
 
-				GiveCharacterMoney(playerid,Character[playerid][character_paycheck],MONEY_SLOT_BANK);
-				SetCharacterMoney(playerid,0,MONEY_SLOT_PAYC);
-			}
-			if(Character[playerid][character_paychange] > 0) {
+                GiveCharacterMoney(playerid,Character[playerid][character_paycheck],MONEY_SLOT_BANK);
+                SetCharacterMoney(playerid,0,MONEY_SLOT_PAYC);
+            }
+            if(Character[playerid][character_paychange] > 0) {
 
-				GiveCharacterChange(playerid,Character[playerid][character_paychange],MONEY_SLOT_BANK);
-				SetCharacterChange(playerid,0,MONEY_SLOT_PAYC);
-			}
-		}
-		else { return SendServerMessage ( playerid, "You're not inside of a postal office!", MSG_TYPE_ERROR ) ; }
-	}
-	return true;
+                GiveCharacterChange(playerid,Character[playerid][character_paychange],MONEY_SLOT_BANK);
+                SetCharacterChange(playerid,0,MONEY_SLOT_PAYC);
+            }
+        }
+        else { return SendServerMessage ( playerid, "Bir postane içinde deðilsin!", MSG_TYPE_ERROR ) ; }
+    }
+    return true;
 }
 
 CMD:bank ( playerid, params [] ) {
 
-	for ( new i; i < MAX_POINTS; i ++ ) {
-		if ( Point [ i ] [ point_id ] != -1 ) {
-			if ( IsPlayerInRangeOfPoint(playerid, 15.0, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && 
-				GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ] ) {
+    for ( new i; i < MAX_POINTS; i ++ ) {
+        if ( Point [ i ] [ point_id ] != -1 ) {
+            if ( IsPlayerInRangeOfPoint(playerid, 15.0, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && 
+                GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ] ) {
 
-				if ( Point [ i ] [ point_biztype ] == POINT_TYPE_BANK ) {
+                if ( Point [ i ] [ point_biztype ] == POINT_TYPE_BANK ) {
 
-					new option [ 24 ], value, cents ;
+                    new option [ 24 ], value, cents ;
 
-					if ( sscanf ( params, "s[24]I(0)I(0)", option, value, cents )) {
+                    if ( sscanf ( params, "s[24]I(0)I(0)", option, value, cents )) {
 
-						return SendServerMessage ( playerid, "/bank [deposit, withdraw, balance] [optional:dollars] [optional:cents]", MSG_TYPE_ERROR ) ;
-					}
+                        return SendServerMessage ( playerid, "/bank [deposit, withdraw, balance] [opsiyonel:dolar] [opsiyonel:cent]", MSG_TYPE_ERROR ) ;
+                    }
 
-					if ( ! strcmp ( option, "deposit" ) ) {
+                    if ( ! strcmp ( option, "deposit" ) ) {
 
-						if ( value > Character [ playerid ] [ character_handmoney ] ) {
+                        if ( value > Character [ playerid ] [ character_handmoney ] ) {
 
-							return SendServerMessage ( playerid, "You don't have that much money.", MSG_TYPE_ERROR ) ;
-						}
+                            return SendServerMessage ( playerid, "Üzerinde o kadar para yok.", MSG_TYPE_ERROR ) ;
+                        }
 
-						if( value < 0 ) {
+                        if( value < 0 ) {
 
-							return SendServerMessage(playerid,"You cannot deposit a negative amount of money.",MSG_TYPE_ERROR);
-						}
+                            return SendServerMessage(playerid,"Negatif miktarda para yatýramazsýn.",MSG_TYPE_ERROR);
+                        }
 
-						if ( value == 0 ) {
+                        if ( value == 0 ) {
 
-							if(cents <= 0) { return SendServerMessage ( playerid, "You can't store less than 0 dollars or cents.", MSG_TYPE_ERROR ) ; }
-						}
+                            if(cents <= 0) { return SendServerMessage ( playerid, "0 dolar veya cent'ten az miktar yatýramazsýn.", MSG_TYPE_ERROR ) ; }
+                        }
 
 						if(cents < 0 || cents > 99) {
 
-							return SendServerMessage(playerid,"You must deposit between 1-99 cent(s).",MSG_TYPE_ERROR);
+							return SendServerMessage(playerid,"1-99 cent yatýrabilirsin.",MSG_TYPE_ERROR);
 						}
 
 						new oldbalance = Character [ playerid ] [ character_bankmoney ], oldchange = Character[playerid][character_bankchange] ;
@@ -365,10 +325,9 @@ CMD:bank ( playerid, params [] ) {
 							GiveCharacterChange(playerid,cents,MONEY_SLOT_BANK);
 						}
 
-						if(cents) { SendServerMessage ( playerid, sprintf("You've deposited $%s.%02d into your bank account.", IntegerWithDelimiter ( value ), cents ), MSG_TYPE_INFO ) ; }
-						else { SendServerMessage ( playerid, sprintf("You've deposited $%s into your bank account.", IntegerWithDelimiter ( value ) ), MSG_TYPE_INFO ) ; }
-						SendServerMessage ( playerid, sprintf("New balance: $%s.%02d. Old balance: $%s.%02d.", IntegerWithDelimiter ( Character [ playerid ] [ character_bankmoney ] ), Character[playerid][character_bankchange], IntegerWithDelimiter ( oldbalance ), oldchange), MSG_TYPE_INFO ) ;
-
+						if(cents) { SendServerMessage ( playerid, sprintf("Banka hesabýna $%s.%02d yatýrdýn.", IntegerWithDelimiter ( value ), cents ), MSG_TYPE_INFO ) ; }
+						else { SendServerMessage ( playerid, sprintf("Banka hesabýna $%s yatýrdýn.", IntegerWithDelimiter ( value ) ), MSG_TYPE_INFO ) ; }
+						SendServerMessage ( playerid, sprintf("Yeni bakiye: $%s.%02d. Eski bakiye: $%s.%02d.", IntegerWithDelimiter ( Character [ playerid ] [ character_bankmoney ] ), Character[playerid][character_bankchange], IntegerWithDelimiter ( oldbalance ), oldchange), MSG_TYPE_INFO ) ;
 						WriteLog ( playerid, "bank", sprintf("%s deposited %s.%02d [bank: %s.%02d]", ReturnUserName ( playerid, true ), IntegerWithDelimiter ( value ), cents, IntegerWithDelimiter ( Character [ playerid ] [ character_bankmoney ] ), Character[playerid][character_bankchange] ) ) ;
 						return true ;
 					}
@@ -376,22 +335,22 @@ CMD:bank ( playerid, params [] ) {
 					else if ( ! strcmp ( option, "withdraw" ) ) {
 						if ( value > Character [ playerid ] [ character_bankmoney ] ) {
 
-							return SendServerMessage ( playerid, "You don't have that much money.", MSG_TYPE_ERROR ) ;
+							return SendServerMessage ( playerid, "Banka bakiyeniz yetersiz.", MSG_TYPE_ERROR ) ;
 						}
 
 						if( value < 0 ) {
 
-							return SendServerMessage(playerid,"You cannot withdraw a negative amount of money.",MSG_TYPE_ERROR);
+							return SendServerMessage(playerid,"Negatif deðer çekemezsin!",MSG_TYPE_ERROR);
 						}
 					
 						if ( value == 0) {
 
-							if(cents <= 0) { return SendServerMessage ( playerid, "You can't withdraw less than 0 dollars or cents.", MSG_TYPE_ERROR ) ; }
+							if(cents <= 0) { return SendServerMessage ( playerid, "0 dolar veya 0 cent çekemezsin.", MSG_TYPE_ERROR ) ; }
 						}
 
 						if(cents < 0 || cents > 99) {
 
-							return SendServerMessage(playerid,"You must deposit between 1-99 cent(s).",MSG_TYPE_ERROR);
+							return SendServerMessage(playerid,"1-99 cent yatýrabilirsin.",MSG_TYPE_ERROR);
 						}
 
 						new oldbalance = Character [ playerid ] [ character_bankmoney ], oldchange = Character[playerid][character_bankchange] ;
