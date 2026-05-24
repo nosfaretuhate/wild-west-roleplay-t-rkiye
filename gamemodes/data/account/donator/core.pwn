@@ -37,14 +37,14 @@ CMD:donatorchat ( playerid, params [] ) {
 
 	if ( ! Account [ playerid ] [ account_donatorlevel ] || Account [ playerid ] [ account_stafflevel ] <= STAFF_MODERATOR ) {
 
-		return SendServerMessage ( playerid, "You are not a donator!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Baðýþçý deðilsin!", MSG_TYPE_ERROR ) ;
 	}
 
 	new msg [ 144 ];
 
 	if ( sscanf ( params, "s[144]", msg ) ) {
 
-		return SendServerMessage ( playerid, "/d(onator)c(hat) [message]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/d(onator)c(hat) [mesaj]", MSG_TYPE_ERROR ) ;
 	}
 
 	/*
@@ -71,12 +71,12 @@ SendDonationMessage ( text [] ) {
 
 			if ( Account [ playerid ] [ account_stafflevel ] <= STAFF_MODERATOR ) {
 
-				SendSplitMessage ( playerid, COLOR_DONATOR, sprintf("(( [%s%s{B59664} Donator] (%d) %s: %s ))", ReturnDonatorHex ( Account [ playerid ] [ account_donatorlevel ] ), GetDonatorRank ( Account [ playerid ] [ account_donatorlevel ] ), playerid, ReturnUserName ( playerid, false ), text ) ) ;
+				SendSplitMessage ( playerid, COLOR_DONATOR, sprintf("(( [%s%s{B59664} Donator Chat] (%d) %s: %s ))", ReturnDonatorHex ( Account [ playerid ] [ account_donatorlevel ] ), GetDonatorRank ( Account [ playerid ] [ account_donatorlevel ] ), playerid, ReturnUserName ( playerid, false ), text ) ) ;
 				continue ;
 			}
 
 			else {
-				SendSplitMessage ( playerid, COLOR_DONATOR, sprintf("(( [Moderator] (%d) %s: %s ))", playerid, ReturnUserName ( playerid, false ), text ) ) ;
+				SendSplitMessage ( playerid, COLOR_DONATOR, sprintf("(( [Möderatör] (%d) %s: %s ))", playerid, ReturnUserName ( playerid, false ), text ) ) ;
 				continue ;
 			}
 		}

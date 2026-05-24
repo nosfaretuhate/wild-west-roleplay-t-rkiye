@@ -22,13 +22,14 @@ public OnPlayerConnect ( playerid ) {
 
 		if ( ! strcmp ( ReturnPlayerName ( playerid ), Account [ i ] [ account_name ], true) && IsPlayerLogged [ i ] ) {
 
-			SendModeratorWarning ( sprintf("%s tried to connect onto (%d) %s's master account (%s).", ReturnIP ( playerid ), i, ReturnUserName ( i), Account [ i ] [ account_name ]), MOD_WARNING_HIGH ) ;
-			SendClientMessage ( playerid, COLOR_YELLOW, "Someone is already connected on this master account. Try again later or contact a moderator on Discord." ) ;
+			SendModeratorWarning ( sprintf("%s, (%d) %s adlý oyuncunun ana hesabýna (%s) baðlanmaya çalýþtý.", ReturnIP ( playerid ), i, ReturnUserName ( i), Account [ i ] [ account_name ]), MOD_WARNING_HIGH ) ;
+			
+			SendClientMessage ( playerid, COLOR_YELLOW, "Bu ana hesaba þu anda baþka biri baðlý. Lütfen daha sonra tekrar deneyin veya Discord üzerinden bir yetkiliyle iletiþime geçin." ) ;
 			KickPlayer ( playerid ) ;
 		}
 
 		if ( ! strcmp (ReturnIP ( playerid ), ReturnIP ( i ), true ) && IsPlayerLogged [ i ] ) {
-			SendModeratorWarning ( sprintf("(%d) %s is connecting with IP %s. It is already in use by (%d) %s (%s).", playerid, ReturnUserName ( playerid ), ReturnIP ( playerid ), i, ReturnUserName ( i ), ReturnIP ( i )), MOD_WARNING_HIGH ) ;
+			SendModeratorWarning ( sprintf("(%d) %s, %s IP adresiyle baðlanýyor. Bu IP þu anda (%d) %s (%s) tarafýndan kullanýlýyor.", playerid, ReturnUserName ( playerid ), ReturnIP ( playerid ), i, ReturnUserName ( i ), ReturnIP ( i )), MOD_WARNING_HIGH ) ;
 
 			continue ;
 		}
