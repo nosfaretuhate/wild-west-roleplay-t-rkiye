@@ -1,180 +1,158 @@
 enum QuizData {
-
-	q_question [ 64 ],
-	q_correct [ 64 ],
-	q_wrong [ 64 ],
-	q_wrong2 [ 64 ]
+    q_question [ 64 ],
+    q_correct [ 64 ],
+    q_wrong [ 64 ],
+    q_wrong2 [ 64 ]
 } ;
 
 new RP_Quiz [ ] [ QuizData ] = {
+    {"Metagaming nedir?",                                 "OOC (Rol Dýþý) bilgiyi IC (Rol Ýçi) kullanmak.", "IC bilgiyi OOC kullanmak.", "Bir oyuncuya zorla rol dayatmak." },
+    {"Powergaming nedir?",                                "Bir oyuncuya zorla eylem dayatmak (Ýmkansýzý yapmak).", "Rolde çok güçlü olmak.", "Sadece kazanmak için oynamak." },
+    {"Revenge Killing nedir?",                            "Sizi öldüren birini, canlandýktan sonra intikam için öldürmek.", "Arkadaþýnýzý öldüren birini öldürmek.", "Birine karþý intikam planý yapmak."},
+    {"Deathmatching nedir?",                              "Rolsel bir sebep olmadan birini öldürmek.", "Geçerli bir rol sebebiyle birini öldürmek.", "Ölümüne düello yapmak."},
+    {"Rol yapmanýn amacý nedir?",                         "Bir karakterin rolüne bürünmek.", "Gördüðün herkesi öldürmek.", "Gerçek hayatta yapamadýklarýný yapmak."},
+    {"Bu sunucunun temasý nedir?",                        "Vahþi Batý.", "Orta Çað dönemi.", "Günümüz Amerika Birleþik Devletleri."},
+    {"Sunucuda rol yapmayý ne zaman býrakabilirim?",      "Sadece bir yetkilinin izniyle.", "Caným her sýkýldýðýnda.", "Ýnsanlar /b'den konuþtuðunda."},
+    {"Hangisi dilbilgisi açýsýndan doðrudur?",            "Bugün çoktan yemek yedim.", "Bugün zaten yerim ben.", "Ben yemek bugün yemek."},
+    {"Oyun içi varlýklarý gerçek parayla satabilir miyim?","Hayýr, kesinlikle yasak.", "Evet, bir yetkilinin izniyle.", "Evet, fark etmez."},
+    {"Modifikasyon (Mod) kurallarý nedir?",               "Avantaj saðlayan her türlü mod yasaktýr.", "Kendi oyunumu özelleþtirdiðim için her þeyi kullanabilirim.", "Yetkililer yakalamadýðý sürece sorun yok."},
+    {"Oyun fiziðini suistimal edebilir miyim? (B-hop vb.)","Hayýr, çünkü bu gerçekçi deðildir.", "Oyunda mümkünse, rolsel olarak da mümkündür.", "Evet, çünkü atlar çok yavaþ."},
+    {"Birine tecavüze varan roller yapýlabilir mi?",      "Hayýr, bu tür roller sunucumuzda kesinlikle yasaktýr.", "Evet, sadece karþý tarafýn rýzasý varsa.", "Evet, sonuçta bu bir oyun."},
+    {"Birini soyduktan sonra direkt öldürebilir miyim?",  "Hayýr, geçerli bir sebep olmadan öldüremezsiniz.", "Evet, yoksa gidip þerife þikayet eder.", "Fark etmez."},
+    {"Ne tür arabalar satýn alabilirsiniz?",              "Hiçbiri, arabalar henüz icat edilmedi.", "Klasik eski model arabalar.", "Her türlü arabayý."},
+    {"Hangi chatte emoji/ifade kullanmanýza izin verilir?","Yerel/Genel OOC (Rol Dýþý) chatte.", "Normal IC (Rol Ýçi) chatte.", "Ýstediðim her chatte." },
+    {"Bana yardým etmesi için bir yetkiliye PM atabilir miyim?","Hayýr. /report sistemini kullanmalýyým.", "Evet, yetkililer yardýmseverdir.", "Evet, çünkü /report sadece acil durumlar içindir."},
+    {"Aþaðýdakilerden hangisi tamamen OOC'dir?",          "Admin Hapsi (Jail).", "Bir yetkili tarafýndan düzenlenen etkinlik.", "Bir rol sahnesini kaybettiðim an."},
+    {"Aþaðýdakilerden hangisi doðru bir reklamdýr?",      "The Watering Hole'da bir þeyler içmeye gelin!", "Kolay iþ için bana PM atýn.", "Satýlýk at, forumdan iletiþime geçin."}
+} ;
 
-	{"What is metagaming?", 							 "Using OOC information IC.", "Using IC information OOC.", "Forcing actions upon another player." },
-	{"What is powergaming?", 							 "Forcing actions onto another player.", "Roleplay being powerful.", "Playing to win." },
-	{"What is revenge killing?", 						 "Killing a player you've already killed within 30 minutes.", "Killing someone who killed your friend.", "Planning a revenge attack against someone."},
-	{"What is deathmatching?", 							 "Killing someone without a roleplay reason.", "Killing someone with a good roleplay reason.", "Duelling to the death."},
-	{"What is the aim of roleplaying?",					 "Taking the role of a character.", "Killing everyone you see.", "Doing stuff you can't do in real life."},
-	{"What's this server based on?", 					 "The wild west.", "The medieval era.", "Modern day U.S."},
-	{"When can I stop roleplaying in the server?", 		 "With an admin's permission.", "Whenever I get bored.", "When people talk in /b."},
-	{"Which of the following is grammatically correct?", "I've eaten already today.", "I've eat already today.", "I eat already today."},
-	{"Can I sell ingame goods for real life stuff?", 	 "No, never.", "Yes, with an admin's permission.", "Yes, it doesn't matter."},
-	{"What's the ruleset on modifications?", 			 "Anything that gives an advantage is disallowed.", "I can use whatever I want, since it's my game I'm customising.", "As long as admins don't catch me, it's fine."},
-	{"Can I abuse physics? i.e. bunnyhop, tapping", 	 "No, because that's unrealistic.", "If it's possible in the game, it's possible RP-wise.", "Yes, because horses are too slow."},
-	{"Can I rape someone?", 							 "Yes, with their consent and at a private area.", "Yes, with their consent.", "Yes - it's rape for a reason."},
-	{"Can I kill someone after robbing them?", 			 "No, I can not.", "Yes, because they will tell the police otherwise.", "It doesn't matter."},
-	{"What type of cars can you buy?", 					 "None, cars aren't invented yet.", "Old timers.", "Any car."},
-	{"What chat are you allowed to use emoticons?",		 "Local/Global OOC chat.", "Normal IC chat.", "Any chat I want." },
-	{"Can I PM an admin to come and assist me?", 		 "No I can't. I must /report.", "Yes, WW-RP admins are friendly.", "Yes, because /report is only for emergencies."},
-	{"Which of the following is fully OOC?",			 "Admin Jail.", "An event hosted by an administrator.", "When I'm losing a roleplay scene."},
-	{"Which of the following is a proper ad?",			 "Come have some drinks at The Watering Hole!", "PM me for a easy job.", "Selling a horse, contact me on the forums."}
-
-} ; //18
-
-//new quiz_playerQuestion [ MAX_PLAYERS ];
-//new quiz_playerGrade [ MAX_PLAYERS ];
 new quiz_SelectionList [ MAX_PLAYERS ] ;
 new quiz_CurrentQuestion [ MAX_PLAYERS ] ;
 new quiz_WrongAnswers [ MAX_PLAYERS ] ;
 
 StartRPQuiz ( playerid )  {
 
-	new answer_randomizer , titlestring [ 128 ], string [ 256 ] ;
+    new answer_randomizer , titlestring [ 128 ], string [ 256 ] ;
 
-	if ( quiz_SelectionList [ playerid ] == -1 ) { quiz_SelectionList [ playerid ] = randomEx ( 1, 3 ) ; }
+    if ( quiz_SelectionList [ playerid ] == -1 ) { quiz_SelectionList [ playerid ] = randomEx ( 1, 3 ) ; }
 
-	if ( quiz_CurrentQuestion [ playerid ] == -1 ) {
+    if ( quiz_CurrentQuestion [ playerid ] == -1 ) {
 
-		switch ( quiz_SelectionList [ playerid ] ) {
+        switch ( quiz_SelectionList [ playerid ] ) {
 
-			case 1: {
+            case 1: {
+                quiz_CurrentQuestion [ playerid ] = 0 ;
+            }
 
-				quiz_CurrentQuestion [ playerid ] = 0 ;
-			}
+            case 2: {
+                quiz_CurrentQuestion [ playerid ] = 1 ;
+            }
 
-			case 2: {
+            case 3: {
+                quiz_CurrentQuestion [ playerid ] = 2 ;
+            }
+        }
+    }
 
-				quiz_CurrentQuestion [ playerid ] = 1 ;
-			}
+    quiz_Start:
 
-			case 3: {
+    switch ( quiz_CurrentQuestion [ playerid ] ) {
 
-				quiz_CurrentQuestion [ playerid ] = 2 ;
-			}
-		}
-	}
+        case 15, 16, 17: {
 
-	quiz_Start:
+            if ( ! quiz_WrongAnswers [ playerid ] ) {
 
-	switch ( quiz_CurrentQuestion [ playerid ] ) {
+                new query [ 128 ] ;
 
-		case 15, 16, 17: {
+                strcopy(string,"{DEDEDE}\
+                Kurallara uymayý, /report ve /helpme gibi komutlarý sadece yetkililerle\n\
+                iletiþime geçmek amacýyla doðru þekilde kullanacaðýnýzý onaylýyor musunuz?");
 
-			if ( ! quiz_WrongAnswers [ playerid ] ) {
+                task_yield(1);
 
-				new query [ 128 ] ;
+                new dialog_response[e_DIALOG_RESPONSE_INFO];
+                await_arr(dialog_response) ShowPlayerAsyncDialog(playerid,DIALOG_STYLE_MSGBOX,"{FF6347}UYARI: LÜTFEN OKUYUN",string,"Evet","Hayýr");
 
-				strcopy(string,"{DEDEDE}\
-				Do you agree to follow the rules whenever you feel like it along with using commands\n\
-				such as /report and /helpme as a way to directly communicate with staff whenever you want?");
+                if(dialog_response[E_DIALOG_RESPONSE_Response]) { 
 
-				task_yield(1);
+                    mysql_format(mysql,query,sizeof(query),"UPDATE master_accounts SET account_rulecheck = 1 WHERE account_id = %d",Account[playerid][account_id]);
+                    mysql_tquery(mysql,query);
 
-				new dialog_response[e_DIALOG_RESPONSE_INFO];
-				await_arr(dialog_response) ShowPlayerAsyncDialog(playerid,DIALOG_STYLE_MSGBOX,"{FF6347}WARNING: PLEASE READ",string,"Yes","No");
+                    Account[playerid][account_rulecheck] = 1; 
 
-				if(dialog_response[E_DIALOG_RESPONSE_Response]) { 
+                    WriteLog(playerid,"register/rulecheck",string);
+                }
 
-					mysql_format(mysql,query,sizeof(query),"UPDATE master_accounts SET account_rulecheck = 1 WHERE account_id = %d",Account[playerid][account_id]);
-					mysql_tquery(mysql,query);
+                string[0] = EOS;
 
-					Account[playerid][account_rulecheck] = 1; 
+                strcat ( string, "{DEDEDE}\
+                Sunucu testini baþarýyla geçtiniz!\n\nSunucunun tam bir üyesi olma yolunda\n\
+                ilerliyorsunuz.\n\nBirazdan karakter yaratma ekranýna yönlendirileceksiniz.\nDevam etmek için \
+                \"Devam Et\" butonuna basýn.\n\nTeþekkürler ve iyi roller!"); 
 
-					//format(string,sizeof(string),"Master Account %s (%d) has been flagged as a \"Potential Rulebreaker\".",ReturnUserName(playerid),playerid);
+                new dialog_response_1[e_DIALOG_RESPONSE_INFO];
+                await_arr(dialog_response_1) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, "Testi Geçtiniz", string, "Devam Et", "" ) ;
 
-					//SendModeratorWarning ( string, MOD_WARNING_MED );
+                mysql_format ( mysql, query, sizeof ( query ), "UPDATE master_accounts SET account_registerquiz = 1 WHERE account_id = %d ", Account [ playerid ] [ account_id ] );
+                mysql_tquery ( mysql, query ) ;
 
-					WriteLog(playerid,"register/rulecheck",string);
-				}
+                Account [ playerid ] [ account_registerquiz ] = true ;
 
-				string[0] = EOS;
+                quiz_WrongAnswers [ playerid ] = 0 ;
+                quiz_CurrentQuestion [ playerid ] = -1 ;
+                quiz_SelectionList [ playerid ] = -1 ;
 
-				strcat ( string, "{DEDEDE}\
-				You passed the server quiz!\n\nYou are on your way on becoming a full pledged member of \
-				the server.\n\nYou will be taken to the character creation screen momentarily.\nIn order to continue, \
-				press \"Continue\".\n\nThanks and good luck!"); 
+                SendServerMessage ( playerid, "Testi geçtiniz! Ýþlemi tamamlamak için þifrenizi tekrar girin.", MSG_TYPE_INFO ) ;
 
-				new dialog_response_1[e_DIALOG_RESPONSE_INFO];
-				await_arr(dialog_response_1) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, "Passed server quiz", string, "Continue", "" ) ;
+                return Account_Authenticate ( playerid ) ;
+            }
 
-				///////////////////////////////////////////////
+            else {
+                SendServerMessage ( playerid, sprintf("Testte %i hatalý cevap verdiðiniz için baþarýsýz oldunuz.", quiz_WrongAnswers [ playerid ] ), MSG_TYPE_ERROR ) ;
+                return KickPlayer ( playerid ) ;
+            }
+        }
 
-				mysql_format ( mysql, query, sizeof ( query ), "UPDATE master_accounts SET account_registerquiz = 1 WHERE account_id = %d ", Account [ playerid ] [ account_id ] );
-				mysql_tquery ( mysql, query ) ;
+        default: {
 
-				Account [ playerid ] [ account_registerquiz ] = true ;
+            quiz_CurrentQuestion [ playerid ] += 3 ;
 
-				///////////////////////////////////////////////
+            answer_randomizer = randomEx ( 0, 2 ) ;
 
-				quiz_WrongAnswers [ playerid ] = 0 ;
-				quiz_CurrentQuestion [ playerid ] = -1 ;
-				quiz_SelectionList [ playerid ] = -1 ;
+            switch ( answer_randomizer ) {
 
-				SendServerMessage ( playerid, "You have passed the quiz! Enter your password once again to finish it.", MSG_TYPE_INFO ) ;
+                case 0: {
+                    format ( string, sizeof ( string ), "%s\n%s\n%s", RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_correct ], RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_wrong ], RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_wrong2 ] ) ;
+                }
 
-				return Account_Authenticate ( playerid ) ;
-			}
+                case 1: {
+                    format ( string, sizeof ( string ), "%s\n%s\n%s", RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_wrong ], RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_correct ], RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_wrong2 ] ) ;
+                }
 
-			else {
+                case 2: {
+                    format ( string, sizeof ( string ), "%s\n%s\n%s", RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_wrong ], RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_wrong2 ], RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_correct ] ) ;
+                }
+            }
+        }
+    }
 
-				SendServerMessage ( playerid, sprintf("You have failed the quiz with %i wrong %s.", quiz_WrongAnswers [ playerid ], (quiz_WrongAnswers [ playerid ] == 1) ? ("answer") : ("answers") ), MSG_TYPE_ERROR ) ;
-				return KickPlayer ( playerid ) ;
-			}
-		}
+    task_yield ( 1 ) ;
 
-		default: {
+    new dialog_response [ e_DIALOG_RESPONSE_INFO ];
 
-			quiz_CurrentQuestion [ playerid ] += 3 ;
+    strcopy ( titlestring, RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_question ] ) ;
+    await_arr ( dialog_response ) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_LIST, titlestring, string, "Seç", "Çýkýþ" ) ;
 
-			answer_randomizer = randomEx ( 0, 2 ) ;
+    if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) { KickPlayer ( playerid ) ; }
 
-			switch ( answer_randomizer ) {
+    else {
 
-				case 0: {
+        if ( dialog_response [ E_DIALOG_RESPONSE_Listitem ] != answer_randomizer ) {
+            quiz_WrongAnswers [ playerid ] ++ ;
+        }
 
-					format ( string, sizeof ( string ), "%s\n%s\n%s", RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_correct ], RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_wrong ], RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_wrong2 ] ) ;
-				}
-
-				case 1: {
-
-					format ( string, sizeof ( string ), "%s\n%s\n%s", RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_wrong ], RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_correct ], RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_wrong2 ] ) ;
-				}
-
-				case 2: {
-
-					format ( string, sizeof ( string ), "%s\n%s\n%s", RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_wrong ], RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_wrong2 ], RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_correct ] ) ;
-				}
-			}
-		}
-	}
-
-	task_yield ( 1 ) ;
-
-	new dialog_response [ e_DIALOG_RESPONSE_INFO ];
-
-	strcopy ( titlestring, RP_Quiz [ quiz_CurrentQuestion [ playerid ] ] [ q_question ] ) ;
- 	await_arr ( dialog_response ) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_LIST, titlestring, string, "Select", "Exit" ) ;
-
-	if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) { KickPlayer ( playerid ) ; }
-
-	else {
-
-		if ( dialog_response [ E_DIALOG_RESPONSE_Listitem ] != answer_randomizer ) {
-
-			quiz_WrongAnswers [ playerid ] ++ ;
-		}
-
-		goto quiz_Start ;
-
-	}
+        goto quiz_Start ;
+    }
 
 	/*
 
