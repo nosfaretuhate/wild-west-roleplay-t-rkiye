@@ -49,7 +49,7 @@ public ProcessPlayerSkills ( playerid ) {
 			"INSERT INTO character_skills (character_id) VALUES (%d)", Character [ playerid ] [ character_id ]  ) ;
 		mysql_tquery ( mysql, query ) ;
 
-		printf(" * [SKILLS] Player %s (%d) had no skill table. It has been created.", ReturnUserName ( playerid, true ), playerid ) ;
+		printf(" * [SKILLS] Player %s (%d) skill tablosu yoktu, olusturuldu", ReturnUserName ( playerid, true ), playerid ) ;
 	}
 
 	return true ;

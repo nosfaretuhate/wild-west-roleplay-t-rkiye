@@ -1,91 +1,92 @@
 /*
--> for character sheet:
+-> Karakter geliþimi (Character sheet) için:
 
-Hunting aka skinning (increases loot, also rare skin)
-Leatherworking (makes the skin craftable. Can create layers for holsters, bags, rare attachments?)
-
-////////////////////////////////////
-LEATHERWORKING/HUNTING:
-lvl 1 bag: starter
-lvl 2 bag: purchasable in general store (800-900 usd)
-lvl 3 bag: 
--> need rope from general store
-get 3x rare deer skin (need at least hunting lvl 7/10)
-be able to craft rare deer skin (need at least leatherworking 3/5)
-be able to mine some rare ore (at least mining 7/10)
-and be able to craft and smelt the rare ore (at least lvl 3/5 blacksmithing)
-[NOTE: make the rare items per-player, aka not sellable, not tradeable]
---> for this: add a new variable, aka (soulbound) for items
-////////////////////////////////////
-
-: If doing a job, put a money bag on players back, retextured with sack texture and money texture to job related 
-(logs, rocks, plants, meat(. Save in a var incase crashes. Disallow new jobs when carrying bag (they need to deliver first).
-
-Mining (diff ores, can get rare ore)
-Blacksmithing (depending on lvl needs rare ore to be able to smelt into gun-metal and make guns)
+Avcýlýk (Hunting - deri yüzme): Kazanýlan ganimeti artýrýr, nadir deri düþme þansý saðlar.
+Dericilik (Leatherworking): Deriyi iþlenebilir hale getirir. Kýlýflar, çantalar ve nadir eklentiler için katmanlar oluþturulabilir.
 
 ////////////////////////////////////
-MINING/BLACKSMITHING RARES:
-> need rare ore (8/10 mining)
-> need ability to smelt it (4/5 bs)
-> need gunpowder from hunting store (250 usd)
--> ADD SCOPE TO RIFLE, TO MAKE NSIPER RIFLE
+DERÝCÝLÝK/AVCILIK:
+
+seviye çanta: Baþlangýç çantasý.
+
+seviye çanta: Genel maðazadan satýn alýnabilir (800-900 dolar).
+
+seviye çanta:
+-> Genel maðazadan ip gerekir.
+3x Nadir geyik derisi (en az 7/10 avcýlýk seviyesi gerekir).
+Nadir geyik derisini iþleyebilmek (en az 3/5 dericilik seviyesi gerekir).
+Nadir maden çýkarabilmek (en az 7/10 madencilik seviyesi gerekir).
+Nadir madeni iþleyip eritebilmek (en az 3/5 demircilik seviyesi gerekir).
+[NOT: Nadir eþyalarý "kiþiye özel" yap; yani satýlamaz ve takas edilemez olsun.]
+--> Bunun için eþyalara (ruh baðý/soulbound) adýnda yeni bir deðiþken ekle.
+////////////////////////////////////
+
+: Bir iþ yaparken oyuncunun sýrtýna, iþe özel (kütük, kaya, bitki, et) tekstürlerle giydirilmiþ bir para çantasý objesi ekle. Çökme (crash) durumlarýna karþý bunu bir deðiþkene kaydet. Çanta taþýrken yeni iþ almayý engelle (önce teslimat yapmalarý gerekir).
+
+Madencilik (farklý cevherler, nadir madenler çýkabilir).
+Demircilik (seviyeye baðlý olarak nadir madeni eritip silah metali yapma ve silah üretme).
+
+////////////////////////////////////
+MADENCÝLÝK/DEMÝRCÝLÝK NADÝRLERÝ:
+
+Nadir maden gerekir (8/10 madencilik).
+Eritme yeteneði gerekir (4/5 demircilik).
+Avcýlýk maðazasýndan barut gerekir (250 dolar).
+-> KESKÝN NÝÞANCI TÜFEÐÝ YAPMAK ÝÇÝN TÜFEÐE DÜRBÜN EKLE.
 
 ////////////////////////////////////
 
-Woodcutting (add different log types depending on skill)
-Woodworking (diff crafting methods based on skill)
+Odunculuk (seviyeye göre farklý kütük türleri).
+Marangozluk (seviyeye göre farklý üretim yöntemleri).
 
 ////////////////////////////////////
-WOODCUTTING/WOODWORKING RARES:
-Cosmetic satan mask
--> need rope from general store
--> need rare wood (woodcutting 5/10)
--> need to be able to craft it (woodworking 2/5)
+ODUNCULUK/MARANGOZLUK NADÝRLERÝ:
+Kozmetik þeytan maskesi.
+-> Genel maðazadan ip gerekir.
+-> Nadir aðaç gerekir (5/10 odunculuk).
+-> Üretim yeteneði gerekir (2/5 marangozluk).
 ////////////////////////////////////
 
-Farming: (depending on lvl, more crops harvested)
-Cooking: (less chance to burn food)
+Çiftçilik: (Seviyeye baðlý olarak daha fazla ürün hasadý).
+Yemek Piþirme: (Yemeði yakma þansý daha düþük).
 
-Weapon level (reduces shake)
-Movement level (hitman skill)
+Silah seviyesi (sarsýntýyý azaltýr).
+Hareket seviyesi (tetikçi/hitman becerisi).
 
-Melee level (diff fight style, more melee dmg/less dmg taken)
-Blocking level (increased block chance, less dmg taken)
+Yakýn dövüþ seviyesi (farklý dövüþ stilleri, daha fazla hasar vurma/daha az hasar alma).
+Bloklama seviyesi (artýrýlmýþ bloklama þansý, daha az hasar alma).
 
---> farmer (seed bag on front)
---> miner (coal bag on back)
---> lumberjack (wooden rack on back)
+--> Çiftçi (önde tohum çantasý).
+--> Madenci (sýrtta kömür çantasý).
+--> Oduncu (sýrtta ahþap taþýma rafý).
 
+// Yetenek setlerini kullanabilmek için en az 2. seviye olmalýsýn.
+// Seviye ne kadar yüksekse, yetenek puaný maliyeti o kadar artar.
 
+enum { // YETENEK AÐACI
+GUN_SKILL_MOVEMENT, // 1. seviye: Hareket etmene olanak tanýr (1. seviye: Hitman silah seviyesi) --> NÝÞAN ALMA (AIM) 2. SEVÝYE OLMALIDIR.
+GUN_SKILL_AIM, // Silah sarsýntýsýný azaltýr (1: Sarsýntý azalýr (3500), 2: Küçük sarsýntý, bir saniye niþan alýnca geçer: 2500, 3: Hiç sarsýntý olmaz.)
 
+// [BU HIZLI SÝLAH DEÐÝÞTÝRME YETENEÐÝDÝR]: 0. seviye: 3000ms kýlýfa koyma/çekme süresi.
+GUN_SKILL_HOLSTER, // Kýlýfa koyma/çekme süresini azaltýr. (1. seviye: 2000ms, 2. seviye: 1000ms, 3. seviye: 500ms).
 
-// To use skill sets, you must be at least level 2.
-// The higher the level, the more skill points it costs.
-enum { // SKILL TREE
-	GUN_SKILL_MOVEMENT, // lvl 1: allows you to move (lvl 1: hitman gun level) --> REQUIRES AIM TO BE LVL 2.
-	GUN_SKILL_AIM, // reduces weapon sway (1: 1: reduced sway (3500), 2: small sway, goes away after aiming for a sec: 2500, 3: no sway at all.)
-	// [THIS IS THE QUICKSWITCH SKILL]: lvl 0: 3000ms (un)holster time
-	GUN_SKILL_HOLSTER,  // reduces (un)holster time. (lvl 1: 2000 ms), lvl 2: 1000ms, lvl 3: 500ms
+// 0. seviye sadece meþe (oak) verir. Temel kütük = 1 + rastgele çarpan (3).
+JOB_SKILL_WOODCUTTING, // 1. seviye: huþ (birch), 2. seviye: 3 temel kütük, 3. seviye: porsuk (yew), 4. seviye: 5 temel kütük.
 
-	// lvl 0 only allows oak. base log = 1 + random modifier (3).
-	JOB_SKILL_WOODCUTTING, // lvl 1: birch, lvl2: 3 base logs lvl 3: yew, lvl 4: 5 base logs (logs have a random modifier of 3 + base logs)
-	// (oak logs: 25 ea, birch: 50ea, yew: 60ea -- increased by quanity, random quanity on log loot.)
+JOB_SKILL_FISHING, // 1: Balýkta artýrýlmýþ aðýrlýk, (2: alabalýk tutabilme), 3: köpekbalýðý tutabilme.
+JOB_SKILL_MINING, // 1: Artýrýlmýþ cevher miktarý, (2: bakýr ve kalay kazabilme), 3: kömür ve altýn kazabilme.
+JOB_SKILL_HUNTING, // 1: Ýzleri görebilme, 2: izleri uzaktan görebilme, 3: geyik kafasý ganimeti alabilme (her biri 150 dolara satýlýr (10'da 2 þans)).
+JOB_SKILL_FARMING, 
 
-	JOB_SKILL_FISHING, // 1: increased weight on fish, (2: ability to fish trout), 3: ability to fish sharks
-	JOB_SKILL_MINING, // 1: increased quanity of ore, (2: ability to mine copper & tin), 3: ability to mine coal & gold.
-	JOB_SKILL_HUNTING, // 1: ability to see tracks, 2: ability to see tracks from a distance, 3: ability to loot deer head: (sells for 150 each (2 out of 10 chance))
-	JOB_SKILL_FARMING, 
+// 0. seviye balýkçýlýkta yüzme süresi max. 30 saniyedir, sonra bayýlýrsýn (uyarý mesajý gelir).
+MISC_SKILL_SWIMMING, // 1: Yüzme sýnýrý yok, sprint yok. 2: Sprint kullanabilme.
+MISC_SKILL_HEALTH, // 1: Yakýn dövüþe karþý daha dirençli. 2: Kan kaybý süresi artar, 3: Ölüm süresi azalýr.
 
-	// lvl 0 fishing lets you swim for max. 30 seconds before passing out. they get a warning msg.
-	MISC_SKILL_SWIMMING, // 1: no swim limit, no sprint. 2: ability to use sprint
-	MISC_SKILL_HEALTH, // 1: more resilient against melee attacks. 2: increased bleed-out time, 3: reduced death timer.
-
-	// for melee, if they're not aiming at a player, disable punching completely.
-	MELEE_SKILL_STYLE, // 1: boxing, 2: kungfu
-	MELEE_SKILL_UNARMED, // 1: more punch dmg, 2: unlock kicking, 3: reduced melee dmg, 4: unlock tackling
-	MELEE_SKILL_KNIFE, // 1: more dmg with knife, 2: ability to block most melee attacks
-	MELEE_SKILL_KNIFE_THROW
+// Yakýn dövüþ için, eðer bir oyuncuya niþan almýyorlarsa yumruk atmayý tamamen devre dýþý býrak.
+MELEE_SKILL_STYLE, // 1: Boks, 2: Kungfu.
+MELEE_SKILL_UNARMED, // 1: Daha fazla yumruk hasarý, 2: tekme kilidi açýlýr, 3: daha az yakýn dövüþ hasarý alma, 4: çelme takma kilidi açýlýr.
+MELEE_SKILL_KNIFE, // 1: Býçakla daha fazla hasar, 2: çoðu yakýn dövüþ saldýrýsýný bloklayabilme.
+MELEE_SKILL_KNIFE_THROW
 } ;
 */
 
@@ -159,122 +160,121 @@ CMD:skills(playerid, params [] ){
 		ResetPlayerSkillPoints ( playerid ) ;
 	}	
 
-	else SendServerMessage ( playerid, "/skills [show/reset]", MSG_TYPE_ERROR ) ;
+	else SendServerMessage ( playerid, "/skills [show(göster)/reset(sýfýrla)]", MSG_TYPE_ERROR ) ;
 
 	return true ;
 }
 
 ShowPlayerSkills ( playerid ) {
 
-	SendClientMessage(playerid, COLOR_YELLOW, sprintf("Here you can see your current skills. [Skillpoints left for use: %d]", Character [ playerid ] [ character_skillpoints ] ));
+    SendClientMessage(playerid, COLOR_YELLOW, sprintf("Buradan mevcut yeteneklerini görebilirsin. [Kullanýlabilir yetenek puaný: %d]", Character [ playerid ] [ character_skillpoints ] ));
 
-	SendClientMessage(playerid, -1, 
-		sprintf("{917E5E}[WEAPON]{dedede} Weapon Movement: %d/%d - Weapon Aiming: %d/%d - Weapon Holstering: %d/%d", PlayerSkill [ playerid ] [ GUN_movement ], SkillData [ GUN_movement ] [ skill_maxpts ], PlayerSkill [ playerid ] [ GUN_aiming ], SkillData [ GUN_aiming ] [ skill_maxpts ], PlayerSkill [ playerid ] [ GUN_holster ], SkillData [ GUN_holster ] [ skill_maxpts ] )) ;
-	SendClientMessage(playerid, -1, 
-		sprintf("{77915E}[JOBS]{dedede} Fishing: %d/%d - Woodcutting: %d/%d - Mining: %d/%d - Hunting: %d/%d -  Farming: %d/%d\n", PlayerSkill [ playerid ] [ JOB_fishing ], 	SkillData [ JOB_fishing ] [ skill_maxpts ],PlayerSkill [ playerid ] [ JOB_lumber ], SkillData [ JOB_lumber ] [ skill_maxpts ], PlayerSkill [ playerid ] [ JOB_mining ], SkillData [ JOB_mining ] [ skill_maxpts ], PlayerSkill [ playerid ] [ JOB_hunting ], SkillData [ JOB_hunting ] [ skill_maxpts ], PlayerSkill [ playerid ] [ JOB_farming], SkillData [ JOB_farming ] [ skill_maxpts ] )) ;
-	SendClientMessage(playerid, -1, 
-		sprintf("{77915E}[JOBS]{dedede} Blacksmith %d/%d", PlayerSkill [ playerid ] [ JOB_blacksmith ], SkillData [ JOB_blacksmith ] [ skill_maxpts ] ) ) ;
-	SendClientMessage(playerid, -1, 
-		sprintf("{5E93A8}[MELEE]{dedede} Fight Style: %d/%d - Unarmed: %d/%d - Knife: %d/%d - Knife Throwing: %d/%d\n", PlayerSkill [ playerid ] [ MELEE_style ], SkillData [ MELEE_style ] [ skill_maxpts ],PlayerSkill [ playerid ] [ MELEE_unarmed ], SkillData [ MELEE_unarmed ] [ skill_maxpts ], PlayerSkill [ playerid ] [ MELEE_knife ], SkillData [ MELEE_knife ] [ skill_maxpts ], PlayerSkill [ playerid ] [ MELEE_knife_throw ], SkillData [ MELEE_knife_throw ] [ skill_maxpts ] )) ;
-	SendClientMessage(playerid, -1, 
-		sprintf("{B0B0B0}[MISC]{dedede} Swimming: %d/%d - Health: %d/%d", PlayerSkill [ playerid ] [ MISC_swimming ], SkillData [ MISC_swimming ] [ skill_maxpts ],  PlayerSkill [ playerid ] [ MISC_health ], SkillData [ MISC_health ] [ skill_maxpts ] )) ;
+    SendClientMessage(playerid, -1, 
+        sprintf("{917E5E}[SÝLAH]{dedede} Hareket: %d/%d - Niþan Alma: %d/%d - Kýlýf/Çekiþ: %d/%d", PlayerSkill [ playerid ] [ GUN_movement ], SkillData [ GUN_movement ] [ skill_maxpts ], PlayerSkill [ playerid ] [ GUN_aiming ], SkillData [ GUN_aiming ] [ skill_maxpts ], PlayerSkill [ playerid ] [ GUN_holster ], SkillData [ GUN_holster ] [ skill_maxpts ] )) ;
+    SendClientMessage(playerid, -1, 
+        sprintf("{77915E}[MESLEKLER]{dedede} Balýkçýlýk: %d/%d - Odunculuk: %d/%d - Madencilik: %d/%d - Avcýlýk: %d/%d - Çiftçilik: %d/%d\n", PlayerSkill [ playerid ] [ JOB_fishing ],    SkillData [ JOB_fishing ] [ skill_maxpts ],PlayerSkill [ playerid ] [ JOB_lumber ], SkillData [ JOB_lumber ] [ skill_maxpts ], PlayerSkill [ playerid ] [ JOB_mining ], SkillData [ JOB_mining ] [ skill_maxpts ], PlayerSkill [ playerid ] [ JOB_hunting ], SkillData [ JOB_hunting ] [ skill_maxpts ], PlayerSkill [ playerid ] [ JOB_farming], SkillData [ JOB_farming ] [ skill_maxpts ] )) ;
+    SendClientMessage(playerid, -1, 
+        sprintf("{77915E}[MESLEKLER]{dedede} Demircilik: %d/%d", PlayerSkill [ playerid ] [ JOB_blacksmith ], SkillData [ JOB_blacksmith ] [ skill_maxpts ] ) ) ;
+    SendClientMessage(playerid, -1, 
+        sprintf("{5E93A8}[YAKIN DÖVÜÞ]{dedede} Dövüþ Stili: %d/%d - Silahsýz: %d/%d - Býçak: %d/%d - Býçak Fýrlatma: %d/%d\n", PlayerSkill [ playerid ] [ MELEE_style ], SkillData [ MELEE_style ] [ skill_maxpts ],PlayerSkill [ playerid ] [ MELEE_unarmed ], SkillData [ MELEE_unarmed ] [ skill_maxpts ], PlayerSkill [ playerid ] [ MELEE_knife ], SkillData [ MELEE_knife ] [ skill_maxpts ], PlayerSkill [ playerid ] [ MELEE_knife_throw ], SkillData [ MELEE_knife_throw ] [ skill_maxpts ] )) ;
+    SendClientMessage(playerid, -1, 
+        sprintf("{B0B0B0}[DÝÐER]{dedede} Yüzme: %d/%d - Saðlýk: %d/%d", PlayerSkill [ playerid ] [ MISC_swimming ], SkillData [ MISC_swimming ] [ skill_maxpts ],  PlayerSkill [ playerid ] [ MISC_health ], SkillData [ MISC_health ] [ skill_maxpts ] )) ;
 
-	return true ;
+    return true ;
 }
-
 ResetPlayerSkillPoints ( playerid ) {
 
-	if ( Character [ playerid ] [ character_skillpoints ] != 0 ) {
+    if ( Character [ playerid ] [ character_skillpoints ] != 0 ) {
 
-		return SendServerMessage ( playerid, "You need to spend all your skillpoints before refunding them.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Yetenek puanlarýný sýfýrlamadan önce tüm puanlarýný harcamýþ olmalýsýn.", MSG_TYPE_ERROR ) ;
+    }
 
-	new query [ 256 ] ;
+    new query [ 256 ] ;
 
-	for ( new i; i < sizeof ( SkillData ); i ++ ) {
+    for ( new i; i < sizeof ( SkillData ); i ++ ) {
 
-		mysql_format ( mysql, query, sizeof ( query ), "UPDATE character_skills SET %s = 0 WHERE character_id = '%d'", SkillData [ i ] [ skill_row ], Character [ playerid ] [ character_id ] ) ;
-		mysql_tquery ( mysql, query ); 
+        mysql_format ( mysql, query, sizeof ( query ), "UPDATE character_skills SET %s = 0 WHERE character_id = '%d'", SkillData [ i ] [ skill_row ], Character [ playerid ] [ character_id ] ) ;
+        mysql_tquery ( mysql, query ); 
 
-		PlayerSkill [ playerid ] [ i ] = 0 ;
-	}
+        PlayerSkill [ playerid ] [ i ] = 0 ;
+    }
 
-	Character [ playerid ] [ character_skillpoints ] = Character [ playerid ] [ character_level ] ;
+    Character [ playerid ] [ character_skillpoints ] = Character [ playerid ] [ character_level ] ;
 
-	mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_skillpoints = %d WHERE character_id = '%d'",  Character [ playerid ] [ character_skillpoints ], Character [ playerid ] [ character_id ] ) ;
-	mysql_tquery ( mysql, query );
+    mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_skillpoints = %d WHERE character_id = '%d'",  Character [ playerid ] [ character_skillpoints ], Character [ playerid ] [ character_id ] ) ;
+    mysql_tquery ( mysql, query );
 
-	SendServerMessage ( playerid, sprintf("You've been refunded %d skillpoints. All your skills have been reset.", Character [ playerid ] [ character_level ] ), MSG_TYPE_WARN ) ;
+    SendServerMessage ( playerid, sprintf("%d yetenek puaný iade edildi. Tüm yeteneklerin sýfýrlandý.", Character [ playerid ] [ character_level ] ), MSG_TYPE_WARN ) ;
 
-	return true ;
+    return true ;
 }
 
 CMD:levelup ( playerid, params [] ) {
 
-	new option [ 32 ] ;
+    new option [ 32 ] ;
 
-	if ( sscanf ( params, "s[32]", option ) ) {
+    if ( sscanf ( params, "s[32]", option ) ) {
 
-		return SendServerMessage ( playerid, "/levelup [option]", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/levelup [yetenek_adý]", MSG_TYPE_ERROR ) ;
+    }
 
-	for ( new i; i < sizeof ( SkillData ); i ++ ) {
+    for ( new i; i < sizeof ( SkillData ); i ++ ) {
 
-		if ( ! strcmp ( option, SkillData [ i ] [ skill_name ], true ) ) {
+        if ( ! strcmp ( option, SkillData [ i ] [ skill_name ], true ) ) {
 
-			LevelUpSkill ( playerid, i ) ;
+            LevelUpSkill ( playerid, i ) ;
 
-			return true ;
-		}
+            return true ;
+        }
 
-		else continue ;
-	}
+        else continue ;
+    }
 
-	return true ;
+    return true ;
 }
 
 LevelUpSkill ( playerid, skillid ) {
 
-	if ( Character [ playerid ] [ character_skillpoints ] <= 0 ) {
+    if ( Character [ playerid ] [ character_skillpoints ] <= 0 ) {
 
-		return SendServerMessage ( playerid, "You have no skillpoints. You need at least one to level up a skill.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Hiç yetenek puanýn kalmadý. Bir yeteneði yükseltmek için en az bir puana ihtiyacýn var.", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( PlayerSkill [ playerid ] [ skillid ] >= SkillData [ skillid ] [ skill_maxpts ] ) {
+    if ( PlayerSkill [ playerid ] [ skillid ] >= SkillData [ skillid ] [ skill_maxpts ] ) {
 
-		return SendServerMessage ( playerid, "You are already at the max level of this skill. Level up a different skill.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Bu yetenekte zaten maksimum seviyedesin. Baþka bir yeteneði yükseltmeyi dene.", MSG_TYPE_ERROR ) ;
+    }
 
-	new required;
+    new required;
 
-	if ( ! PlayerSkill [ playerid ] [ skillid ] ) {
+    if ( ! PlayerSkill [ playerid ] [ skillid ] ) {
 
-		required = 1;
-	}
+        required = 1;
+    }
 
-	else {
+    else {
 
-		required = PlayerSkill [ playerid ] [ skillid ] * 2 ;
-	}
+        required = PlayerSkill [ playerid ] [ skillid ] * 2 ;
+    }
 
-	if ( required > Character [ playerid ] [ character_skillpoints ] ) {
+    if ( required > Character [ playerid ] [ character_skillpoints ] ) {
 
-		return SendServerMessage ( playerid, sprintf("You don't have enough skillpoints! You need %i more skill point%s to level up your %s skill.", ( required - Character [ playerid ] [ character_skillpoints ] ), ( required == 1 ) ? ("") : ("s"), SkillData [ skillid ] [ skill_name ] ), MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, sprintf("Yeterli yetenek puanýn yok! %s yeteneðini yükseltmek için %i puan daha gerekiyor.", SkillData [ skillid ] [ skill_name ], ( required - Character [ playerid ] [ character_skillpoints ] ) ), MSG_TYPE_ERROR ) ;
+    }
 
-	new query [ 256 ] ;
+    new query [ 256 ] ;
 
-	Character [ playerid ] [ character_skillpoints ] -= required ;
+    Character [ playerid ] [ character_skillpoints ] -= required ;
 
-	mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_skillpoints = '%d' WHERE character_id = '%d'", Character [ playerid ] [ character_skillpoints ], Character [ playerid ] [ character_id ] ) ; 
-	mysql_tquery ( mysql, query );
+    mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_skillpoints = '%d' WHERE character_id = '%d'", Character [ playerid ] [ character_skillpoints ], Character [ playerid ] [ character_id ] ) ; 
+    mysql_tquery ( mysql, query );
 
-	PlayerSkill [ playerid ] [ skillid ] ++ ;
+    PlayerSkill [ playerid ] [ skillid ] ++ ;
 
-	mysql_format ( mysql, query, sizeof ( query ), "UPDATE character_skills SET %s = '%d' WHERE character_id = '%d'", SkillData [ skillid ] [ skill_row ], PlayerSkill [ playerid ] [ skillid ], Character [ playerid ] [ character_id ] ) ;
-	mysql_tquery ( mysql, query );
+    mysql_format ( mysql, query, sizeof ( query ), "UPDATE character_skills SET %s = '%d' WHERE character_id = '%d'", SkillData [ skillid ] [ skill_row ], PlayerSkill [ playerid ] [ skillid ], Character [ playerid ] [ character_id ] ) ;
+    mysql_tquery ( mysql, query );
 
-	SendServerMessage ( playerid, sprintf("Advanced your %s skill. It's now %d/%d. You have %d skillpoints left.", SkillData [ skillid ] [ skill_name ], PlayerSkill [ playerid ] [ skillid ], SkillData [ skillid ] [ skill_maxpts ], Character [ playerid ] [ character_skillpoints ] ), MSG_TYPE_ERROR ) ;
+    SendServerMessage ( playerid, sprintf("%s yeteneðini geliþtirdin. Yeni seviye: %d/%d. Kalan yetenek puanýn: %d.", SkillData [ skillid ] [ skill_name ], PlayerSkill [ playerid ] [ skillid ], SkillData [ skillid ] [ skill_maxpts ], Character [ playerid ] [ character_skillpoints ] ), MSG_TYPE_ERROR ) ;
 
-	return true ;
+    return true ;
 }

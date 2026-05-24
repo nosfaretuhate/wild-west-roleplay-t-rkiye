@@ -82,8 +82,7 @@ public OnPlayerEditDynamicObject ( playerid, objectid, response, Float: x, Float
 			Init_LoadWantedPosters ( ) ;
 
 			TakeCharacterMoney ( playerid, WantedPoster [ posterID ] [ poster_price ], MONEY_SLOT_HAND ) ;
-			SendServerMessage ( playerid, sprintf("You offered a bounty of $%s for the capture of %s.", IntegerWithDelimiter(WantedPoster [ posterID ] [ poster_price ]), WantedPoster [ posterID ] [ poster_name ] ), MSG_TYPE_WARN ) ;
-
+            SendServerMessage ( playerid, sprintf("%s kiþisinin yakalanmasý için $%s deðerinde bir ödül koydun.", WantedPoster [ posterID ] [ poster_name ], IntegerWithDelimiter(WantedPoster [ posterID ] [ poster_price ]) ), MSG_TYPE_WARN ) ;
 			LoadWantedPosterPlayerID ( posterID ) ;
 		}
 	 
@@ -141,7 +140,7 @@ CreateWantedPoster ( playerid, p_skin, p_price, p_jail ) {
 
 	if ( posterid == -1 ) {
 
-		return SendServerMessage ( playerid, "There was an error creating the wanted poster (returned -1), contact a dev.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "ERROR, DEVELOPER'A ULAÞIN.", MSG_TYPE_ERROR ) ;
 	}
 
 	new rows ;
@@ -175,7 +174,7 @@ CreateWantedPoster ( playerid, p_skin, p_price, p_jail ) {
 
 		else if ( ! rows ) {
 
-			return SendServerMessage ( playerid, sprintf("The name %s wasn't found in the database. Try again or double check your input.", PosterName [ playerid ]), MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, sprintf("%s veritabanýnda bulunamadý, doðru girdiðinden emin ol.", PosterName [ playerid ]), MSG_TYPE_ERROR ) ;
 		}
 	}
 

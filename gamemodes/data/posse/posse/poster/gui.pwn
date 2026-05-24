@@ -93,7 +93,7 @@ LoadWantedPosterTextDraws ( playerid ) {
 
 	/////////////////////////////////////////
 
-	poster_infoLines [ 0 ] = TextDrawCreate(318.333465, 138.548126, "WANTED") ;
+	poster_infoLines [ 0 ] = TextDrawCreate(318.333465, 138.548126, "ARANIYOR") ;
 	TextDrawLetterSize(poster_infoLines [ 0 ], 0.769000, 3.217778) ;
 	TextDrawAlignment(poster_infoLines [ 0 ], TEXT_DRAW_ALIGN_CENTRE) ;
 	TextDrawColor(poster_infoLines [ 0 ], 572662527) ;
@@ -102,7 +102,7 @@ LoadWantedPosterTextDraws ( playerid ) {
 	TextDrawBackgroundColor(poster_infoLines [ 0 ], 51) ;
 	TextDrawFont(poster_infoLines [ 0 ], TEXT_DRAW_FONT_2) ;
 
-	poster_infoLines [ 1 ] = TextDrawCreate(317.333343, 163.851760, "DEAD or ALIVE") ;
+	poster_infoLines [ 1 ] = TextDrawCreate(317.333343, 163.851760, "OLU YADA CANLI") ;
 	TextDrawLetterSize(poster_infoLines [ 1 ], 0.449999, 1.600000) ;
 	TextDrawAlignment(poster_infoLines [ 1 ], TEXT_DRAW_ALIGN_CENTRE) ;
 	TextDrawColor(poster_infoLines [ 1 ], 572662527) ;
@@ -110,7 +110,7 @@ LoadWantedPosterTextDraws ( playerid ) {
 	TextDrawSetOutline(poster_infoLines [ 1 ], 0) ;
 	TextDrawBackgroundColor(poster_infoLines [ 0 ], 51) ;
 
-	poster_infoLines [ 2 ] = TextDrawCreate(318.000000, 328.533477, "IF SIGHTED IMMEDIATELY CONTACT~n~LOCAL LAW ENFORCEMENT OFFICE") ;
+	poster_infoLines [ 2 ] = TextDrawCreate(318.000000, 328.533477, "GORULDUGUNDE HEMEN ILETISIME GEC~n~YEREL KOLLUK KUVVETLERI") ;
 	TextDrawLetterSize(poster_infoLines [ 2 ], 0.245333, 0.820148) ;
 	TextDrawAlignment(poster_infoLines [ 2 ], TEXT_DRAW_ALIGN_CENTRE) ;
 	TextDrawColor(poster_infoLines [ 2 ], 572662527) ;
@@ -129,14 +129,14 @@ LoadWantedPosterTextDraws ( playerid ) {
     PlayerTextDrawColor(playerid, poster_customData [ playerid ] [ 0 ], 0xC29F82ff);
     PlayerTextDrawSetPreviewModel(playerid, poster_customData [ playerid ] [ 0 ], 28);
 
-	poster_customData [ playerid ] [ 1 ] = CreatePlayerTextDraw(playerid, 318.000122, 313.600311, "$1,000,000 REWARD") ;
+	poster_customData [ playerid ] [ 1 ] = CreatePlayerTextDraw(playerid, 318.000122, 313.600311, "$1,000,000 ODUL") ;
 	PlayerTextDrawLetterSize( playerid, poster_customData [ playerid ] [ 1 ], 0.408999, 1.409185) ;
 	PlayerTextDrawAlignment( playerid, poster_customData [ playerid ] [ 1 ], TEXT_DRAW_ALIGN_CENTRE) ;
 	PlayerTextDrawColor( playerid, poster_customData [ playerid ] [ 1 ], 572662527) ;
 	PlayerTextDrawSetShadow( playerid, poster_customData [ playerid ] [ 1 ], 0) ;
 	PlayerTextDrawSetOutline( playerid, poster_customData [ playerid ] [ 1 ], 0) ;
 
-	poster_customData [ playerid ] [ 2 ] = CreatePlayerTextDraw ( playerid, 318.000061, 187.911087, "FIRSTNAME_LASTNAME" ) ;
+	poster_customData [ playerid ] [ 2 ] = CreatePlayerTextDraw ( playerid, 318.000061, 187.911087, "AD_SOYAD" ) ;
 	PlayerTextDrawLetterSize  ( playerid, poster_customData [ playerid ] [ 2 ], 0.340333, 1.226666 ) ;
 	PlayerTextDrawAlignment ( playerid, poster_customData [ playerid ] [ 2 ], TEXT_DRAW_ALIGN_CENTRE ) ;
 	PlayerTextDrawColor ( playerid, poster_customData [ playerid ] [ 2 ], 572662527 ) ;
