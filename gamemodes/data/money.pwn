@@ -132,7 +132,7 @@ TakeCharacterMoney ( playerid, amount, slot = MONEY_SLOT_HAND) {
 
 	if ( amount < 0 ) {
 
-		return SendServerMessage ( playerid, "Nice try.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Ýyi deneme.", MSG_TYPE_ERROR ) ;
 	}
 
 	switch ( slot ) {
@@ -161,7 +161,7 @@ TakeCharacterChange(playerid,amount,slot) {
 
 	if ( amount < 0 ) {
 
-		return SendServerMessage ( playerid, "Nice try.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Ýyi deneme.", MSG_TYPE_ERROR ) ;
 	}
 
 	switch ( slot ) {
@@ -213,68 +213,65 @@ TakeCharacterChange(playerid,amount,slot) {
 
 	return true ;
 }
+// --- ÖDEME KOMUTU ---
 
-CMD:pay ( playerid, params [] ) {
+CMD:paraver(playerid, params[]) {
 
 	new targetid, amount, cents ;
 
 	if ( Character [ playerid ] [ character_level ] < 3 ) {
-
-		return SendServerMessage ( playerid, "You need to be level 3 to use this command.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanabilmek için 3. seviye olmanýz gerekiyor.", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( sscanf ( params, "k<u>iI(0)", targetid, amount, cents ) ) {
-
-		return SendServerMessage ( playerid, "/pay [player] [dollars] [cents]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/paraver [oyuncu] [dolar] [cent] (/pay)", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( targetid == INVALID_PLAYER_ID ) {
-
-		return SendServerMessage ( playerid, "Your target player seems to not exist.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Hedeflediðiniz oyuncu mevcut görünmüyor.", MSG_TYPE_ERROR ) ;
 	}
 
  	if (!IsPlayerNearPlayer(playerid, targetid, 6.0)) {
-
-	    return SendServerMessage(playerid, "You are not near that player.", MSG_TYPE_ERROR);
+	    return SendServerMessage(playerid, "O oyuncunun yakýnýnda deðilsiniz.", MSG_TYPE_ERROR);
     }
 
-    if(targetid == playerid) { return SendServerMessage(playerid,"You cannot pay yourself.",MSG_TYPE_ERROR); }
+    if(targetid == playerid) { return SendServerMessage(playerid, "Kendi kendinize ödeme yapamazsýnýz.", MSG_TYPE_ERROR); }
 
-    if(amount < 0) { return SendServerMessage(playerid,"Yout cannot pay negative amounts of money.",MSG_TYPE_ERROR); }
+    if(amount < 0) { return SendServerMessage(playerid, "Negatif miktarlarda para ödeyemezsiniz.", MSG_TYPE_ERROR); }
 
 	if(amount < 1) {
 
 		if(cents < 1 || cents > 99) {
-
-			return SendServerMessage(playerid,"You can only give between 0-99 cent(s).", MSG_TYPE_ERROR);
+			return SendServerMessage(playerid, "Sadece 0-99 arasýnda cent verebilirsiniz.", MSG_TYPE_ERROR);
 		}
-		TakeCharacterChange(playerid,cents,MONEY_SLOT_HAND);
-		GiveCharacterChange(targetid,cents,MONEY_SLOT_HAND);
+		TakeCharacterChange(playerid, cents, MONEY_SLOT_HAND);
+		GiveCharacterChange(targetid, cents, MONEY_SLOT_HAND);
 	}
 	else {
 
 		if ( amount < 1 || amount > Character [ playerid ] [ character_handmoney ] ) {
-
-			return SendServerMessage ( playerid, "You don't have that much money.", MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, "Üzerinizde o kadar para bulunmuyor.", MSG_TYPE_ERROR ) ;
 		}
 		if(cents < 0 || cents > 99) {
-
-			return SendServerMessage(playerid,"You can only give between 1-99 cent(s).", MSG_TYPE_ERROR);
+			return SendServerMessage(playerid, "Sadece 1-99 arasýnda cent verebilirsiniz.", MSG_TYPE_ERROR);
 		}
 		TakeCharacterMoney ( playerid, amount, MONEY_SLOT_HAND ) ;
 		GiveCharacterMoney ( targetid, amount, MONEY_SLOT_HAND ) ;
 
 		if(cents) { 
-			
-			TakeCharacterChange(playerid,cents,MONEY_SLOT_HAND);
-			GiveCharacterChange(targetid,cents,MONEY_SLOT_HAND);
+			TakeCharacterChange(playerid, cents, MONEY_SLOT_HAND);
+			GiveCharacterChange(targetid, cents, MONEY_SLOT_HAND);
 		}
 	}
 
-	if(cents != 0) { ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "* %s has paid $%s.%02d to %s.", ReturnUserName ( playerid, false, true ), IntegerWithDelimiter ( amount ), cents, ReturnUserName ( targetid, false, true )) ) ; }
-	else { ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "* %s has paid $%s to %s.", ReturnUserName ( playerid, false, true ), IntegerWithDelimiter ( amount ), ReturnUserName ( targetid, false, true )) ) ; }
+	if(cents != 0) { 
+		ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "* %s, %s kiþisine $%s.%02d ödedi.", ReturnUserName ( playerid, false, true ), ReturnUserName ( targetid, false, true ), IntegerWithDelimiter ( amount ), cents) ) ; 
+	}
+	else { 
+		ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "* %s, %s kiþisine $%s ödedi.", ReturnUserName ( playerid, false, true ), ReturnUserName ( targetid, false, true ), IntegerWithDelimiter ( amount )) ) ; 
+	}
 
-	// Only do anim if they're close to the player to avoid abuse
+	// Animasyonlar
     if ( IsPlayerNearPlayer ( playerid, targetid, 2.0 ) ) {
 		SetPlayerToFacePlayer(targetid, playerid);
 		SetPlayerToFacePlayer(playerid, targetid);
@@ -283,80 +280,76 @@ CMD:pay ( playerid, params [] ) {
 		ApplyAnimation(playerid, "GANGS", "prtial_hndshk_biz_01", 4.0, false, false, false, false, 0, SYNC_ALL);
 	}
 
-	SendModeratorWarning ( sprintf("[PAY] %s has paid $%s.%02d to %s.", ReturnUserName ( playerid, true ), IntegerWithDelimiter ( amount ), cents, ReturnUserName ( targetid, true )), MOD_WARNING_MED ) ;
-	//OldLog ( playerid, "mod/money", sprintf("%s has paid $%s to %s.", ReturnUserName ( playerid, true ), IntegerWithDelimiter ( amount ), ReturnUserName ( targetid, true )) ) ;
-	WriteLog ( playerid, "money/pay", sprintf ( "%s paid %s $%s.%02d", ReturnUserName ( playerid, false ), ReturnUserName ( targetid, false ), IntegerWithDelimiter ( amount ), cents )) ;
+	SendModeratorWarning ( sprintf("[ÖDEME] %s, %s kiþisine $%s.%02d ödedi.", ReturnUserName ( playerid, true ), ReturnUserName ( targetid, true ), IntegerWithDelimiter ( amount ), cents ), MOD_WARNING_MED ) ;
+	WriteLog ( playerid, "money/pay", sprintf ( "%s ödedi %s: $%s.%02d", ReturnUserName ( playerid, false ), ReturnUserName ( targetid, false ), IntegerWithDelimiter ( amount ), cents )) ;
 
 	return true ;
 }
+CMD:pay(playerid, params[]) return cmd_paraver(playerid, params);
 
-CMD:charity ( playerid, params [] ) {
+
+// --- BAÐIÞ KOMUTU ---
+
+CMD:bagis(playerid, params []) {
 
 	new amount, cents, reason [ 64 ] ;
 
 	if ( sscanf ( params, "iis[64]", amount, cents, reason ) ) {
-
-		return SendServerMessage ( playerid, "/charity [dollars] [cents] [reason]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/bagis [dolar] [cent] [sebep] (/charity)", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( amount < 0 || cents < 0) {
-
-		return SendServerMessage ( playerid, "Nice try.", MSG_TYPE_ERROR  ) ;
+		return SendServerMessage ( playerid, "Güzel deneme.", MSG_TYPE_ERROR  ) ;
 	}
 
 	if ( Character [ playerid ] [ character_handmoney ] < amount ) {
-
-		return SendServerMessage ( playerid, "You don't have that much money in your hand!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Elinizde o kadar dolar bulunmuyor!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( Character [ playerid ] [ character_handchange ] < cents ) { 
-
-		return SendServerMessage(playerid, "You don't have that much cents in your hand!",MSG_TYPE_ERROR);
+		return SendServerMessage(playerid, "Elinizde o kadar cent bulunmuyor!", MSG_TYPE_ERROR);
 	}
 
 	if ( ! strlen ( reason ) || strlen ( reason ) > 64 ) {
-
-		return SendServerMessage ( playerid, "Your reason can't be longer than 64 characters, or empty.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Sebebiniz 64 karakterden uzun olamaz veya boþ býrakýlamaz.", MSG_TYPE_ERROR ) ;
 	}
 
 	new confirmstring [ 1024 ] ;
 
 	format ( confirmstring, sizeof ( confirmstring ), 
 
-		"{C23030}READ THIS BEFORE PRESSING CONTINUE.{DEDEDE}\n\n\
-		You're about to charity {C23030}%s{DEDEDE} to the server.\n\n\
-		{C23030}THERE IS NO WAY TO GET THIS MONEY BACK.{DEDEDE}\n\n\
-		Only press continue if you're certain."
+		"{C23030}DEVAM ETMEDEN ÖNCE BUNU OKUYUN.{DEDEDE}\n\n\
+		Sunucuya {C23030}%s{DEDEDE} tutarýnda baðýþ yapmak üzeresiniz.\n\n\
+		{C23030}BU PARAYI GERÝ ALMANIN HÝÇBÝR YOLU YOKTUR.{DEDEDE}\n\n\
+		Yalnýzca eminseniz devam edin."
 
 	, IntegerWithDelimiter ( amount )  ) ;
 
 	task_yield ( 1 ) ;
 
 	new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
-	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_MSGBOX, "{C23030}ANTI DUMBASS WARNING{DEDEDE}", confirmstring, "{C23030}Continue", "No way" );
+	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_MSGBOX, "{C23030}DÝKKAT: PARA SIFIRLAMA UYARISI{DEDEDE}", confirmstring, "{C23030}Devam Et", "Vazgeç" );
 
 	if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
-
 		return false ;
 	}
 
 	if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
-		SendClientMessage(playerid, COLOR_YELLOW, sprintf("[CHARITY] (%d) %s has just charitied $%s.%02d. Reason: %s", playerid, ReturnUserName ( playerid, true ), IntegerWithDelimiter ( amount ), cents, reason )) ;
-		SendModeratorWarning ( sprintf("[CHARITY] (%d) %s has just charitied $%s.%02d. Reason: %s", playerid, ReturnUserName ( playerid, true ), IntegerWithDelimiter ( amount ), cents, reason ), MOD_WARNING_MED ) ;
+		SendClientMessage(playerid, COLOR_YELLOW, sprintf("[BAÐIÞ] (%d) %s adlý oyuncu $%s.%02d tutarýnda baðýþ yaptý. Sebep: %s", playerid, ReturnUserName ( playerid, true ), IntegerWithDelimiter ( amount ), cents, reason )) ;
+		SendModeratorWarning ( sprintf("[BAÐIÞ] (%d) %s adlý oyuncu $%s.%02d tutarýnda baðýþ yaptý. Sebep: %s", playerid, ReturnUserName ( playerid, true ), IntegerWithDelimiter ( amount ), cents, reason ), MOD_WARNING_MED ) ;
+		
 		if(amount) { TakeCharacterMoney ( playerid, amount, MONEY_SLOT_HAND ) ; }
-		if(cents) { TakeCharacterChange(playerid,cents,MONEY_SLOT_HAND); }
+		if(cents) { TakeCharacterChange(playerid, cents, MONEY_SLOT_HAND); }
 
-
-		//OldLog ( playerid, "mod/money", sprintf ( "%s has charitied $%s, reason: %s", ReturnUserName ( playerid, false ), IntegerWithDelimiter ( amount ), reason )) ;
-		WriteLog ( playerid, "money/charity", sprintf ( "%s has charitied $%s, reason: %s", ReturnUserName ( playerid, false ), IntegerWithDelimiter ( amount ), reason )) ;
+		WriteLog ( playerid, "money/charity", sprintf ( "%s baðýþ yaptý: $%s, sebep: %s", ReturnUserName ( playerid, false ), IntegerWithDelimiter ( amount ), reason )) ;
 
 		return true ;
 	}
 
 	return true ;
 }
-
+CMD:charity(playerid, params[]) return cmd_bagis(playerid, params);
 /*
 
 new tax = % of character_handmoney +bankmoney ;
@@ -469,32 +462,30 @@ public Paycheck(playerid){
  		mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_paycheck = %d,character_paychange = %d WHERE character_id = %d",Character[playerid][character_paycheck],Character[playerid][character_paychange],Character[playerid][character_id]);
  		mysql_tquery(mysql,query);
 
- 		SendModeratorWarning(sprintf("[Paycheck] (%d) %s's paycheck was in the negative.  Paycheck: $%02d.%02d",playerid,ReturnUserName(playerid,true,false),oldpay,oldchange),MOD_WARNING_MED);
+ 		SendModeratorWarning(sprintf("[Maaþ Çeki] (%d) %s adlý oyuncunun maaþ çeki süresi negatif seviyede. Maaþ Çeki: $%02d.%02d",playerid,ReturnUserName(playerid,true,false),oldpay,oldchange),MOD_WARNING_MED);
  	}
 
 	//else paycheck = 0 ;
 
-	SendClientMessage(playerid, COLOR_TAB0, "|_______| Paycheck |_______|" ) ;
+	SendClientMessage(playerid, COLOR_TAB0, "|_______| Maaþ Çeki |_______|" ) ;
 	SendClientMessage(playerid, -1, "");
 
-	//SendClientMessage(playerid, COLOR_TAB1, sprintf("[Old Balance:] $%s [New Balance:] $%s [Interest]: $%s", IntegerWithDelimiter (oldbal), IntegerWithDelimiter(Character [ playerid ] [ character_bankmoney ] ), IntegerWithDelimiter( interest ) ));
-	//SendClientMessage(playerid, COLOR_TAB1, sprintf("[Old Balance:] $%s [New Balance:] $%s", IntegerWithDelimiter (oldbal), IntegerWithDelimiter(Character [ playerid ] [ character_bankmoney ] ) ));
-	SendClientMessage(playerid, COLOR_TAB1, sprintf("[Taxes paid:] $%s [Property Tax]: $%s", IntegerWithDelimiter ( property_tax ), IntegerWithDelimiter ( property_tax ) )) ;
+	SendClientMessage(playerid, COLOR_TAB1, sprintf("[Ödenen Vergiler:] $%s [Mülk Vergisi]: $%s", IntegerWithDelimiter ( property_tax ), IntegerWithDelimiter ( property_tax ) )) ;
 
 	if ( paycheck ) {
-		SendClientMessage(playerid, COLOR_TAB1, sprintf("[Incoming]: $%s.%02d [Total Paycheck]: $%s.%02d", IntegerWithDelimiter ( paycheck ), paychange, IntegerWithDelimiter ( Character [ playerid ] [ character_paycheck ] ), Character[playerid][character_paychange] )) ;
+		SendClientMessage(playerid, COLOR_TAB1, sprintf("[Gelen]: $%s.%02d [Toplam Maaþ Çeki]: $%s.%02d", IntegerWithDelimiter ( paycheck ), paychange, IntegerWithDelimiter ( Character [ playerid ] [ character_paycheck ] ), Character[playerid][character_paychange] )) ;
 	}
 
-	else SendClientMessage(playerid, COLOR_TAB1, sprintf("[Incoming]: $0 [Total Paycheck]: $%s.%02d", IntegerWithDelimiter ( Character [ playerid ] [ character_paycheck ] ),Character[playerid][character_paychange]));
+	else SendClientMessage(playerid, COLOR_TAB1, sprintf("[Gelen]: $0 [Toplam Maaþ Çeki]: $%s.%02d", IntegerWithDelimiter ( Character [ playerid ] [ character_paycheck ] ), Character[playerid][character_paychange]));
 
 	if ( Account [ playerid ] [ account_donatorlevel ] ) { 
-		SendClientMessage ( playerid, COLOR_TAB1, sprintf("[Donator]: $%s", IntegerWithDelimiter ( donator_money ) ) ) ;
+		SendClientMessage ( playerid, COLOR_TAB1, sprintf("[Baðýþçý Bonusu]: $%s", IntegerWithDelimiter ( donator_money ) ) ) ;
 	}
 
-	SendClientMessage(playerid, COLOR_TAB1, sprintf("[Old Balance:] $%s.%02d [New Balance:] $%s.%02d", IntegerWithDelimiter (oldbal),Character[playerid][character_bankchange], IntegerWithDelimiter(Character [ playerid ] [ character_bankmoney ] ), Character[playerid][character_bankchange] ));
+	SendClientMessage(playerid, COLOR_TAB1, sprintf("[Eski Bakiye:] $%s.%02d [Yeni Bakiye:] $%s.%02d", IntegerWithDelimiter (oldbal), Character[playerid][character_bankchange], IntegerWithDelimiter(Character [ playerid ] [ character_bankmoney ] ), Character[playerid][character_bankchange] ));
 
 	SendClientMessage(playerid, -1, "");
-	SendServerMessage ( playerid, "To collect your paycheck, type /paycheck in any postal office.", MSG_TYPE_INFO ) ;
+	SendServerMessage ( playerid, "Maaþ çekinizi tahsil etmek için herhangi bir postanede /maascek yazýn.", MSG_TYPE_INFO ) ;
 
 	switch ( Account [ playerid ] [ account_donatorlevel ] ) {
 

@@ -27,7 +27,7 @@ public OnPlayerFinishedDownloading(playerid, virtualworld) {
 	if(!IsPlayerFinishedDownloading[playerid]) {
     	
     	IsPlayerFinishedDownloading [ playerid ] = true ;
-    	SendClientMessage(playerid, COLOR_CLIENT, "Downloads finished.");
+    	SendClientMessage(playerid, COLOR_CLIENT, "Ýndirme tamamlandý...");
     	#if defined OPEN_BETA_TEST
 
     		for ( new i; i < 20; i ++ ) {
