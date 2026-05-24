@@ -198,724 +198,723 @@ OnPlayerUseItem ( playerid, itemid, tileid ){
 			}
 		}
 
-		case ITEM_TYPE_USE: {
+case ITEM_TYPE_USE: {
 
-			switch ( Item [ itemid ] [ item_extra_param ] ) {
+            switch ( Item [ itemid ] [ item_extra_param ] ) {
 
-				case BANDAGE: {
+                case BANDAGE: {
 
-					SendServerMessage ( playerid, "Press ~k~~PED_FIREWEAPON~ to cancel bandaging yourself. The bandage will be used once it finished bandaging you.", MSG_TYPE_WARN ) ;
+                    SendServerMessage ( playerid, "Kendini sarmayý iptal etmek için ~k~~PED_FIREWEAPON~ tuþuna bas. Sargý iþlemi bittiðinde bandaj kullanýlacaktýr.", MSG_TYPE_WARN ) ;
 
-					IsPlayerBandaging [ playerid ] = 1 ;
-					OnPlayerBandage ( playerid, itemid, tileid ) ;
+                    IsPlayerBandaging [ playerid ] = 1 ;
+                    OnPlayerBandage ( playerid, itemid, tileid ) ;
 
-					TogglePlayerControllable ( playerid, false ) ;
+                    TogglePlayerControllable ( playerid, false ) ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("** %s has started bandaging themselves.", ReturnUserName ( playerid, false ))) ;
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("** %s kendine bandaj sarmaya baþladý.", ReturnUserName ( playerid, false ))) ;
 
-					return true ;
-				}
+                    return true ;
+                }
 
-				case FARMING_SOIL_BAG: {
+                case FARMING_SOIL_BAG: {
 
-					CreateSoil ( playerid ) ;
+                    CreateSoil ( playerid ) ;
 
-					SendServerMessage(playerid, "If the farming soil seems to be bugged (underground / labels disappearing) please use /fixsoil and /refreshsoil.", MSG_TYPE_INFO);
-				}
+                    SendServerMessage(playerid, "Eðer tarým topraðý bugda görünüyorsa (yerin altýnda kalmasý / yazýlarýn kaybolmasý) lütfen /fixsoil ve /refreshsoil komutlarýný kullanýn.", MSG_TYPE_INFO);
+                }
 
-				case AMMO_CRATE_PISTOL, FACTION_AMMO_PISTOL : {
-					if ( Character [ playerid ] [ character_handweapon] != WEAPON_DEAGLE ) {
+                case AMMO_CRATE_PISTOL, FACTION_AMMO_PISTOL : {
+                    if ( Character [ playerid ] [ character_handweapon] != WEAPON_DEAGLE ) {
 
-						return SendServerMessage ( playerid, "You need to have a pistol equipped in order to do this.", MSG_TYPE_ERROR ) ;
-					}
+                        return SendServerMessage ( playerid, "Bunu yapmak için elinizde bir tabanca donatýlmýþ olmalýdýr.", MSG_TYPE_ERROR ) ;
+                    }
 
-					if ( Character [ playerid ] [ character_handammo ] ) {
+                    if ( Character [ playerid ] [ character_handammo ] ) {
 
-						return SendServerMessage ( playerid, "Your equipped weapon still has ammo left. Only use this when you have none. ", MSG_TYPE_ERROR ) ;
-					}
+                        return SendServerMessage ( playerid, "Donatýlmýþ silahýnýzda hala mermi var. Bunu sadece merminiz tamamen bittiðinde kullanýn.", MSG_TYPE_ERROR ) ;
+                    }
 
-					new WEAPON: restoredata = Character [ playerid ] [ character_handweapon] ;
+                    new WEAPON: restoredata = Character [ playerid ] [ character_handweapon] ;
 
-					RemovePlayerWeapon ( playerid ) ;
-					wep_GivePlayerWeapon ( playerid, restoredata, 6 ) ;
+                    RemovePlayerWeapon ( playerid ) ;
+                    wep_GivePlayerWeapon ( playerid, restoredata, 6 ) ;
 
-					ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "* %s used an ammo pack for their revolver.", ReturnUserName ( playerid, true, true ) ) ) ;
-					SendServerMessage ( playerid, "You've used an ammopack on your revolver and refilled it with ammo.", MSG_TYPE_INFO ) ;
+                    ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "* %s revolver silahý için bir mermi paketi kullandý.", ReturnUserName ( playerid, true, true ) ) ) ;
+                    SendServerMessage ( playerid, "Revolver silahýnýzda mermi paketini kullandýnýz ve mermisini doldurdunuz.", MSG_TYPE_INFO ) ;
 
-					SavePlayerWeapons ( playerid ) ;
-				}
+                    SavePlayerWeapons ( playerid ) ;
+                }
 
-				case AMMO_CRATE_SHOTGUN, FACTION_AMMO_SHOTGUN : {
+                case AMMO_CRATE_SHOTGUN, FACTION_AMMO_SHOTGUN : {
 
-					if ( Character [ playerid ] [ character_handweapon] == WEAPON_SHOTGUN || Character [ playerid ] [ character_handweapon] == WEAPON_SAWEDOFF ) {
+                    if ( Character [ playerid ] [ character_handweapon] == WEAPON_SHOTGUN || Character [ playerid ] [ character_handweapon] == WEAPON_SAWEDOFF ) {
 
-						if ( Character [ playerid ] [ character_handammo ] ) {
+                        if ( Character [ playerid ] [ character_handammo ] ) {
 
-							return SendServerMessage ( playerid, "Your equipped weapon still has ammo left. Only use this when you have none. ", MSG_TYPE_ERROR ) ;
-						}
+                            return SendServerMessage ( playerid, "Donatýlmýþ silahýnýzda hala mermi var. Bunu sadece merminiz tamamen bittiðinde kullanýn.", MSG_TYPE_ERROR ) ;
+                        }
 
-						new WEAPON: restoredata = Character [ playerid ] [ character_handweapon] ;
-						RemovePlayerWeapon ( playerid ) ;
+                        new WEAPON: restoredata = Character [ playerid ] [ character_handweapon] ;
+                        RemovePlayerWeapon ( playerid ) ;
 
-						switch ( restoredata ) {
+                        switch ( restoredata ) {
 
-							case WEAPON_SHOTGUN: wep_GivePlayerWeapon ( playerid, restoredata, 8 ) ;
-							case WEAPON_SAWEDOFF: wep_GivePlayerWeapon ( playerid, restoredata, 2 ) ;
-						}
+                            case WEAPON_SHOTGUN: wep_GivePlayerWeapon ( playerid, restoredata, 8 ) ;
+                            case WEAPON_SAWEDOFF: wep_GivePlayerWeapon ( playerid, restoredata, 2 ) ;
+                        }
 
-						ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "* %s used an ammo pack for their shotgun.", ReturnUserName ( playerid, true, true ) ) ) ;
-						SendServerMessage ( playerid, "You've used an ammopack on your shotgun and refilled it with ammo.", MSG_TYPE_INFO ) ;
+                        ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "* %s pompalý silahý için bir mermi paketi kullandý.", ReturnUserName ( playerid, true, true ) ) ) ;
+                        SendServerMessage ( playerid, "Pompalý silahýnýzda mermi paketini kullandýnýz ve mermisini doldurdunuz.", MSG_TYPE_INFO ) ;
 
-						SavePlayerWeapons ( playerid ) ;
-					}
+                        SavePlayerWeapons ( playerid ) ;
+                    }
 
-					else return SendServerMessage ( playerid, "You need to have a shotgun equipped in order to do this.", MSG_TYPE_ERROR ) ;
-				}
+                    else return SendServerMessage ( playerid, "Bunu yapmak için bir pompalý silah donatmýþ olmanýz gerekir.", MSG_TYPE_ERROR ) ;
+                }
 
-				case AMMO_CRATE_RIFLE, FACTION_AMMO_RIFLE : {
+                case AMMO_CRATE_RIFLE, FACTION_AMMO_RIFLE : {
 
-					if ( Character [ playerid ] [ character_handweapon] == WEAPON_RIFLE || Character [ playerid ] [ character_handweapon] == WEAPON_SNIPER ) {
+                    if ( Character [ playerid ] [ character_handweapon] == WEAPON_RIFLE || Character [ playerid ] [ character_handweapon] == WEAPON_SNIPER ) {
 
-						if ( Character [ playerid ] [ character_handammo ] ) {
+                        if ( Character [ playerid ] [ character_handammo ] ) {
 
-							return SendServerMessage ( playerid, "Your equipped weapon still has ammo left. Only use this when you have none. ", MSG_TYPE_ERROR ) ;
-						}
+                            return SendServerMessage ( playerid, "Donatýlmýþ silahýnýzda hala mermi var. Bunu sadece merminiz tamamen bittiðinde kullanýn.", MSG_TYPE_ERROR ) ;
+                        }
 
-						new WEAPON: restoredata = Character [ playerid ] [ character_handweapon] ;
+                        new WEAPON: restoredata = Character [ playerid ] [ character_handweapon] ;
 
-						RemovePlayerWeapon ( playerid ) ;
-						wep_GivePlayerWeapon ( playerid, restoredata, 5 ) ;
+                        RemovePlayerWeapon ( playerid ) ;
+                        wep_GivePlayerWeapon ( playerid, restoredata, 5 ) ;
 
-						ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "* %s used an ammo pack for their rifle.", ReturnUserName ( playerid, true, true ) ) ) ;
-						SendServerMessage ( playerid, "You've used an ammopack on your rifle and refilled it with ammo.", MSG_TYPE_INFO ) ;
+                        ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "* %s tüfeði için bir mermi paketi kullandý.", ReturnUserName ( playerid, true, true ) ) ) ;
+                        SendServerMessage ( playerid, "Tüfeðinizde mermi paketini kullandýnýz ve mermisini doldurdunuz.", MSG_TYPE_INFO ) ;
 
-						SavePlayerWeapons ( playerid ) ;
-					}
+                        SavePlayerWeapons ( playerid ) ;
+                    }
 
-					else return SendServerMessage ( playerid, "You need to have a rifle equipped in order to do this.", MSG_TYPE_ERROR ) ;
-				}
+                    else return SendServerMessage ( playerid, "Bunu yapmak için bir tüfek donatmýþ olmanýz gerekir.", MSG_TYPE_ERROR ) ;
+                }
 
-				case HUNTING_TRAP : {
-				    
-				    new trapid = GetFreeTrapID();
+                case HUNTING_TRAP : {
+                    
+                    new trapid = GetFreeTrapID();
 
-				    if(!CreateTrap(playerid,trapid)) {
-				    	return true;
-				    }
-				}
+                    if(!CreateTrap(playerid,trapid)) {
+                        return true;
+                    }
+                }
 
-				case FARMING_SHOVEL: {
+                case FARMING_SHOVEL: {
 
-					new i = FindNearestSoil(playerid, 4.0);
+                    new i = FindNearestSoil(playerid, 4.0);
 
-					if(i == INVALID_SOIL_ID){
-						return SendServerMessage(playerid, "You aren't near any plants.", MSG_TYPE_ERROR);
-					} else {
+                    if(i == INVALID_SOIL_ID){
+                        return SendServerMessage(playerid, "Yakýnlarda herhangi bir tarým topraðý veya bitki yok.", MSG_TYPE_ERROR);
+                    } else {
 
-						if(Soil[i][soil_state] == SOIL_STATE_EMPTY){
+                        if(Soil[i][soil_state] == SOIL_STATE_EMPTY){
 
-							Soil[i][soil_state] = SOIL_STATE_DIGGED;
-							SendServerMessage(playerid, "You have dug a hole in the soil.", MSG_TYPE_INFO);
-							SetupSoil(i);
+                            Soil[i][soil_state] = SOIL_STATE_DIGGED;
+                            SendServerMessage(playerid, "Toprakta bir delik kazdýnýz.", MSG_TYPE_INFO);
+                            SetupSoil(i);
 
-						} 
-						else if(Soil[i][soil_state] == SOIL_STATE_DIGGED){
+                        } 
+                        else if(Soil[i][soil_state] == SOIL_STATE_DIGGED){
 
-							return SendServerMessage(playerid, "You can't use the shovel right now!", MSG_TYPE_ERROR);
+                            return SendServerMessage(playerid, "Þu anda küreði kullanamazsýnýz!", MSG_TYPE_ERROR);
 
-						} 
-						else if(Soil[i][soil_state] == SOIL_STATE_SEEDED){
+                        } 
+                        else if(Soil[i][soil_state] == SOIL_STATE_SEEDED){
 
-							Soil[i][soil_state] = SOIL_STATE_GROWING;
-							SendServerMessage(playerid, "You have covered the soil!", MSG_TYPE_INFO);
-							SetupSoil(i);
+                            Soil[i][soil_state] = SOIL_STATE_GROWING;
+                            SendServerMessage(playerid, "Topraðýn üzerini kapattýnýz!", MSG_TYPE_INFO);
+                            SetupSoil(i);
 
-							firstTick[i] = true;
-							StartGrowingProcess(i);
+                            firstTick[i] = true;
+                            StartGrowingProcess(i);
 
-						} else {
-							return SendServerMessage(playerid, "You can't use this right now!", MSG_TYPE_ERROR);
-						}
-					}
-					return true;
-				}
+                        } else {
+                            return SendServerMessage(playerid, "Bunu þu anda kullanamazsýnýz!", MSG_TYPE_ERROR);
+                        }
+                    }
+                    return true;
+                }
 
 				case FARMING_PAIL: {
-						
-					new i = FindNearestSoil(playerid, 4.0);
+                        
+                    new i = FindNearestSoil(playerid, 4.0);
 
-					if(i == INVALID_SOIL_ID){
-						return SendServerMessage(playerid, "You aren't near any plants.", MSG_TYPE_ERROR);
-					} else {
+                    if(i == INVALID_SOIL_ID){
+                        return SendServerMessage(playerid, "Yakýnlarda herhangi bir tarým topraðý veya bitki yok.", MSG_TYPE_ERROR);
+                    } else {
 
-						switch(Soil[i][soil_water]){
+                        switch(Soil[i][soil_water]){
 
-							case SOIL_WATER_WATERED: {
-								return SendServerMessage(playerid, "This plant doesn't need watering!", MSG_TYPE_ERROR);
-							}
+                            case SOIL_WATER_WATERED: {
+                                return SendServerMessage(playerid, "Bu bitkinin sulanmaya ihtiyacý yok!", MSG_TYPE_ERROR);
+                            }
 
-							case SOIL_WATER_MODERATE: {
-								Soil[i][soil_water] = SOIL_WATER_WATERED;
-								Soil[i][soil_health] = SOIL_HEALTH_HEALTHY;
-								SetupSoil(i);
+                            case SOIL_WATER_MODERATE: {
+                                Soil[i][soil_water] = SOIL_WATER_WATERED;
+                                Soil[i][soil_health] = SOIL_HEALTH_HEALTHY;
+                                SetupSoil(i);
 
-								SendServerMessage(playerid, "You have watered this plant.", MSG_TYPE_INFO);
+                                SendServerMessage(playerid, "Bu bitkiyi suladýnýz.", MSG_TYPE_INFO);
 
-								DecreaseItem(playerid, tileid, 1);
-								GivePlayerItem ( playerid, FARMING_EMPTY_PAIL, 1, 0, 0, 0, 0, 0);
-							}
+                                DecreaseItem(playerid, tileid, 1);
+                                GivePlayerItem ( playerid, FARMING_EMPTY_PAIL, 1, 0, 0, 0, 0, 0);
+                            }
 
-							case SOIL_WATER_DEHYDRATED: {
-								Soil[i][soil_water] = SOIL_WATER_WATERED;
-								Soil[i][soil_health] = SOIL_HEALTH_HEALTHY;
-								SetupSoil(i);
+                            case SOIL_WATER_DEHYDRATED: {
+                                Soil[i][soil_water] = SOIL_WATER_WATERED;
+                                Soil[i][soil_health] = SOIL_HEALTH_HEALTHY;
+                                SetupSoil(i);
 
-								SendServerMessage(playerid, "You have watered this plant.", MSG_TYPE_INFO);
+                                SendServerMessage(playerid, "Bu bitkiyi suladýnýz.", MSG_TYPE_INFO);
 
-								DecreaseItem(playerid, tileid, 1);
-								GivePlayerItem ( playerid, FARMING_EMPTY_PAIL, 1, 0, 0, 0, 0, 0);
-							}
+                                DecreaseItem(playerid, tileid, 1);
+                                GivePlayerItem ( playerid, FARMING_EMPTY_PAIL, 1, 0, 0, 0, 0, 0);
+                            }
 
-							default: { return SendServerMessage(playerid, "You can't use this right now!", MSG_TYPE_ERROR); }
-						}
-					}
-				}
+                            default: { return SendServerMessage(playerid, "Bunu þu anda kullanamazsýnýz!", MSG_TYPE_ERROR); }
+                        }
+                    }
+                }
 
-				case FARMING_EMPTY_PAIL: {
+                case FARMING_EMPTY_PAIL: {
 
-					new i = FindNearestSoil(playerid, 4.0);
+                    new i = FindNearestSoil(playerid, 4.0);
 
-					if(i == INVALID_SOIL_ID){
-						SendServerMessage(playerid, "You aren't near any plants.", MSG_TYPE_ERROR);
-					} 
-					else SendServerMessage(playerid, "You need to fill your pail with water first!", MSG_TYPE_ERROR);
+                    if(i == INVALID_SOIL_ID){
+                        SendServerMessage(playerid, "Yakýnlarda herhangi bir tarým topraðý veya bitki yok.", MSG_TYPE_ERROR);
+                    } 
+                    else SendServerMessage(playerid, "Önce kovanýzý suyla doldurmanýz gerekiyor!", MSG_TYPE_ERROR);
 
-					if(IsPlayerNearWater(playerid)){
-						DecreaseItem(playerid, tileid, 1);
-						GivePlayerItem ( playerid, FARMING_PAIL, 1, 0, 0, 0, 0, 0);
+                    if(IsPlayerNearWater(playerid)){
+                        DecreaseItem(playerid, tileid, 1);
+                        GivePlayerItem ( playerid, FARMING_PAIL, 1, 0, 0, 0, 0, 0);
 
-						SendServerMessage(playerid, "You have filled up your pail with water.", MSG_TYPE_INFO);
-					} 
-					else return SendServerMessage(playerid, "You aren't near any water!", MSG_TYPE_ERROR);
+                        SendServerMessage(playerid, "Kovanýzý suyla doldurdunuz.", MSG_TYPE_INFO);
+                    } 
+                    else return SendServerMessage(playerid, "Hiçbir su kaynaðýnýn yakýnýnda deðilsiniz!", MSG_TYPE_ERROR);
 
-					return true;
-				}
+                    return true;
+                }
 
-				case EMPTY_BASKET: {
+                case EMPTY_BASKET: {
 
-					new i = FindNearestSoil(playerid, 4.0);
+                    new i = FindNearestSoil(playerid, 4.0);
 
-					if(i == INVALID_SOIL_ID){
-						return SendServerMessage(playerid, "You aren't near any plants.", MSG_TYPE_ERROR);
-					} else if(Soil[i][soil_state] == SOIL_STATE_GROWN){
+                    if(i == INVALID_SOIL_ID){
+                        return SendServerMessage(playerid, "Yakýnlarda herhangi bir tarým topraðý veya bitki yok.", MSG_TYPE_ERROR);
+                    } else if(Soil[i][soil_state] == SOIL_STATE_GROWN){
 
-						DecreaseItem ( playerid, tileid, 1 ) ;
+                        DecreaseItem ( playerid, tileid, 1 ) ;
 
-						switch(Soil[i][soil_plant]){ 
+                        switch(Soil[i][soil_plant]){ 
 
-							case SEED_ORANGE: {
-								GivePlayerItem ( playerid, ORANGE_BASKET, 1, 0, 0, 0, 0, 0);
-							}
+                            case SEED_ORANGE: {
+                                GivePlayerItem ( playerid, ORANGE_BASKET, 1, 0, 0, 0, 0, 0);
+                            }
 
-							case SEED_APPLE_RED: {
-								GivePlayerItem ( playerid, RAPPLE_BASKET, 1, 0, 0, 0, 0, 0);
-							}
+                            case SEED_APPLE_RED: {
+                                GivePlayerItem ( playerid, RAPPLE_BASKET, 1, 0, 0, 0, 0, 0);
+                            }
 
-							case SEED_APPLE_GREEN: {
-								GivePlayerItem ( playerid, GAPPLE_BASKET, 1, 0, 0, 0, 0, 0);
-							}
+                            case SEED_APPLE_GREEN: {
+                                GivePlayerItem ( playerid, GAPPLE_BASKET, 1, 0, 0, 0, 0, 0);
+                            }
 
-							case SEED_TOMATO: {
-								GivePlayerItem ( playerid, TOMATO_BASKET, 1, 0, 0, 0, 0, 0);
-							}
+                            case SEED_TOMATO: {
+                                GivePlayerItem ( playerid, TOMATO_BASKET, 1, 0, 0, 0, 0, 0);
+                            }
 
-							case SEED_CABBAGE: {
-								GivePlayerItem ( playerid, CABBAGE_BASKET, 1, 0, 0, 0, 0, 0);
-							}
+                            case SEED_CABBAGE: {
+                                GivePlayerItem ( playerid, CABBAGE_BASKET, 1, 0, 0, 0, 0, 0);
+                            }
 
-							case SEED_WHEAT: {
-								GivePlayerItem ( playerid, WHEAT_BASKET, 1, 0, 0, 0, 0, 0);
-							}
+                            case SEED_WHEAT: {
+                                GivePlayerItem ( playerid, WHEAT_BASKET, 1, 0, 0, 0, 0, 0);
+                            }
 
-							case SEED_PUMPKIN: {
-								GivePlayerItem ( playerid, PUMPKIN_BASKET, 1, 0, 0, 0, 0, 0);
-							}
-						}
-					}
-					return true;
-				}	
-				
+                            case SEED_PUMPKIN: {
+                                GivePlayerItem ( playerid, PUMPKIN_BASKET, 1, 0, 0, 0, 0, 0);
+                            }
+                        }
+                    }
+                    return true;
+                }   
+                
 
 
-				case HUNTING_BAIT : {
+                case HUNTING_BAIT : {
 
-					new trapid = FindNearestTrap(playerid,2.5);
-					
-					if(trapid == -1) { return SendServerMessage(playerid,"You're not near a trap.",MSG_TYPE_ERROR); }
-					if(!DoesPlayerOwnTrap(playerid,trapid)) { return SendServerMessage(playerid,"You don't own this trap.",MSG_TYPE_ERROR); }
-					if(IsTrapBaited(trapid)) { return SendServerMessage(playerid,"The trap already has bait on it.",MSG_TYPE_ERROR); }
-					if(IsTrapArmed(trapid)) { return SendServerMessage(playerid,"You need to disarm this trap before applying bait.",MSG_TYPE_ERROR); }
-					
-					SetTrapBait(trapid);
+                    new trapid = FindNearestTrap(playerid,2.5);
+                    
+                    if(trapid == -1) { return SendServerMessage(playerid,"Bir tuzaðýn yakýnýnda deðilsiniz.",MSG_TYPE_ERROR); }
+                    if(!DoesPlayerOwnTrap(playerid,trapid)) { return SendServerMessage(playerid,"Bu tuzak size ait deðil.",MSG_TYPE_ERROR); }
+                    if(IsTrapBaited(trapid)) { return SendServerMessage(playerid,"Tuzakta zaten yem var.",MSG_TYPE_ERROR); }
+                    if(IsTrapArmed(trapid)) { return SendServerMessage(playerid,"Yem yerleþtirmeden önce bu tuzaðý devre dýþý býrakmalýsýnýz.",MSG_TYPE_ERROR); }
+                    
+                    SetTrapBait(trapid);
 
-					ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 4.1, false, false, false, false, 0, SYNC_ALL);
+                    ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 4.1, false, false, false, false, 0, SYNC_ALL);
 
-			        ProxDetector(playerid, 20.0, COLOR_ACTION, sprintf("* %s applies bait to their trap.", ReturnUserName(playerid, false)));
-				}
-				case THERMOSTAT: {
+                    ProxDetector(playerid, 20.0, COLOR_ACTION, sprintf("* %s tuzaðýna yem yerleþtirir.", ReturnUserName(playerid, false)));
+                }
+                case THERMOSTAT: {
 
-					if(GetZoneTemperature(GetPlayerZone(playerid)) != INVALID_TEMPERATURE) { SendServerMessage(playerid,sprintf("The thermostat reads %d FÂ°.",GetZoneTemperature(GetPlayerZone(playerid))),MSG_TYPE_INFO); }
-					else { SendServerMessage(playerid,"You are in a zone that doesn't have a valid temperature.",MSG_TYPE_ERROR); }
-					return true;
-				}
-				case GLOVES,LONG_JOHNS: {
+                    if(GetZoneTemperature(GetPlayerZone(playerid)) != INVALID_TEMPERATURE) { SendServerMessage(playerid,sprintf("Termostat %d F° gösteriyor.",GetZoneTemperature(GetPlayerZone(playerid))),MSG_TYPE_INFO); }
+                    else { SendServerMessage(playerid,"Geçerli bir sýcaklýða sahip olmayan bir bölgedesiniz.",MSG_TYPE_ERROR); }
+                    return true;
+                }
+                case GLOVES,LONG_JOHNS: {
 
-					return SendServerMessage(playerid,"These items automatically help keep you warm in cold regions but heat you up in warmer regions.",MSG_TYPE_INFO);
-				}
-			}
+                    return SendServerMessage(playerid,"Bu eþyalar soðuk bölgelerde sýcak kalmanýza otomatik olarak yardýmcý olur ancak sýcak bölgelerde sizi daha da ýsýtýr.",MSG_TYPE_INFO);
+                }
+            }
 
-		}
+        }
 
-		case ITEM_TYPE_EQUIP: {
-			/*
-			////////////
-			////// NOTE: Make sure to "return" the function, so it doesn't remove the quanity later on.
-			//////////// 
-			*/
+        case ITEM_TYPE_EQUIP: {
+            /*
+            ////////////
+            ////// NOTE: Make sure to "return" the function, so it doesn't remove the quanity later on.
+            //////////// 
+            */
 
-			if ( EquippedItem [ playerid ] >= 0 ) {
+            if ( EquippedItem [ playerid ] >= 0 ) {
 
-				new equipitem = GetItemByParamID ( EquippedItem [ playerid ] ) ;
+                new equipitem = GetItemByParamID ( EquippedItem [ playerid ] ) ;
 
-				RemovePlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP ) ;
-				RemovePlayerWeapon ( playerid );
+                RemovePlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP ) ;
+                RemovePlayerWeapon ( playerid );
 
-				EquippedItem [ playerid ] = -1 ;
-				EquippedItemTile[playerid] = -1;
-				UpdateWeaponGUI ( playerid );
-				DisplayInventoryExamineGUI ( playerid, itemid, tileid ) ;
+                EquippedItem [ playerid ] = -1 ;
+                EquippedItemTile[playerid] = -1;
+                UpdateWeaponGUI ( playerid );
+                DisplayInventoryExamineGUI ( playerid, itemid, tileid ) ;
 
-				ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has unequipped their %s.",ReturnUserName ( playerid, false, true ), Item [ equipitem ] [ item_name ] ) ) ;
-				return SendServerMessage ( playerid, "The item you equipped before has been unequipped.", MSG_TYPE_ERROR ) ;
-			}
+                ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s, %s eþyasýný çýkardý.",ReturnUserName ( playerid, false, true ), Item [ equipitem ] [ item_name ] ) ) ;
+                return SendServerMessage ( playerid, "Daha önce kuþandýðýnýz eþya çýkarýldý.", MSG_TYPE_ERROR ) ;
+            }
 
-			if ( Character [ playerid ] [ character_handweapon ] ) {
+            if ( Character [ playerid ] [ character_handweapon ] ) {
 
-				return SendServerMessage ( playerid, "You have to holster your weapon before you can equip something.", MSG_TYPE_ERROR ) ;
-			}
+                return SendServerMessage ( playerid, "Bir þeyi kuþanmadan önce elinizdeki silahý kýlýfýna koymalýsýnýz.", MSG_TYPE_ERROR ) ;
+            }
 
-			if ( IsPlayerRidingHorse [ playerid ] ) {
+            if ( IsPlayerRidingHorse [ playerid ] ) {
 
-				if(Item [ itemid ] [ item_extra_param ] == SHERIFF_LASSO){
+                if(Item [ itemid ] [ item_extra_param ] == SHERIFF_LASSO){
 
-					EquippedItem [ playerid ] = SHERIFF_LASSO ;
-					EquippedItemTile [ playerid ] = tileid ;
+                    EquippedItem [ playerid ] = SHERIFF_LASSO ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					//SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, -0.018, 0.06, -0.025, 181.5, 17.5, 0.0, 1.0, 1.0, 1.0) ;
+                    //SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, -0.018, 0.06, -0.025, 181.5, 17.5, 0.0, 1.0, 1.0, 1.0) ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has equipped a lasso.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "You've equipped a lasso. Use /lasso [targetid] to target someone then use LEFT-CLICK to try and catch them.", MSG_TYPE_INFO ) ;
-					SendServerMessage(playerid, "Do not abuse the lasso for trolling. Ignoring this warning could lead you to an admin-jail or a ban.", MSG_TYPE_WARN);
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir kement kuþandý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Bir kement kuþandýnýz. Birini hedef almak için /lasso [hedef_id] komutunu kullanýn, ardýndan onu yakalamaya çalýþmak için SOL TIK kullanýn.", MSG_TYPE_INFO ) ;
+                    SendServerMessage(playerid, "Kementi trolleme amacýyla kötüye kullanmayýn. Bu uyarýyý dikkate almamak admin hapisine (jail) veya yasaklanmaya (ban) yol açabilir.", MSG_TYPE_WARN);
 
-				} else {
-					return SendServerMessage ( playerid, "You cannot equip anything while riding a horse.", MSG_TYPE_ERROR ) ;
-				}
-			}
+                } else {
+                    return SendServerMessage ( playerid, "At binerken herhangi bir eþya kuþanamazsýnýz.", MSG_TYPE_ERROR ) ;
+                }
+            }
 
-			new temp_Tick = GetTickCount(), temp_tickDiff ;
-			temp_tickDiff = temp_Tick - PlayerEquipTick[playerid];
-			
-			if ( temp_tickDiff < 3000) {
-			
-				return SendServerMessage ( playerid, sprintf("You must wait %0.2f seconds before equipping something again.",float(3000 - temp_tickDiff) / 1000.0), MSG_TYPE_ERROR ) ;
-			}		
+            new temp_Tick = GetTickCount(), temp_tickDiff ;
+            temp_tickDiff = temp_Tick - PlayerEquipTick[playerid];
+            
+            if ( temp_tickDiff < 3000) {
+            
+                return SendServerMessage ( playerid, sprintf("Tekrar bir þey kuþanmadan önce %0.2f saniye beklemelisiniz.",float(3000 - temp_tickDiff) / 1000.0), MSG_TYPE_ERROR ) ;
+            }       
 
-			PlayerEquipTick [ playerid ]  = GetTickCount();		
+            PlayerEquipTick [ playerid ]  = GetTickCount();     
 
-			switch ( Item [ itemid ] [ item_extra_param ] ) {
+            switch ( Item [ itemid ] [ item_extra_param ] ) {
 
-				case CAMERA: {
-					EquippedItem [ playerid ] = CAMERA ;
-					EquippedItemTile [ playerid ] = tileid ;
+                case CAMERA: {
+                    EquippedItem [ playerid ] = CAMERA ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					wep_GivePlayerWeapon ( playerid, WEAPON_CAMERA, 5 ) ;
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, 0.1, 181.5, 0.0, 0.0, 1.0, 1.0, 1.0 ) ;
+                    wep_GivePlayerWeapon ( playerid, WEAPON_CAMERA, 5 ) ;
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, 0.1, 181.5, 0.0, 0.0, 1.0, 1.0, 1.0 ) ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has equipped a camera.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "You've equipped a camera. You can now use take pictures.", MSG_TYPE_INFO ) ;
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir fotoðraf makinesi kuþandý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Bir fotoðraf makinesi kuþandýnýz. Artýk fotoðraf çekebilirsiniz.", MSG_TYPE_INFO ) ;
+                }
 
-				case HUNTING_KNIFE: {
-					EquippedItem [ playerid ] = HUNTING_KNIFE ;
-					EquippedItemTile [ playerid ] = tileid ;
+                case HUNTING_KNIFE: {
+                    EquippedItem [ playerid ] = HUNTING_KNIFE ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					//wep_GivePlayerWeapon ( playerid, WEAPON_KNIFE, 5 ) ;
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, -0.018, 0.06, -0.025, 181.5, 17.5, 0.0, 1.0, 1.0, 1.0) ;
+                    //wep_GivePlayerWeapon ( playerid, WEAPON_KNIFE, 5 ) ;
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, -0.018, 0.06, -0.025, 181.5, 17.5, 0.0, 1.0, 1.0, 1.0) ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has equipped a hunting knife.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "You've equipped a hunting knife. Press ~k~~SNEAK_ABOUT~ to skin a dead animal.", MSG_TYPE_INFO ) ;
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir av býçaðý kuþandý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Bir av býçaðý kuþandýnýz. Ölü bir hayvanýn derisini yüzmek için ~k~~SNEAK_ABOUT~ tuþuna basýn.", MSG_TYPE_INFO ) ;
 
-				}
+                }
 
-				case FISHING_ROD: {
+                case FISHING_ROD: {
 
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, 0.1, 181.5, 0.0, 0.0, 1.0, 1.0, 1.0 ) ;
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, 0.1, 181.5, 0.0, 0.0, 1.0, 1.0, 1.0 ) ;
 
-					EquippedItem [ playerid ] = FISHING_ROD ;
-					EquippedItemTile [ playerid ] = tileid ;
+                    EquippedItem [ playerid ] = FISHING_ROD ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has equipped a fishing rod.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "You've equipped a fishing rod. Press ~k~~SNEAK_ABOUT~ near water to fish.", MSG_TYPE_INFO ) ;	
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir olta kuþandý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Bir olta kuþandýnýz. Balýk tutmak için su kenarýnda ~k~~SNEAK_ABOUT~ tuþuna basýn.", MSG_TYPE_INFO ) ;    
 
-					/*if ( TutorialProgress [ playerid ] > 2 && TutorialProgress [ playerid ] != 7) {
+                    /*if ( TutorialProgress [ playerid ] > 2 && TutorialProgress [ playerid ] != 7) {
 
-						TutorialProgress [ playerid ] ++ ;
-						ProcessTutorialTask ( playerid ) ;
-					}	*/				
-				}
+                        TutorialProgress [ playerid ] ++ ;
+                        ProcessTutorialTask ( playerid ) ;
+                    }   */              
+                }
 
-				case DYNAMITE: {
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, 0.1, 181.5, 0.0, 0.0, 1.0, 1.0, 1.0 ) ;
-					EquippedItem [ playerid ] = DYNAMITE ;
-					EquippedItemTile [ playerid ] = tileid ;
+                case DYNAMITE: {
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, 0.1, 181.5, 0.0, 0.0, 1.0, 1.0, 1.0 ) ;
+                    EquippedItem [ playerid ] = DYNAMITE ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has equipped a set of dynamite.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "You've equipped a dynamite set. You can now use /dynamite.", MSG_TYPE_INFO ) ;
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir dinamit seti kuþandý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Bir dinamit seti kuþandýnýz. Artýk /dynamite komutunu kullanabilirsiniz.", MSG_TYPE_INFO ) ;
+                }
 
-				case MINE_PICKAXE: {
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.0709,0.0519,0.1359,0.0000,0.0000,0.0000,1.0000,1.0000,1.0000 ) ;
-					EquippedItem [ playerid ] = MINE_PICKAXE ;
-					EquippedItemTile [ playerid ] = tileid ;
+                case MINE_PICKAXE: {
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.0709,0.0519,0.1359,0.0000,0.0000,0.0000,1.0000,1.0000,1.0000 ) ;
+                    EquippedItem [ playerid ] = MINE_PICKAXE ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has equipped a pickaxe.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "You've equipped a pickaxe.  Press ~k~~SNEAK_ABOUT~ to mine a rock.", MSG_TYPE_INFO ) ;
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir kazma kuþandý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Bir kazma kuþandýnýz. Bir kayayý madenlemek için ~k~~SNEAK_ABOUT~ tuþuna basýn.", MSG_TYPE_INFO ) ;
+                }
 
-				case LUMBER_HATCHET: {
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.0709,0.0340,0.0000,0.0000,0.0000,-175.4997,1.0000,1.0000,1.0000 ) ;
-					EquippedItem [ playerid ] = LUMBER_HATCHET ;
-					EquippedItemTile [ playerid ] = tileid ;
+                case LUMBER_HATCHET: {
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.0709,0.0340,0.0000,0.0000,0.0000,-175.4997,1.0000,1.0000,1.0000 ) ;
+                    EquippedItem [ playerid ] = LUMBER_HATCHET ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has equipped a hatchet.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "You've equipped a hatchet. Press ~k~~SNEAK_ABOUT~ to chop a tree.", MSG_TYPE_INFO ) ;
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir balta kuþandý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Bir balta kuþandýnýz. Aðaç kesmek için ~k~~SNEAK_ABOUT~ tuþuna basýn.", MSG_TYPE_INFO ) ;
+                }
 
-				case LIQUOR_PALELAGER: {
+                case LIQUOR_PALELAGER: {
 
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.2, -0.2, 0.0, 3.8, 1, 1, 1 ) ;
-					EquippedItem [ playerid ] = LIQUOR_PALELAGER ;
-					EquippedItemTile [ playerid ] = tileid ;
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.2, -0.2, 0.0, 3.8, 1, 1, 1 ) ;
+                    EquippedItem [ playerid ] = LIQUOR_PALELAGER ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has opened a bottle of Pale Lager Liquor.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "Use /drink to drink. You can unequip the bottle by using unequip.", MSG_TYPE_INFO ) ;	
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir Pale Lager içki þiþesi açtý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Ýçmek için /drink kullanýn. Þiþeyi kuþanmayý býrakarak elinizden çýkarabilirsiniz.", MSG_TYPE_INFO ) ;    
+                }
 
-				case LIQUOR_MILDALE: {
+                case LIQUOR_MILDALE: {
 
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.2, -0.2, 0.0, 3.8, 1, 1, 1 ) ;
-					EquippedItem [ playerid ] = LIQUOR_MILDALE ;
-					EquippedItemTile [ playerid ] = tileid ;
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.2, -0.2, 0.0, 3.8, 1, 1, 1 ) ;
+                    EquippedItem [ playerid ] = LIQUOR_MILDALE ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has opened a bottle of Pale Lager Liquor.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "Use /drink to drink. You can unequip the bottle by using unequip.", MSG_TYPE_INFO ) ;	
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir Pale Lager içki þiþesi açtý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Ýçmek için /drink kullanýn. Þiþeyi kuþanmayý býrakarak elinizden çýkarabilirsiniz.", MSG_TYPE_INFO ) ;    
+                }
 
-				case LIQUOR_MALTLIQUOR: {
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.2, -0.2, 0.0, 3.8, 1, 1, 1 ) ;
-					EquippedItem [ playerid ] = LIQUOR_MALTLIQUOR ;
-					EquippedItemTile [ playerid ] = tileid ;
+                case LIQUOR_MALTLIQUOR: {
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.2, -0.2, 0.0, 3.8, 1, 1, 1 ) ;
+                    EquippedItem [ playerid ] = LIQUOR_MALTLIQUOR ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has opened a bottle of Malt Liquor.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "Use /drink to drink. You can unequip the bottle by using unequip.", MSG_TYPE_INFO ) ;	
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir Malt içki þiþesi açtý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Ýçmek için /drink kullanýn. Þiþeyi kuþanmayý býrakarak elinizden çýkarabilirsiniz.", MSG_TYPE_INFO ) ;    
+                }
 
-				case LIQUOR_WHEATBEER: {
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.0, 0.0, -0.072, -0.2, 19.0, 3.8, 1.0, 1.0, 1.0 ) ;
+                case LIQUOR_WHEATBEER: {
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.0, 0.0, -0.072, -0.2, 19.0, 3.8, 1.0, 1.0, 1.0 ) ;
 
-					EquippedItem [ playerid ] = LIQUOR_WHEATBEER ;
-					EquippedItemTile [ playerid ] = tileid ;
+                    EquippedItem [ playerid ] = LIQUOR_WHEATBEER ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has opened a bottle of Wheat Beer.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "Use /drink to drink. You can unequip the bottle by using unequip.", MSG_TYPE_INFO ) ;	
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir Buðday Birasý þiþesi açtý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Ýçmek için /drink kullanýn. Þiþeyi kuþanmayý býrakarak elinizden çýkarabilirsiniz.", MSG_TYPE_INFO ) ;    
+                }
 
-				case LIQUOR_WHITEWINE: {
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.292, -0.2, 0.0, 3.8, 0.81, 0.83, 0.703 ) ;
-					EquippedItem [ playerid ] = LIQUOR_WHITEWINE ;
-					EquippedItemTile [ playerid ] = tileid ;
+                case LIQUOR_WHITEWINE: {
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.292, -0.2, 0.0, 3.8, 0.81, 0.83, 0.703 ) ;
+                    EquippedItem [ playerid ] = LIQUOR_WHITEWINE ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has opened a bottle of White Wine.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "Use /drink to drink. You can unequip the bottle by using unequip.", MSG_TYPE_INFO ) ;	
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir Beyaz Þarap þiþesi açtý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Ýçmek için /drink kullanýn. Þiþeyi kuþanmayý býrakarak elinizden çýkarabilirsiniz.", MSG_TYPE_INFO ) ;    
+                }
 
-				case LIQUOR_REDWINE: {
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.292, -0.2, 0.0, 3.8, 0.81, 0.83, 0.703 ) ;
-					EquippedItem [ playerid ] = LIQUOR_REDWINE ;
-					EquippedItemTile [ playerid ] = tileid ;
+                case LIQUOR_REDWINE: {
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.292, -0.2, 0.0, 3.8, 0.81, 0.83, 0.703 ) ;
+                    EquippedItem [ playerid ] = LIQUOR_REDWINE ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has opened a bottle of Red Wine.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "Use /drink to drink. You can unequip the bottle by using unequip.", MSG_TYPE_INFO ) ;	
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir Kýrmýzý Þarap þiþesi açtý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Ýçmek için /drink kullanýn. Þiþeyi kuþanmayý býrakarak elinizden çýkarabilirsiniz.", MSG_TYPE_INFO ) ;    
+                }
 
-				case LIQUOR_GRAINWHISKEY: {
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.22, -0.20, 0.0, 3.8, 0.81, 0.83, 0.70 );
+                case LIQUOR_GRAINWHISKEY: {
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.22, -0.20, 0.0, 3.8, 0.81, 0.83, 0.70 );
 
-					EquippedItem [ playerid ] = LIQUOR_GRAINWHISKEY ;
-					EquippedItemTile [ playerid ] = tileid ;
+                    EquippedItem [ playerid ] = LIQUOR_GRAINWHISKEY ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has opened a bottle of Grain Whiskey.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "Use /drink to drink. You can unequip the bottle by using unequip.", MSG_TYPE_INFO ) ;	
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir Tahýl Viskisi þiþesi açtý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Ýçmek için /drink kullanýn. Þiþeyi kuþanmayý býrakarak elinizden çýkarabilirsiniz.", MSG_TYPE_INFO ) ;    
+                }
 
-				case LIQUOR_MALTWHISKEY: {
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.292, -0.2, 0.0, 3.8, 0.81, 0.83, 0.703 ) ;
-					EquippedItem [ playerid ] = LIQUOR_MALTWHISKEY ;
-					EquippedItemTile [ playerid ] = tileid ;
+                case LIQUOR_MALTWHISKEY: {
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, 0.08, 0.04, -0.292, -0.2, 0.0, 3.8, 0.81, 0.83, 0.703 ) ;
+                    EquippedItem [ playerid ] = LIQUOR_MALTWHISKEY ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has opened a bottle of Malt Whiskey.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "Use /drink to drink. You can unequip the bottle by using unequip.", MSG_TYPE_INFO ) ;	
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir Malt Viskisi þiþesi açtý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Ýçmek için /drink kullanýn. Þiþeyi kuþanmayý býrakarak elinizden çýkarabilirsiniz.", MSG_TYPE_INFO ) ;    
+                }
 
-				case LIQUOR_VODKA: {
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6,  0.08, 0.04, -0.292, -0.2, 0.0, 3.8, 0.81, 0.83, 0.703 ) ;
-					EquippedItem [ playerid ] = LIQUOR_VODKA ;
-					EquippedItemTile [ playerid ] = tileid ;
+                case LIQUOR_VODKA: {
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6,  0.08, 0.04, -0.292, -0.2, 0.0, 3.8, 0.81, 0.83, 0.703 ) ;
+                    EquippedItem [ playerid ] = LIQUOR_VODKA ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has opened a bottle of Moonshine Vodka.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "Use /smoke 1 to drink. You can unequip the bottle by using unequip.", MSG_TYPE_INFO ) ;	
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir Kaçak Viski Votka þiþesi açtý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Ýçmek için /smoke 1 kullanýn. Þiþeyi kuþanmayý býrakarak elinizden çýkarabilirsiniz.", MSG_TYPE_INFO ) ;  
+                }
 
-				case SMOKE_CIGARPACK: {
-					DecreaseItem ( playerid, tileid, 1 ) ;
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, 1485, 6, 0.015, -0.022, 0.019, -0.20, 0.0, 3.8, 0.81, 0.83, 0.70 ) ;
+                case SMOKE_CIGARPACK: {
+                    DecreaseItem ( playerid, tileid, 1 ) ;
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, 1485, 6, 0.015, -0.022, 0.019, -0.20, 0.0, 3.8, 0.81, 0.83, 0.70 ) ;
 
-					EquippedItem [ playerid ] = SMOKE_CIGARPACK ;
-					EquippedItemTile [ playerid ] = tileid ;
+                    EquippedItem [ playerid ] = SMOKE_CIGARPACK ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s pulled out a cigar from his pack and lit it up.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "Use /smoke 1 to smoke. Simply unequip to stop smoking.", MSG_TYPE_INFO ) ;	
-				}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s paketinden bir puro çýkardý ve yaktý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Ýçmek için /smoke 1 kullanýn. Sigara içmeyi durdurmak için kuþanmayý býrakmanýz yeterlidir.", MSG_TYPE_INFO ) ;   
+                }
 
-				case SMOKE_BLUNTPACK: {
-					DecreaseItem ( playerid, tileid, 1 ) ;
+                case SMOKE_BLUNTPACK: {
+                    DecreaseItem ( playerid, tileid, 1 ) ;
 
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, 3027, 6, 0.11, 0.00, 0.033, 63, 69.2, 3.8, 0.81, 0.83, 0.70 ) ;
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, 3027, 6, 0.11, 0.00, 0.033, 63, 69.2, 3.8, 0.81, 0.83, 0.70 ) ;
 
-					EquippedItem [ playerid ] = SMOKE_BLUNTPACK ;
-					EquippedItemTile [ playerid ] = tileid ;
+                    EquippedItem [ playerid ] = SMOKE_BLUNTPACK ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s pulled out a rolled cigarette from his pack and lit it up.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "Use /smoke to smoke. Simply unequip to stop smoking.", MSG_TYPE_INFO ) ;				
-				}
-
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s paketinden sarýlmýþ bir sigara çýkardý ve yaktý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Ýçmek için /smoke kullanýn. Sigara içmeyi durdurmak için kuþanmayý býrakmanýz yeterlidir.", MSG_TYPE_INFO ) ;            
+                }
 				case SHERIFF_LASSO: {
 
-					EquippedItem [ playerid ] = SHERIFF_LASSO ;
-					EquippedItemTile [ playerid ] = tileid ;
+                    EquippedItem [ playerid ] = SHERIFF_LASSO ;
+                    EquippedItemTile [ playerid ] = tileid ;
 
-					SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, -0.018, 0.06, -0.025, 181.5, 17.5, 0.0, 1.0, 1.0, 1.0) ;
+                    SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, Item [ itemid ] [ item_model ], 6, -0.018, 0.06, -0.025, 181.5, 17.5, 0.0, 1.0, 1.0, 1.0) ;
 
-					ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has equipped a lasso.",ReturnUserName ( playerid, false, true ) ) ) ;
-					SendServerMessage ( playerid, "You've equipped a lasso. Use /lasso [targetid] to target someone then use LEFT-CLICK to try and catch them.", MSG_TYPE_INFO ) ;
-					SendServerMessage(playerid, "Do not abuse the lasso for trolling. Ignoring this warning could lead you to an admin-jail or a ban.", MSG_TYPE_WARN);
-				}
-			}
+                    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s bir kement kuþandý.",ReturnUserName ( playerid, false, true ) ) ) ;
+                    SendServerMessage ( playerid, "Bir kement kuþandýnýz. Birini hedef almak için /lasso [hedef_id] komutunu kullanýn, ardýndan onu yakalamaya çalýþmak için SOL TIK kullanýn.", MSG_TYPE_INFO ) ;
+                    SendServerMessage(playerid, "Kementi trolleme amacýyla kötüye kullanmayýn. Bu uyarýyý dikkate almamak admin hapisine (jail) veya yasaklanmaya (ban) yol açabilir.", MSG_TYPE_WARN);
+                }
+            }
 
-			DisplayInventoryExamineGUI ( playerid, itemid, tileid ) ;
-			UpdateWeaponGUI ( playerid ) ;
+            DisplayInventoryExamineGUI ( playerid, itemid, tileid ) ;
+            UpdateWeaponGUI ( playerid ) ;
 
-			return true ;
+            return true ;
 
-		}
+        }
 
-		case ITEM_TYPE_SEED: {
+        case ITEM_TYPE_SEED: {
 
-			new i = FindNearestSoil(playerid, 4.0);
+            new i = FindNearestSoil(playerid, 4.0);
 
-			if(i == INVALID_SOIL_ID){
-				return SendServerMessage(playerid, "You aren't near any plants.", MSG_TYPE_ERROR);
-			} else {
+            if(i == INVALID_SOIL_ID){
+                return SendServerMessage(playerid, "Yakýnlarda herhangi bir tarým topraðý veya bitki yok.", MSG_TYPE_ERROR);
+            } else {
 
-				if(Character[playerid][character_id] == Soil[i][soil_owner]){
+                if(Character[playerid][character_id] == Soil[i][soil_owner]){
 
-					if(Soil[i][soil_state] == SOIL_STATE_DIGGED){
+                    if(Soil[i][soil_state] == SOIL_STATE_DIGGED){
 
-						DecreaseItem ( playerid, tileid, 1 );
+                        DecreaseItem ( playerid, tileid, 1 );
 
-						switch ( Item [ itemid ] [ item_extra_param ] ) {
+                        switch ( Item [ itemid ] [ item_extra_param ] ) {
 
-							case SEED_ORANGE: {
-								Soil[i][soil_state] = SOIL_STATE_SEEDED;
-								Soil[i][soil_plant] = PLANT_ORANGE;
+                            case SEED_ORANGE: {
+                                Soil[i][soil_state] = SOIL_STATE_SEEDED;
+                                Soil[i][soil_plant] = PLANT_ORANGE;
 
-								SendServerMessage(playerid, "You have planted a orange seed!", MSG_TYPE_INFO);
-								SetupSoil(i);
-							}
+                                SendServerMessage(playerid, "Bir portakal tohumu ektiniz!", MSG_TYPE_INFO);
+                                SetupSoil(i);
+                            }
 
-							case SEED_APPLE_RED: {
-								Soil[i][soil_state] = SOIL_STATE_SEEDED;
-								Soil[i][soil_plant] = PLANT_APPLE_RED;
+                            case SEED_APPLE_RED: {
+                                Soil[i][soil_state] = SOIL_STATE_SEEDED;
+                                Soil[i][soil_plant] = PLANT_APPLE_RED;
 
-								SendServerMessage(playerid, "You have planted a red apple seed!", MSG_TYPE_INFO);
-								SetupSoil(i);
-							}
+                                SendServerMessage(playerid, "Bir kýrmýzý elma tohumu ektiniz!", MSG_TYPE_INFO);
+                                SetupSoil(i);
+                            }
 
-							case SEED_APPLE_GREEN: {
-								Soil[i][soil_state] = SOIL_STATE_SEEDED;
-								Soil[i][soil_plant] = PLANT_APPLE_GREEN;
+                            case SEED_APPLE_GREEN: {
+                                Soil[i][soil_state] = SOIL_STATE_SEEDED;
+                                Soil[i][soil_plant] = PLANT_APPLE_GREEN;
 
-								SendServerMessage(playerid, "You have planted a green apple seed!", MSG_TYPE_INFO);
-								SetupSoil(i);
-							}
+                                SendServerMessage(playerid, "Bir yeþil elma tohumu ektiniz!", MSG_TYPE_INFO);
+                                SetupSoil(i);
+                            }
 
-							case SEED_TOMATO: {
-								Soil[i][soil_state] = SOIL_STATE_SEEDED;
-								Soil[i][soil_plant] = PLANT_TOMATO;
+                            case SEED_TOMATO: {
+                                Soil[i][soil_state] = SOIL_STATE_SEEDED;
+                                Soil[i][soil_plant] = PLANT_TOMATO;
 
-								SendServerMessage(playerid, "You have planted a tomato seed!", MSG_TYPE_INFO);
-								SetupSoil(i);
-							}
+                                SendServerMessage(playerid, "Bir domates tohumu ektiniz!", MSG_TYPE_INFO);
+                                SetupSoil(i);
+                            }
 
-							case SEED_CABBAGE: {
-								Soil[i][soil_state] = SOIL_STATE_SEEDED;
-								Soil[i][soil_plant] = PLANT_CABBAGE;
+                            case SEED_CABBAGE: {
+                                Soil[i][soil_state] = SOIL_STATE_SEEDED;
+                                Soil[i][soil_plant] = PLANT_CABBAGE;
 
-								SendServerMessage(playerid, "You have planted a cabbage seed!", MSG_TYPE_INFO);
-								SetupSoil(i);
-							}
+                                SendServerMessage(playerid, "Bir lahana tohumu ektiniz!", MSG_TYPE_INFO);
+                                SetupSoil(i);
+                            }
 
-							case SEED_PUMPKIN: {
-								Soil[i][soil_state] = SOIL_STATE_SEEDED;
-								Soil[i][soil_plant] = PLANT_PUMPKIN;
+                            case SEED_PUMPKIN: {
+                                Soil[i][soil_state] = SOIL_STATE_SEEDED;
+                                Soil[i][soil_plant] = PLANT_PUMPKIN;
 
-								SendServerMessage(playerid, "You have planted a pumpkin seed!", MSG_TYPE_INFO);
-								SetupSoil(i);
-							}
+                                SendServerMessage(playerid, "Bir bal kabaðý tohumu ektiniz!", MSG_TYPE_INFO);
+                                SetupSoil(i);
+                            }
 
-							case SEED_WHEAT: {
-								Soil[i][soil_state] = SOIL_STATE_SEEDED;
-								Soil[i][soil_plant] = PLANT_WHEAT;
+                            case SEED_WHEAT: {
+                                Soil[i][soil_state] = SOIL_STATE_SEEDED;
+                                Soil[i][soil_plant] = PLANT_WHEAT;
 
-								SendServerMessage(playerid, "You have planted a wheat seed!", MSG_TYPE_INFO);
-								SetupSoil(i);
-							}
-						}
-					}
-					else {
-						return SendServerMessage(playerid, "You can't plant a seed on this soil right now!", MSG_TYPE_ERROR);
-					}
-				}
-				else {
-					return SendServerMessage(playerid, "You don't own this soil.", MSG_TYPE_ERROR);
-				}
-			}
-			return true;
-		}
-	
+                                SendServerMessage(playerid, "Bir buðday tohumu ektiniz!", MSG_TYPE_INFO);
+                                SetupSoil(i);
+                            }
+                        }
+                    }
+                    else {
+                        return SendServerMessage(playerid, "Þu anda bu topraða tohum ekemezsiniz!", MSG_TYPE_ERROR);
+                    }
+                }
+                else {
+                    return SendServerMessage(playerid, "Bu toprak size ait deðil.", MSG_TYPE_ERROR);
+                }
+            }
+            return true;
+        }
+    
 
-		case ITEM_TYPE_JUNK: {
-			// Check if player is near shopkeeper then sell it
-		}
+        case ITEM_TYPE_JUNK: {
+            // Check if player is near shopkeeper then sell it
+        }
 
-		case ITEM_TYPE_SELL: {
-			
-			/*if ( TutorialProgress [ playerid ] != MAX_TUTORIAL_PROGRESS) {
-				if ( Item [ itemid ] [ item_extra_param ] == FISHING_BLUE_1 ||  Item [ itemid ] [ item_extra_param ] == FISHING_BLUE_2 ||
-			 	Item [ itemid ] [ item_extra_param ] == FISHING_YELLOW ||  Item [ itemid ] [ item_extra_param ] == FISHING_BIGFISH ||
-			  	Item [ itemid ] [ item_extra_param ] == FISHING_SHARK ) {
+        case ITEM_TYPE_SELL: {
+            
+            /*if ( TutorialProgress [ playerid ] != MAX_TUTORIAL_PROGRESS) {
+                if ( Item [ itemid ] [ item_extra_param ] == FISHING_BLUE_1 ||  Item [ itemid ] [ item_extra_param ] == FISHING_BLUE_2 ||
+                Item [ itemid ] [ item_extra_param ] == FISHING_YELLOW ||  Item [ itemid ] [ item_extra_param ] == FISHING_BIGFISH ||
+                Item [ itemid ] [ item_extra_param ] == FISHING_SHARK ) {
 
-					DiscardItem ( playerid, tileid ) ;
-					GiveCharacterMoney ( playerid, 50, MONEY_SLOT_HAND ) ;
+                    DiscardItem ( playerid, tileid ) ;
+                    GiveCharacterMoney ( playerid, 50, MONEY_SLOT_HAND ) ;
 
-					SendServerMessage ( playerid, sprintf("You have sold your %s for $%s.", Item [ itemid ] [ item_name ], IntegerWithDelimiter ( 50 ) ), MSG_TYPE_INFO ) ;
+                    SendServerMessage ( playerid, sprintf("You have sold your %s for $%s.", Item [ itemid ] [ item_name ], IntegerWithDelimiter ( 50 ) ), MSG_TYPE_INFO ) ;
 
-					TutorialProgress [ playerid ] ++ ;
-					ProcessTutorialTask ( playerid ) ;
+                    TutorialProgress [ playerid ] ++ ;
+                    ProcessTutorialTask ( playerid ) ;
 
-					return true ;
-				}
-			}*/
+                    return true ;
+                }
+            }*/
 
-			if(Item[itemid][item_extra_param] == WILDLIFE_MEAT || Item[itemid][item_extra_param] == WILDLIFE_MEAT_LEG) {
+            if(Item[itemid][item_extra_param] == WILDLIFE_MEAT || Item[itemid][item_extra_param] == WILDLIFE_MEAT_LEG) {
 
-				for(new i=0; i<sizeof(CookingLocations); i++) {
+                for(new i=0; i<sizeof(CookingLocations); i++) {
 
-					if(IsPlayerInRangeOfPoint(playerid, 2.5, CookingLocations[i][0],CookingLocations[i][1],CookingLocations[i][2])) {
+                    if(IsPlayerInRangeOfPoint(playerid, 2.5, CookingLocations[i][0],CookingLocations[i][1],CookingLocations[i][2])) {
 
-						task_yield(1);
+                        task_yield(1);
 
-						new error, dialog_response[e_DIALOG_RESPONSE_INFO];
+                        new error, dialog_response[e_DIALOG_RESPONSE_INFO];
 
-						for(;;) {
+                        for(;;) {
 
-							switch(error) {
+                            switch(error) {
 
-								case 0: {
-									
-									await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Cooking Location", sprintf("{FFFFFF}Please enter amount you wish to cook. (Max: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Cook","Exit");
-								}
-								case 1: {
-									
-									await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Cooking Location", sprintf("{CF4040}Amount needs to be a number.{FFFFFF}\n\nPlease enter amount you wish to cook. (Max: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Cook","Exit");
-								}
-								case 2: {
-									
-									await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Cooking Location", sprintf("{CF4040}Amount needs to be a positive number or more than 0.{FFFFFF}\n\nPlease enter amount you wish to cook. (Max: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Cook","Exit");
-								}
-								case 3: {
-									
-									await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Cooking Location", sprintf("{CF4040}You do not have that much of this meat, refer to max amount.{FFFFFF}\n\nPlease enter amount you wish to cook. (Max: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Cook","Exit");
-								}
-							}
+                                case 0: {
+                                    
+                                    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Piþirme Alaný", sprintf("{FFFFFF}Lütfen piþirmek istediðiniz miktarý girin. (Maksimum: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Piþir","Çýkýþ");
+                                }
+                                case 1: {
+                                    
+                                    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Piþirme Alaný", sprintf("{CF4040}Miktar bir sayý olmalýdýr.{FFFFFF}\n\nLütfen piþirmek istediðiniz miktarý girin. (Maksimum: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Piþir","Çýkýþ");
+                                }
+                                case 2: {
+                                    
+                                    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Piþirme Alaný", sprintf("{CF4040}Miktar pozitif bir sayý veya 0'dan büyük olmalýdýr.{FFFFFF}\n\nLütfen piþirmek istediðiniz miktarý girin. (Maksimum: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Piþir","Çýkýþ");
+                                }
+                                case 3: {
+                                    
+                                    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Piþirme Alaný", sprintf("{CF4040}Elinizde bu kadar et bulunmuyor, maksimum miktara dikkat edin.{FFFFFF}\n\nLütfen piþirmek istediðiniz miktarý girin. (Maksimum: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Piþir","Çýkýþ");
+                                }
+                            }
 
-							error = 0;
+                            error = 0;
 
-							if(dialog_response[E_DIALOG_RESPONSE_Response]) {
+                            if(dialog_response[E_DIALOG_RESPONSE_Response]) {
 
-								if(!IsNumeric(dialog_response[E_DIALOG_RESPONSE_InputText])) {
+                                if(!IsNumeric(dialog_response[E_DIALOG_RESPONSE_InputText])) {
 
-									error = 1;
-								}
-								else if(strval(dialog_response[E_DIALOG_RESPONSE_InputText]) <= 0) {
+                                    error = 1;
+                                }
+                                else if(strval(dialog_response[E_DIALOG_RESPONSE_InputText]) <= 0) {
 
-									error = 2;
-								}
-								else if(strval(dialog_response[E_DIALOG_RESPONSE_InputText]) > PlayerItem[playerid][tileid][player_item_amount]) {
+                                    error = 2;
+                                }
+                                else if(strval(dialog_response[E_DIALOG_RESPONSE_InputText]) > PlayerItem[playerid][tileid][player_item_amount]) {
 
-									error = 3;
-								}
+                                    error = 3;
+                                }
 
-								if(error) {
+                                if(error) {
 
-									continue;
-								}
+                                    continue;
+                                }
 
-								if(Item[itemid][item_extra_param] == WILDLIFE_MEAT) {
+                                if(Item[itemid][item_extra_param] == WILDLIFE_MEAT) {
 
-									if(GivePlayerItemByParam(playerid, PARAM_HUNGER, FOOD_COOKED_MEAT, strval(dialog_response[E_DIALOG_RESPONSE_InputText]), PARAM_HUNGER, FOOD_COOKED_MEAT, 0)) {
-										
-										DecreaseItem(playerid,tileid,strval(dialog_response[E_DIALOG_RESPONSE_InputText]));
-										return SendServerMessage(playerid,sprintf("You've cooked %d pieces of meat.",strval(dialog_response[E_DIALOG_RESPONSE_InputText])),MSG_TYPE_INFO);
-									}
-								}
-								else {
+                                    if(GivePlayerItemByParam(playerid, PARAM_HUNGER, FOOD_COOKED_MEAT, strval(dialog_response[E_DIALOG_RESPONSE_InputText]), PARAM_HUNGER, FOOD_COOKED_MEAT, 0)) {
+                                        
+                                        DecreaseItem(playerid,tileid,strval(dialog_response[E_DIALOG_RESPONSE_InputText]));
+                                        return SendServerMessage(playerid,sprintf("%d adet et piþirdiniz.",strval(dialog_response[E_DIALOG_RESPONSE_InputText])),MSG_TYPE_INFO);
+                                    }
+                                }
+                                else {
 
-									if(GivePlayerItemByParam(playerid, PARAM_HUNGER, FOOD_COOKED_MEAT_LEG, strval(dialog_response[E_DIALOG_RESPONSE_InputText]), PARAM_HUNGER, FOOD_COOKED_MEAT_LEG, 0)) {
-										
-										DecreaseItem(playerid,tileid,strval(dialog_response[E_DIALOG_RESPONSE_InputText]));
-										return SendServerMessage(playerid,sprintf("You've cooked %d pieces of meat leg.",strval(dialog_response[E_DIALOG_RESPONSE_InputText])),MSG_TYPE_INFO);
-									}
-								}
-							}
+                                    if(GivePlayerItemByParam(playerid, PARAM_HUNGER, FOOD_COOKED_MEAT_LEG, strval(dialog_response[E_DIALOG_RESPONSE_InputText]), PARAM_HUNGER, FOOD_COOKED_MEAT_LEG, 0)) {
+                                        
+                                        DecreaseItem(playerid,tileid,strval(dialog_response[E_DIALOG_RESPONSE_InputText]));
+                                        return SendServerMessage(playerid,sprintf("%d adet but eti piþirdiniz.",strval(dialog_response[E_DIALOG_RESPONSE_InputText])),MSG_TYPE_INFO);
+                                    }
+                                }
+                            }
 
-							break;
-						}
+                            break;
+                        }
 
-				        return 1;
-					}
-					else continue;
-				}
+                        return 1;
+                    }
+                    else continue;
+                }
 
 				foreach(new i : Player) {
 
