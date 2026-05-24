@@ -33,60 +33,55 @@ SetHairType(playerid, hairtype){
 
 RemoveHairStage(playerid){
 
-	if(Character[playerid][character_gender] == 1)
+	if(Character[playerid][character_gender] == 1) // Kadın karakterse işlem yapma
 		return true;
 
 	switch(Character[playerid][character_beard]){
 
 		case HAIR_NONE: 
-			print("can't remove a non-existent hair.");
+			print("Hata: Olmayan bir saçı/sakalı kesemezsin.");
 
 		case BEARD_SLIGHT: {
 			Character[playerid][character_beard] = HAIR_NONE;
-			printf("char %i new haircut: none", Character[playerid][character_id]);
+			printf("Karakter %i yeni tarz: Sakalsız", Character[playerid][character_id]);
 		}
 
 		case BEARD_SMALL: {
 			Character[playerid][character_beard] = BEARD_SLIGHT;
-			printf("char %i new haircut: beard slight", Character[playerid][character_id]);
-		}
-
-		case BEARD_SLIGHT: {
-			Character[playerid][character_beard] = BEARD_MEDIUM;
-			printf("char %i new haircut: beard medium", Character[playerid][character_id]);
+			printf("Karakter %i yeni tarz: Hafif kirli sakal", Character[playerid][character_id]);
 		}
 
 		case BEARD_MEDIUM: {
-			Character[playerid][character_beard] = BEARD_LONG;
-			printf("char %i new haircut: beard long", Character[playerid][character_id]);
+			Character[playerid][character_beard] = BEARD_SMALL;
+			printf("Karakter %i yeni tarz: Kısa sakal", Character[playerid][character_id]);
 		}
 
 		case BEARD_LONG: {
-			Character[playerid][character_beard] = BEARD_EXTREME;
-			printf("char %i new haircut: beard extreme", Character[playerid][character_id]);
+			Character[playerid][character_beard] = BEARD_MEDIUM;
+			printf("Karakter %i yeni tarz: Orta boy sakal", Character[playerid][character_id]);
 		}
 
 		case BEARD_EXTREME: {
-			printf("char %i new haircut: can't grow anymore", Character[playerid][character_id]);
+			Character[playerid][character_beard] = BEARD_LONG;
+			printf("Karakter %i yeni tarz: Uzun sakal", Character[playerid][character_id]);
 		}
 
 		case MOUSTACHE_SMALL: {
 			Character[playerid][character_beard] = HAIR_NONE;
-			printf("char %i new haircut: none", Character[playerid][character_id]);
+			printf("Karakter %i yeni tarz: Bıyıksız", Character[playerid][character_id]);
 		}
 
 		case MOUSTACHE_MEDIUM: {
 			Character[playerid][character_beard] = MOUSTACHE_SMALL;
-			printf("char %i new haircut: moustache small", Character[playerid][character_id]);
+			printf("Karakter %i yeni tarz: Kısa bıyık", Character[playerid][character_id]);
 		}
 
 		case MOUSTACHE_LONG: {
 			Character[playerid][character_beard] = MOUSTACHE_MEDIUM;
-			printf("char %i new haircut: medium moustache", Character[playerid][character_id]);
+			printf("Karakter %i yeni tarz: Orta boy bıyık", Character[playerid][character_id]);
 		}
 	}
 
 	return true;
 }
-
 
