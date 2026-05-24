@@ -17,7 +17,9 @@ new STAFF_MOTD [ 256 ] = "You can now use {D9AF79}/asoil{DEDEDE} and {D9AF79}/at
 
 #define MIXED_SPELLINGS
 #define MAX_PLAYERS 100
-
+//warnings
+#pragma warning disable 217
+//
 #include <open.mp>
 //#include <profiler>
 
