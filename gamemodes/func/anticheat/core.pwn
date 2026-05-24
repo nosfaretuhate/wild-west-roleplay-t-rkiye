@@ -41,7 +41,7 @@ CheckCBug ( playerid, weaponid, tickcount ) {
 		time = GetTickDiff ( GetTickCount(), tickcount ) ;
 		if ( time < 650 ) {
 
-			WriteLog (playerid, "cbug", sprintf("(%d) %s has tried to c-bug.", playerid, ReturnUserName ( playerid, true, false )));
+			WriteLog (playerid, "cbug", sprintf("(%d) %s c-bug yapmaya çalýþtý.", playerid, ReturnUserName ( playerid, true, false )));
 
 			TogglePlayerControllable ( playerid, false ) ;
 			SetTimerEx("CBugRelease", 750, false, "i", playerid);
@@ -67,11 +67,11 @@ public CBugRelease(playerid) {
 
 /*
 
-ANTI TP HACK:
+IÞINLANMA (TP) HÝLESÝ KORUMASI:
 
-Hook SetPlayerPos to save positions in a variable
-Update this variable every 2-3 seconds with new position & check if the player is in range of previous position (15)
-If they aren't, send tp hack warning
+SetPlayerPos'u bir deðiþkende pozisyonlarý kaydetmek için baðla
+Bu deðiþkeni her 2-3 saniyede bir yeni pozisyonla güncelle & oyuncunun önceki pozisyonun (15) menzilinde olup olmadýðýný kontrol et
+Eðer deðilse, ýþýnlanma hilesi uyarýsý gönder
 
 */
 
@@ -107,7 +107,6 @@ ac_SetPlayerPos(playerid, Float: x, Float: y, Float: z, fadein = 1, streamin = 1
 		SetPlayerPos(playerid, Float: x, Float: y, Float: z);
 	}
 
-	//Streamer_Update(playerid);
 	if ( streamin ) {
 		SetTimerEx("UpdateStreamer", 750, false, "i", playerid);
 	}
@@ -121,43 +120,17 @@ public UpdateStreamer(playerid) {
 	return Streamer_Update(playerid);
 }
 
-/*ptask PlayerPositionStorage[500](playerid) {
-
-////	print("PlayerPositionStorage timer called (anticheat/core.pwn)");
-
-	if ( IsPlayerSpawned ( playerid ) ) {
-
-		new Float: x, Float: y, Float: z ;
-		GetPlayerPos ( playerid, x, y, z ) ;
-
-		player_AC_Pos_X [ playerid ] = x ;
-		player_AC_Pos_Y [ playerid ] = y ;
-		player_AC_Pos_Z [ playerid ] = z ;
-	}
-
-	return true ;
-}*/
-
 ptask PlayerAntiCheat[750](playerid){ //350
 
-////	print("PlayerAntiCheat timer called (anticheat/core.pwn)");
+////	print("PlayerAntiCheat zamanlayýcýsý çaðrýldý (anticheat/core.pwn)");
 
 	if ( IsPlayerSpawned ( playerid ) && ! IsPlayerPaused ( playerid ) ) {
-
-		/*new Float: x, Float: y, Float: z ;
-		GetPlayerPos ( playerid, x, y, z ) ;
-
-		if ( ! IsPlayerInRangeOfPoint(playerid, 10.0, player_AC_Pos_X [ playerid ], player_AC_Pos_Y [ playerid ],  player_AC_Pos_Z [ playerid ] ) ) {
-
-			new Float: ac_dist = GetPlayerDistanceFromPoint(playerid, player_AC_Pos_X [ playerid ], player_AC_Pos_Y [ playerid ],  player_AC_Pos_Z [ playerid ] ) ;
-			SendModeratorWarning ( sprintf("[ANTICHEAT] (%d) %s may be TP hacking! They're %0.3f yards away from prev. pos.", playerid, ReturnUserName ( playerid, true ), ac_dist), MOD_WARNING_HIGH );
-		}*/
 
 		if ( Character [ playerid ] [ character_level ] < 1 && Character [ playerid ] [ character_level ] < 3 ) {
 		
 			if ( GetPlayerWeapon ( playerid ) && GetPlayerWeapon ( playerid ) != Character [ playerid ] [ character_handweapon ]) {
 
-				SendModeratorWarning ( sprintf("[WEAPON] (%d) %s is below level 3 but has a weapon. (client gun doesnt match server gun)", playerid, ReturnUserName ( playerid ) ), MOD_WARNING_HIGH );
+				SendModeratorWarning ( sprintf("[SÝLAH] (%d) %s 3. seviyenin altýnda ama bir silahý var. (istemci silahý sunucu silahýyla uyuþmuyor)", playerid, ReturnUserName ( playerid ) ), MOD_WARNING_HIGH );
 
 			}
 
@@ -167,8 +140,8 @@ ptask PlayerAntiCheat[750](playerid){ //350
 
 		if ( ! IsPlayerLogged [ playerid ] && !LogoutPermission [ playerid ] ) {
 
-			WriteLog ( playerid, "epp", sprintf("(%d) %s has spawned without being logged in", playerid, ReturnUserName ( playerid ) )) ;
-			SendModeratorWarning ( sprintf("[EPP] (%d) %s has spawned without being logged in. They should be kicked. If not, kick them.", playerid, ReturnUserName ( playerid ) ), MOD_WARNING_HIGH );
+			WriteLog ( playerid, "epp", sprintf("(%d) %s giriþ yapmadan doðdu", playerid, ReturnUserName ( playerid ) )) ;
+			SendModeratorWarning ( sprintf("[EPP] (%d) %s giriþ yapmadan doðdu. Atýlmasý gerekiyor. Atýlmazsa siz atýn.", playerid, ReturnUserName ( playerid ) ), MOD_WARNING_HIGH );
 
 			KickPlayer ( playerid ) ;
 		}
@@ -180,8 +153,8 @@ ptask PlayerAntiCheat[750](playerid){ //350
 				return false ;
 			}
 
-			WriteLog ( playerid, "anticheat", sprintf("(%d) %s has been kicked for speedhacking - ban IP asap", playerid, ReturnUserName ( playerid ) )) ;
-			SendClientMessageToAll ( COLOR_STAFF, sprintf("[ANTICHEAT] (%d) %s has been kicked for speedhacking.", playerid, ReturnUserName ( playerid ) )) ;
+			WriteLog ( playerid, "anticheat", sprintf("(%d) %s hýz hilesi yüzünden atýldý - IP'sini hemen yasaklayýn", playerid, ReturnUserName ( playerid ) )) ;
+			SendClientMessageToAll ( COLOR_STAFF, sprintf("[HÝLE KORUMASI] (%d) %s hýz hilesi yüzünden atýldý.", playerid, ReturnUserName ( playerid ) )) ;
 
 			KickPlayer ( playerid ) ;
 		}
@@ -192,7 +165,7 @@ ptask PlayerAntiCheat[750](playerid){ //350
 			Character [ playerid ] [ character_handweapon ] = WEAPON_FIST ;
 			Character [ playerid ] [ character_handammo ] = 0 ;
 
-			SendServerMessage ( playerid, "There was an issue processing your weapon. It's been reset. If you lost it due to a bug, post a refund thread.", MSG_TYPE_ERROR ) ;
+			SendServerMessage ( playerid, "Silahýnýz iþlenirken bir sorun oluþtu. Sýfýrlandý. Eðer bir hata yüzünden kaybettiyseniz, geri iade konusu açýn.", MSG_TYPE_ERROR ) ;
 		}
 
 		if ( GetPlayerMoney ( playerid ) != Character [ playerid ] [ character_handmoney ] ) {
@@ -208,13 +181,11 @@ ptask PlayerAntiCheat[750](playerid){ //350
 				}
 
 				player_ACTick_Money [ playerid ] = 0 ;
-	    		SendModeratorWarning ( sprintf("[ANTICHEAT] (%d) %s may be money hacking! Client money: %d, server money: %d", playerid, ReturnUserName ( playerid, true ), GetPlayerMoney(playerid), Character [ playerid ] [ character_handmoney ]), MOD_WARNING_HIGH );
+	    		SendModeratorWarning ( sprintf("[HÝLE KORUMASI] (%d) %s para hilesi yapýyor olabilir! Ýstemci para: %d, sunucu para: %d", playerid, ReturnUserName ( playerid, true ), GetPlayerMoney(playerid), Character [ playerid ] [ character_handmoney ]), MOD_WARNING_HIGH );
 			}
 		}
 
-		// If ammo is zero, it won't call this function. May give hackers a leak, maybe not.
-		//if ( GetPlayerWeapon ( playerid ) != Character [ playerid ] [ character_handweapon ] && Character [ playerid ] [ character_handammo ] > 0 ) {
-
+		// Eðer mühimmat sýfýrsa, bu fonksiyonu çaðýrmaz. Hileciler için bir açýk olabilir, belki de olmaz.
 		if ( GetPlayerWeapon ( playerid ) != Character [ playerid ] [ character_handweapon ] && GetPlayerWeapon ( playerid ) != WEAPON_FIST ) {
 			new WEAPON: pl_weapon = Character [ playerid ] [ character_handweapon ], pl_ammo = Character [ playerid ] [ character_handammo ] ;
 
@@ -224,7 +195,7 @@ ptask PlayerAntiCheat[750](playerid){ //350
 			if ( ++ player_ACTick_Weapon [ playerid ] > MAX_ANTICHEAT_WARNINGS ) {
 
 				player_ACTick_Weapon [ playerid ] = 0 ;
-	    		SendModeratorWarning ( sprintf("[ANTICHEAT] (%d) %s may be weapon hacking! Client weapon: %d, server weapon %d", playerid, ReturnUserName ( playerid, true ), GetPlayerWeapon(playerid), Character [ playerid ] [ character_handweapon ]), MOD_WARNING_HIGH );
+	    		SendModeratorWarning ( sprintf("[HÝLE KORUMASI] (%d) %s silah hilesi yapýyor olabilir! Ýstemci silah: %d, sunucu silah: %d", playerid, ReturnUserName ( playerid, true ), GetPlayerWeapon(playerid), Character [ playerid ] [ character_handweapon ]), MOD_WARNING_HIGH );
 			}
 
 			CheckPlayerHackedWeapons ( playerid, GetPlayerWeapon ( playerid ) ) ;
@@ -235,23 +206,15 @@ ptask PlayerAntiCheat[750](playerid){ //350
 			
 			if ( GetPlayerAmmo ( playerid ) > 150 ) {
 
-				SendSplitMessageToAll ( MANAGER_COLOR, sprintf("[ANTICHEAT] %s (%d) has been banned for ammo hacking", ReturnUserName ( playerid, true ), playerid )) ;
-				//OldLog ( playerid, "mod/bans", sprintf("[ANTICHEAT] %s (%d) has been banned for ammo hacking", ReturnUserName ( playerid, true ), playerid )) ;
+				SendSplitMessageToAll ( MANAGER_COLOR, sprintf("[HÝLE KORUMASI] %s (%d) mermi hilesi yüzünden yasaklandý", ReturnUserName ( playerid, true ), playerid )) ;
 
-			    mysql_format(mysql, query, sizeof(query), "INSERT INTO bans (account_id, ip, ban_admin, ban_reason, ban_time, unban_time) VALUES ('%d', '%s', 'Anticheat', 'Ammo hacking', %d, %d)",
+			    mysql_format(mysql, query, sizeof(query), "INSERT INTO bans (account_id, ip, ban_admin, ban_reason, ban_time, unban_time) VALUES ('%d', '%s', 'Hile Korumasý', 'Mermi hilesi', %d, %d)",
 				Account [ playerid ] [ account_id ], ReturnIP ( playerid ), gettime(), 9000 * 999);
 
 				mysql_tquery(mysql, query);
 
-				BanEx(playerid, sprintf("Ammo hacking: anticheat detection, client: %d, server: %d", GetPlayerAmmo ( playerid ), Character [ playerid ] [ character_handammo ] ) ) ;
+				BanEx(playerid, sprintf("Mermi hilesi: hile korumasý tespiti, istemci: %d, sunucu: %d", GetPlayerAmmo ( playerid ), Character [ playerid ] [ character_handammo ] ) ) ;
 			}
-
-			//if ( ++ player_ACTick_Ammo [ playerid ] > MAX_ANTICHEAT_WARNINGS ) {
-				//SetPlayerAmmo ( playerid, Character [ playerid ] [ character_handweapon ],Character [ playerid ] [ character_handammo ] );
-
-				//player_ACTick_Ammo [ playerid ] = 0 ;
-	    		//SendModeratorWarning ( sprintf("[ANTICHEAT] (%d) %s may be ammo hacking! Client ammo: %d, server ammo %d", playerid, ReturnUserName ( playerid, true ), GetPlayerAmmo(playerid), Character [ playerid ] [ character_handammo ]), MOD_WARNING_HIGH );
-			//}
 		}
 
 
@@ -260,30 +223,28 @@ ptask PlayerAntiCheat[750](playerid){ //350
 
 		if ( armour > 1 ) {
 		    
-			SendSplitMessageToAll ( MANAGER_COLOR, sprintf("[ANTICHEAT] %s (%d) has been banned for armour hacking", ReturnUserName ( playerid, true ), playerid )) ;
-			//OldLog ( playerid, "mod/bans", sprintf("[ANTICHEAT] %s (%d) has been banned for armour hacking", ReturnUserName ( playerid, true ), playerid )) ;
+			SendSplitMessageToAll ( MANAGER_COLOR, sprintf("[HÝLE KORUMASI] %s (%d) zýrh hilesi yüzünden yasaklandý", ReturnUserName ( playerid, true ), playerid )) ;
 
-		    mysql_format(mysql, query, sizeof(query), "INSERT INTO bans (account_id, ip, ban_admin, ban_reason, ban_time, unban_time) VALUES ('%d', '%s', 'Anticheat', 'Armour hacking', %d, %d)",
+		    mysql_format(mysql, query, sizeof(query), "INSERT INTO bans (account_id, ip, ban_admin, ban_reason, ban_time, unban_time) VALUES ('%d', '%s', 'Hile Korumasý', 'Zýrh hilesi', %d, %d)",
 			Account [ playerid ] [ account_id ], ReturnIP ( playerid ), gettime(), 9000 * 999);
 
 			mysql_tquery(mysql, query);
 
-			BanEx(playerid, "Armour hacking: anticheat detection" ) ;
+			BanEx(playerid, "Zýrh hilesi: hile korumasý tespiti" ) ;
 		}
 
 		if ( GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_USEJETPACK ) {
 
 			SetPlayerSpecialAction(playerid, SPECIAL_ACTION_NONE) ;
 
-			SendSplitMessageToAll ( MANAGER_COLOR, sprintf("[ANTICHEAT] %s (%d) has been banned for armour hacking", ReturnUserName ( playerid, true ), playerid )) ;
-			//OldLog ( playerid, "mod/bans", sprintf("[ANTICHEAT] %s (%d) has been banned for armour hacking", ReturnUserName ( playerid, true ), playerid )) ;	
+			SendSplitMessageToAll ( MANAGER_COLOR, sprintf("[HÝLE KORUMASI] %s (%d) jetpack hilesi yüzünden yasaklandý", ReturnUserName ( playerid, true ), playerid )) ;
 
-		    mysql_format(mysql, query, sizeof(query), "INSERT INTO bans (account_id, ip, ban_admin, ban_reason, ban_time, unban_time) VALUES ('%d', '%s', 'Anticheat', 'Jetpack hacking', %d, %d)",
+		    mysql_format(mysql, query, sizeof(query), "INSERT INTO bans (account_id, ip, ban_admin, ban_reason, ban_time, unban_time) VALUES ('%d', '%s', 'Hile Korumasý', 'Jetpack hilesi', %d, %d)",
 			Account [ playerid ] [ account_id ], ReturnIP ( playerid ), gettime(), 9000 * 999);
 
 			mysql_tquery(mysql, query);
 
-			BanEx(playerid, "Jetpack hacking: anticheat detection" ) ;
+			BanEx(playerid, "Jetpack hilesi: hile korumasý tespiti" ) ;
 		}
 
 		new Float: pos_x, Float: pos_y, Float: pos_z, Float: height ;
@@ -292,22 +253,20 @@ ptask PlayerAntiCheat[750](playerid){ //350
 
 		if ( pos_z > height + 5 ) {
 
-			// Fixing bayside fly hack bug
+			// Bayside uçma hilesi hatasý düzeltiliyor
 			if ( GetPlayerZone ( playerid ) == 0 && pos_z <= 6 ) {
 
 				return false ;
 			}
 
-			//SetPlayerPos ( playerid, pos_x, pos_y, height ) ;
-
 			if ( ++ player_ACTick_Fly [ playerid ] > MAX_ANTICHEAT_WARNINGS && GetPlayerInterior ( playerid ) == 0 && GetPlayerVirtualWorld ( playerid ) == 0) {
 
 				player_ACTick_Fly [ playerid ] = 0 ;
-	   			SendModeratorWarning ( sprintf("[ANTICHEAT] (%d) %s may be fly hacking! GROUND: %.2f, PLAYER HEIGHT: %.2f", playerid, ReturnUserName ( playerid, true ), pos_x, height ), MOD_WARNING_HIGH);
+	   			SendModeratorWarning ( sprintf("[HÝLE KORUMASI] (%d) %s uçma hilesi yapýyor olabilir! ZEMÝN: %.2f, OYUNCU YÜKSEKLÝÐÝ: %.2f", playerid, ReturnUserName ( playerid, true ), pos_x, height ), MOD_WARNING_HIGH);
 	   		}
 		}
 
-		// Used to be max 325.
+		// Eskiden maks 325 idi.
 		if ( ! IsPlayerRidingHorse [ playerid ] ) {
 
 			if ( GetPlayerSpeed ( playerid ) > 175 ) {
@@ -315,7 +274,7 @@ ptask PlayerAntiCheat[750](playerid){ //350
 				if ( ++ player_ACTick_Speed [ playerid ] > MAX_ANTICHEAT_WARNINGS ) {
 
 					player_ACTick_Speed [ playerid ] = 0 ;
-		   			SendModeratorWarning ( sprintf("[ANTICHEAT] (%d) %s may be speed hacking! NORMAL SPEED: 175, HAS SPEED: %.2f", playerid, ReturnUserName ( playerid, true ), GetPlayerSpeed ( playerid ) ), MOD_WARNING_HIGH);
+		   			SendModeratorWarning ( sprintf("[HÝLE KORUMASI] (%d) %s hýz hilesi yapýyor olabilir! NORMAL HIZ: 175, SAHÝP OLDUÐU HIZ: %.2f", playerid, ReturnUserName ( playerid, true ), GetPlayerSpeed ( playerid ) ), MOD_WARNING_HIGH);
 		   		}
 			}
 		}
@@ -329,7 +288,7 @@ ptask PlayerAntiCheat[750](playerid){ //350
 					if ( ++ player_ACTick_Speed [ playerid ] > MAX_ANTICHEAT_WARNINGS ) {
 
 						player_ACTick_Speed [ playerid ] = 0 ;
-			   			SendModeratorWarning ( sprintf("[ANTICHEAT] (%d) %s may be speed hacking! (On Horse) NORMAL SPEED: 181, HAS SPEED: %.2f", playerid, ReturnUserName ( playerid, true ), GetPlayerSpeed ( playerid ) ), MOD_WARNING_HIGH);
+			   			SendModeratorWarning ( sprintf("[HÝLE KORUMASI] (%d) %s hýz hilesi yapýyor olabilir! (At Üstünde) NORMAL HIZ: 181, SAHÝP OLDUÐU HIZ: %.2f", playerid, ReturnUserName ( playerid, true ), GetPlayerSpeed ( playerid ) ), MOD_WARNING_HIGH);
 			   		}
 		   		}
 			}
@@ -341,7 +300,7 @@ ptask PlayerAntiCheat[750](playerid){ //350
 					if ( ++ player_ACTick_Speed [ playerid ] > MAX_ANTICHEAT_WARNINGS ) {
 
 						player_ACTick_Speed [ playerid ] = 0 ;
-			   			SendModeratorWarning ( sprintf("[ANTICHEAT] (%d) %s may be speed hacking! (On Horse) NORMAL SPEED: 203, HAS SPEED: %.2f", playerid, ReturnUserName ( playerid, true ), GetPlayerSpeed ( playerid ) ), MOD_WARNING_HIGH);
+			   			SendModeratorWarning ( sprintf("[HÝLE KORUMASI] (%d) %s hýz hilesi yapýyor olabilir! (At Üstünde) NORMAL HIZ: 203, SAHÝP OLDUÐU HIZ: %.2f", playerid, ReturnUserName ( playerid, true ), GetPlayerSpeed ( playerid ) ), MOD_WARNING_HIGH);
 			   		}
 		   		}
 			}
@@ -353,7 +312,7 @@ ptask PlayerAntiCheat[750](playerid){ //350
 					if ( ++ player_ACTick_Speed [ playerid ] > MAX_ANTICHEAT_WARNINGS ) {
 
 						player_ACTick_Speed [ playerid ] = 0 ;
-			   			SendModeratorWarning ( sprintf("[ANTICHEAT] (%d) %s may be speed hacking! (On Horse) NORMAL SPEED: 203, HAS SPEED: %.2f", playerid, ReturnUserName ( playerid, true ), GetPlayerSpeed ( playerid ) ), MOD_WARNING_HIGH);
+			   			SendModeratorWarning ( sprintf("[HÝLE KORUMASI] (%d) %s hýz hilesi yapýyor olabilir! (At Üstünde) NORMAL HIZ: 227, SAHÝP OLDUÐU HIZ: %.2f", playerid, ReturnUserName ( playerid, true ), GetPlayerSpeed ( playerid ) ), MOD_WARNING_HIGH);
 			   		}
 		   		}
 			}
@@ -375,15 +334,14 @@ CheckPlayerHackedWeapons ( playerid, weaponid ) {
 	for ( new i; i < sizeof ( disallowed_weapons); i ++ ) {
 		if ( weaponid == disallowed_weapons [ i ] ) {
 
-			SendSplitMessageToAll ( MANAGER_COLOR, sprintf("[ANTICHEAT] %s (%d) has been banned for weapon hacking", ReturnUserName ( playerid, true ), playerid )) ;
-			//OldLog ( playerid, "mod/bans", sprintf("[ANTICHEAT] %s (%d) has been banned for weapon hacking", ReturnUserName ( playerid, true ), playerid )) ;
+			SendSplitMessageToAll ( MANAGER_COLOR, sprintf("[HÝLE KORUMASI] %s (%d) silah hilesi yüzünden yasaklandý", ReturnUserName ( playerid, true ), playerid )) ;
 
-		    mysql_format(mysql, query, sizeof(query), "INSERT INTO bans (account_id, ip, ban_admin, ban_reason, ban_time, unban_time) VALUES ('%d', '%s', 'Anticheat', 'Weapon hacking', %d, %d)",
+		    mysql_format(mysql, query, sizeof(query), "INSERT INTO bans (account_id, ip, ban_admin, ban_reason, ban_time, unban_time) VALUES ('%d', '%s', 'Hile Korumasý', 'Silah hilesi', %d, %d)",
 			Account [ playerid ] [ account_id ], ReturnIP ( playerid ), gettime(), 9000 * 999);
 
 			mysql_tquery(mysql, query);
 
-			BanEx(playerid, "Weapon hacking: anticheat detection" ) ;
+			BanEx(playerid, "Silah hilesi: hile korumasý tespiti" ) ;
 		}
 	}
 
@@ -399,34 +357,34 @@ public OnPlayerSuspectedForAimbot ( playerid, hitid, weaponid, warnings ) {
 
 	if ( warnings & WARNING_OUT_OF_RANGE_SHOT ) {
 
-		SendModeratorWarning ( sprintf("[ANTICHEAT] [Warning %d] %s (%d) fired shots from a distance greater than the %s's fire range (Normal Range: %f)", player_ACTick_AimbotIncr [ playerid ], ReturnUserName ( playerid, true ), playerid,ReturnWeaponName ( GetPlayerWeapon ( playerid ) ), BustAim::GetNormalWeaponRange(weaponid)));
+		SendModeratorWarning ( sprintf("[HÝLE KORUMASI] [Uyarý %d] %s (%d), %s silahýnýn menzilinden daha uzak bir mesafeden ateþ etti (Normal Menzil: %f)", player_ACTick_AimbotIncr [ playerid ], ReturnUserName ( playerid, true ), playerid,ReturnWeaponName ( GetPlayerWeapon ( playerid ) ), BustAim::GetNormalWeaponRange(weaponid)));
 
 		BustAim::GetRangeStats ( playerid, Wstats ) ;
 
-		SendModeratorWarning ( sprintf("[ANTICHEAT] Shooter to Victim Distance(SA Units): 1) %.3f 2) %.3f 3) %.3f", Wstats[0], Wstats[1], Wstats[2] )) ;
+		SendModeratorWarning ( sprintf("[HÝLE KORUMASI] Atýcýdan Kurbana Mesafe (SA Birimi): 1) %.3f 2) %.3f 3) %.3f", Wstats[0], Wstats[1], Wstats[2] )) ;
 	}
 
 	if ( warnings & WARNING_PROAIM_TELEPORT ) {
 
-	   	SendModeratorWarning ( sprintf("[ANTICHEAT] [Warning %d] %s (%d) is using proaim (Teleport Detected)", player_ACTick_AimbotIncr [ playerid ], ReturnUserName ( playerid, true ), playerid )) ;
+	   	SendModeratorWarning ( sprintf("[HÝLE KORUMASI] [Uyarý %d] %s (%d) proaim kullanýyor (Iþýnlanma Tespit Edildi)", player_ACTick_AimbotIncr [ playerid ], ReturnUserName ( playerid, true ), playerid )) ;
 
 		BustAim::GetTeleportStats ( playerid, Wstats ) ;
 
-		SendModeratorWarning ( sprintf("Bullet to Victim Distance(SA Units): 1) %.3f 2) %.3f 3) %.3f", Wstats[0], Wstats[1], Wstats[2] )) ;
+		SendModeratorWarning ( sprintf("Mermiden Kurbana Mesafe (SA Birimi): 1) %.3f 2) %.3f 3) %.3f", Wstats[0], Wstats[1], Wstats[2] )) ;
 	}
 
 	if ( warnings & WARNING_RANDOM_AIM ) {
 
-	    SendModeratorWarning ( sprintf("[ANTICHEAT] [Warning %d] %s (%d) is suspected to be using aimbot(Hit with Random Aim with %s)", player_ACTick_AimbotIncr [ playerid ], ReturnUserName ( playerid, true ), playerid, ReturnWeaponName ( GetPlayerWeapon ( playerid ) ) )) ;
+	    SendModeratorWarning ( sprintf("[HÝLE KORUMASI] [Uyarý %d] %s (%d) oyuncusunun aimbot kullandýðýndan þüpheleniliyor (%s ile Rastgele Niþan ile vurdu)", player_ACTick_AimbotIncr [ playerid ], ReturnUserName ( playerid, true ), playerid, ReturnWeaponName ( GetPlayerWeapon ( playerid ) ) )) ;
 
 		BustAim::GetRandomAimStats(playerid,Wstats);
 
-		SendModeratorWarning ( sprintf("[ANTICHEAT] Random Aim Offsets: 1) %.3f 2) %.3f 3) %.3f", Wstats[0], Wstats[1], Wstats[2] )) ;
+		SendModeratorWarning ( sprintf("[HÝLE KORUMASI] Rastgele Niþan Sapmalarý: 1) %.3f 2) %.3f 3) %.3f", Wstats[0], Wstats[1], Wstats[2] )) ;
 	}
 
 	if ( warnings & WARNING_CONTINOUS_SHOTS ) {
 
-	   	SendModeratorWarning ( sprintf("[ANTICHEAT] [Warning %d] %s (%d) has fired 10 shots continously with %s (%d)", player_ACTick_AimbotIncr [ playerid ], ReturnUserName ( playerid, true ), playerid, ReturnWeaponName ( GetPlayerWeapon ( playerid ) ), weaponid ));
+	   	SendModeratorWarning ( sprintf("[HÝLE KORUMASI] [Uyarý %d] %s (%d), %s (%d) silahý ile art arda 10 el ateþ etti", player_ACTick_AimbotIncr [ playerid ], ReturnUserName ( playerid, true ), playerid, ReturnWeaponName ( GetPlayerWeapon ( playerid ) ), weaponid ));
 	}
 
 	return 0;

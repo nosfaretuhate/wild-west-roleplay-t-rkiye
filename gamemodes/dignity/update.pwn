@@ -21,14 +21,14 @@ enum RevisionData {
 
 new RevisionList [ ] [ RevisionData ] = {
 
-	{ "Farming system: you can buy the necessities at the general store and blacksmith", 					REVISION_TYPE_ADDITION, 1548331200 },
-	{ "Trap system:  you can buy a trap at the blacksmith and use it to catch animals. (and humans)", 		REVISION_TYPE_ADDITION, 1548331202 },
-	{ "Bayside has been changed! It's now a snowy mountain!", 												REVISION_TYPE_CHANGE, 	1548862920 },
-	{ "Las Barrancas and EQ have been overhauled", 															REVISION_TYPE_CHANGE, 	1548862922 },
-	{ "Fixed /levelup (no capitalised letters needed)", 													REVISION_TYPE_HOTFIX, 	1549022400 },
-	{ "Fixed job GUI & overhauled textdraw backend", 														REVISION_TYPE_HOTFIX, 	1549022402 },
-	{ "Fixed proximity message when a player disconnects (nearby players are alerted)", 					REVISION_TYPE_HOTFIX, 	1549023300 },
-	{ "Merged M-RP's updated inventory module. The inventory should now be more smooth in general.", 		REVISION_TYPE_CHANGE, 	1549110600 }
+	{ "Çiftçilik sistemi: Gerekli malzemeleri genel marketten ve demirciden satýn alabilirsiniz.", 					REVISION_TYPE_ADDITION, 1548331200 },
+	{ "Tuzak sistemi: Demirciden bir tuzak alýp hayvanlarý (ve insanlarý) yakalamak için kullanabilirsiniz.", 		REVISION_TYPE_ADDITION, 1548331202 },
+	{ "Bayside deðiþtirildi! Artýk karlý bir dað!", 												REVISION_TYPE_CHANGE, 	1548862920 },
+	{ "Las Barrancas ve El Quebrados (EQ) tamamen yenilendi.", 											REVISION_TYPE_CHANGE, 	1548862922 },
+	{ "/levelup komutu düzeltildi (artýk büyük harf kullanýmý gerekmiyor).", 									REVISION_TYPE_HOTFIX, 	1549022400 },
+	{ "Meslek arayüzü (GUI) düzeltildi ve textdraw altyapýsý yenilendi.", 									REVISION_TYPE_HOTFIX, 	1549022402 },
+	{ "Bir oyuncunun baðlantýsý koptuðunda çýkan yakýnlýk mesajý düzeltildi (yakýndaki oyuncular artýk uyarýlýyor).", 	REVISION_TYPE_HOTFIX, 	1549023300 },
+	{ "M-RP'nin güncellenmiþ envanter modülü entegre edildi. Artýk envanter genel olarak daha akýcý çalýþýyor.", 		REVISION_TYPE_CHANGE, 	1549110600 }
 } ;
 
 CMD:updates ( playerid ) {
@@ -45,7 +45,7 @@ CMD:updates ( playerid ) {
 		else continue ;
 	}
 
-	format ( string, sizeof ( string ), "{DEDEDE}Here are the latest changes for the most recent audit (# %d), rolled out on %s.\n", 
+	format ( string, sizeof ( string ), "{DEDEDE}Son güncellemelr (# %d) %s.\n", 
 		sizeof ( RevisionList), GetDateForUnix ( latest_update_unix ) ) ;
 
 	for ( new i; i < sizeof ( RevisionList ); i ++ ) {
@@ -83,7 +83,7 @@ CMD:updates ( playerid ) {
 		) ;
 	}
 
-	ShowPlayerDialog(playerid, 1337, DIALOG_STYLE_MSGBOX, "Updates", string, "yes", "no");
+	ShowPlayerDialog(playerid, 1337, DIALOG_STYLE_MSGBOX, "Güncellemeler", string, "Tamam", "Tamam");
 
 	return true ;
 }
@@ -111,27 +111,27 @@ GetRevisionType ( unix, revision_id ) {
 
 		case REVISION_TYPE_ADDITION: {
 
-			strins ( string, "added{DEDEDE} \t", 0, sizeof ( string ) ) ;
+			strins ( string, "eklendi{DEDEDE} \t", 0, sizeof ( string ) ) ;
 		}
 
 		case REVISION_TYPE_REMOVAL: {
 
-			strins ( string, "removed{DEDEDE}", 0, sizeof ( string ) ) ;
+			strins ( string, "kaldýrýldý{DEDEDE}", 0, sizeof ( string ) ) ;
 		}
 
 		case REVISION_TYPE_CHANGE: { 
 
-			strins ( string, "changed{DEDEDE}", 0, sizeof ( string ) ) ;
+			strins ( string, "deðiþtirildi{DEDEDE}", 0, sizeof ( string ) ) ;
 		}
 
 		case REVISION_TYPE_HOTFIX: {
 
-			strins ( string, "hotfixed{DEDEDE}", 0, sizeof ( string ) ) ;
+			strins ( string, "düzeltildi{DEDEDE}", 0, sizeof ( string ) ) ;
 		}
 
 		default: {
 
-			strins ( string, "updated{DEDEDE}", 0, sizeof ( string ) ) ;
+			strins ( string, "güncellendi{DEDEDE}", 0, sizeof ( string ) ) ;
 		}
 	}
 

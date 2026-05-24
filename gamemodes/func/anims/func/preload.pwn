@@ -6,7 +6,7 @@ public LoadAnimations(playerid) {
 
 ////    print("LoadAnimations timer called (preload.pwn)");
 
-    GameTextForPlayer(playerid, "~n~~n~~n~~w~Loading all animations~n~~r~Warning: ~w~Lag is imminent", 5000, 4 ) ;
+    GameTextForPlayer(playerid, "~n~~n~~n~~w~TUM ANIMASYONLAR YUKLENIYOR~n~~r~UYARI: ~w~OYUN DONABILIR", 5000, 4 ) ;
     SetTimerEx("PreloadAnimations", 1000, false, "i", playerid) ; // Make them load properly, 1 by 1. We don't need all of them.
 
     return true ;

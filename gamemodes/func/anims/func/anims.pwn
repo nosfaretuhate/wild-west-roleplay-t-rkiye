@@ -1,6 +1,6 @@
 CMD:animlist(playerid, params[])
 {
-	SendClientMessage(playerid, COLOR_TAB0, "|________________________| Animation Help |________________________|") ;
+	SendClientMessage(playerid, COLOR_TAB0, "|________________________| Animasyonlar Yardým |________________________|") ;
 
 	SendClientMessage(playerid, COLOR_TAB1, "/dance, /handsup, /bat, /slap, /bar, /wash, /lay, /workout, /blowjob, /bomb");
 	SendClientMessage(playerid, COLOR_TAB2, "/carry, /crack, /sleep, /jump, /deal, /dancing, /eating, /puke, /gsign, /chat");
@@ -21,7 +21,7 @@ CMD:anims ( playerid, params [] ) {
 CMD:stop ( playerid, params [] ) {
 
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	AnimationLoop(playerid, "POLICE", "CopTraf_Stop", 4.0, true, false, false, false, 0, SYNC_ALL);
 
@@ -33,7 +33,7 @@ CMD:lean(playerid, params[])
 {
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	AnimationLoop(playerid, "GANGS", "leanIDLE", 4.0, true, false, false, false, 0, SYNC_ALL);
 
@@ -43,7 +43,7 @@ CMD:lean(playerid, params[])
 CMD:getup ( playerid, params [] ) {
 
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "PED", "getup", 4.1, false, false, false, false, 0, SYNC_ALL);
 
@@ -55,13 +55,13 @@ CMD:dance(playerid, params[])
 	new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/dance [1-4]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 4)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 		case 1: SetPlayerSpecialAction(playerid, SPECIAL_ACTION_DANCE1);
@@ -74,7 +74,7 @@ CMD:dance(playerid, params[])
 
 CMD:gkick ( playerid, params [] ) {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "FIGHT_D", "FightD_1", 4.1, false, false, false, false, 0, SYNC_ALL);
 
@@ -83,7 +83,7 @@ CMD:gkick ( playerid, params [] ) {
 
 CMD:pointyonder ( playerid, params [] ) {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	AnimationLoop(playerid, "ON_LOOKERS","Pointup_loop", 4.1, false, true, true, true, 1, SYNC_ALL); 
 
@@ -93,7 +93,7 @@ CMD:pointyonder ( playerid, params [] ) {
 CMD:handsup(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	SetPlayerSpecialAction(playerid, SPECIAL_ACTION_HANDSUP);
 	return 1;
@@ -101,7 +101,7 @@ CMD:handsup(playerid, params[])
 
 CMD:shit ( playerid, params [] ) {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	AnimationLoop(playerid, "PED", "cower", 4.1, false, false, false, true, 0, SYNC_ALL);
     SetPlayerAttachedObject ( playerid, 9, 18722,1, -1.773999, 0.234999,-0.091000, 2.300002, 88.499984, 0.0, 1.0, 1.0, 1.0 ) ;
@@ -112,7 +112,7 @@ CMD:shit ( playerid, params [] ) {
 CMD:piss(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	SetPlayerSpecialAction(playerid, SPECIAL_ACTION_PISSING);
 	return 1;
@@ -120,7 +120,7 @@ CMD:piss(playerid, params[])
 
 CMD:camcrouch ( playerid, params [] ) {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 
 	AnimationLoop(playerid, "CAMERA", "camcrch_idleloop", 4.1, true, false, false, false, 0, SYNC_ALL);
@@ -131,7 +131,7 @@ CMD:camcrouch ( playerid, params [] ) {
 CMD:riflehold ( playerid, params [] ) {
 
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	AnimationLoop(playerid, "PED", "Gun_2_IDLE", 4.1, false, true, true, true, 1, SYNC_ALL); 
 
@@ -140,7 +140,7 @@ CMD:riflehold ( playerid, params [] ) {
 
 CMD:time ( playerid ) {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "PLAYIDLES", "time", 4.1, false, false, false, false, 0, SYNC_ALL);
 
@@ -150,7 +150,7 @@ CMD:time ( playerid ) {
 CMD:ko ( playerid, params [] ) {
 
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	new animstate ;
 
@@ -179,7 +179,7 @@ CMD:ko ( playerid, params [] ) {
 
 CMD:fall(playerid, params [] ) {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	return AnimationLoop(playerid,"PED", "FLOOR_hit_f", 4.1, false, true, true, true, 1, SYNC_ALL); 
 }
@@ -187,7 +187,7 @@ CMD:fall(playerid, params [] ) {
 CMD:carryidle ( playerid, params [] ) {
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
  	SetPlayerSpecialAction(playerid, SPECIAL_ACTION_CARRY ) ;
 
@@ -222,13 +222,13 @@ CMD:bat(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/bat [1-5]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 5)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: ApplyAnimation(playerid, "BASEBALL", "Bat_1", 4.1, false, true, true, false, 0, SYNC_ALL);
@@ -245,13 +245,13 @@ CMD:bar(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/bar [1-8]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 8)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: ApplyAnimation(playerid, "BAR", "Barserve_bottle", 4.1, false, false, false, false, 0, SYNC_ALL);
@@ -269,7 +269,7 @@ CMD:bar(playerid, params[])
 CMD:wash(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "BD_FIRE", "wash_up", 4.1, false, false, false, false, 0, SYNC_ALL);
 	return 1;
@@ -280,13 +280,13 @@ CMD:lay(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/lay [1-5]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 5)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: AnimationLoop(playerid, "BEACH", "bather", 4.1, true, false, false, false, 0, SYNC_ALL);
@@ -303,13 +303,13 @@ CMD:workout(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/workout [1-7]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 7)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: ApplyAnimation(playerid, "benchpress", "gym_bp_celebrate", 4.1, false, false, false, false, 0, SYNC_ALL);
@@ -328,13 +328,13 @@ CMD:blowjob(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/blowjob [1-4]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 4)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: AnimationLoop(playerid, "BLOWJOBZ", "BJ_COUCH_LOOP_W", 4.1, true, false, false, false, 0, SYNC_ALL);
@@ -348,7 +348,7 @@ CMD:blowjob(playerid, params[])
 CMD:bomb(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 4.1, false, false, false, false, 0, SYNC_ALL);
 	return 1;
@@ -359,13 +359,13 @@ CMD:carry(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/carry [1-6]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 6)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: ApplyAnimation(playerid, "CARRY", "liftup", 4.1, false, false, false, false, 0, SYNC_ALL);
@@ -383,13 +383,13 @@ CMD:crack(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/crack [1-6]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 6)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: AnimationLoop(playerid, "CRACK", "crckdeth1", 4.1, false, false, false, true, 0, SYNC_ALL);
@@ -407,13 +407,13 @@ CMD:sleep(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/sleep [1-2]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 2)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: AnimationLoop(playerid, "CRACK", "crckdeth4", 4.1, false, false, false, true, 0, SYNC_ALL);
@@ -425,7 +425,7 @@ CMD:sleep(playerid, params[])
 CMD:jump(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "DODGE", "Crush_Jump", 4.1, false, true, true, false, 0, SYNC_ALL);
 	return 1;
@@ -436,13 +436,13 @@ CMD:deal(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/deal [1-6]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 6)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: ApplyAnimation(playerid, "DEALER", "DEALER_DEAL", 4.1, false, false, false, false, 0, SYNC_ALL);
@@ -460,13 +460,13 @@ CMD:dancing(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/dancing [1-10]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 10)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: AnimationLoop(playerid, "DANCING", "dance_loop", 4.1, true, false, false, false, 0, SYNC_ALL);
@@ -488,13 +488,13 @@ CMD:eating(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/eating [1-3]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 3)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
@@ -507,7 +507,7 @@ CMD:eating(playerid, params[])
 CMD:puke(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "FOOD", "EAT_Vomit_P", 4.1, false, false, false, false, 0, SYNC_ALL);
 	return 1;
@@ -518,13 +518,13 @@ CMD:gsign(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/gsign [1-15]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 15)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 		case 1: ApplyAnimation(playerid, "GHANDS", "gsign1", 4.1, false, false, false, false, 0, SYNC_ALL);
@@ -551,13 +551,13 @@ CMD:chat(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/chat [1-6]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 6)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 		case 1: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkA", 4.1, false, false, false, false, 0, SYNC_ALL);
@@ -573,7 +573,7 @@ CMD:chat(playerid, params[])
 CMD:goggles(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "goggles", "goggles_put_on", 4.1, false, false, false, false, 0, SYNC_ALL);
 	return 1;
@@ -582,7 +582,7 @@ CMD:goggles(playerid, params[])
 CMD:spray(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
  	AnimationLoop(playerid, "GRAFFITI", "spraycan_fire", 4.1, true, false, false, false, 0, SYNC_ALL);
 	return 1;
@@ -591,7 +591,7 @@ CMD:spray(playerid, params[])
 CMD:throw(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "GRENADE", "WEAPON_throw", 4.1, false, false, false, false, 0, SYNC_ALL);
 	return 1;
@@ -600,7 +600,7 @@ CMD:throw(playerid, params[])
 CMD:swipe(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "HEIST9", "Use_SwipeCard", 4.1, false, false, false, false, 0, SYNC_ALL);
 	return 1;
@@ -611,13 +611,13 @@ CMD:office(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/office [1-6]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 6)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 		case 1: AnimationLoop(playerid, "INT_OFFICE", "OFF_Sit_Bored_Loop", 4.1, true, false, false, false, 0, SYNC_ALL);
@@ -635,13 +635,13 @@ CMD:kiss(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/kiss [1-6]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 6)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 		case 1: ApplyAnimation(playerid, "KISSING", "Grlfrd_Kiss_01", 4.1, false, false, false, false, 0, SYNC_ALL);
@@ -659,13 +659,13 @@ CMD:knife(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/knife [1-8]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 8)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 		case 1: ApplyAnimation(playerid, "KNIFE", "knife_1", 4.1, false, true, true, false, 0, SYNC_ALL);
@@ -683,7 +683,7 @@ CMD:knife(playerid, params[])
 CMD:cpr(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "MEDIC", "CPR", 4.1, false, false, false, false, 0, SYNC_ALL);
 	return 1;
@@ -694,13 +694,13 @@ CMD:scratch(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/scratch [1-4]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 4)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
     	case 1: AnimationLoop(playerid, "SCRATCHING", "scdldlp", 4.1, true, false, false, false, 0, SYNC_ALL);
@@ -716,13 +716,13 @@ CMD:aim(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/aim [1-4]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 4)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: AnimationLoop(playerid, "PED", "ARRESTgun", 4.1, false, false, false, true, 0, SYNC_ALL);
@@ -738,13 +738,13 @@ CMD:cheer(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/cheer [1-8]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 8)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 		case 1: ApplyAnimation(playerid, "ON_LOOKERS", "shout_01", 4.1, false, false, false, false, 0, SYNC_ALL);
@@ -764,13 +764,13 @@ CMD:strip(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/strip [1-7]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 7)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 		case 1: AnimationLoop(playerid, "STRIP", "strip_A", 4.1, true, false, false, false, 0, SYNC_ALL);
@@ -788,7 +788,7 @@ CMD:strip(playerid, params[])
 CMD:slapass( playerid, params [] ) {
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
  	return AnimationLoop(playerid, "SWEET", "sweet_ass_slap", 4.1, false, false, false, false, 0, SYNC_ALL); // Ass Slapping
 }
@@ -798,13 +798,13 @@ CMD:wave(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/wave [1-3]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 3)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: ApplyAnimation(playerid, "PED", "endchat_03", 4.1, false, false, false, false, 0, SYNC_ALL);
@@ -817,7 +817,7 @@ CMD:wave(playerid, params[])
 CMD:drink ( playerid ) {
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "SMOKING", "M_smk_drag", 4.1, false, false, false, false, 0, SYNC_ALL);
 
@@ -829,13 +829,13 @@ CMD:smoke(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/smoke [0-3]", MSG_TYPE_ERROR );
 
 	if (type < 0 || type > 3)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 		case 0: ApplyAnimation(playerid, "SHOP", "Smoke_RYD", 4.1, false, false, false, false, 0, SYNC_ALL);
@@ -851,13 +851,13 @@ CMD:reload(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/reload [1-4]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 4)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 		case 1: ApplyAnimation(playerid, "BUDDY", "buddy_reload", 4.1, false, false, false, false, 0, SYNC_ALL);
@@ -871,7 +871,7 @@ CMD:reload(playerid, params[])
 CMD:taichi(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	AnimationLoop(playerid, "PARK", "Tai_Chi_Loop", 4.1, true, false, false, false, 0, SYNC_ALL);
 	return 1;
@@ -882,13 +882,13 @@ CMD:wank(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/wank [1-3]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 3)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 		case 1: AnimationLoop(playerid, "PAULNMAC", "wank_loop", 4.1, true, false, false, false, 0, SYNC_ALL);
@@ -901,7 +901,7 @@ CMD:wank(playerid, params[])
 CMD:cower(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	AnimationLoop(playerid, "PED", "cower", 4.1, false, false, false, true, 0, SYNC_ALL);
 	return 1;
@@ -910,7 +910,7 @@ CMD:cower(playerid, params[])
 CMD:drunk(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	AnimationLoop(playerid, "PED", "WALK_drunk", 4.1, true, true, true, true, 1, SYNC_ALL);
 	return 1;
@@ -919,7 +919,7 @@ CMD:drunk(playerid, params[])
 CMD:cry(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	AnimationLoop(playerid, "GRAVEYARD", "mrnF_loop", 4.1, true, false, false, false, 0, SYNC_ALL);
     return 1;
@@ -930,13 +930,13 @@ CMD:tired(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/tired [1-2]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 2)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: AnimationLoop(playerid, "PED", "IDLE_tired", 4.1, true, false, false, false, 0, SYNC_ALL);
@@ -950,13 +950,13 @@ CMD:sit(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/sit [1-6]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 6)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 		case 1: AnimationLoop(playerid, "CRIB", "PED_Console_Loop", 4.1, true, false, false, false, 0, SYNC_ALL);
@@ -974,13 +974,13 @@ CMD:crossarms(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/crossarms [1-4]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 4)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: AnimationLoop(playerid, "COP_AMBIENT", "Coplook_loop", 4.1, false, true, true, true, 0, SYNC_ALL);
@@ -994,7 +994,7 @@ CMD:crossarms(playerid, params[])
 CMD:fucku(playerid, params[])
 {
     if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	ApplyAnimation(playerid, "PED", "fucku", 4.1, false, false, false, false, 0);
 	return 1;
@@ -1005,13 +1005,13 @@ CMD:walk(playerid, params[])
     new type;
 
 	if (!AnimationCheck(playerid))
-	    return SendServerMessage(playerid, "You can't perform animations at the moment.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Þuanda bunu gerçekleþtiremezsin.", MSG_TYPE_ERROR );
 
 	if (sscanf(params, "d", type))
 	    return SendServerMessage(playerid, "/walk [1-16]", MSG_TYPE_ERROR );
 
 	if (type < 1 || type > 17)
-	    return SendServerMessage(playerid, "Invalid type specified.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz tip girildi.", MSG_TYPE_ERROR );
 
 	switch (type) {
 	    case 1: AnimationLoop(playerid, "FAT", "FatWalk", 4.1, true, true, true, true, 1, SYNC_ALL);

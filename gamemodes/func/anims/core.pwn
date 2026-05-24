@@ -10,7 +10,7 @@ new Text: txtAnimHelper ;
 LoadAnimTextDraw ( ) {
 
 	txtAnimHelper = TextDrawCreate(610.0, 400.0,
-	"~r~~k~~PED_SPRINT~ ~w~to stop the animation");
+	"~r~~k~~PED_SPRINT~ ~w~TUSU ILE ANIMASYONU DURDUR");
 
 	TextDrawFont(txtAnimHelper, TEXT_DRAW_FONT_2);
 	TextDrawSetShadow(txtAnimHelper,0); // no shadow
