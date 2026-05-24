@@ -11,7 +11,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 		if(temp_tickDiff < cooldown) {
 		
-			return SendServerMessage ( playerid, sprintf("You must wait %0.2f seconds before quickswitching again. To increase this, use /skills and /levelup your holster skill",float(cooldown - temp_tickDiff) / 1000.0), MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, sprintf("Tekrar hýzlý geçiþ yapmadan önce %0.2f saniye beklemelisin. Bu süreyi azaltmak için /skills kullanarak silah kýlýfý yeteneðini /levelup ile yükselt.",float(cooldown - temp_tickDiff) / 1000.0), MSG_TYPE_ERROR ) ;
 		}		
 
 		HolsterTick[playerid] = GetTickCount();		
@@ -102,11 +102,11 @@ CMD:fixaim ( playerid, params [] ) {
 
 	if ( IsPlayerAiming ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You can't do this command whilst aiming a weapon.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bir silahla niþan alýrken bu komutu kullanamazsýn.", MSG_TYPE_ERROR ) ;
 	}
 
 	SetPlayerDrunkLevel(playerid, 1);
-	SendServerMessage ( playerid, "Reset your shake level. If there's still an issue, aim a weapon and it should be fixed.", MSG_TYPE_WARN) ;
+	SendServerMessage ( playerid, "Titreþim seviyen sýfýrlandý. Eðer hala bir sorun varsa, bir silahla niþan al, düzelecektir.", MSG_TYPE_WARN) ;
 
 	return true ;
 }
