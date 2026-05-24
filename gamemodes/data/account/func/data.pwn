@@ -1,6 +1,6 @@
 ClearData ( playerid ) {
 
-	printf("Cleared account data for player %d: %s", playerid, ReturnUserName ( playerid, false ) ) ;
+	printf("oyuncu verileri sifirlandi. %d: %s", playerid, ReturnUserName ( playerid, false ) ) ;
 
  	//Streamer_VisibleItems(STREAMER_TYPE_OBJECT, 1250, playerid);
  	//Streamer_SetRadiusMultiplier(STREAMER_TYPE_OBJECT, 1.75, playerid);
@@ -173,7 +173,7 @@ ClearData ( playerid ) {
 		if ( PlayerAdminconvo [ i ] == playerid ) {
 
 			PlayerAdminconvo [ i ] = -1 ;
-			SendServerMessage ( i, "The host of your admin conversation has disconnected. You have been removed from the conversation.", MSG_TYPE_WARN ) ;
+			SendServerMessage ( i, "Yönetici konuþmanýzýn ana bilgisayarý oyundan ayrýldý. Konuþmadan çýkarýldýnýz.", MSG_TYPE_WARN ) ;
 		}
 
 		else continue ;
