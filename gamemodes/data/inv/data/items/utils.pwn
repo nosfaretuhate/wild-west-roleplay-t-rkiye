@@ -916,410 +916,410 @@ case ITEM_TYPE_USE: {
                     else continue;
                 }
 
-				foreach(new i : Player) {
+			foreach(new i : Player) {
 
-					if(DoesPlayerHaveCampfire[i]) {
+                    if(DoesPlayerHaveCampfire[i]) {
 
-						new Float:x,Float:y,Float:z;
-						GetDynamicObjectPos(PlayerCampfireObjectHandler[i],x,y,z);
-						if(IsPlayerInRangeOfPoint(playerid,2.5,x,y,z)) {
+                        new Float:x,Float:y,Float:z;
+                        GetDynamicObjectPos(PlayerCampfireObjectHandler[i],x,y,z);
+                        if(IsPlayerInRangeOfPoint(playerid,2.5,x,y,z)) {
 
-							task_yield(1);
+                            task_yield(1);
 
-							new error, dialog_response[e_DIALOG_RESPONSE_INFO];
+                            new error, dialog_response[e_DIALOG_RESPONSE_INFO];
 
-							for(;;) {
+                            for(;;) {
 
-					        	switch(error) {
+                                switch(error) {
 
-									case 0: {
+                                    case 0: {
 
-										await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Cooking Location", sprintf("{FFFFFF}Please enter amount you wish to cook. (Max: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Cook","Exit");
-									}
+                                        await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Kamp Ateþi", sprintf("{FFFFFF}Lütfen piþirmek istediðiniz miktarý girin. (Maksimum: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Piþir","Çýkýþ");
+                                    }
 
-									case 1: {
+                                    case 1: {
 
-										await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Cooking Location", sprintf("{CF4040}Amount needs to be a number.{FFFFFF}\n\nPlease enter amount you wish to cook. (Max: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Cook","Exit");
-									}
+                                        await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Kamp Ateþi", sprintf("{CF4040}Miktar bir sayý olmalýdýr.{FFFFFF}\n\nLütfen piþirmek istediðiniz miktarý girin. (Maksimum: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Piþir","Çýkýþ");
+                                    }
 
-									case 2: {
+                                    case 2: {
 
-										await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Cooking Location", sprintf("{CF4040}Amount needs to be a positive number or more than 0.{FFFFFF}\n\nPlease enter amount you wish to cook. (Max: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Cook","Exit");
-									}
+                                        await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Kamp Ateþi", sprintf("{CF4040}Miktar pozitif bir sayý veya 0'dan büyük olmalýdýr.{FFFFFF}\n\nLütfen piþirmek istediðiniz miktarý girin. (Maksimum: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Piþir","Çýkýþ");
+                                    }
 
-									case 3: {
+                                    case 3: {
 
-										await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Cooking Location", sprintf("{CF4040}You do not have that much of this meat, refer to max amount.{FFFFFF}\n\nPlease enter amount you wish to cook. (Max: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Cook","Exit");
-									}
-								}
+                                        await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Kamp Ateþi", sprintf("{CF4040}Elinizde bu kadar et bulunmuyor, maksimum miktara dikkat edin.{FFFFFF}\n\nLütfen piþirmek istediðiniz miktarý girin. (Maksimum: %d)",PlayerItem [ playerid ] [ tileid ] [ player_item_amount ]),"Piþir","Çýkýþ");
+                                    }
+                                }
 
-								error = 0;
+                                error = 0;
 
-								if(dialog_response[E_DIALOG_RESPONSE_Response]) {
+                                if(dialog_response[E_DIALOG_RESPONSE_Response]) {
 
-									if(!IsNumeric(dialog_response[E_DIALOG_RESPONSE_InputText])) {
+                                    if(!IsNumeric(dialog_response[E_DIALOG_RESPONSE_InputText])) {
 
-										error = 1;
-									}
-									else if(strval(dialog_response[E_DIALOG_RESPONSE_InputText]) <= 0) {
+                                        error = 1;
+                                    }
+                                    else if(strval(dialog_response[E_DIALOG_RESPONSE_InputText]) <= 0) {
 
-										error = 2;
-									}
-									else if(strval(dialog_response[E_DIALOG_RESPONSE_InputText]) > PlayerItem[playerid][tileid][player_item_amount]) {
+                                        error = 2;
+                                    }
+                                    else if(strval(dialog_response[E_DIALOG_RESPONSE_InputText]) > PlayerItem[playerid][tileid][player_item_amount]) {
 
-										error = 3;
-									}
+                                        error = 3;
+                                    }
 
-									if(error) {
+                                    if(error) {
 
-										continue;
-									}
+                                        continue;
+                                    }
 
-									if(Item[itemid][item_extra_param] == WILDLIFE_MEAT) {
+                                    if(Item[itemid][item_extra_param] == WILDLIFE_MEAT) {
 
-										if(GivePlayerItemByParam(playerid, PARAM_HUNGER, FOOD_COOKED_MEAT, strval(dialog_response[E_DIALOG_RESPONSE_InputText]), PARAM_HUNGER, FOOD_COOKED_MEAT, 0)) {
-											
-											DecreaseItem(playerid,tileid,strval(dialog_response[E_DIALOG_RESPONSE_InputText]));
-											return SendServerMessage(playerid,sprintf("You've cooked %d pieces of meat.",strval(dialog_response[E_DIALOG_RESPONSE_InputText])),MSG_TYPE_INFO);
-										}
-									}
-									else {
+                                        if(GivePlayerItemByParam(playerid, PARAM_HUNGER, FOOD_COOKED_MEAT, strval(dialog_response[E_DIALOG_RESPONSE_InputText]), PARAM_HUNGER, FOOD_COOKED_MEAT, 0)) {
+                                            
+                                            DecreaseItem(playerid,tileid,strval(dialog_response[E_DIALOG_RESPONSE_InputText]));
+                                            return SendServerMessage(playerid,sprintf("%d adet et piþirdiniz.",strval(dialog_response[E_DIALOG_RESPONSE_InputText])),MSG_TYPE_INFO);
+                                        }
+                                    }
+                                    else {
 
-										if(GivePlayerItemByParam(playerid, PARAM_HUNGER, FOOD_COOKED_MEAT_LEG, strval(dialog_response[E_DIALOG_RESPONSE_InputText]), PARAM_HUNGER, FOOD_COOKED_MEAT_LEG, 0)) {
-											
-											DecreaseItem(playerid,tileid,strval(dialog_response[E_DIALOG_RESPONSE_InputText]));
-											return SendServerMessage(playerid,sprintf("You've cooked %d pieces of meat leg.",strval(dialog_response[E_DIALOG_RESPONSE_InputText])),MSG_TYPE_INFO);
-										}
-									}
-								}
+                                        if(GivePlayerItemByParam(playerid, PARAM_HUNGER, FOOD_COOKED_MEAT_LEG, strval(dialog_response[E_DIALOG_RESPONSE_InputText]), PARAM_HUNGER, FOOD_COOKED_MEAT_LEG, 0)) {
+                                            
+                                            DecreaseItem(playerid,tileid,strval(dialog_response[E_DIALOG_RESPONSE_InputText]));
+                                            return SendServerMessage(playerid,sprintf("%d adet but eti piþirdiniz.",strval(dialog_response[E_DIALOG_RESPONSE_InputText])),MSG_TYPE_INFO);
+                                        }
+                                    }
+                                }
 
-								break;
-					        }
-					        return 1;
-						}
-						else { continue; }
-					}
-					else { continue; }
-				}
+                                break;
+                            }
+                            return 1;
+                        }
+                        else { continue; }
+                    }
+                    else { continue; }
+                }
 
-				goto skipCookMeat;
-			}
+                goto skipCookMeat;
+            }
 
-			skipCookMeat:
+            skipCookMeat:
 
-			if ( ! OnPlayerSell ( playerid, itemid, tileid ) ) {
+            if ( ! OnPlayerSell ( playerid, itemid, tileid ) ) {
 
-				return SendServerMessage ( playerid, "You can't sell these items at the location you're at.", MSG_TYPE_ERROR ) ;
-			}
+                return SendServerMessage ( playerid, "Bulunduðunuz konumda bu eþyalarý satamazsýnýz.", MSG_TYPE_ERROR ) ;
+            }
 
-			return false ;
-		}
-	}
+            return false ;
+        }
+    }
 
-	DecreaseItem ( playerid, tileid, 1 ) ;
+    DecreaseItem ( playerid, tileid, 1 ) ;
 
-	return true ;
+    return true ;
 }
 
 DecreaseItem ( playerid, tileid, amount = 1 ) {
-	new string [ 256 ] ;
+    new string [ 256 ] ;
 
-	PlayerItem [ playerid ] [ tileid ] [ player_item_amount ] -= amount ;
+    PlayerItem [ playerid ] [ tileid ] [ player_item_amount ] -= amount ;
 
-	if ( IsPlayerViewingInventory [ playerid ] == true ) {
+    if ( IsPlayerViewingInventory [ playerid ] == true ) {
 
-		valstr ( string, PlayerItem [ playerid ] [ PlayerExaminingItemTile [ playerid ] ] [ player_item_amount ] ) ;
+        valstr ( string, PlayerItem [ playerid ] [ PlayerExaminingItemTile [ playerid ] ] [ player_item_amount ] ) ;
 
-		PlayerTextDrawHide(playerid, inventory_examine_ptds [ 2 ] ) ;
-		PlayerTextDrawSetString ( playerid, inventory_examine_ptds [ 2 ], string ) ; 
-		PlayerTextDrawShow(playerid, inventory_examine_ptds [ 2 ] ) ;
+        PlayerTextDrawHide(playerid, inventory_examine_ptds [ 2 ] ) ;
+        PlayerTextDrawSetString ( playerid, inventory_examine_ptds [ 2 ], string ) ; 
+        PlayerTextDrawShow(playerid, inventory_examine_ptds [ 2 ] ) ;
 
-		string [ 0 ] = EOS ;
-	}
+        string [ 0 ] = EOS ;
+    }
 
-	mysql_format ( mysql, string, sizeof ( string ), "UPDATE items_player SET player_item_amount = '%d' WHERE player_table_id = %d AND player_database_id = '%d'", 
-		PlayerItem [ playerid ] [ tileid ] [ player_item_amount ], PlayerItem [ playerid ] [ tileid ] [ player_table_id ], Character [ playerid ] [ character_id ] ) ; 
-	mysql_tquery ( mysql, string ) ;
+    mysql_format ( mysql, string, sizeof ( string ), "UPDATE items_player SET player_item_amount = '%d' WHERE player_table_id = %d AND player_database_id = '%d'", 
+        PlayerItem [ playerid ] [ tileid ] [ player_item_amount ], PlayerItem [ playerid ] [ tileid ] [ player_table_id ], Character [ playerid ] [ character_id ] ) ; 
+    mysql_tquery ( mysql, string ) ;
 
-	HasPlayerInventoryUpdated[playerid] = true;
+    HasPlayerInventoryUpdated[playerid] = true;
 
-	if ( PlayerItem [ playerid ] [ tileid ] [ player_item_amount ] <= 0 ) {
+    if ( PlayerItem [ playerid ] [ tileid ] [ player_item_amount ] <= 0 ) {
 
-		DiscardItem ( playerid, tileid ) ;
+        DiscardItem ( playerid, tileid ) ;
 
-		return SendServerMessage ( playerid, "You've used the last quantity you had of this item.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Bu eþyadan elinizdeki son miktarý da kullandýnýz.", MSG_TYPE_ERROR ) ;
+    }
 
-	return true ;
+    return true ;
 }
 
 DecreaseItemByExtraParam ( playerid, param, amount ) {
 
-	new string [ 256 ], totalamount = amount ;
+    new string [ 256 ], totalamount = amount ;
 
-	for ( new i; i < ReturnPlayerItemCount [ playerid ] ; i ++ ) {
+    for ( new i; i < ReturnPlayerItemCount [ playerid ] ; i ++ ) {
 
-		if ( totalamount <= 0 ) { break ; }
+        if ( totalamount <= 0 ) { break ; }
 
-		if ( PlayerItem [ playerid ] [ i ] [ player_item_param2 ] == param ) {
+        if ( PlayerItem [ playerid ] [ i ] [ player_item_param2 ] == param ) {
 
-			if ( totalamount >= PlayerItem [ playerid ] [ i ] [ player_item_amount ] ) { 
+            if ( totalamount >= PlayerItem [ playerid ] [ i ] [ player_item_amount ] ) { 
 
-				totalamount -= PlayerItem [ playerid ] [ i ] [ player_item_amount ] ; 
-				PlayerItem [ playerid ] [ i ] [ player_item_amount ] = 0 ; 
-			}
-			
-			else if ( totalamount < PlayerItem [ playerid ] [ i ] [ player_item_amount ] ) { 
+                totalamount -= PlayerItem [ playerid ] [ i ] [ player_item_amount ] ; 
+                PlayerItem [ playerid ] [ i ] [ player_item_amount ] = 0 ; 
+            }
+            
+            else if ( totalamount < PlayerItem [ playerid ] [ i ] [ player_item_amount ] ) { 
 
-				PlayerItem [ playerid ] [ i ] [ player_item_amount ] -= totalamount ; 
-				totalamount = 0 ; 
-			}
+                PlayerItem [ playerid ] [ i ] [ player_item_amount ] -= totalamount ; 
+                totalamount = 0 ; 
+            }
 
-			if ( IsPlayerViewingInventory [ playerid ] == true ) {
-			
-				valstr ( string, PlayerItem [ playerid ] [ PlayerExaminingItemTile [ playerid ] ] [ player_item_amount ] ) ;
+            if ( IsPlayerViewingInventory [ playerid ] == true ) {
+            
+                valstr ( string, PlayerItem [ playerid ] [ PlayerExaminingItemTile [ playerid ] ] [ player_item_amount ] ) ;
 
-				PlayerTextDrawHide(playerid, inventory_examine_ptds [ 2 ] ) ;
-				PlayerTextDrawSetString ( playerid, inventory_examine_ptds [ 2 ], string ) ; 
-				PlayerTextDrawShow(playerid, inventory_examine_ptds [ 2 ] ) ;
+                PlayerTextDrawHide(playerid, inventory_examine_ptds [ 2 ] ) ;
+                PlayerTextDrawSetString ( playerid, inventory_examine_ptds [ 2 ], string ) ; 
+                PlayerTextDrawShow(playerid, inventory_examine_ptds [ 2 ] ) ;
 
-				string [ 0 ] = EOS ;
-			}
+                string [ 0 ] = EOS ;
+            }
 
-			mysql_format ( mysql, string, sizeof ( string ), "UPDATE items_player SET player_item_amount = '%d' WHERE player_table_id = %d AND player_database_id = '%d'", 
-				PlayerItem [ playerid ] [ i ] [ player_item_amount ], PlayerItem [ playerid ] [ i ] [ player_table_id ], Character [ playerid ] [ character_id ] ) ; 
-			mysql_tquery ( mysql, string ) ;
+            mysql_format ( mysql, string, sizeof ( string ), "UPDATE items_player SET player_item_amount = '%d' WHERE player_table_id = %d AND player_database_id = '%d'", 
+                PlayerItem [ playerid ] [ i ] [ player_item_amount ], PlayerItem [ playerid ] [ i ] [ player_table_id ], Character [ playerid ] [ character_id ] ) ; 
+            mysql_tquery ( mysql, string ) ;
 
-			if ( PlayerItem [ playerid ] [ i ] [ player_item_amount ] <= 0 ) {
+            if ( PlayerItem [ playerid ] [ i ] [ player_item_amount ] <= 0 ) {
 
-				DiscardItem ( playerid, i ) ;
+                DiscardItem ( playerid, i ) ;
 
-				SendServerMessage ( playerid, "You've used the last quantity you had of this item.", MSG_TYPE_ERROR ) ;
-			}
-		}
+                SendServerMessage ( playerid, "Bu eþyadan elinizdeki son miktarý da kullandýnýz.", MSG_TYPE_ERROR ) ;
+            }
+        }
 
-		else continue ;
-	}
+        else continue ;
+    }
 
-	return true ;
+    return true ;
 }
 
 ConsumeFood(playerid, itemid) {
 
-	new query[128];
-	switch(Item[itemid][item_extra_param]) {
+    new query[128];
+    switch(Item[itemid][item_extra_param]) {
 
-		case FOOD_WATER_FULL: {
+        case FOOD_WATER_FULL: {
 
-			Character[playerid][character_thirst] += 20;
-			if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "SMOKING", "M_smk_drag", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s drinks a bottle of water.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_MILK_FULL: {
+            Character[playerid][character_thirst] += 20;
+            if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "SMOKING", "M_smk_drag", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s bir þiþe su içer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_MILK_FULL: {
 
-			Character[playerid][character_thirst] += 15;
-			Character[playerid][character_hunger] += 5;
-			if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "SMOKING", "M_smk_drag", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s drinks some milk.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_ORANGE: {
+            Character[playerid][character_thirst] += 15;
+            Character[playerid][character_hunger] += 5;
+            if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "SMOKING", "M_smk_drag", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s biraz süt içer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_ORANGE: {
 
-			Character[playerid][character_thirst] += 5;
-			Character[playerid][character_hunger] += 5;
-			if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats a orange.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_APPLE_GREEN,FOOD_APPLE_RED: {
+            Character[playerid][character_thirst] += 5;
+            Character[playerid][character_hunger] += 5;
+            if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s bir portakal yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_APPLE_GREEN,FOOD_APPLE_RED: {
 
-			Character[playerid][character_thirst] += 5;
-			Character[playerid][character_hunger] += 5;
-			if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			if(Item[itemid][item_extra_param] == FOOD_APPLE_GREEN) { ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats a green apple.",ReturnUserName(playerid,false,true))); }
-			else { ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats a red apple.",ReturnUserName(playerid,false,true))); }
-		}
-		case FOOD_TOMATO: {
+            Character[playerid][character_thirst] += 5;
+            Character[playerid][character_hunger] += 5;
+            if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            if(Item[itemid][item_extra_param] == FOOD_APPLE_GREEN) { ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s bir yeþil elma yer.",ReturnUserName(playerid,false,true))); }
+            else { ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s bir kýrmýzý elma yer.",ReturnUserName(playerid,false,true))); }
+        }
+        case FOOD_TOMATO: {
 
-			Character[playerid][character_hunger] += 5;
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats a tomato.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_CABBAGE: {
+            Character[playerid][character_hunger] += 5;
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s bir domates yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_CABBAGE: {
 
-			Character[playerid][character_hunger] += 7;
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some cabbage.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_BANANA: {
+            Character[playerid][character_hunger] += 7;
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s biraz lahana yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_BANANA: {
 
-			Character[playerid][character_hunger] += 5;
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats a banana.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_BREAD: {
+            Character[playerid][character_hunger] += 5;
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s bir muz yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_BREAD: {
 
-			Character[playerid][character_thirst] -= 5;
-			Character[playerid][character_hunger] += 20;
-			if(Character[playerid][character_thirst] < 0) { Character[playerid][character_thirst] = 0; }
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some bread.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_PUMPKIN: {
+            Character[playerid][character_thirst] -= 5;
+            Character[playerid][character_hunger] += 20;
+            if(Character[playerid][character_thirst] < 0) { Character[playerid][character_thirst] = 0; }
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s biraz ekmek yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_PUMPKIN: {
 
-			Character[playerid][character_thirst] += 5;
-			Character[playerid][character_hunger] += 20;
-			if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats a piece of pumpkin.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_COOKED_MEAT,FOOD_COOKED_MEAT_LEG: {
+            Character[playerid][character_thirst] += 5;
+            Character[playerid][character_hunger] += 20;
+            if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s bir parça bal kabaðý yer.",ReturnUserName(playerid,false,true)));
+        }
+case FOOD_COOKED_MEAT,FOOD_COOKED_MEAT_LEG: {
 
-			Character[playerid][character_hunger] += 25;
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			if(Item[itemid][item_extra_param] == FOOD_APPLE_GREEN) { ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some cooked meat.",ReturnUserName(playerid,false,true))); }
-			else { ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some cooked meat leg.",ReturnUserName(playerid,false,true))); }
-		}
-		case FOOD_CANNED_SALMON: {
+            Character[playerid][character_hunger] += 25;
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            if(Item[itemid][item_extra_param] == FOOD_COOKED_MEAT) { ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s piþmiþ et yer.",ReturnUserName(playerid,false,true))); }
+            else { ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s piþmiþ but eti yer.",ReturnUserName(playerid,false,true))); }
+        }
+        case FOOD_CANNED_SALMON: {
 
-			Character[playerid][character_thirst] += 5;
-			Character[playerid][character_hunger] += 15;
-			if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some canned salmon.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_CANNED_CORNED_BEEF: {
+            Character[playerid][character_thirst] += 5;
+            Character[playerid][character_hunger] += 15;
+            if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s konserve somon yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_CANNED_CORNED_BEEF: {
 
-			Character[playerid][character_hunger] += 15;
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some canned corned beef.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_CANNED_PINEAPPLES: {
+            Character[playerid][character_hunger] += 15;
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s konserve sýðýr eti yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_CANNED_PINEAPPLES: {
 
-			Character[playerid][character_thirst] += 5;
-			Character[playerid][character_hunger] += 10;
-			if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some canned pineapples.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_CANNED_STRAWBERRIES: {
+            Character[playerid][character_thirst] += 5;
+            Character[playerid][character_hunger] += 10;
+            if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s konserve ananas yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_CANNED_STRAWBERRIES: {
 
-			Character[playerid][character_thirst] += 5;
-			Character[playerid][character_hunger] += 10;
-			if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some canned strawberries.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_CANNED_KIDNEY_BEANS: {
+            Character[playerid][character_thirst] += 5;
+            Character[playerid][character_hunger] += 10;
+            if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s konserve çilek yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_CANNED_KIDNEY_BEANS: {
 
-			Character[playerid][character_hunger] += 15;
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some canned kidney beans.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_CANNED_PEACHES: {
+            Character[playerid][character_hunger] += 15;
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s konserve barbunya yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_CANNED_PEACHES: {
 
-			Character[playerid][character_thirst] += 5;
-			Character[playerid][character_hunger] += 15;
-			if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some canned peaches.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_CANNED_SWEETCORN: {
+            Character[playerid][character_thirst] += 5;
+            Character[playerid][character_hunger] += 15;
+            if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s konserve þeftali yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_CANNED_SWEETCORN: {
 
-			Character[playerid][character_thirst] += 5;
-			Character[playerid][character_hunger] += 10;
-			if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some canned sweetcorn.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_CANNED_BAKED_BEANS: {
+            Character[playerid][character_thirst] += 5;
+            Character[playerid][character_hunger] += 10;
+            if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s konserve mýsýr yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_CANNED_BAKED_BEANS: {
 
-			Character[playerid][character_hunger] += 15;
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some baked beans.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_CANNED_APRICOTS: {
+            Character[playerid][character_hunger] += 15;
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d WHERE character_id = %d",Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s konserve kuru fasulye yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_CANNED_APRICOTS: {
 
-			Character[playerid][character_thirst] += 5;
-			Character[playerid][character_hunger] += 10;
-			if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some canned apricots.",ReturnUserName(playerid,false,true)));
-		}
-		case FOOD_CANNED_PEAS: {
+            Character[playerid][character_thirst] += 5;
+            Character[playerid][character_hunger] += 10;
+            if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s konserve kayýsý yer.",ReturnUserName(playerid,false,true)));
+        }
+        case FOOD_CANNED_PEAS: {
 
-			Character[playerid][character_thirst] += 5;
-			Character[playerid][character_hunger] += 10;
-			if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
-			if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
-			mysql_tquery(mysql,query);
-			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
-			ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s eats some canned peas.",ReturnUserName(playerid,false,true)));
-		}
-		default: {
+            Character[playerid][character_thirst] += 5;
+            Character[playerid][character_hunger] += 10;
+            if(Character[playerid][character_thirst] > 100) { Character[playerid][character_thirst] = 100; }
+            if(Character[playerid][character_hunger] > 100) { Character[playerid][character_hunger] = 100; }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_thirst = %d,character_hunger = %d WHERE character_id = %d",Character[playerid][character_thirst],Character[playerid][character_hunger],Character[playerid][character_id]);
+            mysql_tquery(mysql,query);
+            ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
+            ProxDetector(playerid,20.0,COLOR_ACTION,sprintf("* %s konserve bezelye yer.",ReturnUserName(playerid,false,true)));
+        }
+        default: {
 
-			return SendServerMessage(playerid,sprintf("Something went wrong, please send this to a developer. [Error: ID %d array]",itemid),MSG_TYPE_ERROR);
-		}
-	}
-	UpdateGUI(playerid);
-	return true;
+            return SendServerMessage(playerid,sprintf("Bir þeyler ters gitti, lütfen bunu bir geliþtiriciye bildirin. [Hata: ID %d array]",itemid),MSG_TYPE_ERROR);
+        }
+    }
+    UpdateGUI(playerid);
+    return true;
 }
