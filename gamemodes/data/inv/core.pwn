@@ -379,17 +379,17 @@ CMD:giveitem ( playerid, params [] ) {
 	new id, amount, param1, param2 ;
 
 	if ( sscanf ( params, "iiii", id, amount, param1, param2 ) ) {
-	    return SendClientMessage ( playerid, -1, "/giveitem [item id] [amount] [extra param] [extra param] (leave extra params empty if unknown" ) ;
+	    return SendClientMessage ( playerid, -1, "/giveitem [item id] [miktar] [ekstra] [ekstra] (ekstra parametreleri boþ býrakabilirsiniz)" ) ;
 	}
 
 	if ( id < 1 || id >= sizeof ( Item ) ) {
 
-		return SendServerMessage ( playerid, sprintf("You can't go lower than ID 0. You also can't go higher than the maximum number of items (%d).", sizeof ( Item )), MSG_TYPE_ERROR );
+		return SendServerMessage ( playerid, sprintf("Eþya id 0 olamaz ve (%d) üstüne çýkamaz.", sizeof ( Item )), MSG_TYPE_ERROR );
 	}
 
 	if ( amount > 5 ) {
 
-		return SendServerMessage ( playerid, "A player can only have an item stacked five times.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bir oyuncu sadece bir eþyayý beþ kez üst üste koyabilir.", MSG_TYPE_ERROR ) ;
 	}
 
 	GivePlayerItem ( playerid, id, amount, param1, param2, 0 ) ;
@@ -411,10 +411,10 @@ CMD:createitem ( playerid, params [] ) {
 }
 */
 CMD:invhelp ( playerid ) {
-	SendClientMessage ( playerid, 0x669CADFF, "Inventory Commands" ) ;
-	SendClientMessage ( playerid, -1, "/playeritems - Parses ALL of your items in text" ) ;
-	SendClientMessage ( playerid, -1, "/showitems - Displays a complete list of all items" ) ;
-	SendClientMessage ( playerid, -1, "Press \"N\" to display / hide your inventory." ) ;
+	SendClientMessage ( playerid, 0x669CADFF, "Envanter komutlarý" ) ;
+	SendClientMessage ( playerid, -1, "/playeritems - Tüm eþyalarýný metin olarak listeler." ) ;
+	SendClientMessage ( playerid, -1, "/showitems - Tüm öðeleri gösterir." ) ;
+	SendClientMessage ( playerid, -1, "\"N\" Tuþu ile envanteri kapatýp açabilirsin." ) ;
 
 	return true ;
 }
@@ -432,11 +432,11 @@ CMD:showitems ( playerid, params [] ) {
 
 	if ( !IsPlayerAdmin ( playerid ) ) {
 
-		return SendClientMessage(playerid, COLOR_RED, "Fuck off.");
+		return SendClientMessage(playerid, COLOR_RED, "Yetersiz yetki.");
 	}
 
 	playerLastShowItemPage [ playerid ] = 1 ;
-	SendServerMessage ( playerid, "Use /giveitem to give an item to a player.", MSG_TYPE_ERROR ) ;
+	SendServerMessage ( playerid, "Bir oyuncuya item vermek için /giveitem kullanabilirsin.", MSG_TYPE_ERROR ) ;
 
 	return ShowItemDialog ( playerid )  ;
 }
@@ -448,7 +448,7 @@ ShowItemDialog(playerid) {
     new pages = floatround ( sizeof ( Item ) / MAX_ITEMS_ON_PAGE, floatround_floor ) + 1, 
     	resultcount = ( ( MAX_ITEMS_ON_PAGE * playerLastShowItemPage [ playerid ] ) - MAX_ITEMS_ON_PAGE ) ;
 
-    strcat(string, "Item ID\tItem Name\tItem Model\tItem Type\n");
+    strcat(string, "Item ID\tEsya Adi\tEsya Modeli\tEsya turu\n");
 
     for ( new i = resultcount; i < sizeof ( Item ); i ++ ) {
 
@@ -472,12 +472,12 @@ ShowItemDialog(playerid) {
 
     if ( nextpage ) {
 
-    	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Item List: Page %d of %d", playerLastShowItemPage [ playerid ], pages), string, "Next", "Close" );
+    	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Eþya listesi %d/%d", playerLastShowItemPage [ playerid ], pages), string, "Next", "Close" );
     }
 
 	else {
 
-   		await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Item List: Page %d of %d", playerLastShowItemPage [ playerid ], pages), string, "Close", "" );
+   		await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Eþya listesi %d/%d", playerLastShowItemPage [ playerid ], pages), string, "Close", "" );
 	}
 
 	if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
