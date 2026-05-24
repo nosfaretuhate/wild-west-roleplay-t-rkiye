@@ -1,0 +1,121 @@
+[9.05.2026 21:42:17] [INFO] changed log level from 'warning, error' to 'debug, info, warning, error'
+[9.05.2026 21:42:17] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #1045 'Access denied for user 'omp'@'localhost' (using password: YES)'
+[9.05.2026 21:42:17] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #1045 'Access denied for user 'omp'@'localhost' (using password: YES)'
+[9.05.2026 21:42:17] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #1045 'Access denied for user 'omp'@'localhost' (using password: YES)'
+[9.05.2026 21:42:17] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #1045 'Access denied for user 'omp'@'localhost' (using password: YES)'
+[9.05.2026 23:15:45] [INFO] changed log level from 'warning, error' to 'debug, info, warning, error'
+[9.05.2026 23:15:45] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #1045 'Access denied for user 'omp'@'localhost' (using password: YES)'
+[9.05.2026 23:15:45] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #1045 'Access denied for user 'omp'@'localhost' (using password: YES)'
+[9.05.2026 23:15:45] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #1045 'Access denied for user 'omp'@'localhost' (using password: YES)'
+[9.05.2026 23:15:45] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #1045 'Access denied for user 'omp'@'localhost' (using password: YES)'
+[9.05.2026 23:16:46] [ERROR] mysql_format: can't escape string 'nosfaretu'
+[9.05.2026 23:24:53] [INFO] changed log level from 'warning, error' to 'debug, info, warning, error'
+[9.05.2026 23:24:53] [WARNING] mysql_connect: no password specified
+[9.05.2026 23:25:11] [ERROR] error #1146 while executing query "SELECT * FROM furniture": Table 'omp_wwrp.furniture' doesn't exist
+[9.05.2026 23:25:11] [ERROR] error #1146 while executing query "SELECT * FROM possekiosk": Table 'omp_wwrp.possekiosk' doesn't exist
+[9.05.2026 23:25:11] [ERROR] error #1146 while executing query "SELECT * FROM servertime": Table 'omp_wwrp.servertime' doesn't exist
+[9.05.2026 23:25:11] [ERROR] error #1146 while executing query "SELECT * FROM lottery": Table 'omp_wwrp.lottery' doesn't exist
+[9.05.2026 23:25:11] [ERROR] error #1146 while executing query "SELECT * FROM traps": Table 'omp_wwrp.traps' doesn't exist
+[9.05.2026 23:25:11] [ERROR] error #1146 while executing query "SELECT * FROM poker": Table 'omp_wwrp.poker' doesn't exist
+[9.05.2026 23:25:11] [ERROR] error #1146 while executing query "SELECT * FROM dynamic_labels": Table 'omp_wwrp.dynamic_labels' doesn't exist
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_rentable' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_rent_price' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_rent_change' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_till_change' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon1' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon1ammo' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon2' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon2ammo' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_rentable' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_rent_price' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_rent_change' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_till_change' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon1' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon1ammo' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon2' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon2ammo' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_rentable' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_rent_price' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_rent_change' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_till_change' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon1' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon1ammo' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon2' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon2ammo' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_rentable' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_rent_price' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_rent_change' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_till_change' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon1' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon1ammo' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon2' not found
+[9.05.2026 23:25:11] [ERROR] cache_get_value_name_int: field 'point_weapon2ammo' not found
+[9.05.2026 23:25:12] [ERROR] cache_get_value_name_int: field 'posse_bank' not found
+[9.05.2026 23:25:12] [ERROR] cache_get_value_name_int: field 'posse_bank_decimal' not found
+[9.05.2026 23:30:10] [INFO] changed log level from 'warning, error' to 'debug, info, warning, error'
+[9.05.2026 23:30:10] [WARNING] mysql_connect: no password specified
+[9.05.2026 23:30:31] [ERROR] error #1146 while executing query "SELECT * FROM furniture": Table 'omp_wwrp.furniture' doesn't exist
+[9.05.2026 23:30:31] [ERROR] error #1146 while executing query "SELECT * FROM possekiosk": Table 'omp_wwrp.possekiosk' doesn't exist
+[9.05.2026 23:30:31] [ERROR] error #1146 while executing query "SELECT * FROM servertime": Table 'omp_wwrp.servertime' doesn't exist
+[9.05.2026 23:30:31] [ERROR] error #1146 while executing query "SELECT * FROM lottery": Table 'omp_wwrp.lottery' doesn't exist
+[9.05.2026 23:30:31] [ERROR] error #1146 while executing query "SELECT * FROM traps": Table 'omp_wwrp.traps' doesn't exist
+[9.05.2026 23:30:31] [ERROR] error #1146 while executing query "SELECT * FROM poker": Table 'omp_wwrp.poker' doesn't exist
+[9.05.2026 23:30:31] [ERROR] error #1146 while executing query "SELECT * FROM dynamic_labels": Table 'omp_wwrp.dynamic_labels' doesn't exist
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_rentable' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_rent_price' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_rent_change' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_till_change' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon1' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon1ammo' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon2' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon2ammo' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_rentable' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_rent_price' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_rent_change' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_till_change' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon1' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon1ammo' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon2' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon2ammo' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_rentable' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_rent_price' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_rent_change' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_till_change' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon1' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon1ammo' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon2' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon2ammo' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_rentable' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_rent_price' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_rent_change' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_till_change' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon1' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon1ammo' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon2' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'point_weapon2ammo' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'posse_bank' not found
+[9.05.2026 23:30:31] [ERROR] cache_get_value_name_int: field 'posse_bank_decimal' not found
+[9.05.2026 23:31:04] [ERROR] error #1054 while executing query "UPDATE characters SET character_temperature = 98,character_temperature_decimal = 6 WHERE character_id = 0": Unknown column 'character_temperature' in 'field list'
+[9.05.2026 23:31:05] [ERROR] cache_get_value_name_int: field 'account_rulecheck' not found
+[9.05.2026 23:31:05] [ERROR] cache_get_value_name_int: field 'account_donatorexpire' not found
+[9.05.2026 23:31:05] [ERROR] cache_get_value_name_int: value '' is not a number
+[9.05.2026 23:31:05] [ERROR] cache_get_value_name_int: field 'account_supportquestions' not found
+[9.05.2026 23:31:05] [ERROR] cache_get_value_name: field 'account_anote' not found
+[9.05.2026 23:31:05] [ERROR] cache_get_value_name_int: value '' is not a number
+[9.05.2026 23:31:42] [ERROR] error #1146 while executing query "INSERT INTO sessions (e_session_acc, e_session_time, e_session_idle) VALUES (3, 1, 0)": Table 'omp_wwrp.sessions' doesn't exist
+[9.05.2026 23:34:31] [ERROR] cache_get_value_name_int: field 'account_rulecheck' not found
+[9.05.2026 23:34:31] [ERROR] cache_get_value_name_int: field 'account_donatorexpire' not found
+[9.05.2026 23:34:31] [ERROR] cache_get_value_name_int: value '' is not a number
+[9.05.2026 23:34:31] [ERROR] cache_get_value_name_int: field 'account_supportquestions' not found
+[9.05.2026 23:34:31] [ERROR] cache_get_value_name: field 'account_anote' not found
+[9.05.2026 23:35:04] [ERROR] error #1054 while executing query "UPDATE characters SET character_temperature = 98,character_temperature_decimal = 6 WHERE character_id = 0": Unknown column 'character_temperature' in 'field list'
+[9.05.2026 23:36:55] [ERROR] cache_get_value_name_int: field 'account_rulecheck' not found
+[9.05.2026 23:36:55] [ERROR] cache_get_value_name_int: field 'account_donatorexpire' not found
+[9.05.2026 23:36:55] [ERROR] cache_get_value_name_int: value '' is not a number
+[9.05.2026 23:36:55] [ERROR] cache_get_value_name_int: field 'account_supportquestions' not found
+[9.05.2026 23:36:55] [ERROR] cache_get_value_name: field 'account_anote' not found
+[9.05.2026 23:37:04] [ERROR] error #1054 while executing query "UPDATE characters SET character_temperature = 98,character_temperature_decimal = 6 WHERE character_id = 0": Unknown column 'character_temperature' in 'field list'
+[9.05.2026 23:37:49] [ERROR] error #1054 while executing query "UPDATE master_accounts SET account_rulecheck = 1 WHERE account_id = 3": Unknown column 'account_rulecheck' in 'field list'
+[9.05.2026 23:37:49] [ERROR] error #1146 while executing query "INSERT INTO logs (dir, text, date, ip, info) VALUES ('register/rulecheck', '{DEDEDE}Do you agree to follow the rules whenever you feel like it along with using commands\nsuch as /report and /helpme as a way to directly communicate with staff whenever you want?', '09/05/2026, 23:37', '127.0.0.1', 'X: 546.396911, Y: 2354.923095, Z: 32.635601, vw: 0, int: 0')": Table 'omp_wwrp.logs' doesn't exist
+[9.05.2026 23:37:55] [ERROR] error #1146 while executing query "INSERT INTO sessions (e_session_acc, e_session_time, e_session_idle) VALUES (3, 1, 0)": Table 'omp_wwrp.sessions' doesn't exist
+[9.05.2026 23:38:19] [ERROR] error #1054 while executing query "INSERT INTO characters (account_id, character_name, character_gender, character_origin, character_town, character_skin, character_age, character_horseid) VALUES (3, 'Baba_Syken', 0, 4, 1, 128, 21, '-1')": Unknown column 'character_age' in 'field list'

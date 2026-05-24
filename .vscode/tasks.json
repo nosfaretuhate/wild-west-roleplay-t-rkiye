@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "${workspaceFolder}\\qawno\\pawncc.exe",
+      "args": [
+        "${workspaceFolder}\\gamemodes\\main_dev.pwn",
+        "-D${workspaceFolder}\\gamemodes",
+        "-d3"
+      ],
+
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+
+      "problemMatcher": {
+        "base": "$pawncc",
+        "fileLocation": ["autoDetect", "${workspaceFolder}\\gamemodes"],
+        "pattern": {
+          "regexp": "^(.*?)\\(([0-9]*)[- 0-9]*\\) \\: (fatal error|error|warning) [0-9]*\\: (.*)$",
+          "file": 1,
+          "location": 2,
+          "severity": 3,
+          "message": 4
+        }
+      }
+    }
+  ]
+}
