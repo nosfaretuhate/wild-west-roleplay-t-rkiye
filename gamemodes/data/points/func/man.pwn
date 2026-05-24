@@ -528,164 +528,125 @@ else if ( ! strcmp ( option, "collect" ) ) {
             return SendServerMessage ( playerid, "Sahibi olduðun bir noktanýn yakýnýnda deðilsin.", MSG_TYPE_ERROR ) ;
         }
 
-		else if ( ! strcmp ( soption, "weapon" ) ) {
+else if ( ! strcmp ( soption, "weapon" ) ) {
+            for ( new i; i < MAX_POINTS; i ++ ) {
+                if ( Point [ i ] [ point_id ] != -1 ) {
+                    if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
+                        if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
+                            return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
+                        }
+                        if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
+                            return SendServerMessage ( playerid, "Bu nokta bir ev deðil.", MSG_TYPE_ERROR ) ;
+                        }
+                        if ( amount < 1 || amount > 2) {
+                            return SendServerMessage ( playerid, "/point take weapon [1/2] - 1. veya 2. slotu seçmelisin.", MSG_TYPE_ERROR ) ;
+                        }
+                        if ( amount == 1 ) {
+                            if ( ! Point [ i ] [ point_weapon1 ] ) {
+                                return SendServerMessage ( playerid, "Bu slotta saklý bir silah bulunmuyor.", MSG_TYPE_ERROR ) ;
+                            }
+                            if ( Character [ playerid ] [ character_handweapon ] ) {
+                                return SendServerMessage ( playerid, "Zaten elinde bir silah var, önce onu kýlýfýna koymalýsýn.", MSG_TYPE_ERROR ) ;
+                            }
+                            mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_weapon1 = 0, point_weapon1ammo = 0 WHERE point_id = %d", Point [ i ] [ point_id ] ) ;
+                            mysql_tquery ( mysql, query ) ;
+                            wep_GivePlayerWeapon ( playerid, Point [ i ] [ point_weapon1 ], Point [ i ] [ point_weapon1ammo ] ) ;
+                            Point [ i ] [ point_weapon1 ]       = WEAPON_FIST ;
+                            Point [ i ] [ point_weapon1ammo ]   = 0 ;
+                            Init_Points ( Point [ i ] [ point_id ] ) ;
+                            return true ;
+                        }
+                        else if ( amount == 2 ) {
+                            if ( ! Point [ i ] [ point_weapon2 ] ) {
+                                return SendServerMessage ( playerid, "Bu slotta saklý bir silah bulunmuyor.", MSG_TYPE_ERROR ) ;
+                            }
+                            if ( Character [ playerid ] [ character_handweapon ] ) {
+                                return SendServerMessage ( playerid, "Zaten elinde bir silah var, önce onu kýlýfýna koymalýsýn.", MSG_TYPE_ERROR ) ;
+                            }
+                            mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_weapon2 = 0, point_weapon2ammo = 0 WHERE point_id = %d",  Point [ i ] [ point_id ] ) ;
+                            mysql_tquery ( mysql, query ) ;
+                            wep_GivePlayerWeapon ( playerid, Point [ i ] [ point_weapon2 ], Point [ i ] [ point_weapon2ammo ] ) ;
+                            Point [ i ] [ point_weapon2 ]       = WEAPON_FIST ;
+                            Point [ i ] [ point_weapon2ammo ]   = 0 ;
+                            Init_Points ( Point [ i ] [ point_id ] ) ;
+                            return true ;
+                        }
+                        continue ;
+                    }
+                    else continue ;
+                }
+                else continue ;
+            }
+            return SendServerMessage ( playerid, "Sahibi olduðun bir noktanýn yakýnýnda deðilsin.", MSG_TYPE_ERROR ) ;
+        }
+        else return SendServerMessage ( playerid, "/point take [money/weapon] [miktar/slot]", MSG_TYPE_ERROR ) ;
+    }   
 
-			for ( new i; i < MAX_POINTS; i ++ ) {
+    else if ( ! strcmp ( option, "storage" ) ) {
+        if ( isnull ( soption ) ) {
+            return SendServerMessage ( playerid, "/point storage [money/weapon]", MSG_TYPE_ERROR ) ;
+        }
+        if ( ! strcmp ( soption, "money" ) ) { 
+            for ( new i; i < MAX_POINTS; i ++ ) {
+                if ( Point [ i ] [ point_id ] != -1 ) {
+                    if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
+                        if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
+                            return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
+                        }
+                        if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
+                            return SendServerMessage ( playerid, "Bu nokta bir ev deðil.", MSG_TYPE_ERROR ) ;
+                        }
+                        return SendServerMessage ( playerid, sprintf("Evinde depolanmýþ $%s bulunuyor.", IntegerWithDelimiter ( Point [ i ] [ point_till ])), MSG_TYPE_WARN ) ;
+                    }
+                    else continue ;
+                }
+                else continue ;
+            }
+            return SendServerMessage ( playerid, "Sahibi olduðun bir noktanýn yakýnýnda deðilsin.", MSG_TYPE_ERROR ) ;
+        }
+        else if ( ! strcmp ( soption, "weapon" ) ) { 
+            for ( new i; i < MAX_POINTS; i ++ ) {
+                if ( Point [ i ] [ point_id ] != -1 ) {
+                    if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
+                        if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
+                            return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
+                        }
+                        if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
+                            return SendServerMessage ( playerid, "Bu nokta bir ev deðil.", MSG_TYPE_ERROR ) ;
+                        }
+                        SendClientMessage(playerid, COLOR_TAB0, sprintf("%d ID'li noktanýn silah deposu:", Point [ i ] [ point_id ] ) ) ;
+                        SendClientMessage(playerid, COLOR_TAB1, sprintf("[SLOT 1]: %s (%d mermi)", ReturnWeaponName (Point [ i ] [ point_weapon1 ]), Point [ i ] [ point_weapon1ammo ] ) ) ;
+                        return SendClientMessage(playerid, COLOR_TAB1, sprintf("[SLOT 2]: %s (%d mermi)", ReturnWeaponName (Point [ i ] [ point_weapon2 ]), Point [ i ] [ point_weapon2ammo ] ) ) ;
+                    }
+                    else continue ;
+                }
+                else continue ;
+            }
+            return SendServerMessage ( playerid, "Sahibi olduðun bir noktanýn yakýnýnda deðilsin.", MSG_TYPE_ERROR ) ;
+        }
+        return SendServerMessage ( playerid, "/point storage [money/weapon]", MSG_TYPE_ERROR ) ;
+    }
 
-				if ( Point [ i ] [ point_id ] != -1 ) {
-
-					if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
-
-						if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
-
-							return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
-						}
-
-						if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
-
-							return SendServerMessage ( playerid, "This point isn't a house.", MSG_TYPE_ERROR ) ;
-						}
-
-						if ( amount < 1 || amount > 2) {
-
-							return SendServerMessage ( playerid, "/point store weapon [slot] - slot can't be less than 1 or more than 2.", MSG_TYPE_ERROR ) ;
-						}
-
-						if ( amount == 1 ) {
-
-							if ( ! Point [ i ] [ point_weapon1] ) {
-
-								return SendServerMessage ( playerid, "This slot does not have a weapon stored..", MSG_TYPE_ERROR ) ;
-							}
-
-							if ( Character [ playerid ] [ character_handweapon ] ) {
-
-								return SendServerMessage ( playerid, "You're already holding a weapon. Holster it first.", MSG_TYPE_ERROR ) ;
-							}
-
-							mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_weapon1 = 0, point_weapon1ammo = 0 WHERE point_id = %d", Point [ i ] [ point_id ] ) ;
-							mysql_tquery ( mysql, query ) ;
-
-							wep_GivePlayerWeapon ( playerid, Point [ i ] [ point_weapon1 ], Point [ i ] [ point_weapon1ammo ] ) ;
-
-							Point [ i ] [ point_weapon1 ] 		= WEAPON_FIST ;
-							Point [ i ] [ point_weapon1ammo ] 	= 0 ;
-
-							Init_Points ( Point [ i ] [ point_id ] ) ;
-
-							return true ;
-						}
-
-						else if ( amount == 2 ) {
-							if ( ! Point [ i ] [ point_weapon2] ) {
-
-								return SendServerMessage ( playerid, "This slot does not have a weapon stored.", MSG_TYPE_ERROR ) ;
-							}
-
-							if ( Character [ playerid ] [ character_handweapon ] ) {
-
-								return SendServerMessage ( playerid, "You're not wearing a weapon which can be stored.", MSG_TYPE_ERROR ) ;
-							}
-
-							mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_weapon2 = 0, point_weapon2ammo = 0 WHERE point_id = %d",  Point [ i ] [ point_id ] ) ;
-							mysql_tquery ( mysql, query ) ;
-
-							wep_GivePlayerWeapon ( playerid, Point [ i ] [ point_weapon2 ], Point [ i ] [ point_weapon2ammo ] ) ;
-
-							Point [ i ] [ point_weapon2 ] 		= WEAPON_FIST ;
-							Point [ i ] [ point_weapon2ammo ] 	= 0 ;
-
-							Init_Points ( Point [ i ] [ point_id ] ) ;
-
-							return true ;
-						}
-			
-						continue ;
-					}
-
-					else continue ;
-				}
-
-				else continue ;
-			}
-
-			return SendServerMessage ( playerid, "You're not near a point you own.", MSG_TYPE_ERROR ) ;
-		}
-
-		else return SendServerMessage ( playerid, "/point take [money/weapon] [amount]", MSG_TYPE_ERROR ) ;
-	}	
-
-	else if ( ! strcmp ( option, "storage" ) ) {
-
-		if ( isnull ( soption ) ) {
-
-			return SendServerMessage ( playerid, "/point storage [money/weapon]", MSG_TYPE_ERROR ) ;
-		}
-
-		if ( ! strcmp ( soption, "money" ) ) { 
-
-			for ( new i; i < MAX_POINTS; i ++ ) {
-
-				if ( Point [ i ] [ point_id ] != -1 ) {
-
-					if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
-
-						if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
-
-							return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
-						}
-
-						if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
-
-							return SendServerMessage ( playerid, "This point isn't a house.", MSG_TYPE_ERROR ) ;
-						}
-
-						return SendServerMessage ( playerid, sprintf("You have $%s stored in your house.", IntegerWithDelimiter ( Point [ i ] [ point_till ])), MSG_TYPE_WARN ) ;
-					}
-
-					else continue ;
-				}
-
-				else continue ;
-			}
-
-			return SendServerMessage ( playerid, "You're not near a point you own.", MSG_TYPE_ERROR ) ;
-		}
-
-		else if ( ! strcmp ( soption, "weapon" ) ) { 
-
-			for ( new i; i < MAX_POINTS; i ++ ) {
-
-				if ( Point [ i ] [ point_id ] != -1 ) {
-
-					if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
-
-						if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
-
-							return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
-						}
-
-						if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
-
-							return SendServerMessage ( playerid, "This point isn't a house.", MSG_TYPE_ERROR ) ;
-						}
-
-						SendClientMessage(playerid, COLOR_TAB0, sprintf("Point %d's weapons storage:", Point [ i ] [ point_id ] ) ) ;
-						SendClientMessage(playerid, COLOR_TAB1, sprintf("[SLOT 1]: %s (%d ammo)", ReturnWeaponName (Point [ i ] [ point_weapon1 ]), Point [ i ] [ point_weapon1ammo ] ) ) ;
-						return SendClientMessage(playerid, COLOR_TAB1, sprintf("[SLOT 2]: %s (%d ammo)", ReturnWeaponName (Point [ i ] [ point_weapon2 ]), Point [ i ] [ point_weapon2ammo ] ) ) ;
-					}
-
-					else continue ;
-				}
-
-				else continue ;
-			}
-
-			return SendServerMessage ( playerid, "You're not near a point you own.", MSG_TYPE_ERROR ) ;
-		}
-
-		return SendServerMessage ( playerid, "/point storage [money/weapon]", MSG_TYPE_ERROR ) ;
-	}
+    else if ( ! strcmp ( option, "buy" ) ) {
+        // Satýn alma mantýðý (Burada gerekli kontrollerinizi -para, seviye vb.- yapabilirsiniz)
+        for ( new i; i < MAX_POINTS; i ++ ) {
+            if ( Point [ i ] [ point_id ] != -1 ) {
+                if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_vw ] ) {
+                    if ( Point [ i ] [ point_owner ] != 0 ) {
+                        return SendServerMessage ( playerid, "Bu mülk zaten satýlmýþ.", MSG_TYPE_ERROR ) ;
+                    }
+                    // Örnek satýn alma iþlemi
+                    Point [ i ] [ point_owner ] = Character [ playerid ] [ character_id ] ;
+                    mysql_format(mysql, query, sizeof(query), "UPDATE points SET point_owner = %d WHERE point_id = %d", Character[playerid][character_id], Point[i][point_id]);
+                    mysql_tquery(mysql, query);
+                    
+                    SendServerMessage(playerid, sprintf("Baþarýyla %d ID'li mülkü satýn aldýn!", Point[i][point_id]), MSG_TYPE_INFO);
+                    return true;
+                }
+            }
+        }
+        return SendServerMessage(playerid, "Satýn alabileceðin bir mülkün yakýnýnda deðilsin.", MSG_TYPE_ERROR);
+    }
 
 	else if ( ! strcmp ( option, "sleep" ) ) {
 
@@ -702,7 +663,7 @@ else if ( ! strcmp ( option, "collect" ) ) {
 
 					if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
 
-						return SendServerMessage ( playerid, "This point isn't a house.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "Bu mülk ev deðil!", MSG_TYPE_ERROR ) ;
 					}
 
 					switch ( IsPlayerSleepingInPoint [ playerid ] ) {
@@ -711,7 +672,7 @@ else if ( ! strcmp ( option, "collect" ) ) {
 
 							TogglePlayerControllable ( playerid, false ) ;
 
- 							ShowPlayerDialog(playerid, 9999, DIALOG_STYLE_MSGBOX, "Point Sleep", "You are now sleeping ICly.\n\nYou will recieve half of your paycheck while sleeping along with recieving paychecks 25 percent slower.", "Exit", "" ) ;
+ 							ShowPlayerDialog(playerid, 9999, DIALOG_STYLE_MSGBOX, "Evde uyumak", "Þuanda rolsel olarak uyuyorsun..\n\nMaaþ çekini daha yavaþ ve %25 daha az alacaksýn.", "Çýj", "" ) ;
 
 							IsPlayerSleepingInPoint [ playerid ] = true ;
 						}
@@ -734,692 +695,692 @@ else if ( ! strcmp ( option, "collect" ) ) {
 			else continue ;
 		}
 
-		return SendServerMessage ( playerid, "You are not inside a house you own.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu evin sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
 
 	}
 
-	else return SendServerMessage ( playerid, "/point [buy, sell, lock, fee, collect, store, take, storage, sleep]", MSG_TYPE_INFO ) ;
+	else return SendServerMessage ( playerid, "/point [buy(satýnal), sell(sat), lock(kilit), furni(ture)(mobilya), fee(giriþ ücreti), collect(topla), store(depola), take(al), storag(depolama), sleep(uyu)]", MSG_TYPE_INFO ) ;
 
 	return true ;
 }
 
-CMD:apoint ( playerid, params [] ) {
+CCMD:apoint ( playerid, params [] ) {
 
-	new option [ 32 ], setting, extra [ 32 ] ;
+    new option [ 32 ], setting, extra [ 32 ] ;
 
-	if ( ! IsPlayerModerator ( playerid ) ) {
+    if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Bunu yapabilmek için yetkili olmalýsýn!", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( GetStaffGroup ( playerid ) < ADVANCED_MOD ) {
+    if ( GetStaffGroup ( playerid ) < ADVANCED_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a advanced moderator in order to do this.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Bunu yapabilmek için en az Geliþmiþ Yetkili olmalýsýn.", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( sscanf ( params, "s[32]I(-1)S()[32]", option, setting, extra)) {
+    if ( sscanf ( params, "s[32]I(-1)S()[32]", option, setting, extra)) {
 
-		SendServerMessage ( playerid, "/apoint [param] [setting] [extra: optional]", MSG_TYPE_ERROR ) ;
-		SendServerMessage ( playerid, "PARAMS: [info, create, delete, sell, int, move, name, type, price, biz, lock, goto, inactive, clearinactive, owner, fee]", MSG_TYPE_WARN) ;
-		return SendServerMessage ( playerid, "To see what additional info, type /apoint info. It will show the biztypes and types.", MSG_TYPE_INFO ) ;
-	}
+        SendServerMessage ( playerid, "/apoint [parametre] [ayar] [ekstra: opsiyonel]", MSG_TYPE_ERROR ) ;
+        SendServerMessage ( playerid, "PARAMETRELER: [info, create, delete, sell, int, move, name, type, price, biz, lock, goto, inactive, clearinactive, owner, fee]", MSG_TYPE_WARN) ;
+        return SendServerMessage ( playerid, "Ek bilgi için /apoint info yaz. Biz tiplerini ve nokta tiplerini gösterir.", MSG_TYPE_INFO ) ;
+    }
 
-	new Float: x, Float: y, Float: z, query [ 256 ] ;
-	GetPlayerPos ( playerid, x, y, z ) ;
+    new Float: x, Float: y, Float: z, query [ 256 ] ;
+    GetPlayerPos ( playerid, x, y, z ) ;
 
-	if ( ! strcmp ( option, "info" ) ) {
-		SendServerMessage ( playerid, "[Point Types]: 0: Passpoint, 1: House, 2: Business", MSG_TYPE_INFO ) ;
-		SendServerMessage ( playerid, "[Biz Types]: 0: General store, 1: Gun store, 2: Clothing store, 3: Barber, 4: Liquor store, 5: Saloon 6: Hunting store", MSG_TYPE_INFO ) ;
-		SendServerMessage ( playerid, "[Biz Types]: 7: Bank, 8: Postal Office, 9: Sheriff's Office, 10: Blacksmith, 11: Stablemaster", MSG_TYPE_INFO ) ;
+    if ( ! strcmp ( option, "info" ) ) {
+        SendServerMessage ( playerid, "[Nokta Tipleri]: 0: Geçiþ Noktasý, 1: Ev, 2: Ýþletme", MSG_TYPE_INFO ) ;
+        SendServerMessage ( playerid, "[Ýþletme Tipleri]: 0: Market, 1: Silahçý, 2: Giyim, 3: Berber, 4: Ýçki Dükkaný, 5: Bar, 6: Avcý Dükkaný", MSG_TYPE_INFO ) ;
+        SendServerMessage ( playerid, "[Ýþletme Tipleri]: 7: Banka, 8: Postane, 9: Þerif Ofisi, 10: Demirci, 11: Ahýr", MSG_TYPE_INFO ) ;
 
-		return true ;
-	}
+        return true ;
+    }
 
-	if ( ! strcmp ( option, "create" )) {
+    if ( ! strcmp ( option, "create" )) {
 
-		if ( ! IsPlayerManager ( playerid ) ) {
+        if ( ! IsPlayerManager ( playerid ) ) {
 
-			return SendServerMessage ( playerid, "Nope.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Hayýr.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( setting < 0 || setting > 2 ) {
+        if ( setting < 0 || setting > 2 ) {
 
-			return SendServerMessage ( playerid, "Setting can't be lower than 0 or higher than 2.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Ayar 0'dan küçük veya 2'den büyük olamaz.", MSG_TYPE_ERROR ) ;
+        }
 
-		CreatePoint ( playerid, setting, x, y, z ) ;
+        CreatePoint ( playerid, setting, x, y, z ) ;
 
-		return true ;
-	}
+        return true ;
+    }
 
-	else if ( ! strcmp ( option, "int" )) {
+    else if ( ! strcmp ( option, "int" )) {
 
-		if ( ! IsPlayerManager ( playerid ) ) {
+        if ( ! IsPlayerManager ( playerid ) ) {
 
-			return SendServerMessage ( playerid, "Nope.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Hayýr.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( setting == -1 ) {
+        if ( setting == -1 ) {
 
-			return SendServerMessage ( playerid, "/ap int [pointid]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/ap int [noktaid]", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Point [ setting ] [ point_id ] == -1 ) {
+        if ( Point [ setting ] [ point_id ] == -1 ) {
 
-			return SendServerMessage ( playerid, "Invalid point ID. Please select a proper ID.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Geçersiz nokta ID'si. Lütfen geçerli bir ID seç.", MSG_TYPE_ERROR ) ;
+        }
 
-		Point [ setting ] [ point_int_x ] = x ;
-		Point [ setting ] [ point_int_y ] = y ;
-		Point [ setting ] [ point_int_z ] = z ;
+        Point [ setting ] [ point_int_x ] = x ;
+        Point [ setting ] [ point_int_y ] = y ;
+        Point [ setting ] [ point_int_z ] = z ;
 
-		mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_int_x = '%f', point_int_y = '%f', point_int_z = '%f' WHERE point_id = '%d'",
-			Point [ setting ] [ point_int_x ], Point [ setting ] [ point_int_y ], Point [ setting ] [ point_int_z ], Point [ setting ] [ point_id ]  ) ;
+        mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_int_x = '%f', point_int_y = '%f', point_int_z = '%f' WHERE point_id = '%d'",
+            Point [ setting ] [ point_int_x ], Point [ setting ] [ point_int_y ], Point [ setting ] [ point_int_z ], Point [ setting ] [ point_id ]  ) ;
 
-		mysql_tquery ( mysql, query ) ;
+        mysql_tquery ( mysql, query ) ;
 
-		SendServerMessage ( playerid, sprintf("You've set point ID %d's interior position to yours.", setting), MSG_TYPE_INFO ) ;
+        SendServerMessage ( playerid, sprintf("%d ID'li noktanýn iç mekan konumunu bulunduðun yere ayarladýn.", setting), MSG_TYPE_INFO ) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) has updated point %d's interior to their location.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_LOW ) ;
-		////OldLog ( playerid, "mod/points", sprintf("%s (%d) has updated point %d's interior to their location.", ReturnUserName ( playerid, true ), playerid, setting )) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d), %d ID'li noktanýn iç mekanýný kendi konumuna güncelledi.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_LOW ) ;
+        ////OldLog ( playerid, "mod/points", sprintf("%s (%d) has updated point %d's interior to their location.", ReturnUserName ( playerid, true ), playerid, setting )) ;
 
-		if ( Point [ setting ] [ point_type ] == POINT_TYPE_HOUSE || Point [ setting ] [ point_type ] == POINT_TYPE_BIZ ) {
+        if ( Point [ setting ] [ point_type ] == POINT_TYPE_HOUSE || Point [ setting ] [ point_type ] == POINT_TYPE_BIZ ) {
 
-			new intvalues = 1 ;
-			
-			intvalues += setting ;
+            new intvalues = 1 ;
+            
+            intvalues += setting ;
 
-			Point [ setting ] [ point_int_vw ] = GetPlayerVirtualWorld ( playerid ) + intvalues ;
-			Point [ setting ] [ point_int_int ] = GetPlayerInterior ( playerid ) ;
+            Point [ setting ] [ point_int_vw ] = GetPlayerVirtualWorld ( playerid ) + intvalues ;
+            Point [ setting ] [ point_int_int ] = GetPlayerInterior ( playerid ) ;
 
-			mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_int_vw = %d, point_int_int = %d WHERE point_id = '%d'",
-				Point [ setting ] [ point_int_vw ], Point [ setting ] [ point_int_int ], Point [ setting ] [ point_id ]  ) ;
+            mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_int_vw = %d, point_int_int = %d WHERE point_id = '%d'",
+                Point [ setting ] [ point_int_vw ], Point [ setting ] [ point_int_int ], Point [ setting ] [ point_id ]  ) ;
 
-			mysql_tquery ( mysql, query ) ;
+            mysql_tquery ( mysql, query ) ;
 
-			SendServerMessage ( playerid, 
-				sprintf("Based on the point's type, the interior and virtual world has been updated accordingly. (%d:%d)", Point [ setting ] [ point_int_vw ], Point [ setting ] [ point_int_int ]), 
-					MSG_TYPE_INFO ) ;
+            SendServerMessage ( playerid, 
+                sprintf("Nokta tipine göre iç mekan ve sanal dünya güncellendi. (%d:%d)", Point [ setting ] [ point_int_vw ], Point [ setting ] [ point_int_int ]), 
+                    MSG_TYPE_INFO ) ;
 
-			return true ;
-		}
- 	}
+            return true ;
+        }
+    }
 
-	else if ( ! strcmp (option, "move" ) ) {
+    else if ( ! strcmp (option, "move" ) ) {
 
 
-		if ( ! IsPlayerManager ( playerid ) ) {
+        if ( ! IsPlayerManager ( playerid ) ) {
 
-			return SendServerMessage ( playerid, "Nope.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Hayýr.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( setting == -1 ) {
+        if ( setting == -1 ) {
 
-			return SendServerMessage ( playerid, "/ap move [pointid]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/ap move [noktaid]", MSG_TYPE_ERROR ) ;
+        }
 
 
-		if ( Point [ setting ] [ point_id ] == -1 ) {
+        if ( Point [ setting ] [ point_id ] == -1 ) {
 
-			return SendServerMessage ( playerid, "Invalid point ID. Please select a proper ID.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Geçersiz nokta ID'si. Lütfen geçerli bir ID seç.", MSG_TYPE_ERROR ) ;
+        }
 
-		Point [ setting ] [ point_ext_x ] = x ;
-		Point [ setting ] [ point_ext_y ] = y ;
-		Point [ setting ] [ point_ext_z ] = z ;
+        Point [ setting ] [ point_ext_x ] = x ;
+        Point [ setting ] [ point_ext_y ] = y ;
+        Point [ setting ] [ point_ext_z ] = z ;
 
-		mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_ext_x = '%f', point_ext_y = '%f', point_ext_z = '%f' WHERE point_id = '%d'",
-			Point [ setting ] [ point_ext_x ], Point [ setting ] [ point_ext_y ], Point [ setting ] [ point_ext_z ], Point [ setting ] [ point_id ]  ) ;
+        mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_ext_x = '%f', point_ext_y = '%f', point_ext_z = '%f' WHERE point_id = '%d'",
+            Point [ setting ] [ point_ext_x ], Point [ setting ] [ point_ext_y ], Point [ setting ] [ point_ext_z ], Point [ setting ] [ point_id ]  ) ;
 
-		mysql_tquery ( mysql, query ) ;
+        mysql_tquery ( mysql, query ) ;
 
-		Point [ setting ] [ point_vw ] = GetPlayerVirtualWorld(playerid) ;
-		Point [ setting ] [ point_int ] = GetPlayerInterior( playerid ) ;
+        Point [ setting ] [ point_vw ] = GetPlayerVirtualWorld(playerid) ;
+        Point [ setting ] [ point_int ] = GetPlayerInterior( playerid ) ;
 
-		mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_vw = %d, point_int = %d WHERE point_id = '%d'",
-			Point [ setting ] [ point_vw ], Point [ setting ] [ point_int ], Point [ setting ] [ point_id ]  ) ;
+        mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_vw = %d, point_int = %d WHERE point_id = '%d'",
+            Point [ setting ] [ point_vw ], Point [ setting ] [ point_int ], Point [ setting ] [ point_id ]  ) ;
 
-		mysql_tquery ( mysql, query ) ;
+        mysql_tquery ( mysql, query ) ;
 
-		SendServerMessage ( playerid, sprintf("You've moved point ID %d to your location.", setting), MSG_TYPE_INFO ) ;
+        SendServerMessage ( playerid, sprintf("%d ID'li noktayý bulunduðun yere taþýdýn.", setting), MSG_TYPE_INFO ) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) has moved point %d to their location.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_LOW ) ;
-		////OldLog ( playerid, "mod/points", sprintf("%s (%d) has moved point %d to their location.", ReturnUserName ( playerid, true ), playerid, setting )) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d), %d ID'li noktayý kendi konumuna taþýdý.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_LOW ) ;
+        ////OldLog ( playerid, "mod/points", sprintf("%s (%d) has moved point %d to their location.", ReturnUserName ( playerid, true ), playerid, setting )) ;
 
-		Init_Points ( Point [ setting ] [ point_id ] ) ;
-	}
+        Init_Points ( Point [ setting ] [ point_id ] ) ;
+    }
 
-	else if ( ! strcmp (option, "name" ) ) {
+    else if ( ! strcmp (option, "name" ) ) {
 
 
-		if ( setting == -1 ) {
+        if ( setting == -1 ) {
 
-			return SendServerMessage ( playerid, "/ap name [pointid]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/ap name [noktaid]", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Point [ setting ] [ point_id ] == -1 ) {
+        if ( Point [ setting ] [ point_id ] == -1 ) {
 
-			return SendServerMessage ( playerid, "Invalid point ID. Please select a proper ID.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Geçersiz nokta ID'si. Lütfen geçerli bir ID seç.", MSG_TYPE_ERROR ) ;
+        }
 
-		Point [ setting ] [ point_name ] = extra ;
+        Point [ setting ] [ point_name ] = extra ;
 
-		mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_name = '%e' WHERE point_id = %d",
-			Point [ setting ] [ point_name ], Point [ setting ] [ point_id ]  ) ;
+        mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_name = '%e' WHERE point_id = %d",
+            Point [ setting ] [ point_name ], Point [ setting ] [ point_id ]  ) ;
 
-		mysql_tquery ( mysql, query ) ;
+        mysql_tquery ( mysql, query ) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) has renamed point ID %d to %s.", ReturnUserName ( playerid, true ), playerid,  setting, Point [ setting ] [ point_name ]  ), MOD_WARNING_LOW ) ;
-		//OldLog ( playerid, "mod/points", sprintf(" %s (%d) has renamed point ID %d to %s.", ReturnUserName ( playerid, true ), playerid, setting, Point [ setting ] [ point_id ] )) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d), %d ID'li noktanýn adýný %s olarak deðiþtirdi.", ReturnUserName ( playerid, true ), playerid,  setting, Point [ setting ] [ point_name ]  ), MOD_WARNING_LOW ) ;
+        //OldLog ( playerid, "mod/points", sprintf(" %s (%d) has renamed point ID %d to %s.", ReturnUserName ( playerid, true ), playerid, setting, Point [ setting ] [ point_id ] )) ;
 
-		Init_Points ( Point [ setting ] [ point_id ] ) ;
-	}
+        Init_Points ( Point [ setting ] [ point_id ] ) ;
+    }
 
-	else if ( ! strcmp (option, "type" ) ) {
+    else if ( ! strcmp (option, "type" ) ) {
 
-		if ( ! IsPlayerManager ( playerid ) ) {
+        if ( ! IsPlayerManager ( playerid ) ) {
 
-			return SendServerMessage ( playerid, "Nope.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Hayýr.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( setting == -1 ) {
+        if ( setting == -1 ) {
 
 
-			return SendServerMessage ( playerid, "/ap type [pointid] [type]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/ap type [noktaid] [tip]", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Point [ setting ] [ point_id ] == -1 ) {
+        if ( Point [ setting ] [ point_id ] == -1 ) {
 
-			return SendServerMessage ( playerid, "Invalid point ID. Please select a proper ID.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Geçersiz nokta ID'si. Lütfen geçerli bir ID seç.", MSG_TYPE_ERROR ) ;
+        }
 
-		new type = strval ( extra ) ;
+        new type = strval ( extra ) ;
 
-		if ( type < 0 || type > 2 ) {
+        if ( type < 0 || type > 2 ) {
 
-			return SendServerMessage ( playerid, "Type can't be less than 0 or higher than 2. Use /point biztype for biz types.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Tip 0'dan küçük veya 2'den büyük olamaz. Ýþletme tipleri için /point biztype kullan.", MSG_TYPE_ERROR ) ;
+        }
 
-		Point [ setting ] [ point_type ] = type ;
+        Point [ setting ] [ point_type ] = type ;
 
-		mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_type = '%d' WHERE point_id = %d",
-			type, Point [ setting ] [ point_id ]  ) ;
+        mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_type = '%d' WHERE point_id = %d",
+            type, Point [ setting ] [ point_id ]  ) ;
 
-		mysql_tquery ( mysql, query ) ;
+        mysql_tquery ( mysql, query ) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) has changed point ID %d's type to %d.", ReturnUserName ( playerid, true ), playerid, setting, Point [ setting ] [ point_type ] ), MOD_WARNING_LOW ) ;
-		//OldLog ( playerid, "mod/points", sprintf(" %s (%d) has changed point ID %d's type to %d.", ReturnUserName ( playerid, true ), playerid, setting, Point [ setting ] [ point_type ] )) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d), %d ID'li noktanýn tipini %d olarak deðiþtirdi.", ReturnUserName ( playerid, true ), playerid, setting, Point [ setting ] [ point_type ] ), MOD_WARNING_LOW ) ;
+        //OldLog ( playerid, "mod/points", sprintf(" %s (%d) has changed point ID %d's type to %d.", ReturnUserName ( playerid, true ), playerid, setting, Point [ setting ] [ point_type ] )) ;
 
-		Init_Points ( Point [ setting ] [ point_id ] ) ;
-	}
+        Init_Points ( Point [ setting ] [ point_id ] ) ;
+    }
 
-	else if ( ! strcmp (option, "sell" ) ) {
+    else if ( ! strcmp (option, "sell" ) ) {
 
 
-		if ( ! IsPlayerManager ( playerid ) ) {
+        if ( ! IsPlayerManager ( playerid ) ) {
 
-			return SendServerMessage ( playerid, "Nope.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Hayýr.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( setting == -1 ) {
+        if ( setting == -1 ) {
 
-			return SendServerMessage ( playerid, "/ap sell [pointid]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/ap sell [noktaid]", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Point [ setting ] [ point_id ] == -1 ) {
+        if ( Point [ setting ] [ point_id ] == -1 ) {
 
-			return SendServerMessage ( playerid, "Invalid point ID. Please select a proper ID.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Geçersiz nokta ID'si. Lütfen geçerli bir ID seç.", MSG_TYPE_ERROR ) ;
+        }
 
-		Point [ setting ] [ point_owner ] = 0 ;
+        Point [ setting ] [ point_owner ] = 0 ;
 
-		mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_owner = '-1', point_till = '0', point_till_change = '0', point_weapon1 = '0', point_weapon1ammo = '0', point_weapon2 = '0', point_weapon2ammo = '0' WHERE point_id = '%d'",
-			Point [ setting ] [ point_id ]  ) ;
+        mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_owner = '-1', point_till = '0', point_till_change = '0', point_weapon1 = '0', point_weapon1ammo = '0', point_weapon2 = '0', point_weapon2ammo = '0' WHERE point_id = '%d'",
+            Point [ setting ] [ point_id ]  ) ;
 
-		mysql_tquery ( mysql, query ) ;
+        mysql_tquery ( mysql, query ) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) sold point ID %d.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_HIGH ) ;
-		//OldLog ( playerid, "mod/points", sprintf("%s (%d) sold point ID %d.", ReturnUserName ( playerid, true ), playerid, setting )) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d), %d ID'li noktayý sattý.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_HIGH ) ;
+        //OldLog ( playerid, "mod/points", sprintf("%s (%d) sold point ID %d.", ReturnUserName ( playerid, true ), playerid, setting )) ;
 
-		Init_Points ( Point [ setting ] [ point_id ] ) ;
-	}
+        Init_Points ( Point [ setting ] [ point_id ] ) ;
+    }
 
-	else if ( ! strcmp (option, "price" ) ) {
+    else if ( ! strcmp (option, "price" ) ) {
 
 
-		if ( ! IsPlayerManager ( playerid ) ) {
+        if ( ! IsPlayerManager ( playerid ) ) {
 
-			return SendServerMessage ( playerid, "Nope.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Hayýr.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( setting == -1 ) {
+        if ( setting == -1 ) {
 
-			return SendServerMessage ( playerid, "/ap price [pointid] [price]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/ap price [noktaid] [fiyat]", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Point [ setting ] [ point_id ] == -1 ) {
+        if ( Point [ setting ] [ point_id ] == -1 ) {
 
-			return SendServerMessage ( playerid, "Invalid point ID. Please select a proper ID.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Geçersiz nokta ID'si. Lütfen geçerli bir ID seç.", MSG_TYPE_ERROR ) ;
+        }
 
-		new price = strval ( extra ) ;
+        new price = strval ( extra ) ;
 
-		Point [ setting ] [ point_price ] = price ;
+        Point [ setting ] [ point_price ] = price ;
 
-		mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_price = '%d' WHERE point_id = %d",
-			price, Point [ setting ] [ point_id ]  ) ;
+        mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_price = '%d' WHERE point_id = %d",
+            price, Point [ setting ] [ point_id ]  ) ;
 
-		mysql_tquery ( mysql, query ) ;
+        mysql_tquery ( mysql, query ) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) set point ID %d's price to %d.", ReturnUserName ( playerid, true ), playerid, setting, price ), MOD_WARNING_MED ) ;
-		//OldLog (playerid,  "mod/points", sprintf(" %s (%d) set point ID %d's price to %d.", ReturnUserName ( playerid, true ), playerid, setting, price )) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d), %d ID'li noktanýn fiyatýný %d olarak ayarladý.", ReturnUserName ( playerid, true ), playerid, setting, price ), MOD_WARNING_MED ) ;
+        //OldLog (playerid,  "mod/points", sprintf(" %s (%d) set point ID %d's price to %d.", ReturnUserName ( playerid, true ), playerid, setting, price )) ;
 
-		Init_Points ( Point [ setting ] [ point_id ] ) ;
-	}
+        Init_Points ( Point [ setting ] [ point_id ] ) ;
+    }
 
-	else if ( ! strcmp (option, "biz" ) ) {
+    else if ( ! strcmp (option, "biz" ) ) {
 
 
-		if ( ! IsPlayerManager ( playerid ) ) {
+        if ( ! IsPlayerManager ( playerid ) ) {
 
-			return SendServerMessage ( playerid, "Nope.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Hayýr.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( setting == -1 ) {
+        if ( setting == -1 ) {
 
-			return SendServerMessage ( playerid, "/ap biz [pointid] [biz-type]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/ap biz [noktaid] [iþletme-tipi]", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Point [ setting ] [ point_id ] == -1 ) {
+        if ( Point [ setting ] [ point_id ] == -1 ) {
 
-			return SendServerMessage ( playerid, "Invalid point ID. Please select a proper ID.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Geçersiz nokta ID'si. Lütfen geçerli bir ID seç.", MSG_TYPE_ERROR ) ;
+        }
 
-		new biztype = strval ( extra ) ;
+        new biztype = strval ( extra ) ;
 
-		Point [ setting ] [ point_biztype ] = biztype ;
+        Point [ setting ] [ point_biztype ] = biztype ;
 
-		mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_biztype = '%d' WHERE point_id = %d",
-			biztype, Point [ setting ] [ point_id ]  ) ;
+        mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_biztype = '%d' WHERE point_id = %d",
+            biztype, Point [ setting ] [ point_id ]  ) ;
 
-		mysql_tquery ( mysql, query ) ;
+        mysql_tquery ( mysql, query ) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) set point ID %d's business type %d.", ReturnUserName ( playerid, true ), playerid, setting, biztype ), MOD_WARNING_LOW ) ;
-		//OldLog ( playerid, "mod/points", sprintf(" %s (%d) set point ID %d's business type %d.", ReturnUserName ( playerid, true ), playerid, setting, biztype )) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d), %d ID'li noktanýn iþletme tipini %d olarak ayarladý.", ReturnUserName ( playerid, true ), playerid, setting, biztype ), MOD_WARNING_LOW ) ;
+        //OldLog ( playerid, "mod/points", sprintf(" %s (%d) set point ID %d's business type %d.", ReturnUserName ( playerid, true ), playerid, setting, biztype )) ;
 
-		Init_Points ( Point [ setting ] [ point_id ] ) ;
-	}
+        Init_Points ( Point [ setting ] [ point_id ] ) ;
+    }
 
-	else if ( ! strcmp (option, "delete" ) ) {
+    else if ( ! strcmp (option, "delete" ) ) {
 
 
-		if ( ! IsPlayerManager ( playerid ) ) {
+        if ( ! IsPlayerManager ( playerid ) ) {
 
-			return SendServerMessage ( playerid, "Nope.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Hayýr.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( setting == -1 ) {
+        if ( setting == -1 ) {
 
-			return SendServerMessage ( playerid, "/ap delete [pointid]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/ap delete [noktaid]", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Point [ setting ] [ point_id ] == -1 ) {
+        if ( Point [ setting ] [ point_id ] == -1 ) {
 
-			return SendServerMessage ( playerid, "Invalid point ID. Please select a proper ID.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Geçersiz nokta ID'si. Lütfen geçerli bir ID seç.", MSG_TYPE_ERROR ) ;
+        }
 
-		mysql_format(mysql, query, sizeof ( query ), "DELETE FROM `points`  WHERE point_id = %d", Point [ setting ] [ point_id ]  ) ;
+        mysql_format(mysql, query, sizeof ( query ), "DELETE FROM `points`  WHERE point_id = %d", Point [ setting ] [ point_id ]  ) ;
 
-		mysql_tquery ( mysql, query ) ;
+        mysql_tquery ( mysql, query ) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) has deleted point ID %d.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_HIGH ) ;
-		//OldLog ( playerid, "mod/points", sprintf("%s (%d) has deleted point ID %d.", ReturnUserName ( playerid, true ), playerid, setting )) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d), %d ID'li noktayý sildi.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_HIGH ) ;
+        //OldLog ( playerid, "mod/points", sprintf("%s (%d) has deleted point ID %d.", ReturnUserName ( playerid, true ), playerid, setting )) ;
 
-		Init_Points ( Point [ setting ] [ point_id ] ) ;
-	}
+        Init_Points ( Point [ setting ] [ point_id ] ) ;
+    }
 
-	else if ( ! strcmp ( option, "lock" ) ) {
+    else if ( ! strcmp ( option, "lock" ) ) {
 
-		if ( setting == -1 ) {
+        if ( setting == -1 ) {
 
-			return SendServerMessage ( playerid, "/ap lock [pointid]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/ap lock [noktaid]", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Point [ setting ] [ point_id ] == -1 ) {
+        if ( Point [ setting ] [ point_id ] == -1 ) {
 
-			return SendServerMessage ( playerid, "Invalid point ID. Please select a proper ID.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Geçersiz nokta ID'si. Lütfen geçerli bir ID seç.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( ! Point [ setting ] [ point_locked ] ) {
+        if ( ! Point [ setting ] [ point_locked ] ) {
 
-			Point [ setting ] [ point_locked ] = true ;
+            Point [ setting ] [ point_locked ] = true ;
 
-			SendServerMessage ( playerid, "You've locked the door of your entrance.", MSG_TYPE_INFO ) ;
-			SendModeratorWarning ( sprintf("[STAFF] %s (%d) has locked point ID %d.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_MED ) ;
-			//OldLog ( playerid, "mod/points", sprintf("%s (%d) has locked point ID %d.", ReturnUserName ( playerid, true ), playerid, setting )) ;
-		}
+            SendServerMessage ( playerid, "Giriþ kapýsýný kilitledin.", MSG_TYPE_INFO ) ;
+            SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d), %d ID'li noktayý kilitledi.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_MED ) ;
+            //OldLog ( playerid, "mod/points", sprintf("%s (%d) has locked point ID %d.", ReturnUserName ( playerid, true ), playerid, setting )) ;
+        }
 
-		else if ( Point [ setting ] [ point_locked ] ) { 
+        else if ( Point [ setting ] [ point_locked ] ) { 
 
-			Point [ setting ] [ point_locked ] = false ;
+            Point [ setting ] [ point_locked ] = false ;
 
-			SendServerMessage ( playerid, "You've unlocked the door of your entrance.", MSG_TYPE_INFO ) ;
-			SendModeratorWarning ( sprintf("[STAFF] %s (%d) has unlocked point ID %d.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_MED ) ;
-			//OldLog ( playerid, "mod/points", sprintf("%s (%d) has unlocked point ID %d.", ReturnUserName ( playerid, true ), playerid, setting )) ;
-		}
+            SendServerMessage ( playerid, "Giriþ kapýsýnýn kilidini açtýn.", MSG_TYPE_INFO ) ;
+            SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d), %d ID'li noktanýn kilidini açtý.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_MED ) ;
+            //OldLog ( playerid, "mod/points", sprintf("%s (%d) has unlocked point ID %d.", ReturnUserName ( playerid, true ), playerid, setting )) ;
+        }
 
-		mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_locked = '%d' WHERE point_id = '%d'", Point [ setting ] [ point_locked ], Point [ setting ] [ point_id ] ) ;
-		mysql_tquery ( mysql, query ) ;
-	}
+        mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_locked = '%d' WHERE point_id = '%d'", Point [ setting ] [ point_locked ], Point [ setting ] [ point_id ] ) ;
+        mysql_tquery ( mysql, query ) ;
+    }
 
-	else if ( ! strcmp ( option, "goto" ) ) {
-		
-		if ( setting == -1 ) {
+    else if ( ! strcmp ( option, "goto" ) ) {
+        
+        if ( setting == -1 ) {
 
-			return SendServerMessage ( playerid, "/ap goto [pointid]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/ap goto [noktaid]", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Point [ setting ] [ point_id ] == -1 ) {
+        if ( Point [ setting ] [ point_id ] == -1 ) {
 
-			return SendServerMessage ( playerid, "Invalid point ID. Please select a proper ID.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Geçersiz nokta ID'si. Lütfen geçerli bir ID seç.", MSG_TYPE_ERROR ) ;
+        }
 
-		ac_SetPlayerPos ( playerid, Point [ setting ] [ point_ext_x ], Point [ setting ] [ point_ext_y ], Point [ setting ] [ point_ext_z ]) ;
-		SetPlayerInterior ( playerid, Point [ setting ] [ point_int ] ) ;
-		SetPlayerVirtualWorld(playerid, Point [ setting ] [ point_vw]) ;
+        ac_SetPlayerPos ( playerid, Point [ setting ] [ point_ext_x ], Point [ setting ] [ point_ext_y ], Point [ setting ] [ point_ext_z ]) ;
+        SetPlayerInterior ( playerid, Point [ setting ] [ point_int ] ) ;
+        SetPlayerVirtualWorld(playerid, Point [ setting ] [ point_vw]) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) has teleported to point ID %d.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_LOW ) ;
-		//OldLog ( playerid, "mod/points", sprintf("%s (%d) has teleported to point ID %d.", ReturnUserName ( playerid, true ), playerid, setting )) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d), %d ID'li noktaya ýþýnlandý.", ReturnUserName ( playerid, true ), playerid, setting ), MOD_WARNING_LOW ) ;
+        //OldLog ( playerid, "mod/points", sprintf("%s (%d) has teleported to point ID %d.", ReturnUserName ( playerid, true ), playerid, setting )) ;
 
-	}
+    }
 
-	else if ( ! strcmp ( option, "inactive" ) ) {
+    else if ( ! strcmp ( option, "inactive" ) ) {
 
-		SendClientMessage(playerid, COLOR_YELLOW, "Inactive points:" ) ;
+        SendClientMessage(playerid, COLOR_YELLOW, "Aktif olmayan noktalar:" ) ;
 
-		new rows [ 3 ] ;
-		inline CheckPointOwners() {
+        new rows [ 3 ] ;
+        inline CheckPointOwners() {
 
-			cache_get_row_count ( rows [ 0 ] ) ;
+            cache_get_row_count ( rows [ 0 ] ) ;
 
-			if ( rows [ 0 ] ) {
+            if ( rows [ 0 ] ) {
 
-				for ( new i, j = rows [ 0 ] ; i < j; i++ ) {
+                for ( new i, j = rows [ 0 ] ; i < j; i++ ) {
 
-					new pointid, pointname[32], pointowner;
+                    new pointid, pointname[32], pointowner;
 
-					cache_get_value_int ( i, "point_id", pointid ) ;
-					cache_get_value_name ( i, "point_name", pointname, 32 ) ;
-					cache_get_value_int ( i, "point_owner", pointowner ) ;
+                    cache_get_value_int ( i, "point_id", pointid ) ;
+                    cache_get_value_name ( i, "point_name", pointname, 32 ) ;
+                    cache_get_value_int ( i, "point_owner", pointowner ) ;
 
-					inline PlayerCharacterCheck() {
+                    inline PlayerCharacterCheck() {
 
-						cache_get_row_count ( rows [ 1 ] ) ;
+                        cache_get_row_count ( rows [ 1 ] ) ;
 
-						if ( rows [ 1 ] ) {
+                        if ( rows [ 1 ] ) {
 
-							new id, name[MAX_PLAYER_NAME];
+                            new id, name[MAX_PLAYER_NAME];
 
-							cache_get_value_int (0, "account_id", id ) ;
-							cache_get_value_name(0, "character_name", name, MAX_PLAYER_NAME ) ; 
+                            cache_get_value_int (0, "account_id", id ) ;
+                            cache_get_value_name(0, "character_name", name, MAX_PLAYER_NAME ) ; 
 
-							inline PlayerInactiveCheck() {
+                            inline PlayerInactiveCheck() {
 
-								cache_get_row_count ( rows [ 2 ] ) ;
+                                cache_get_row_count ( rows [ 2 ] ) ;
 
-								if ( rows [ 2 ] ) {
+                                if ( rows [ 2 ] ) {
 
-									new accname[MAX_PLAYER_NAME],timestamp;
+                                    new accname[MAX_PLAYER_NAME],timestamp;
 
-									cache_get_value_name(0,"account_name", accname, MAX_PLAYER_NAME ) ;
-									cache_get_value_int (0, "account_lastlogin", timestamp);
+                                    cache_get_value_name(0,"account_name", accname, MAX_PLAYER_NAME ) ;
+                                    cache_get_value_int (0, "account_lastlogin", timestamp);
 
-									if ( gettime() - 604800 > timestamp ) {
+                                    if ( gettime() - 604800 > timestamp ) {
 
-										SendServerMessage ( playerid, sprintf("[%d] %s - Owner: %s (%s)", pointid, pointname, name, accname), MSG_TYPE_INFO ) ;
-									}
+                                        SendServerMessage ( playerid, sprintf("[%d] %s - Sahibi: %s (%s)", pointid, pointname, name, accname), MSG_TYPE_INFO ) ;
+                                    }
 
-									else continue;
-								}
-							}
-							MySQL_TQueryInline ( mysql, using inline PlayerInactiveCheck, "SELECT account_name,account_lastlogin FROM master_accounts WHERE account_id = %d", id);
-						}
-					}
-					MySQL_TQueryInline ( mysql, using inline PlayerCharacterCheck, "SELECT account_id, character_name FROM characters WHERE character_id = %d", pointowner );
-				}
+                                    else continue;
+                                }
+                            }
+                            MySQL_TQueryInline ( mysql, using inline PlayerInactiveCheck, "SELECT account_name,account_lastlogin FROM master_accounts WHERE account_id = %d", id);
+                        }
+                    }
+                    MySQL_TQueryInline ( mysql, using inline PlayerCharacterCheck, "SELECT account_id, character_name FROM characters WHERE character_id = %d", pointowner );
+                }
 
-				SetTimerEx("DelayInactiveCheck", 1000, false, "iii", playerid, rows [ 0 ], 0) ;
-			}
-		}
+                SetTimerEx("DelayInactiveCheck", 1000, false, "iii", playerid, rows [ 0 ], 0) ;
+            }
+        }
 
-		MySQL_TQueryInline(mysql, using inline CheckPointOwners, "SELECT point_id, point_name, point_owner FROM points WHERE point_owner != -1");
+        MySQL_TQueryInline(mysql, using inline CheckPointOwners, "SELECT point_id, point_name, point_owner FROM points WHERE point_owner != -1");
 
-		return true ;
-	}
+        return true ;
+    }
 
-	else if ( ! strcmp ( option, "clearinactive" ) ) {
+    else if ( ! strcmp ( option, "clearinactive" ) ) {
 
-		task_yield ( 1 );
+        task_yield ( 1 );
 
-		new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
-		await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_MSGBOX, "{C23030}WARNING", "{C23030}READ THIS BEFORE PRESSING CONTINUE.{DEDEDE}\n\nYou're about to clear all inactive points.\nIf you completely sure to clear all inactive points, press \"Proceed\".", "{C23030}Proceed", "Cancel" ) ;
+        new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
+        await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_MSGBOX, "{C23030}UYARI", "{C23030}DEVAM ETMEDEN ÖNCE OKU.{DEDEDE}\n\nAktif olmayan tüm noktalarý temizlemek üzeresin.\nEðer tüm pasif noktalarý silmek istediðine eminsen, \"Devam Et\"e bas.", "{C23030}Devam Et", "Ýptal" ) ;
 
-		if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+        if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
-			new rows [ 3 ] ;
+            new rows [ 3 ] ;
 
-			inline clear_CheckPointOwners() {
+            inline clear_CheckPointOwners() {
 
-				cache_get_row_count ( rows [ 0 ] ) ;
+                cache_get_row_count ( rows [ 0 ] ) ;
 
-				if ( rows [ 0 ] ) {
+                if ( rows [ 0 ] ) {
 
-					for ( new i, j = rows [ 0 ] ; i < j; i++ ) {
+                    for ( new i, j = rows [ 0 ] ; i < j; i++ ) {
 
-						new pointid, pointowner ;
+                        new pointid, pointowner ;
 
-						cache_get_value_int ( i, "point_id", pointid ) ;
-						cache_get_value_int ( i, "point_owner", pointowner ) ;
+                        cache_get_value_int ( i, "point_id", pointid ) ;
+                        cache_get_value_int ( i, "point_owner", pointowner ) ;
 
-						inline clear_PlayerCharacterCheck() {
+                        inline clear_PlayerCharacterCheck() {
 
-							cache_get_row_count ( rows [ 1 ] ) ;
+                            cache_get_row_count ( rows [ 1 ] ) ;
 
-							if ( rows [ 1 ] ) {
+                            if ( rows [ 1 ] ) {
 
-								new id ;
+                                new id ;
 
-								cache_get_value_int (0, "account_id", id ) ;
+                                cache_get_value_int (0, "account_id", id ) ;
 
-								inline clear_PlayerInactiveCheck() {
+                                inline clear_PlayerInactiveCheck() {
 
-									cache_get_row_count ( rows [ 2 ] ) ;
+                                    cache_get_row_count ( rows [ 2 ] ) ;
 
-									if ( rows [ 2 ] ) {
+                                    if ( rows [ 2 ] ) {
 
-										new timestamp;
+                                        new timestamp;
 
-										cache_get_value_int (0, "account_lastlogin", timestamp);
+                                        cache_get_value_int (0, "account_lastlogin", timestamp);
 
-										if ( gettime() - 604800 > timestamp ) {
+                                        if ( gettime() - 604800 > timestamp ) {
 
-											mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_owner = '-1', point_till = '0', point_till_change = '0', point_weapon1 = '0', point_weapon1ammo = '0', point_weapon2 = '0', point_weapon2ammo = '0' WHERE point_id = '%d'", pointid ) ;
-											//mysql_tquery ( mysql, query ) ;
-											//SendServerMessage(playerid,sprintf("[%i]: %i removed.",pointid,pointowner),MSG_TYPE_INFO);
-										}
-										else continue;
-									}
-								}
-								MySQL_TQueryInline ( mysql, using inline clear_PlayerInactiveCheck, "SELECT account_lastlogin FROM master_accounts WHERE account_id = %d", id);
-							}
-						}
-						MySQL_TQueryInline ( mysql, using inline clear_PlayerCharacterCheck, "SELECT account_id FROM characters WHERE character_id = %d", pointowner );
-					}
+                                            mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_owner = '-1', point_till = '0', point_till_change = '0', point_weapon1 = '0', point_weapon1ammo = '0', point_weapon2 = '0', point_weapon2ammo = '0' WHERE point_id = '%d'", pointid ) ;
+                                            //mysql_tquery ( mysql, query ) ;
+                                            //SendServerMessage(playerid,sprintf("[%i]: %i removed.",pointid,pointowner),MSG_TYPE_INFO);
+                                        }
+                                        else continue;
+                                    }
+                                }
+                                MySQL_TQueryInline ( mysql, using inline clear_PlayerInactiveCheck, "SELECT account_lastlogin FROM master_accounts WHERE account_id = %d", id);
+                            }
+                        }
+                        MySQL_TQueryInline ( mysql, using inline clear_PlayerCharacterCheck, "SELECT account_id FROM characters WHERE character_id = %d", pointowner );
+                    }
 
-					SetTimerEx("DelayInactiveCheck", 1000, false, "iii", playerid, rows [ 0 ], 1) ;
-				}
+                    SetTimerEx("DelayInactiveCheck", 1000, false, "iii", playerid, rows [ 0 ], 1) ;
+                }
 
-				else {
+                else {
 
-					return SendServerMessage ( playerid, "There are no inactive points to clear.", MSG_TYPE_ERROR ) ;
-				}
-			}
+                    return SendServerMessage ( playerid, "Temizlenecek pasif nokta bulunamadý.", MSG_TYPE_ERROR ) ;
+                }
+            }
 
-			MySQL_TQueryInline ( mysql, using inline clear_CheckPointOwners, "SELECT point_id, point_owner FROM points WHERE point_owner != -1" );
-		}
+            MySQL_TQueryInline ( mysql, using inline clear_CheckPointOwners, "SELECT point_id, point_owner FROM points WHERE point_owner != -1" );
+        }
 
-		else return true ;
-	}
+        else return true ;
+    }
 
-	else if ( ! strcmp ( option, "owner" ) ) {
+    else if ( ! strcmp ( option, "owner" ) ) {
 
-		if ( setting == -1 ) {
+        if ( setting == -1 ) {
 
-			return SendServerMessage ( playerid, "/ap owner [pointid]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/ap owner [noktaid]", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Point [ setting ] [ point_id ] == -1 ) {
+        if ( Point [ setting ] [ point_id ] == -1 ) {
 
-			return SendServerMessage ( playerid, "Invalid point ID. Please select a proper ID.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Geçersiz nokta ID'si. Lütfen geçerli bir ID seç.", MSG_TYPE_ERROR ) ;
+        }
 
-		new rows;
-		inline CheckPointOwner() {
+        new rows;
+        inline CheckPointOwner() {
 
-			cache_get_row_count ( rows ) ;
+            cache_get_row_count ( rows ) ;
 
-			if ( rows ) {
+            if ( rows ) {
 
-				for ( new i; i<rows; i++ ) {
+                for ( new i; i<rows; i++ ) {
 
-					new pointowner;
-					cache_get_value_int ( i, "point_owner", pointowner ) ;
+                    new pointowner;
+                    cache_get_value_int ( i, "point_owner", pointowner ) ;
 
-					inline OwnerNamePull() {
+                    inline OwnerNamePull() {
 
-						cache_get_row_count ( rows ) ;
+                        cache_get_row_count ( rows ) ;
 
-						if ( rows ) {
+                        if ( rows ) {
 
-							new accid, charid, name[MAX_PLAYER_NAME];
+                            new accid, charid, name[MAX_PLAYER_NAME];
 
-							cache_get_value_int (0, "account_id", accid ) ;
-							cache_get_value_int (0, "character_id", charid ) ;
+                            cache_get_value_int (0, "account_id", accid ) ;
+                            cache_get_value_int (0, "character_id", charid ) ;
 
-							cache_get_value_name(0, "character_name", name, MAX_PLAYER_NAME ) ; 
+                            cache_get_value_name(0, "character_name", name, MAX_PLAYER_NAME ) ; 
 
-							SendServerMessage ( playerid, sprintf("Point %d is owned by %s [char %d, ma %d ]", setting, name, charid, accid), MSG_TYPE_WARN ) ;
-						}
+                            SendServerMessage ( playerid, sprintf("Nokta %d'nin sahibi: %s [Karakter ID %d, MA %d ]", setting, name, charid, accid), MSG_TYPE_WARN ) ;
+                        }
 
-						else continue;
-					}
+                        else continue;
+                    }
 
-					MySQL_TQueryInline ( mysql, using inline OwnerNamePull, "SELECT account_id, character_id, character_name FROM characters WHERE character_id = %d", pointowner );
+                    MySQL_TQueryInline ( mysql, using inline OwnerNamePull, "SELECT account_id, character_id, character_name FROM characters WHERE character_id = %d", pointowner );
 
-					return true ;
-				}
-			}
+                    return true ;
+                }
+            }
 
-			else if ( ! rows ) {
+            else if ( ! rows ) {
 
-				return SendServerMessage ( playerid, "No players own a business.", MSG_TYPE_ERROR ) ;
-			}
+                return SendServerMessage ( playerid, "Ýþletmeye sahip kimse yok.", MSG_TYPE_ERROR ) ;
+            }
 
-			return SendClientMessage(playerid, -1, "No inactive points!" ) ;
-		}
+            return SendClientMessage(playerid, -1, "Aktif olmayan nokta yok!" ) ;
+        }
 
-		MySQL_TQueryInline(mysql, using inline CheckPointOwner, "SELECT point_owner FROM points WHERE point_id = %d", Point [ setting ] [ point_id ]  );
-	}
+        MySQL_TQueryInline(mysql, using inline CheckPointOwner, "SELECT point_owner FROM points WHERE point_id = %d", Point [ setting ] [ point_id ]  );
+    }
 
 
-	else if ( ! strcmp ( option, "fee" ) ) {
+    else if ( ! strcmp ( option, "fee" ) ) {
 
-		if ( ! IsPlayerManager ( playerid ) ) {
+        if ( ! IsPlayerManager ( playerid ) ) {
 
-			return SendServerMessage ( playerid, "Nope.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Hayýr.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( setting == -1 ) {
+        if ( setting == -1 ) {
 
-			return SendServerMessage ( playerid, "/ap fee [pointid] [fee]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/ap fee [noktaid] [ücret]", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Point [ setting ] [ point_id ] == -1 ) {
+        if ( Point [ setting ] [ point_id ] == -1 ) {
 
-			return SendServerMessage ( playerid, "Invalid point ID. Please select a proper ID.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Geçersiz nokta ID'si. Lütfen geçerli bir ID seç.", MSG_TYPE_ERROR ) ;
+        }
 
-		new fee = strval ( extra ) ;
+        new fee = strval ( extra ) ;
 
-		Point [ setting ] [ point_fee ] = fee ;
+        Point [ setting ] [ point_fee ] = fee ;
 
-		mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_fee = '%d' WHERE point_id = %d",
-			fee, Point [ setting ] [ point_id ]  ) ;
+        mysql_format(mysql, query, sizeof ( query ), "UPDATE points SET point_fee = '%d' WHERE point_id = %d",
+            fee, Point [ setting ] [ point_id ]  ) ;
 
-		mysql_tquery ( mysql, query ) ;
+        mysql_tquery ( mysql, query ) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) set point ID %d's fee to %d.", ReturnUserName ( playerid, true ), playerid, setting, fee ), MOD_WARNING_MED ) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d), %d ID'li noktanýn ücretini %d olarak ayarladý.", ReturnUserName ( playerid, true ), playerid, setting, fee ), MOD_WARNING_MED ) ;
 
-		Init_Points ( Point [ setting ] [ point_id ] ) ;
-	}
+        Init_Points ( Point [ setting ] [ point_id ] ) ;
+    }
 
-	else {
+    else {
 
-		SendServerMessage ( playerid, "/apoint [param] [setting] [extra: optional]", MSG_TYPE_ERROR ) ;
-		SendServerMessage ( playerid, "PARAMS: [info, create, delete, sell, int, move, name, type, price, biz, lock, goto, inactive, clearinactive, owner, fee]", MSG_TYPE_WARN) ;
-		return SendServerMessage ( playerid, "To see what additional info, type /apoint info. It will show the biztypes and types.", MSG_TYPE_INFO ) ;
-	}
+        SendServerMessage ( playerid, "/apoint [parametre] [ayar] [ekstra: opsiyonel]", MSG_TYPE_ERROR ) ;
+        SendServerMessage ( playerid, "PARAMETRELER: [info, create, delete, sell, int, move, name, type, price, biz, lock, goto, inactive, clearinactive, owner, fee]", MSG_TYPE_WARN) ;
+        return SendServerMessage ( playerid, "Ek bilgi için /apoint info yaz. Biz tiplerini ve nokta tiplerini gösterir.", MSG_TYPE_INFO ) ;
+    }
 
-	return true ;
+    return true ;
 }
 
 CMD:mypoints ( playerid, params [] ) {
 
-	SendServerMessage ( playerid, "Your owned points:", MSG_TYPE_WARN ) ;
+    SendServerMessage ( playerid, "Sahibi olduðun noktalar:", MSG_TYPE_WARN ) ;
 
-	new count ;
+    new count ;
 
-	for ( new i; i < MAX_POINTS; i ++ ) {
+    for ( new i; i < MAX_POINTS; i ++ ) {
 
-		if ( Point [ i ] [ point_id ] == -1 ) {
+        if ( Point [ i ] [ point_id ] == -1 ) {
 
-			continue ;
-		}
+            continue ;
+        }
 
-		if ( Point [ i ] [ point_owner ] == Character [ playerid ] [ character_id ] ) {
+        if ( Point [ i ] [ point_owner ] == Character [ playerid ] [ character_id ] ) {
 
-			count ++ ;
+            count ++ ;
 
-			SendClientMessage(playerid, 0xDEDEDEFF, sprintf("(%d) %s [DB: %d]", i, Point [ i ] [ point_name ], Point [ i ] [ point_id ] ) ) ;
+            SendClientMessage(playerid, 0xDEDEDEFF, sprintf("(%d) %s [DB: %d]", i, Point [ i ] [ point_name ], Point [ i ] [ point_id ] ) ) ;
 
-			continue ;
-		}
+            continue ;
+        }
 
-		else continue ;
-	}
+        else continue ;
+    }
 
 
-	if ( ! count ) {
+    if ( ! count ) {
 
-		return SendServerMessage ( playerid, "You have no points.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Hiç noktan yok.", MSG_TYPE_ERROR ) ;
+    }
 
-	return true ;
+    return true ;
 }
 
 forward DelayInactiveCheck(playerid, total, clear);
 public DelayInactiveCheck(playerid, total, clear) {
 
-	if ( ! clear ) {
+    if ( ! clear ) {
 
-		SendServerMessage ( playerid, sprintf("%i total inactive points.", total ), MSG_TYPE_INFO ) ;
-	}
+        SendServerMessage ( playerid, sprintf("Toplam %i aktif olmayan nokta var.", total ), MSG_TYPE_INFO ) ;
+    }
 
-	else {
+    else {
 
-		SendServerMessage ( playerid, sprintf("%i inactive points cleared.", total ), MSG_TYPE_INFO ) ;
-		Init_Points ( ) ;
-	}
+        SendServerMessage ( playerid, sprintf("%i aktif olmayan nokta temizlendi.", total ), MSG_TYPE_INFO ) ;
+        Init_Points ( ) ;
+    }
 
-	return true ;
+    return true ;
 }

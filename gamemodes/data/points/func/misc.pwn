@@ -407,9 +407,9 @@ CMD:bank ( playerid, params [] ) {
 							GiveCharacterChange(playerid,cents,MONEY_SLOT_HAND);
 						}
 
-						if(cents) { SendServerMessage ( playerid, sprintf("You've withdrawn $%s.%02d from your bank account.", IntegerWithDelimiter ( value ), cents ), MSG_TYPE_INFO ) ; }
-						else { SendServerMessage ( playerid, sprintf("You've withdrawn $%s from your bank account.", IntegerWithDelimiter ( value ) ), MSG_TYPE_INFO ) ; }
-						SendServerMessage ( playerid, sprintf("New balance: $%s.%02d. Old balance: $%s.%02d.", IntegerWithDelimiter ( Character [ playerid ] [ character_bankmoney ] ), Character[playerid][character_bankchange], IntegerWithDelimiter ( oldbalance ), oldchange), MSG_TYPE_INFO ) ;
+					if(cents) { SendServerMessage ( playerid, sprintf("Banka hesabýndan $%s.%02d çektin.", IntegerWithDelimiter ( value ), cents ), MSG_TYPE_INFO ) ; }
+					else { SendServerMessage ( playerid, sprintf("Banka hesabýndan $%s çektin.", IntegerWithDelimiter ( value ) ), MSG_TYPE_INFO ) ; }
+					SendServerMessage ( playerid, sprintf("Yeni bakiye: $%s.%02d. Eski bakiye: $%s.%02d.", IntegerWithDelimiter ( Character [ playerid ] [ character_bankmoney ] ), Character[playerid][character_bankchange], IntegerWithDelimiter ( oldbalance ), oldchange), MSG_TYPE_INFO ) ;
 
 						WriteLog ( playerid, "bank", sprintf("%s withdrew %s.%02d [bank: %s.%02d]", ReturnUserName ( playerid, true ), IntegerWithDelimiter ( value ), cents, IntegerWithDelimiter ( Character [ playerid ] [ character_bankmoney ] ), Character[playerid][character_bankchange] ) ) ;
 						return true ;
@@ -417,12 +417,12 @@ CMD:bank ( playerid, params [] ) {
 
 					else if ( ! strcmp ( option, "balance" ) ) {
 
-						SendServerMessage ( playerid, sprintf("Bank balance: $%s.%02d", IntegerWithDelimiter ( Character [ playerid ] [ character_bankmoney ] ),Character[playerid][character_bankchange]), MSG_TYPE_INFO ) ;
+						SendServerMessage ( playerid, sprintf("Banka bakiyesi: $%s.%02d", IntegerWithDelimiter ( Character [ playerid ] [ character_bankmoney ] ),Character[playerid][character_bankchange]), MSG_TYPE_INFO ) ;
 
 						return true ;
 					}
 
-					return SendServerMessage ( playerid, "/bank [deposit, withdraw, balance] [optional:dollars] [optional:cents]", MSG_TYPE_ERROR ) ;
+					return SendServerMessage ( playerid, "/bank [deposit(yatýr), withdraw(çek), balance(bakiye)] [opsiyonel:dollars] [opsiyonel:cents]", MSG_TYPE_ERROR ) ;
 				}
 
 				else continue ;
@@ -432,7 +432,7 @@ CMD:bank ( playerid, params [] ) {
 		else continue ;
 	}
 
-	return SendServerMessage ( playerid, "You're not inside of a bank!", MSG_TYPE_ERROR ) ;
+	return SendServerMessage ( playerid, "Bankada deðilsin.", MSG_TYPE_ERROR ) ;
 }
 
 CMD:advertise ( playerid, params [] ) {
@@ -449,22 +449,22 @@ CMD:advertise ( playerid, params [] ) {
 
 					if ( tickDiff < 30000 ) {
 
-						return SendServerMessage ( playerid, sprintf("You must wait %0.2f seconds before posting another advertisement.",float(30000 - tickDiff) / 1000.0), MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, sprintf("Tekrar reklam verebilmek için %0.2f saniye beklemen gerek.",float(30000 - tickDiff) / 1000.0), MSG_TYPE_ERROR ) ;
 					}
 
 					if ( Account [ playerid ] [ account_donatorlevel ] < 3 ) { //donor check
 
 						if ( Character [ playerid ] [ character_handmoney ] < 15 ) {
 
-							return SendServerMessage ( playerid, "You need at least $15 to post an advertisement.", MSG_TYPE_ERROR ) ;
+							return SendServerMessage ( playerid, "Reklam verebilmek için en az $15 gerekiyor.", MSG_TYPE_ERROR ) ;
 						}
 					}
 
 					new adv [ 144 ] ;
 
 					if ( sscanf ( params, "s[144]", adv ) ) {
-						SendServerMessage ( playerid, "You will have to pay per character. If you have 50 characters, you'll pay $25.", MSG_TYPE_ERROR ) ;
-						return SendServerMessage ( playerid, "/ad(vertise) [text]", MSG_TYPE_ERROR ) ;
+						SendServerMessage ( playerid, "Karakter baþý ücret alýnýr, 50 karakter 25$ eder.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "/ad(vertise) [mesaj]", MSG_TYPE_ERROR ) ;
 					}
 
 					new price = strlen ( adv ) / 2 ;
@@ -473,17 +473,17 @@ CMD:advertise ( playerid, params [] ) {
 
 						if ( price > Character [ playerid ] [ character_handmoney ] ) {
 
-							return SendServerMessage ( playerid, sprintf("You need at least $%d for this advertisement.", price), MSG_TYPE_ERROR ) ;
+							return SendServerMessage ( playerid, sprintf("Reklam verebilmek için $%d gerekli.", price), MSG_TYPE_ERROR ) ;
 						}
 
 						TakeCharacterMoney ( playerid, price, MONEY_SLOT_HAND ) ;
 					}
 
-					SendSplitMessageToAll ( COLOR_TAB1, sprintf("[TOWN CRIER]: %s", adv ) ) ;
+					SendSplitMessageToAll ( COLOR_TAB1, sprintf("[KASABA GAZETESI]: %s", adv ) ) ;
 					WriteLog ( playerid, "advertisements", sprintf("%s made ad: %s", ReturnUserName ( playerid, true ), adv ) ) ;
 
 					if ( Account [ playerid ] [ account_donatorlevel ] < 3 ) { SendServerMessage ( playerid, sprintf("You've paid $%s for your advertisement.", IntegerWithDelimiter ( price )), MSG_TYPE_WARN) ; }
-					SendModeratorWarning ( sprintf("[ADVERT] (%d) %s made the last advertisement.", playerid, ReturnUserName ( playerid, true )), MOD_WARNING_MED ) ;
+					SendModeratorWarning ( sprintf("[reklam] son reklamý (%d) %s adlý oyuncu gönderdi.", playerid, ReturnUserName ( playerid, true )), MOD_WARNING_MED ) ;
 					//OldLog ( playerid, "advs", sprintf ( "%s posted ad \"%s\" for %d", ReturnUserName ( playerid, false ), adv, price )) ;
 
 					advertiseTick [ playerid ] = GetTickCount();
@@ -498,7 +498,7 @@ CMD:advertise ( playerid, params [] ) {
 		else continue ;
 	}
 
-	return SendServerMessage ( playerid, "You're not inside of a postal office!", MSG_TYPE_ERROR ) ;
+	return SendServerMessage ( playerid, "Posta ofisinde deðilsin!", MSG_TYPE_ERROR ) ;
 }
 
 CMD:ad(playerid, params [] ) {
@@ -531,7 +531,7 @@ ViewTelegrams ( playerid, usingmysql = 0 ) {
 	        index ++ ; 
 	    }
 
-	    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, sprintf("Telegrams - %d - %d", playerLastTelegramPage [ playerid ], pages ), string, "Next", "Exit" ) ;
+	    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, sprintf("Telgraflar- %d - %d", playerLastTelegramPage [ playerid ], pages ), string, "Next", "Exit" ) ;
 	}
 
 	else {
@@ -567,10 +567,10 @@ ViewTelegrams ( playerid, usingmysql = 0 ) {
 				}
 			}
 
-			await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, sprintf("Telegrams - %d - %d", playerLastTelegramPage [ playerid ], pages ), string, "Next", "Exit" ) ;
+			await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, sprintf("Telgraflar- %d - %d", playerLastTelegramPage [ playerid ], pages ), string, "Next", "Exit" ) ;
 		}
 
-		else { return SendServerMessage ( playerid, "You haven't sent any telegrams!", MSG_TYPE_ERROR ) ; }
+		else { return SendServerMessage ( playerid, "Henüz bir telgraf yollamadýn.", MSG_TYPE_ERROR ) ; }
 
 	}
 
