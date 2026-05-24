@@ -41,8 +41,8 @@ public OnGameModeInit()
 {
 	for(new i=0; i<sizeof(CookingLocations); i++) {
 
-		CreateDynamic3DTextLabel("Cooking Location{FFFFFF}\nUse uncooked meat items to cook them here.",COLOR_ORANGE,CookingLocations[i][0],CookingLocations[i][1],CookingLocations[i][2],10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1);
-	}
+     CreateDynamic3DTextLabel("Piþirme Alaný{FFFFFF}\nÇið et ürünlerini piþirmek için burayý kullanýn.",COLOR_ORANGE,CookingLocations[i][0],CookingLocations[i][1],CookingLocations[i][2],10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1);
+    }
 	#if defined invcore_OnGameModeInit
 		return invcore_OnGameModeInit();
 	#else

@@ -43,7 +43,7 @@ DiscardItem ( playerid, tileid ) {
 
 		//Init_LoadPlayerItems ( playerid ) ;
 
-		SendServerMessage ( playerid, "Refreshing inventory, hold on a moment.", MSG_TYPE_WARN ) ;
+		SendServerMessage ( playerid, "Envanter yenileniyor...", MSG_TYPE_WARN ) ;
 		SetTimerEx("DelayedInventory", 750, false, "i", playerid);
 	}
 	else {
@@ -70,12 +70,12 @@ new PlayerEquipTick [ MAX_PLAYERS ] ;
 OnPlayerUseItem ( playerid, itemid, tileid ){
 
 	if ( ! Item [ itemid ] [ item_toggle ] ) {
-		return SendServerMessage ( playerid, "This item serves either no function, or it isn't enabled.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu eþya ya hiçbir iþe yaramýyor yada aktif edilmemiþ.", MSG_TYPE_ERROR ) ;
 	}
 
 	switch ( Item [ itemid ] [ item_type ] ){
 		case ITEM_TYPE_UNDEFINED: {
-			return SendServerMessage ( playerid, "This item has no use!", MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, "Bu eþya kullanýlamaz!", MSG_TYPE_ERROR ) ;
 		}
 
 		case ITEM_TYPE_MISC: {
@@ -101,7 +101,7 @@ OnPlayerUseItem ( playerid, itemid, tileid ){
 					task_yield(1);
 
 					new dialog_response[e_DIALOG_RESPONSE_INFO];
-					await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_LIST, "You're near your mount - choose your action", "Feed your horse\nEat the food yourself", "Cancel", "Select" ) ;
+                   await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_LIST, "Bineðinizin Yakýnýndasýnýz - Bir Eylem Seçin", "Atýnýzý besleyin\nYiyeceði kendiniz yiyin", "Ýptal", "Seç" ) ;
 
 					switch ( dialog_response [ E_DIALOG_RESPONSE_Listitem ] ) {
 
@@ -110,37 +110,36 @@ OnPlayerUseItem ( playerid, itemid, tileid ){
 							new Float: hp = Character [ playerid ] [ character_horsehealth ], Float: amount ;
 							amount = hp + 25 ;
 
-							if ( hp <= 0 ) {
+                          if ( hp <= 0 ) {
 
-								return SendServerMessage ( playerid, "Your horse is dead. You have to revive it first by going to a stablemaster.", MSG_TYPE_ERROR ) ;
-							}
+                                return SendServerMessage ( playerid, "Atýnýz yaralý. Ahýra giderek onu canlandýrmanýz gerekiyor.", MSG_TYPE_ERROR ) ;
+                            }
 
-							if ( hp >= 100 ) {
-								SetHorseHealth ( playerid, -1, 100 ) ;
-								return SendServerMessage ( playerid, "Your horse already has full health. There's no point in feeding it.", MSG_TYPE_INFO ) ;
-							}
-
+                            if ( hp >= 100 ) {
+                                SetHorseHealth ( playerid, -1, 100 ) ;
+                                return SendServerMessage ( playerid, "Atýnýzýn caný zaten dolu. Onu beslemenin bir anlamý yok.", MSG_TYPE_INFO ) ;
+                            }
 							if ( hp >= 75 ) {
 								amount = 100 ;
 							}
 
-							SetHorseHealth ( playerid, -1, amount ) ;
+                          SetHorseHealth ( playerid, -1, amount ) ;
 
-							if ( Character [ playerid ] [ character_horseid ] < DONATOR_MOUNT_SLOT ) {
-								SendServerMessage ( playerid, sprintf("You've fed your horse. It now has %.0f health.", Character [ playerid ] [ character_horsehealth ] ), MSG_TYPE_INFO ) ;
-								ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has fed their horse an apple.",ReturnUserName ( playerid, false ))) ;
-							}
+                            if ( Character [ playerid ] [ character_horseid ] < DONATOR_MOUNT_SLOT ) {
+                                SendServerMessage ( playerid, sprintf("Atýnýzý beslediniz. Artýk %.0f caný var.", Character [ playerid ] [ character_horsehealth ] ), MSG_TYPE_INFO ) ;
+                                ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s, atýný elma ile besler.",ReturnUserName ( playerid, false ))) ;
+                            }
 
-							else {
+                            else {
 
-								SendServerMessage ( playerid, sprintf("You've fed your cow. It now has %.0f health.", Character [ playerid ] [ character_horsehealth ] ), MSG_TYPE_INFO ) ;
-								ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has fed their cow an apple.",ReturnUserName ( playerid, false ))) ;
-							}
+                                SendServerMessage ( playerid, sprintf("Ýneðinizi beslediniz. Artýk %.0f caný var.", Character [ playerid ] [ character_horsehealth ] ), MSG_TYPE_INFO ) ;
+                                ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s, ineðini elma ile besler.",ReturnUserName ( playerid, false ))) ;
+                            }
 
-							DecreaseItem ( playerid, tileid, 1 ) ;
+                            DecreaseItem ( playerid, tileid, 1 ) ;
 
-							return true ;
-						}
+                            return true ;
+                        }
 
 						case 1: { // feed player
 
@@ -178,7 +177,7 @@ OnPlayerUseItem ( playerid, itemid, tileid ){
 
 					if ( IsPlayerBleeding [ playerid ] ) {
 
-						return SendServerMessage ( playerid, "You cannot eat or drink whilst bleeding.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "Kanaman var iken birþey yiyemez/içemezsin!", MSG_TYPE_ERROR ) ;
 					}
 
 					ConsumeFood ( playerid, itemid ) ;
@@ -190,7 +189,7 @@ OnPlayerUseItem ( playerid, itemid, tileid ){
 
 				if ( IsPlayerBleeding [ playerid ] ) {
 
-					return SendServerMessage ( playerid, "You cannot eat or drink whilst bleeding.", MSG_TYPE_ERROR ) ;
+					return SendServerMessage ( playerid, "Kanaman var iken birþey yiyemez/içemezsin!", MSG_TYPE_ERROR ) ;
 				}
 
 				ConsumeFood ( playerid, itemid ) ;

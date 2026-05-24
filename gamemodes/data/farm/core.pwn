@@ -98,28 +98,27 @@ enum { //plants
 	PLANT_TOMATO,
 	PLANT_CABBAGE
 }
-
 CreateSoil ( playerid ) {
 
-	if ( GetPlayerInterior ( playerid ) || GetPlayerVirtualWorld ( playerid ) ) {
+    if ( GetPlayerInterior ( playerid ) || GetPlayerVirtualWorld ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You can only plant soil outside!", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Sadece dýþ mekanlarda toprak ekimi yapabilirsiniz!", MSG_TYPE_ERROR ) ;
+    }
 
-	if(IsPlayerRidingHorse[playerid]){
-		return SendServerMessage(playerid, "You cannot plant soil while riding a horse!", MSG_TYPE_INFO);
-	}
+    if(IsPlayerRidingHorse[playerid]){
+        return SendServerMessage(playerid, "Ata binerken toprak ekimi yapamazsýnýz!", MSG_TYPE_INFO);
+    }
 
-	new s_id = GetFreeSoilID ( ) ;
+    new s_id = GetFreeSoilID ( ) ;
 
-	if ( s_id == -1 ) {
+    if ( s_id == -1 ) {
 
-		return SendServerMessage ( playerid, "There's something wrong with the soil creation. Contact an admin (function returned -1: probably out of bounds)", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Toprak oluþturulurken bir hata oluþtu. Lütfen bir yetkiliyle iletiþime geçin (fonksiyon -1 döndürdü: muhtemelen sýnýr aþýmý)", MSG_TYPE_ERROR ) ;
+    }
 
 
-	new Float: x, Float: y, Float: z ;
-	GetPlayerPos ( playerid, x, y, z ) ;
+    new Float: x, Float: y, Float: z ;
+    GetPlayerPos ( playerid, x, y, z ) ;
 
     new Float: rayX, Float: rayY, Float: rayZ, 
     Float: rayRX, Float: rayRY, Float: rayRZ;
@@ -128,22 +127,22 @@ CreateSoil ( playerid ) {
 
     x = rayX, y = rayY, z = rayZ;
 
-	new query [ 256 ] ;
+    new query [ 256 ] ;
 
-	mysql_format ( mysql, query, sizeof ( query ), 
-		"INSERT INTO soildata (soil_owner, soil_plant, soil_x, soil_y, soil_z, soil_rotx, soil_roty, soil_rotz, soil_state, soil_water, soil_health) VALUES (%d, -1, %f, %f, %f, %f, %f, %f, 0, 0, 0 )",
-		Character [ playerid ] [ character_id ], x, y, z, rayRX, rayRY, rayRZ 
-	);
-	
-	Soil[s_id][s_ticks] = 0;
+    mysql_format ( mysql, query, sizeof ( query ), 
+        "INSERT INTO soildata (soil_owner, soil_plant, soil_x, soil_y, soil_z, soil_rotx, soil_roty, soil_rotz, soil_state, soil_water, soil_health) VALUES (%d, -1, %f, %f, %f, %f, %f, %f, 0, 0, 0 )",
+        Character [ playerid ] [ character_id ], x, y, z, rayRX, rayRY, rayRZ 
+    );
+    
+    Soil[s_id][s_ticks] = 0;
 
-	mysql_tquery ( mysql, query ) ;
+    mysql_tquery ( mysql, query ) ;
 
-	Init_SoilData () ;
+    Init_SoilData () ;
 
-	SendServerMessage(playerid, "You have dug up some soil. You can now make a hole and plant seeds in it!", MSG_TYPE_INFO);
+    SendServerMessage(playerid, "Topraðý kazarak tarýma uygun hale getirdiniz. Artýk bir delik açýp içine tohum ekebilirsiniz!", MSG_TYPE_INFO);
 
-	return true ;
+    return true ;
 }
 
 Init_SoilData () {
@@ -209,7 +208,7 @@ public LoadSoilData () {
 		}
 	}
 
-	printf("* [SOIL] Loaded %d soil plots", count ) ;
+	printf("* [toprak] %d adet toprak yuklendi", count ) ;
 
 
 	return true ;
@@ -236,161 +235,161 @@ SetupSoil ( s_id ) {
 
 	new Float: customValueZ;
 
-	switch ( Soil [ s_id ] [ soil_water ] ) {
+switch ( Soil [ s_id ] [ soil_water ] ) {
 
-		case SOIL_WATER_DEHYDRATED: 	water = "{968354}Dehydrated{DEDEDE}" ;
-		case SOIL_WATER_MODERATE: 		water = "{8ED1CE}Moderate{DEDEDE}" ;
-		case SOIL_WATER_WATERED: 		water = "{5EABCC}Watered{DEDEDE}" ;
-	}
+        case SOIL_WATER_DEHYDRATED:    water = "{968354}Kuru{DEDEDE}" ;
+        case SOIL_WATER_MODERATE:      water = "{8ED1CE}Orta{DEDEDE}" ;
+        case SOIL_WATER_WATERED:        water = "{5EABCC}Sulanmis{DEDEDE}" ;
+    }
 
-	switch ( Soil [ s_id ] [ soil_health ] ) {
+    switch ( Soil [ s_id ] [ soil_health ] ) {
 
-		case SOIL_HEALTH_DEAD:			health = "{363636}This plant is dead!{DEDEDE}";
-		case SOIL_HEALTH_DISEASED: 		health = "{807455}Diseased{DEDEDE}" ;
-		case SOIL_HEALTH_THIRSTY: 		health = "{968354}Thirsty{DEDEDE}" ;
-		case SOIL_HEALTH_HEALTHY: 		health = "{45963B}Healthy{DEDEDE}" ;
-	}
+        case SOIL_HEALTH_DEAD:          health = "{363636}Bu bitki olu!{DEDEDE}";
+        case SOIL_HEALTH_DISEASED:      health = "{807455}Hastalikli{DEDEDE}" ;
+        case SOIL_HEALTH_THIRSTY:       health = "{968354}Susuz{DEDEDE}" ;
+        case SOIL_HEALTH_HEALTHY:       health = "{45963B}Saglikli{DEDEDE}" ;
+    }
 
-	switch(Soil [s_id ] [ soil_plant ]){
+    switch(Soil [s_id ] [ soil_plant ]){
 
-		case PLANT_ORANGE: { 
-			plant = "{F2921B}Orange{DEDEDE}"; 
-			//obj = FARMING_APPLEPLOT;
+        case PLANT_ORANGE: { 
+            plant = "{F2921B}Portakal{DEDEDE}"; 
+            //obj = FARMING_APPLEPLOT;
 
-			//customValueZ = 1.2;
-			//Soil[s_id][soil_z] = Soil[s_id][soil_z] + customValueZ;
-		}       
-		case PLANT_APPLE_RED: { 
-			plant = "{F6625A}Red Apple{DEDEDE}"; 
-			//obj = FARMING_APPLEPLOT;
+            //customValueZ = 1.2;
+            //Soil[s_id][soil_z] = Soil[s_id][soil_z] + customValueZ;
+        }       
+        case PLANT_APPLE_RED: { 
+            plant = "{F6625A}Kirmizi Elma{DEDEDE}"; 
+            //obj = FARMING_APPLEPLOT;
 
-			//customValueZ = 1.2;
-			//Soil[s_id][soil_z] = Soil[s_id][soil_z] + customValueZ;
-		}      
-		case PLANT_APPLE_GREEN: { 
-			plant = "{3DF678}Green Apple{DEDEDE}"; 
-			//obj = FARMING_APPLEPLOT; 
+            //customValueZ = 1.2;
+            //Soil[s_id][soil_z] = Soil[s_id][soil_z] + customValueZ;
+        }      
+        case PLANT_APPLE_GREEN: { 
+            plant = "{3DF678}Yesil Elma{DEDEDE}"; 
+            //obj = FARMING_APPLEPLOT; 
 
-			//customValueZ = 1.2;
-			//Soil[s_id][soil_z] = Soil[s_id][soil_z] + customValueZ;
-		}  
+            //customValueZ = 1.2;
+            //Soil[s_id][soil_z] = Soil[s_id][soil_z] + customValueZ;
+        }  
 
-		case PLANT_PUMPKIN: { 
-			plant = "{F2921B}Pumpkin{DEDEDE}"; 
-			//obj = FARMING_PUMPKINPLOT;
+        case PLANT_PUMPKIN: { 
+            plant = "{F2921B}Bal Kabagi{DEDEDE}"; 
+            //obj = FARMING_PUMPKINPLOT;
 
-			//customValueZ = 0.2;
-			Soil[s_id][soil_z] = Soil[s_id][soil_z] - customValueZ; 
-		}
+            //customValueZ = 0.2;
+            Soil[s_id][soil_z] = Soil[s_id][soil_z] - customValueZ; 
+        }
 
-		case PLANT_TOMATO: { 
-			plant = "{F6625A}Tomato{DEDEDE}"; 
-			//obj = FARMING_TOMATOPLOT; 
-		}
+        case PLANT_TOMATO: { 
+            plant = "{F6625A}Domates{DEDEDE}"; 
+            //obj = FARMING_TOMATOPLOT; 
+        }
 
-		case PLANT_CABBAGE: { 
-			plant = "{3DF678}Cabbage{DEDEDE}"; 
-			//obj = FARMING_CABBAGEPLOT; 
-		}
+        case PLANT_CABBAGE: { 
+            plant = "{3DF678}Lahana{DEDEDE}"; 
+            //obj = FARMING_CABBAGEPLOT; 
+        }
 
-		case PLANT_WHEAT: { 
-			plant = "{968354}Wheat{DEDEDE}"; 
-			//obj = FARMING_WHEATPLOT; 
-		}
+        case PLANT_WHEAT: { 
+            plant = "{968354}Bugday{DEDEDE}"; 
+            //obj = FARMING_WHEATPLOT; 
+        }
 
-	}
+    }
 
-	switch ( Soil [ s_id ] [ soil_state ] ) {
+switch ( Soil [ s_id ] [ soil_state ] ) {
 
-		case SOIL_STATE_EMPTY: {
-			sstate = "{C95353}Empty{DEDEDE}" ;
+        case SOIL_STATE_EMPTY: {
+            sstate = "{C95353}Bos{DEDEDE}" ;
 
-			Soil [ s_id ] [ soil_obj ] = CreateDynamicObject(854, 
-			Soil [ s_id ] [ soil_x ], Soil [ s_id ] [ soil_y ], Soil [ s_id ] [ soil_z ], 
-			0.0, 0.0, random ( 90 ) ) ;
+            Soil [ s_id ] [ soil_obj ] = CreateDynamicObject(854, 
+            Soil [ s_id ] [ soil_x ], Soil [ s_id ] [ soil_y ], Soil [ s_id ] [ soil_z ], 
+            0.0, 0.0, random ( 90 ) ) ;
 
-			SetDynamicObjectMaterial(Soil [ s_id ] [ soil_obj ], 0, 16093, "a51_ext", "des_dirt1", 0xFFFFFFFF);
+            SetDynamicObjectMaterial(Soil [ s_id ] [ soil_obj ], 0, 16093, "a51_ext", "des_dirt1", 0xFFFFFFFF);
 
-			format ( info, sizeof ( info ), 
-				"[Farming Soil]{DEDEDE}\n\nSoil State: %s\n\nUse your spade to make a hole.",
-				sstate 
-			) ;
-		}
+            format ( info, sizeof ( info ), 
+                "[Tarim Topragi]{DEDEDE}\n\nToprak Durumu: %s\n\nBir delik acmak icin kureginizi kullanin.",
+                sstate 
+            ) ;
+        }
 
-		case SOIL_STATE_DIGGED: {
+        case SOIL_STATE_DIGGED: {
 
-			sstate = "{59C953}Digged{DEDEDE}" ;
+            sstate = "{59C953}Kazilmis{DEDEDE}" ;
 
-			Soil [ s_id ] [ soil_obj ] = CreateDynamicObject(854, 
-			Soil [ s_id ] [ soil_x ], Soil [ s_id ] [ soil_y ], Soil [ s_id ] [ soil_z ], 
-			0.0, 0.0, random ( 90 ) ) ;
+            Soil [ s_id ] [ soil_obj ] = CreateDynamicObject(854, 
+            Soil [ s_id ] [ soil_x ], Soil [ s_id ] [ soil_y ], Soil [ s_id ] [ soil_z ], 
+            0.0, 0.0, random ( 90 ) ) ;
 
-			SetDynamicObjectMaterial(Soil [ s_id ] [ soil_obj ], 0, 16093, "a51_ext", "des_dirt1", 0xFFFFFFFF);
+            SetDynamicObjectMaterial(Soil [ s_id ] [ soil_obj ], 0, 16093, "a51_ext", "des_dirt1", 0xFFFFFFFF);
 
-			format ( info, sizeof ( info ), 
-				"[Farming Soil]{DEDEDE}\n\nSoil State: %s\n\nPlant a seed!",
-				sstate 
-			) ;
-		}
+            format ( info, sizeof ( info ), 
+                "[Tarim Topragi]{DEDEDE}\n\nToprak Durumu: %s\n\nBir tohum ekin!",
+                sstate 
+            ) ;
+        }
 
-		case SOIL_STATE_SEEDED: {
+        case SOIL_STATE_SEEDED: {
 
-			sstate = "{59C953}Seeded{DEDEDE}" ;
+            sstate = "{59C953}Tohumlanmis{DEDEDE}" ;
 
-			Soil [ s_id ] [ soil_obj ] = CreateDynamicObject(854, 
-			Soil [ s_id ] [ soil_x ], Soil [ s_id ] [ soil_y ], Soil [ s_id ] [ soil_z ], 
-			0.0, 0.0, random ( 90 ) ) ;
+            Soil [ s_id ] [ soil_obj ] = CreateDynamicObject(854, 
+            Soil [ s_id ] [ soil_x ], Soil [ s_id ] [ soil_y ], Soil [ s_id ] [ soil_z ], 
+            0.0, 0.0, random ( 90 ) ) ;
 
-			SetDynamicObjectMaterial(Soil [ s_id ] [ soil_obj ], 0, 16093, "a51_ext", "des_dirt1", 0xFFFFFFFF);
+            SetDynamicObjectMaterial(Soil [ s_id ] [ soil_obj ], 0, 16093, "a51_ext", "des_dirt1", 0xFFFFFFFF);
 
-			format ( info, sizeof ( info ), 
-				"[Farming Soil]{DEDEDE}\n\nSoil State: %s\n\nPlant: %s\n\nFill the hole up to start growing!",
-				sstate, plant 
-			) ;
-		}
+            format ( info, sizeof ( info ), 
+                "[Tarim Topragi]{DEDEDE}\n\nToprak Durumu: %s\n\nBitki: %s\n\nBuyumeyi baslatmak icin deligi kapatin!",
+                sstate, plant 
+            ) ;
+        }
 
-		case SOIL_STATE_GROWING: {
+        case SOIL_STATE_GROWING: {
 
-			sstate = "{59C953}Growing{DEDEDE}" ;
+            sstate = "{59C953}Buyuyor{DEDEDE}" ;
 
-			Soil [ s_id ] [ soil_obj ] = CreateDynamicObject(854, 
-			Soil [ s_id ] [ soil_x ], Soil [ s_id ] [ soil_y ], Soil [ s_id ] [ soil_z ], 
-			0.0, 0.0, random ( 90 ) ) ;
+            Soil [ s_id ] [ soil_obj ] = CreateDynamicObject(854, 
+            Soil [ s_id ] [ soil_x ], Soil [ s_id ] [ soil_y ], Soil [ s_id ] [ soil_z ], 
+            0.0, 0.0, random ( 90 ) ) ;
 
-			SetDynamicObjectMaterial(Soil [ s_id ] [ soil_obj ], 0, 16093, "a51_ext", "des_dirt1", 0xFFFFFFFF);
+            SetDynamicObjectMaterial(Soil [ s_id ] [ soil_obj ], 0, 16093, "a51_ext", "des_dirt1", 0xFFFFFFFF);
 
-			if(Soil[s_id][soil_health] == SOIL_HEALTH_DEAD){
-				format ( info, sizeof ( info ), "[Farming Soil]{DEDEDE}\n\nHealth: %s", health) ;
-			} else {
-				format ( info, sizeof ( info ), 
-				"[Farming Soil]{DEDEDE}\n\nSoil State: %s\n\nPlant: %s\n\nHealth: %s\n\nWater: %s",
-				sstate, plant, health, water 
-				) ;
-			}
-		}
+            if(Soil[s_id][soil_health] == SOIL_HEALTH_DEAD){
+                format ( info, sizeof ( info ), "[Tarim Topragi]{DEDEDE}\n\nSaglik: %s", health) ;
+            } else {
+                format ( info, sizeof ( info ), 
+                "[Tarim Topragi]{DEDEDE}\n\nToprak Durumu: %s\n\nBitki: %s\n\nSaglik: %s\n\nSu: %s",
+                sstate, plant, health, water 
+                ) ;
+            }
+        }
 
-		case SOIL_STATE_GROWN: {
+        case SOIL_STATE_GROWN: {
 
-			sstate = "{59C953}Grown{DEDEDE}" ;
+            sstate = "{59C953}Buyumus{DEDEDE}" ;
 
-			Soil [ s_id ] [ soil_obj ] = CreateDynamicObject(854, 
-			Soil [ s_id ] [ soil_x ], Soil [ s_id ] [ soil_y ], Soil [ s_id ] [ soil_z ], 
-			0.0, 0.0, random ( 90 ) ) ;
+            Soil [ s_id ] [ soil_obj ] = CreateDynamicObject(854, 
+            Soil [ s_id ] [ soil_x ], Soil [ s_id ] [ soil_y ], Soil [ s_id ] [ soil_z ], 
+            0.0, 0.0, random ( 90 ) ) ;
 
-			SetDynamicObjectMaterial(Soil [ s_id ] [ soil_obj ], 0, 16093, "a51_ext", "des_dirt1", 0xFFFFFFFF);
+            SetDynamicObjectMaterial(Soil [ s_id ] [ soil_obj ], 0, 16093, "a51_ext", "des_dirt1", 0xFFFFFFFF);
 
-			format ( info, sizeof ( info ), "[Farming Soil]{DEDEDE}\n\nSoil State: %s\n\nThis plant is ready to be collected.", sstate) ;
-		}
-	}
+            format ( info, sizeof ( info ), "[Tarim Topragi]{DEDEDE}\n\nToprak Durumu: %s\n\nBu bitki toplanmaya hazir.", sstate) ;
+        }
+    }
 
-	new query[256];
-	format(query, sizeof(query), "UPDATE soildata SET soil_state = '%i', soil_plant = '%i', soil_water = '%i', soil_health = '%i' WHERE soil_id = '%i'", Soil[s_id][soil_state], Soil[s_id][soil_plant], Soil[s_id][soil_water], Soil[s_id][soil_health], Soil[s_id][soil_id]);
+    new query[256];
+    format(query, sizeof(query), "UPDATE soildata SET soil_state = '%i', soil_plant = '%i', soil_water = '%i', soil_health = '%i' WHERE soil_id = '%i'", Soil[s_id][soil_state], Soil[s_id][soil_plant], Soil[s_id][soil_water], Soil[s_id][soil_health], Soil[s_id][soil_id]);
 
-	mysql_tquery(mysql, query);
+    mysql_tquery(mysql, query);
 
-	Soil [ s_id ] [ soil_info ] = CreateDynamic3DTextLabel(info, 0xA9C248FF, Soil[s_id][soil_x], Soil[s_id][soil_y], Soil[s_id][soil_z], 7.0 ) ;
+    Soil [ s_id ] [ soil_info ] = CreateDynamic3DTextLabel(info, 0xA9C248FF, Soil[s_id][soil_x], Soil[s_id][soil_y], Soil[s_id][soil_z], 7.0 ) ;
 
-	return true ;
+    return true ;
 }
 
 GetFreeSoilID ( ) {
@@ -500,7 +499,7 @@ public ChangePlantStatus(s_id) {
 forward PlantDeadCooldown(s_id);
 public PlantDeadCooldown(s_id){
 
-	printf("[farm] plant %d has been removed because it has died.", Soil[s_id][soil_id]);
+	printf("[farm] tohum %d silindi, cunku susuz kalip oldu.", Soil[s_id][soil_id]);
 
 	RemoveSoil(s_id);
 
@@ -510,7 +509,7 @@ public PlantDeadCooldown(s_id){
 RemoveSoil(soilid){
 
     if(Soil[soilid][soil_id] == INVALID_SOIL_ID){
-    	return printf("Cannot delete a invalid soil (%i)", Soil[soilid][soil_id]);
+    	return printf("gecersiz tohum (%i)", Soil[soilid][soil_id]);
     }
 
     new query[128];
@@ -522,7 +521,7 @@ RemoveSoil(soilid){
 
     Soil[soilid][soil_id] = INVALID_SOIL_ID;
 
-    printf("[FARM] Deleted soil %i.", Soil[soilid][soil_id]);
+    printf("[toprak] tohum silindi %i.", Soil[soilid][soil_id]);
 
     return true;
 }
@@ -556,7 +555,6 @@ FindNearestSoil(playerid, Float: range = 5.0) {
     }
     return INVALID_SOIL_ID;
 }
-
 CMD:asoil(playerid, params[]) {
 
     if(IsPlayerModerator(playerid)) {
@@ -564,7 +562,7 @@ CMD:asoil(playerid, params[]) {
         new choice[12], soilid;
         if(sscanf(params, "s[12]D(-2)", choice, soilid)) {
 
-            return SendServerMessage(playerid, "/asoil [info/remove/removeall/allsoils] [soil_id (defaults to nearest trap within range)]", MSG_TYPE_ERROR);
+            return SendServerMessage(playerid, "/asoil [info/remove/hepsinisil/allsoils] [toprak_id (varsayilan olarak menzildeki en yakin toprak)]", MSG_TYPE_ERROR);
         }
         if(soilid == -2) {
 
@@ -575,7 +573,7 @@ CMD:asoil(playerid, params[]) {
 
             if(soilid == INVALID_SOIL_ID) {
 
-                return SendServerMessage(playerid, "Invalid soil id.", MSG_TYPE_ERROR);
+                return SendServerMessage(playerid, "Gecersiz toprak ID.", MSG_TYPE_ERROR);
             }
 
             new acc_name[MAX_PLAYER_NAME], char_name[MAX_PLAYER_NAME];
@@ -601,34 +599,34 @@ CMD:asoil(playerid, params[]) {
 
                             cache_get_value_name(0,"account_name",acc_name,MAX_PLAYER_NAME);
 
-                            SendServerMessage(playerid, sprintf("Soil ID: %d", Soil[soilid][soil_id]), MSG_TYPE_INFO);
-                            SendServerMessage(playerid, sprintf("Soil Plant: %d", Soil[soilid][soil_plant]), MSG_TYPE_INFO);
-                            SendServerMessage(playerid, sprintf("Soil Owner: %s (%s)", char_name,acc_name), MSG_TYPE_INFO);
-                            SendServerMessage(playerid, sprintf("Soil Pos: %02f, %02f, %02f", Soil[soilid][soil_x], Soil[soilid][soil_y], Soil[soilid][soil_z]), MSG_TYPE_INFO);
+                            SendServerMessage(playerid, sprintf("Toprak ID: %d", Soil[soilid][soil_id]), MSG_TYPE_INFO);
+                            SendServerMessage(playerid, sprintf("Toprak Bitkisi: %d", Soil[soilid][soil_plant]), MSG_TYPE_INFO);
+                            SendServerMessage(playerid, sprintf("Toprak Sahibi: %s (%s)", char_name,acc_name), MSG_TYPE_INFO);
+                            SendServerMessage(playerid, sprintf("Toprak Konumu: %02f, %02f, %02f", Soil[soilid][soil_x], Soil[soilid][soil_y], Soil[soilid][soil_z]), MSG_TYPE_INFO);
                         }
                     }
 
-					MySQL_TQueryInline(mysql,using inline FindAccName, "SELECT account_name FROM master_accounts WHERE account_id = %d",acc_id);
+                    MySQL_TQueryInline(mysql,using inline FindAccName, "SELECT account_name FROM master_accounts WHERE account_id = %d",acc_id);
                 }
             }
-			MySQL_TQueryInline(mysql, using inline FindCharName, "SELECT account_id,character_name FROM characters WHERE character_id = %d",Soil[soilid][soil_owner]);
+            MySQL_TQueryInline(mysql, using inline FindCharName, "SELECT account_id,character_name FROM characters WHERE character_id = %d",Soil[soilid][soil_owner]);
             return true;
         }
         else if(!strcmp(choice,"remove",true)) {
          
             if(soilid == INVALID_SOIL_ID) {
                 
-                return SendServerMessage(playerid, "Invalid soil id.", MSG_TYPE_ERROR);
+                return SendServerMessage(playerid, "Gecersiz toprak ID.", MSG_TYPE_ERROR);
             }
 
-            SendServerMessage(playerid, sprintf("Soil ID %d deleted.",Soil[soilid][soil_id]), MSG_TYPE_INFO);
+            SendServerMessage(playerid, sprintf("Toprak ID %d silindi.",Soil[soilid][soil_id]), MSG_TYPE_INFO);
             RemoveSoil(soilid);
             return true;
         }
-        else if(!strcmp(choice,"removeall",true)) {
+        else if(!strcmp(choice,"removeall",true) || !strcmp(choice,"hepsinisil",true)) {
 
             DeleteAllSoils();
-            SendServerMessage(playerid, "All soils have been deleted.", MSG_TYPE_INFO);
+            SendServerMessage(playerid, "Tum topraklar basariyla silindi.", MSG_TYPE_INFO);
             return true;   
         }
         else if(!strcmp(choice,"allsoils",true)) {
@@ -660,63 +658,61 @@ CMD:asoil(playerid, params[]) {
 
                                     cache_get_value_name(0,"account_name",acc_name,MAX_PLAYER_NAME);
 
-                                    SendServerMessage(playerid, sprintf("Soil ID: %d | Owner: %s (%s)",Soil[i][soil_id],char_name,acc_name), MSG_TYPE_INFO);
+                                    SendServerMessage(playerid, sprintf("Toprak ID: %d | Sahibi: %s (%s)",Soil[i][soil_id],char_name,acc_name), MSG_TYPE_INFO);
                                 }
                             }
 
-							MySQL_TQueryInline(mysql,using inline FindAccName, "SELECT account_name FROM master_accounts WHERE account_id = %d",acc_id);
+                            MySQL_TQueryInline(mysql,using inline FindAccName, "SELECT account_name FROM master_accounts WHERE account_id = %d",acc_id);
                         }
                     }
-					MySQL_TQueryInline(mysql, using inline FindCharName, "SELECT account_id,character_name FROM characters WHERE character_id = %d",Soil[i][soil_owner]);
+                    MySQL_TQueryInline(mysql, using inline FindCharName, "SELECT account_id,character_name FROM characters WHERE character_id = %d",Soil[i][soil_owner]);
                 }
                 else continue;
             }
 
             return true;
         }
-        else return SendServerMessage(playerid, "/asoil [info/remove/removeall/refreshall/allsoils] [soil_id (defaults to nearest trap within range)]", MSG_TYPE_ERROR);
+        else return SendServerMessage(playerid, "/asoil [info/remove/hepsinisil/allsoils] [toprak_id (varsayilan olarak menzildeki en yakin toprak)]", MSG_TYPE_ERROR);
     } else {
-      SendServerMessage(playerid, "You must be a moderator to use this command!", MSG_TYPE_ERROR);
+      SendServerMessage(playerid, "Bu komutu kullanabilmek icin moderator olmalisiniz!", MSG_TYPE_ERROR);
     }
     return true;
 }
 
-
-
 CMD:refreshsoil(playerid, params[]){
 
-	for(new i; i < MAX_SOILS; i++){
-		if(IsPlayerInRangeOfPoint(playerid, 6.0, Soil[i][soil_x], Soil[i][soil_y], Soil[i][soil_z]) && Soil[i][soil_owner] == Character[playerid][character_id]){
-			
-			SetupSoil(i);
-			SendServerMessage(playerid, "You have refreshed one of your soils nearby.", MSG_TYPE_INFO);
+    for(new i; i < MAX_SOILS; i++){
+        if(IsPlayerInRangeOfPoint(playerid, 6.0, Soil[i][soil_x], Soil[i][soil_y], Soil[i][soil_z]) && Soil[i][soil_owner] == Character[playerid][character_id]){
+            
+            SetupSoil(i);
+            SendServerMessage(playerid, "Yanýnýzdaki topraklarý yenilediniz.", MSG_TYPE_INFO);
 
-			return true;
-		}
-		else continue; 
+            return true;
+        }
+        else continue; 
 
-	}
+    }
 
-	return true;
+    return true;
 }
 
 CMD:fixsoil(playerid, params[]){
 
-	for(new i; i < MAX_SOILS; i++){
-		if(IsPlayerInRangeOfPoint(playerid, 6.0, Soil[i][soil_x], Soil[i][soil_y], Soil[i][soil_z]) && Soil[i][soil_owner] == Character[playerid][character_id]){
+    for(new i; i < MAX_SOILS; i++){
+        if(IsPlayerInRangeOfPoint(playerid, 6.0, Soil[i][soil_x], Soil[i][soil_y], Soil[i][soil_z]) && Soil[i][soil_owner] == Character[playerid][character_id]){
 
-			Soil[i][fix] = true;
-        	SetupSoil(i);
-            	
-			SendServerMessage(playerid, "Applied fix.", MSG_TYPE_INFO);
+            Soil[i][fix] = true;
+            SetupSoil(i);
+                
+            SendServerMessage(playerid, "Düzeltme uygulandý.", MSG_TYPE_INFO);
 
-			return true;
+            return true;
             
-		} 
-		else continue;
-	
-	}
+        } 
+        else continue;
+    
+    }
 
-	return true;
+    return true;
 
 }

@@ -119,38 +119,38 @@ UpdateActor ( actorid ) {
 }
 
 UpdateActorInfoString ( actorid ) {
-	new string [ 128 ] ;
+    new string [ 128 ] ;
 
     switch ( Actor [ actorid ] [ actor_type ] ) {
 
-		case ACTOR_TYPE_CHARACTER: {
-    		format ( string, sizeof ( string ), "[NPC] (%d) %s", actorid, Actor [ actorid ] [ actor_name ] ) ;
+        case ACTOR_TYPE_CHARACTER: {
+            format ( string, sizeof ( string ), "[NPC] (%d) %s", actorid, Actor [ actorid ] [ actor_name ] ) ;
         }
         
-		case ACTOR_TYPE_SHOPKEEPER_GENERAL: {
-    		format ( string, sizeof ( string ), "[NPC] (%d) %s\n\n\n\n\n\n{BA8957}General Shopkeeper{FFFFFF}\nType /shop to interact", actorid, Actor [ actorid ] [ actor_name ] ) ;
+        case ACTOR_TYPE_SHOPKEEPER_GENERAL: {
+            format ( string, sizeof ( string ), "[NPC] (%d) %s\n\n\n\n\n\n{BA8957}Genel Maðaza Görevlisi{FFFFFF}\nEtkileþim için /shop kullanýn", actorid, Actor [ actorid ] [ actor_name ] ) ;
         }
         
-		case ACTOR_TYPE_SHOPKEEPER_ARMS: {
-    		format ( string, sizeof ( string ), "[NPC] (%d) %s\n\n\n\n\n\n{5E5E5E}Weaponry Shopkeeper{FFFFFF}\nType /shop to interact", actorid, Actor [ actorid ] [ actor_name ] ) ;
+        case ACTOR_TYPE_SHOPKEEPER_ARMS: {
+            format ( string, sizeof ( string ), "[NPC] (%d) %s\n\n\n\n\n\n{5E5E5E}Silah Maðazasý Görevlisi{FFFFFF}\nEtkileþim için /shop kullanýn", actorid, Actor [ actorid ] [ actor_name ] ) ;
         }
         
-		case ACTOR_TYPE_SHOPKEEPER_FARM: {
-    		format ( string, sizeof ( string ), "[NPC] (%d) %s\n\n\n\n\n\n{9BBA57}Farming Shopkeeper{FFFFFF}\nType /shop to interact", actorid, Actor [ actorid ] [ actor_name ] ) ;
+        case ACTOR_TYPE_SHOPKEEPER_FARM: {
+            format ( string, sizeof ( string ), "[NPC] (%d) %s\n\n\n\n\n\n{9BBA57}Ciftlik Maðazasý Görevlisi{FFFFFF}\nEtkileþim için /shop kullanýn", actorid, Actor [ actorid ] [ actor_name ] ) ;
         }
         
-		case ACTOR_TYPE_SHOPKEEPER_TOYS: {
-    		format ( string, sizeof ( string ), "[NPC] (%d) %s\n\n\n\n\n\n{5798BA}Clothing Shopkeeper{FFFFFF}\nType /shop to interact", actorid, Actor [ actorid ] [ actor_name ] ) ;
+        case ACTOR_TYPE_SHOPKEEPER_TOYS: {
+            format ( string, sizeof ( string ), "[NPC] (%d) %s\n\n\n\n\n\n{5798BA}Kiyafet Maðazasý Görevlisi{FFFFFF}\nEtkileþim için /shop kullanýn", actorid, Actor [ actorid ] [ actor_name ] ) ;
         }
     }
 
-	if ( IsValidDynamic3DTextLabel( Actor [actorid] [actor_text] ) ) {
+    if ( IsValidDynamic3DTextLabel( Actor [actorid] [actor_text] ) ) {
         DestroyDynamic3DTextLabel ( Actor [ actorid ] [ actor_text ] ) ;
-	}
+    }
 
-	Actor [ actorid ] [ actor_text ] = CreateDynamic3DTextLabel( string, 0xE6E6E6FF,  Actor [ actorid ] [ actor_x_pos ], Actor [ actorid ] [ actor_y_pos ], Actor [ actorid ] [ actor_z_pos ] + 1, 7.5 ) ;
+    Actor [ actorid ] [ actor_text ] = CreateDynamic3DTextLabel( string, 0xE6E6E6FF,  Actor [ actorid ] [ actor_x_pos ], Actor [ actorid ] [ actor_y_pos ], Actor [ actorid ] [ actor_z_pos ] + 1, 7.5 ) ;
 
-	return true ;
+    return true ;
 }
 
 forward LoadActorData () ;
@@ -167,7 +167,7 @@ public LoadActorData () {
 
     if ( rows ) {
 
-		print(" * [ACTORS]: Loading actors...") ;
+		print(" * [aktorler]: aktorler yukleniyor..") ;
 
 		for ( new i, j = rows; i < j; i ++ ) {
 
@@ -205,7 +205,7 @@ public LoadActorData () {
 		ReturnActorCount = rows ;
 	}
 
-	printf(" * [ACTORS]: Loaded %d actors\n", ReturnActorCount) ;
+	printf(" * [aktorler]: %d adet aktor yuklendi\n", ReturnActorCount) ;
 
 	return true ;
 }

@@ -89,263 +89,263 @@ public OnPlayerDisconnect ( playerid, reason ) {
 
 CMD:relog ( playerid, params [] ) {
 
-	if ( ! IsPlayerLogged [ playerid ] ) {
+    if ( ! IsPlayerLogged [ playerid ] ) {
 
-		HideCharacterTextDraws ( playerid ) ;
-		HideCreationTextDraws ( playerid ) ;
+        HideCharacterTextDraws ( playerid ) ;
+        HideCreationTextDraws ( playerid ) ;
 
-		ClearData ( playerid ) ;
+        ClearData ( playerid ) ;
 
-		SetTimerEx("ReInit_AuthPanel", 1000, false, "i", playerid);
-	}
+        SetTimerEx("ReInit_AuthPanel", 1000, false, "i", playerid);
+    }
 
-	else return SendServerMessage ( playerid, "You can't do this when you're already logged in. Use /logout", MSG_TYPE_ERROR ) ;
+    else return SendServerMessage ( playerid, "Zaten giriþ yapmýþ durumdayken bunu yapamazsýnýz. /logout komutunu kullanýn.", MSG_TYPE_ERROR ) ;
 
-	return true ;
+    return true ;
 }
 
 CMD:statistics ( playerid, params [] ) {
 
-	if ( ! IsPlayerSpawned ( playerid ) ) {
+    if ( ! IsPlayerSpawned ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be spawned and logged in to use this command!", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Bu komutu kullanabilmek için oyunda aktif (spawned) ve giriþ yapmýþ olmanýz gerekir!", MSG_TYPE_ERROR ) ;
+    }
 
-	ShowPlayerStatistics ( playerid ) ;
+    ShowPlayerStatistics ( playerid ) ;
 
-	SendServerMessage ( playerid, "You can use /guns to view your holstered weapons.", MSG_TYPE_INFO ) ;
-	SendServerMessage ( playerid, "You can press ~k~~CONVERSATION_NO~ to open your inventory.", MSG_TYPE_INFO ) ;
+    SendServerMessage ( playerid, "Kýlýfýndaki silahlarýnýzý görmek için /guns komutunu kullanabilirsiniz.", MSG_TYPE_INFO ) ;
+    SendServerMessage ( playerid, "Envanterinizi açmak için ~k~~CONVERSATION_NO~ tuþuna basabilirsiniz.", MSG_TYPE_INFO ) ;
 
-	return true ;
+    return true ;
 }
 
 CMD:stats ( playerid, params [] ) return cmd_statistics ( playerid, params ) ;
 
 ShowPlayerStatistics ( playerid, forplayerid = INVALID_PLAYER_ID ) {
 
-	if ( forplayerid == INVALID_PLAYER_ID ) {
+    if ( forplayerid == INVALID_PLAYER_ID ) {
 
-		forplayerid = playerid ;
-	}
+        forplayerid = playerid ;
+    }
 
-	SendClientMessage(playerid, COLOR_TAB0, sprintf("|________________________| Statistics of (%d) %s [accid: %d, charid: %d] |________________________|", forplayerid, ReturnUserName ( forplayerid, true ), Account [ forplayerid][account_id], Character [ forplayerid ] [ character_id ] ) ) ;
+    SendClientMessage(playerid, COLOR_TAB0, sprintf("|________________________| (%d) %s Ýstatistikleri [accid: %d, charid: %d] |________________________|", forplayerid, ReturnUserName ( forplayerid, true ), Account [ forplayerid][account_id], Character [ forplayerid ] [ character_id ] ) ) ;
 
-	new string [ 512 ], date [ 6 ];
+    new string [ 512 ], date [ 6 ];
 
-	TimestampToDate ( Account [ forplayerid ] [ account_lastlogin ], date[0], date[1], date[2], date[3], date[4], date[5], 1 ) ;
+    TimestampToDate ( Account [ forplayerid ] [ account_lastlogin ], date[0], date[1], date[2], date[3], date[4], date[5], 1 ) ;
 
-	format ( string, sizeof ( string ), "[ACCOUNT]{A3A3A3} [Master Account]: %s{FFFFFF} [Creation Date]: %s{A3A3A3} [Last Login Date]: %02d/%02d/%d - %02d:%02d:%02d", 
-		Account [ forplayerid ] [ account_name ] , Account [ forplayerid ] [ account_creation ], date[2], date[1], date[0], date[3], date[4], date[5] ) ;
+    format ( string, sizeof ( string ), "[HESAP]{A3A3A3} [Ana Hesap]: %s{FFFFFF} [Oluþturulma Tarihi]: %s{A3A3A3} [Son Giriþ Tarihi]: %02d/%02d/%d - %02d:%02d:%02d", 
+        Account [ forplayerid ] [ account_name ] , Account [ forplayerid ] [ account_creation ], date[2], date[1], date[0], date[3], date[4], date[5] ) ;
 
-	SendClientMessage(playerid, COLOR_TAB1, string ) ;
+    SendClientMessage(playerid, COLOR_TAB1, string ) ;
 
 
-	format ( string, sizeof ( string ), "[DATA]{A3A3A3} [Staff Level]: %s (%d){FFFFFF} [Staff Group]: %s (%d){A3A3A3} [Donator Level]: %s (%d){FFFFFF}",
-		GetStaffRankName ( Account [ forplayerid ] [ account_stafflevel ] ), 		Account [ forplayerid ] [ account_stafflevel ], 
-		GetStaffGroupName ( Account [ forplayerid ] [ account_staffgroup ] ), 		Account [ forplayerid ] [ account_staffgroup ], 
-		GetDonatorRank ( Account [ forplayerid ] [ account_donatorlevel ] ), 	Account [ forplayerid ] [ account_donatorlevel ]) ;
+    format ( string, sizeof ( string ), "[YETKÝ]{A3A3A3} [Yetkili Seviyesi]: %s (%d){FFFFFF} [Yetkili Grubu]: %s (%d){A3A3A3} [Donator Seviyesi]: %s (%d){FFFFFF}",
+        GetStaffRankName ( Account [ forplayerid ] [ account_stafflevel ] ),        Account [ forplayerid ] [ account_stafflevel ], 
+        GetStaffGroupName ( Account [ forplayerid ] [ account_staffgroup ] ),       Account [ forplayerid ] [ account_staffgroup ], 
+        GetDonatorRank ( Account [ forplayerid ] [ account_donatorlevel ] ),    Account [ forplayerid ] [ account_donatorlevel ]) ;
 
-	SendClientMessage(playerid, COLOR_TAB2, string ) ;
+    SendClientMessage(playerid, COLOR_TAB2, string ) ;
 
-	format ( string, sizeof ( string ), "[LEVEL]{A3A3A3} [Level]: %d (%d exp left){FFFFFF} [Skill Points: %d]{A3A3A3} [Hours: %d]",
-		Character [ forplayerid ] [ character_level ], 
-		Character [ forplayerid ] [ character_expleft ], 
-		Character [ forplayerid ] [ character_skillpoints ], 
-		Character [ forplayerid ] [ character_hours ] ) ;
+    format ( string, sizeof ( string ), "[SEVÝYE]{A3A3A3} [Seviye]: %d (kalan exp: %d){FFFFFF} [Yetenek Puaný: %d]{A3A3A3} [Oynama Saati: %d]",
+        Character [ forplayerid ] [ character_level ], 
+        Character [ forplayerid ] [ character_expleft ], 
+        Character [ forplayerid ] [ character_skillpoints ], 
+        Character [ forplayerid ] [ character_hours ] ) ;
 
-	SendClientMessage(playerid, COLOR_TAB1, string ) ;
+    SendClientMessage(playerid, COLOR_TAB1, string ) ;
 
-	format ( string, sizeof ( string ), "[MONEY]{A3A3A3}[Money]: $%s.%02d{FFFFFF} [Bank Money]: $%s.%02d {A3A3A3}[Paycheck]: $%s.%02d", 
-				IntegerWithDelimiter ( Character [ forplayerid ] [ character_handmoney ] ),
-				Character[forplayerid][character_handchange], 
-				IntegerWithDelimiter ( Character [ forplayerid ] [ character_bankmoney ] ) , 
-				Character[forplayerid][character_bankchange],
-				IntegerWithDelimiter ( Character [ forplayerid ] [ character_paycheck ] ),
-				Character[forplayerid][character_paychange]) ;
+    format ( string, sizeof ( string ), "[PARA]{A3A3A3}[Nakit Para]: $%s.%02d{FFFFFF} [Banka Parasý]: $%s.%02d {A3A3A3}[Maaþ]: $%s.%02d", 
+                IntegerWithDelimiter ( Character [ forplayerid ] [ character_handmoney ] ),
+                Character[forplayerid][character_handchange], 
+                IntegerWithDelimiter ( Character [ forplayerid ] [ character_bankmoney ] ) , 
+                Character[forplayerid][character_bankchange],
+                IntegerWithDelimiter ( Character [ forplayerid ] [ character_paycheck ] ),
+                Character[forplayerid][character_paychange]) ;
 
-	SendClientMessage(playerid, COLOR_TAB2, string ) ;
+    SendClientMessage(playerid, COLOR_TAB2, string ) ;
 
-	new posserankname[36];
-	strcat(posserankname,Character [ forplayerid ] [ character_posserank ]);
-	format ( string, sizeof ( string ), "[GROUP]{A3A3A3} [Posse]: %s (%d){FFFFFF}, [Posse Tier]: %s{A3A3A3} [Posse Rank]: %s",
-		GetPosseName(Character [ forplayerid ] [ character_posse ]),
-		Character [ forplayerid ] [ character_posse ], 
-		GetPosseTierName(Character [ forplayerid ] [ character_possetier ]), 
-		(Character [ forplayerid ] [ character_posse ] != -1) ? (posserankname) : ("N/A")) ;
+    new posserankname[36];
+    strcat(posserankname,Character [ forplayerid ] [ character_posserank ]);
+    format ( string, sizeof ( string ), "[GRUP]{A3A3A3} [Birlik]: %s (%d){FFFFFF}, [Birlik Seviyesi]: %s{A3A3A3} [Birlik Rütbesi]: %s",
+        GetPosseName(Character [ forplayerid ] [ character_posse ]),
+        Character [ forplayerid ] [ character_posse ], 
+        GetPosseTierName(Character [ forplayerid ] [ character_possetier ]), 
+        (Character [ forplayerid ] [ character_posse ] != -1) ? (posserankname) : ("N/A")) ;
 
-	SendClientMessage(playerid, COLOR_TAB1, string ) ;
+    SendClientMessage(playerid, COLOR_TAB1, string ) ;
 
-	new const genderSel [ ] [ ] = { "Male" , "Female" } ;
-	new const originSel [ ] [ ]= { "Caucasian", "Hispanic", "African", "Asian", "Native" } ;
-	new const townSel 	[ ] [ ]= { "Longcreek", "Fremont" } ;
+    new const genderSel [ ] [ ] = { "Erkek" , "Kadin" } ;
+    new const originSel [ ] [ ]= { "Beyaz", "Hispanik", "Afrikali", "Asyali", "Yerli" } ;
+    new const townSel   [ ] [ ]= { "Longcreek", "Fremont" } ;
 
-	format ( string, sizeof ( string ), "[CHAR]{A3A3A3} [Gender]: %s{FFFFFF} [Age]: %d{A3A3A3} [Skin ID]: %d",
-		genderSel [ Character [ forplayerid ] [ character_gender ] ][0], 
-		Character [ forplayerid ] [ character_age ], 
-		Character [ forplayerid ] [ character_skin ]);
+    format ( string, sizeof ( string ), "[KARAKTER]{A3A3A3} [Cinsiyet]: %s{FFFFFF} [Yaþ]: %d{A3A3A3} [Skin ID]: %d",
+        genderSel [ Character [ forplayerid ] [ character_gender ] ][0], 
+        Character [ forplayerid ] [ character_age ], 
+        Character [ forplayerid ] [ character_skin ]);
 
-	SendClientMessage(playerid, COLOR_TAB2, string ) ;
+    SendClientMessage(playerid, COLOR_TAB2, string ) ;
 
-	format(string,sizeof(string),"[CHAR]{A3A3A3} [Race]: %s{FFFFFF} [Spawn Town]: %s",
-		originSel [ Character [ forplayerid ] [ character_origin ] ][0],
-		townSel [ Character [ forplayerid ] [ character_town ] ][0]);
+    format(string,sizeof(string),"[KARAKTER]{A3A3A3} [Irk]: %s{FFFFFF} [Doðuþ Kasabasý]: %s",
+        originSel [ Character [ forplayerid ] [ character_origin ] ][0],
+        townSel [ Character [ forplayerid ] [ character_town ] ][0]);
 
-	SendClientMessage(playerid, COLOR_TAB1, string);
+    SendClientMessage(playerid, COLOR_TAB1, string);
 
-	return true ;
+    return true ;
 }
 
 CMD:namechange ( playerid, params [] ) {
 
-	if ( Account [ playerid ] [ account_namechanges ] == 0 ) {
+    if ( Account [ playerid ] [ account_namechanges ] == 0 ) {
 
-		return SendServerMessage ( playerid, "You don't have any namechanges to use!", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Kullanabileceðiniz herhangi bir isim deðiþtirme hakkýnýz yok!", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( PlayerNameChangeRequest [ playerid ] != 0 ) {
+    if ( PlayerNameChangeRequest [ playerid ] != 0 ) {
 
-		return SendServerMessage ( playerid, "You've already requested a namechange!", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Zaten aktif bir isim deðiþtirme talebinde bulunmuþsunuz!", MSG_TYPE_ERROR ) ;
+    }
 
-	new option [ 16 ], name [ MAX_PLAYER_NAME ] ;
+    new option [ 16 ], name [ MAX_PLAYER_NAME ] ;
 
-	if ( sscanf ( params, "s[16]s["#MAX_PLAYER_NAME"]", option, name ) ) {
+    if ( sscanf ( params, "s[16]s["#MAX_PLAYER_NAME"]", option, name ) ) {
 
-		SendServerMessage ( playerid, "/n(ame)c(hange) [character/account] [new name]", MSG_TYPE_INFO ) ;
-		return SendServerMessage ( playerid, sprintf("You currently have %i %s.", Account [ playerid ] [ account_namechanges ], (Account [ playerid ] [ account_namechanges ] == 1) ? ("namechange") : ("namechanges") ), MSG_TYPE_INFO ) ;
-	}
+        SendServerMessage ( playerid, "/n(ame)c(hange) [character/account] [yeni isim]", MSG_TYPE_INFO ) ;
+        return SendServerMessage ( playerid, sprintf("Þu anda %i adet isim deðiþtirme hakkýnýz var.", Account [ playerid ] [ account_namechanges ] ), MSG_TYPE_INFO ) ;
+    }
 
-	if ( ! strcmp ( option, "character", true ) ) {
+    if ( ! strcmp ( option, "character", true ) ) {
 
-		if ( Account [ playerid ] [ account_namechanges ] < 1 ) { 
+        if ( Account [ playerid ] [ account_namechanges ] < 1 ) { 
 
-			return SendServerMessage ( playerid, "You need at least 1 namechanges to change your character name!", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Karakter adýnýzý deðiþtirmek için en az 1 isim deðiþtirme hakkýna ihtiyacýnýz var!", MSG_TYPE_ERROR ) ;
+        }
 
-		inline CheckIfCharacterExists() {
+        inline CheckIfCharacterExists() {
 
-			new rows;
-			cache_get_row_count ( rows ) ;
+            new rows;
+            cache_get_row_count ( rows ) ;
 
-			if ( rows ) {
+            if ( rows ) {
 
-				return SendServerMessage ( playerid, "This character name already exists.", MSG_TYPE_ERROR ) ;
-			}
+                return SendServerMessage ( playerid, "Bu karakter adý zaten kullanýmda.", MSG_TYPE_ERROR ) ;
+            }
 
-			else {
+            else {
 
-				PlayerNameChangeRequest [ playerid ] = 1;
-				PlayerNameChangeName [ playerid ] = name;
+                PlayerNameChangeRequest [ playerid ] = 1;
+                PlayerNameChangeName [ playerid ] = name;
 
-				foreach(new i: Player) {
-					
-					if ( IsPlayerModerator ( i ) ) {
+                foreach(new i: Player) {
+                    
+                    if ( IsPlayerModerator ( i ) ) {
 
-						SendClientMessage(i, COLOR_STAFF, sprintf( "[NAMECHANGE] (%d) %s requests a {DEDEDE}%s{59BD93} namechange to :{DEDEDE} %s", playerid, ReturnUserName ( playerid, true, false ), (PlayerNameChangeRequest [ playerid ] == 1) ? ("Character") : ("Master Account"), PlayerNameChangeName [ playerid ] ) ) ;
-						SendClientMessage(i, 0xDEDEDEFF, sprintf("To accept or deny the namechange, type {59BD93}/processnamechange %d [accept/deny] (/processnc)", playerid ) ) ;
-					}
+                        SendClientMessage(i, COLOR_STAFF, sprintf( "[ÝSÝM DEÐÝÞTÝRME] (%d) %s, {DEDEDE}%s{59BD93} adýný þununla deðiþtirmek istiyor: {DEDEDE}%s", playerid, ReturnUserName ( playerid, true, false ), (PlayerNameChangeRequest [ playerid ] == 1) ? ("Karakter") : ("Ana Hesap"), PlayerNameChangeName [ playerid ] ) ) ;
+                        SendClientMessage(i, 0xDEDEDEFF, sprintf("Ýsim deðiþikliðini onaylamak veya reddetmek için: {59BD93}/processnamechange %d [accept/deny] (/processnc)", playerid ) ) ;
+                    }
 
-					else continue ;
-				}
-			}
+                    else continue ;
+                }
+            }
 
-		}
+        }
 
-		MySQL_TQueryInline(mysql, using inline CheckIfCharacterExists, "SELECT character_name FROM characters WHERE character_name = '%e'", name);
+        MySQL_TQueryInline(mysql, using inline CheckIfCharacterExists, "SELECT character_name FROM characters WHERE character_name = '%e'", name);
 
-	}
+    }
 
-	else if ( ! strcmp ( option, "account", true ) ) {
+    else if ( ! strcmp ( option, "account", true ) ) {
 
-		if ( Account [ playerid ] [ account_namechanges ] < 2 ) { 
+        if ( Account [ playerid ] [ account_namechanges ] < 2 ) { 
 
-			return SendServerMessage ( playerid, "You need at least 2 namechanges to change your master account name!", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Ana hesap adýnýzý deðiþtirmek için en az 2 isim deðiþtirme hakkýna ihtiyacýnýz var!", MSG_TYPE_ERROR ) ;
+        }
 
-		inline CheckIfMasterAccountExists() {
+        inline CheckIfMasterAccountExists() {
 
-			new rows;
-			cache_get_row_count ( rows ) ;
+            new rows;
+            cache_get_row_count ( rows ) ;
 
-			if ( rows ) {
+            if ( rows ) {
 
-				return SendServerMessage ( playerid, "This master account name already exists.", MSG_TYPE_ERROR ) ;
-			}
+                return SendServerMessage ( playerid, "Bu ana hesap adý zaten mevcut.", MSG_TYPE_ERROR ) ;
+            }
 
-			else {
+            else {
 
-				PlayerNameChangeRequest [ playerid ] = 2;
-				PlayerNameChangeName [ playerid ] = name;
+                PlayerNameChangeRequest [ playerid ] = 2;
+                PlayerNameChangeName [ playerid ] = name;
 
-				foreach(new i: Player) {
+                foreach(new i: Player) {
 
-					if ( IsPlayerModerator ( i ) ) {
+                    if ( IsPlayerModerator ( i ) ) {
 
-						SendClientMessage(i, COLOR_STAFF, sprintf( "[NAMECHANGE] (%d) %s requests a {DEDEDE}%s{59BD93} namechange to :{DEDEDE} %s", playerid, ReturnUserName ( playerid, true ), (PlayerNameChangeRequest [ playerid ] == 1) ? ("Character") : ("Master Account"), PlayerNameChangeName [ playerid ] ) ) ;
-						SendClientMessage(i, 0xDEDEDEFF, sprintf("To accept or deny the namechange, type {59BD93}/processnamechange %d [accept/deny] (/processnc)", playerid ) ) ;
-					}
+                        SendClientMessage(i, COLOR_STAFF, sprintf( "[ÝSÝM DEÐÝÞTÝRME] (%d) %s, {DEDEDE}%s{59BD93} adýný þununla deðiþtirmek istiyor: {DEDEDE}%s", playerid, ReturnUserName ( playerid, true ), (PlayerNameChangeRequest [ playerid ] == 1) ? ("Karakter") : ("Ana Hesap"), PlayerNameChangeName [ playerid ] ) ) ;
+                        SendClientMessage(i, 0xDEDEDEFF, sprintf("Ýsim deðiþikliðini onaylamak veya reddetmek için: {59BD93}/processnamechange %d [accept/deny] (/processnc)", playerid ) ) ;
+                    }
 
-					else continue ;
-				}
-			}
+                    else continue ;
+                }
+            }
 
-		}
+        }
 
-		MySQL_TQueryInline(mysql, using inline CheckIfMasterAccountExists, "SELECT account_name FROM master_accounts WHERE account_name = '%e'", name);
-	}
+        MySQL_TQueryInline(mysql, using inline CheckIfMasterAccountExists, "SELECT account_name FROM master_accounts WHERE account_name = '%e'", name);
+    }
 
-	else return SendServerMessage(playerid,"[character/account] are options, you don't put a name for this parameter.",MSG_TYPE_ERROR);
+    else return SendServerMessage(playerid, "Seçenek olarak yalnýzca [character/account] kullanabilirsiniz, bu parametreye isim yazmayýn.", MSG_TYPE_ERROR);
 
-	return true ;
+    return true ;
 }
 task CharacterPrimaryNeeds[600000]() {
 
-	new query[128];
-	foreach(new i : Player) {
+    new query[128];
+    foreach(new i : Player) {
 
-		if ( IsPlayerPaused(i)) {
+        if ( IsPlayerPaused(i)) {
 
-			continue ;
-		}
+            continue ;
+        }
 
-		if(IsPlayerSpawned(i)) {
+        if(IsPlayerSpawned(i)) {
 
-			if(IsPlayerOnAdminDuty[i]) { continue; }
-			Character[i][character_hunger]--;
-			Character[i][character_thirst] -= 2;
-			if(Character[i][character_hunger] < 0) { Character[i][character_hunger] = 0; }
-			if(Character[i][character_thirst] < 0) { Character[i][character_thirst] = 0; }
-			if(Character[i][character_hunger] < 50) {
+            if(IsPlayerOnAdminDuty[i]) { continue; }
+            Character[i][character_hunger]--;
+            Character[i][character_thirst] -= 2;
+            if(Character[i][character_hunger] < 0) { Character[i][character_hunger] = 0; }
+            if(Character[i][character_thirst] < 0) { Character[i][character_thirst] = 0; }
+            if(Character[i][character_hunger] < 50) {
 
-				if(Character[i][character_hunger] < 25) { 
-					
-					FadeIn ( i ) ;
-					SendClientMessage(i, -1, " ");
-					SendServerMessage ( i, "You're starting to get REALLY hungry! You should eat soon!", MSG_TYPE_WARN);
-					SendClientMessage(i, -1, " ");
-					SetCharacterHealth(i,Character[i][character_health]-3.0); 
-				}
-				else { SetCharacterHealth(i,Character[i][character_health]-1.0); }
-			}
-			if(Character[i][character_thirst] < 50) {
+                if(Character[i][character_hunger] < 25) { 
+                    
+                    FadeIn ( i ) ;
+                    SendClientMessage(i, -1, " ");
+                    SendServerMessage ( i, "Gerçekten çok AÇIKMAYA baþladýnýz! Yakýnda bir þeyler yemelisiniz!", MSG_TYPE_WARN);
+                    SendClientMessage(i, -1, " ");
+                    SetCharacterHealth(i,Character[i][character_health]-3.0); 
+                }
+                else { SetCharacterHealth(i,Character[i][character_health]-1.0); }
+            }
+            if(Character[i][character_thirst] < 50) {
 
-				if(Character[i][character_thirst] < 25) { 
+                if(Character[i][character_thirst] < 25) { 
 
-					FadeIn ( i ) ;
-					SendClientMessage(i, -1, " ");
-					SendServerMessage ( i, "You're starting to get REALLY thirsty! You should drink soon!", MSG_TYPE_WARN);
-					SendClientMessage(i, -1, " ");
-					SetCharacterHealth(i,Character[i][character_health]-3.0); 
-				}
-				else { SetCharacterHealth(i,Character[i][character_health]-1.0); }
-			}
-			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d,character_thirst = %d WHERE character_id = %d",Character[i][character_hunger],Character[i][character_thirst],Character[i][character_id]);
-			mysql_tquery(mysql,query);
-			UpdateGUI(i);
-		}
-		else continue;
-	}
-	return true;
+                    FadeIn ( i ) ;
+                    SendClientMessage(i, -1, " ");
+                    SendServerMessage ( i, "Gerçekten çok SUSAMAYA baþladýnýz! Yakýnda bir þeyler içmelisiniz!", MSG_TYPE_WARN);
+                    SendClientMessage(i, -1, " ");
+                    SetCharacterHealth(i,Character[i][character_health]-3.0); 
+                }
+                else { SetCharacterHealth(i,Character[i][character_health]-1.0); }
+            }
+            mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_hunger = %d,character_thirst = %d WHERE character_id = %d",Character[i][character_hunger],Character[i][character_thirst],Character[i][character_id]);
+            mysql_tquery(mysql,query);
+            UpdateGUI(i);
+        }
+        else continue;
+    }
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

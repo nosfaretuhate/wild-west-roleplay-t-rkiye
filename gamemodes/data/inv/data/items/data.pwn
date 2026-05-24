@@ -182,152 +182,151 @@ enum ItemSetData {
 	item_toggle,
 	item_stack
 } ;
-
 new Item [ ] [ ItemSetData ] = {
 
-	// Applicable Items
+    // Applicable Items
 
-	{ INVALID_OBJECT_ID, "Invalid", 				ITEM_TYPE_UNDEFINED,		PARAM_UNDEFINED,		EXTRA_PARAM_UNDEFINED,	ITEM_RARITY_NORMAL,	false, 0 } ,
+    { INVALID_OBJECT_ID, "Gecersiz",                 ITEM_TYPE_UNDEFINED,        PARAM_UNDEFINED,        EXTRA_PARAM_UNDEFINED,  ITEM_RARITY_NORMAL, false, 0 } ,
 
-	{ 1581, "State Passport", 			ITEM_TYPE_UNDEFINED, 		PARAM_MISC, 			CARD_PASSPORT, 			ITEM_RARITY_RARE, 		false,			1 } ,
-	{ 19792, "Weapon Permit", 			ITEM_TYPE_UNDEFINED, 		PARAM_MISC, 			CARD_GUNPERMIT, 		ITEM_RARITY_EPIC, 		false,			1 } ,
+    { 1581, "Devlet Pasaportu",           ITEM_TYPE_UNDEFINED,        PARAM_MISC,             CARD_PASSPORT,          ITEM_RARITY_RARE,       false,          1 } ,
+    { 19792, "Silah Ruhsati",           ITEM_TYPE_UNDEFINED,        PARAM_MISC,             CARD_GUNPERMIT,         ITEM_RARITY_EPIC,       false,          1 } ,
 
-	{ 11749, "Handcuffs", 				ITEM_TYPE_UNDEFINED, 		PARAM_UNDEFINED, 		SHERIFF_HANDCUFFS, 		ITEM_RARITY_RARE, 		false,			1 } ,
-	{ 18635, "Hammer", 					ITEM_TYPE_USE, 				PARAM_UNDEFINED, 		EXTRA_PARAM_UNDEFINED, 	ITEM_RARITY_NORMAL, 	false,			1 } ,
-	{ 18644, "Screwdriver", 			ITEM_TYPE_USE, 				PARAM_UNDEFINED, 		EXTRA_PARAM_UNDEFINED, 	ITEM_RARITY_NORMAL, 	false,			1 } ,
-	{ 11747, "Bandage", 				ITEM_TYPE_USE, 				PARAM_HEAL, 			BANDAGE, 				ITEM_RARITY_COMMON, 	true,			2 } ,
-		
-	{ 19623, "Camera",	 				ITEM_TYPE_EQUIP, 			PARAM_WEAPON, 			CAMERA, 				ITEM_RARITY_NORMAL, 	true,			1 } ,
-	{ 19347, "Sheriff Badge", 			ITEM_TYPE_MISC, 			PARAM_UNDEFINED, 		SHERIFF_BADGE, 			ITEM_RARITY_RARE, 		false,			1 } ,
-	{ 19775, "Federal Badge", 			ITEM_TYPE_MISC, 			PARAM_UNDEFINED, 		FEDERAL_BADGE		, 	ITEM_RARITY_EPIC, 		false,			1 } ,
-	{ 19774, "Presidential Badge", 		ITEM_TYPE_MISC, 			PARAM_UNDEFINED, 		PRESIDENTIAL_BADGE, 	ITEM_RARITY_LEGENDARY, 	false,			1 } ,
-	{ 19088, "Rope", 					ITEM_TYPE_USE, 				PARAM_UNDEFINED, 		EXTRA_PARAM_UNDEFINED, 	ITEM_RARITY_NORMAL, 	false,			1 } ,
-	{ 1654,	"Dynamite", 				ITEM_TYPE_EQUIP, 			PARAM_WEAPON, 			DYNAMITE, 				ITEM_RARITY_EPIC, 		true,			2 } ,
-	
-	// Edible Items	
-	{ 19570, "Water Bottle (Full)",		ITEM_TYPE_FOOD,				PARAM_THIRST,			FOOD_WATER_FULL,		ITEM_RARITY_NORMAL,		true, MAX_ITEM_STACK_LIMIT },	
-	{ 19570, "Milk (Full)", 			ITEM_TYPE_FOOD, 			PARAM_THIRST, 			FOOD_MILK_FULL, 		ITEM_RARITY_NORMAL, 	true, MAX_ITEM_STACK_LIMIT }, // milk (full / epty )
-	{ 19574, "Orange", 					ITEM_TYPE_FOOD, 			PARAM_HUNGER, 			FOOD_ORANGE, 			ITEM_RARITY_NORMAL, 	true, MAX_ITEM_STACK_LIMIT },
-	{ 19575, "Red Apple", 				ITEM_TYPE_FOOD, 			PARAM_HUNGER, 			FOOD_APPLE_RED, 		ITEM_RARITY_NORMAL, 	true, MAX_ITEM_STACK_LIMIT }, // horse food & human food
-	{ 19576, "Green Apple", 			ITEM_TYPE_FOOD, 			PARAM_HUNGER, 			FOOD_APPLE_GREEN, 		ITEM_RARITY_NORMAL, 	true, MAX_ITEM_STACK_LIMIT }, // horse food & human food
-	{ 19577, "Tomato", 					ITEM_TYPE_FOOD, 			PARAM_HUNGER, 			FOOD_TOMATO, 			ITEM_RARITY_NORMAL, 	true, MAX_ITEM_STACK_LIMIT },
-	{ 19578, "Banana", 					ITEM_TYPE_FOOD, 			PARAM_HUNGER, 			FOOD_BANANA, 			ITEM_RARITY_NORMAL, 	true, MAX_ITEM_STACK_LIMIT },
-	{ 19579, "Bread Loaf", 				ITEM_TYPE_FOOD, 			PARAM_HUNGER, 			FOOD_BREAD, 			ITEM_RARITY_COMMON, 	true, MAX_ITEM_STACK_LIMIT },
-	{ 19582, "Cooked Meat", 			ITEM_TYPE_FOOD, 			PARAM_HUNGER, 			FOOD_MEAT, 				ITEM_RARITY_COMMON, 	true, MAX_ITEM_STACK_LIMIT },
-	{ 19847, "Cooked Meat Leg", 		ITEM_TYPE_FOOD, 			PARAM_HUNGER, 			FOOD_MEAT_LEG, 			ITEM_RARITY_COMMON, 	true, MAX_ITEM_STACK_LIMIT },
-	{ 19320, "Pumpkin", 				ITEM_TYPE_FOOD, 			PARAM_HUNGER, 			FOOD_PUMPKIN, 			ITEM_RARITY_NORMAL, 	true, MAX_ITEM_STACK_LIMIT },
-	{ 19321, "Cabbage", 				ITEM_TYPE_FOOD, 			PARAM_HUNGER, 			FOOD_CABBAGE, 			ITEM_RARITY_NORMAL, 	true, MAX_ITEM_STACK_LIMIT },
-	{ 19882, "Cooked Meat",				ITEM_TYPE_FOOD,				PARAM_HUNGER,			FOOD_COOKED_MEAT,		ITEM_RARITY_NORMAL,		true, MAX_ITEM_STACK_LIMIT },
-	{ 19882, "Cooked Meat Leg",			ITEM_TYPE_FOOD,				PARAM_HUNGER,			FOOD_COOKED_MEAT_LEG,	ITEM_RARITY_NORMAL,		true, MAX_ITEM_STACK_LIMIT },
-	{ 19567, "Canned Salmon",			ITEM_TYPE_FOOD,				PARAM_HUNGER,			FOOD_CANNED_SALMON,		ITEM_RARITY_NORMAL,		true, MAX_ITEM_STACK_LIMIT },
-	{ 19567, "Canned Corned Beef",		ITEM_TYPE_FOOD,				PARAM_HUNGER,			FOOD_CANNED_CORNED_BEEF,ITEM_RARITY_NORMAL,		true, MAX_ITEM_STACK_LIMIT },
-	{ 19564, "Canned Pineapples",		ITEM_TYPE_FOOD,				PARAM_HUNGER,			FOOD_CANNED_PINEAPPLES,	ITEM_RARITY_NORMAL,		true, MAX_ITEM_STACK_LIMIT },
-	{ 19564, "Canned Strawberries",		ITEM_TYPE_FOOD,				PARAM_HUNGER,			FOOD_CANNED_STRAWBERRIES,ITEM_RARITY_NORMAL,	true, MAX_ITEM_STACK_LIMIT },
-	{ 19567, "Canned Kidney Beans",		ITEM_TYPE_FOOD,				PARAM_HUNGER,			FOOD_CANNED_KIDNEY_BEANS,ITEM_RARITY_NORMAL,	true, MAX_ITEM_STACK_LIMIT },
-	{ 19564, "Canned Peaches",			ITEM_TYPE_FOOD,				PARAM_HUNGER,			FOOD_CANNED_PEACHES,	ITEM_RARITY_NORMAL,		true, MAX_ITEM_STACK_LIMIT },
-	{ 19567, "Canned Sweetcorn",		ITEM_TYPE_FOOD,				PARAM_HUNGER,			FOOD_CANNED_SWEETCORN,	ITEM_RARITY_NORMAL,		true, MAX_ITEM_STACK_LIMIT },
-	{ 19567, "Baked Beans",				ITEM_TYPE_FOOD,				PARAM_HUNGER,			FOOD_CANNED_BAKED_BEANS,ITEM_RARITY_NORMAL,		true, MAX_ITEM_STACK_LIMIT },
-	{ 19564, "Canned Apricots",			ITEM_TYPE_FOOD,				PARAM_HUNGER,			FOOD_CANNED_APRICOTS,	ITEM_RARITY_NORMAL,		true, MAX_ITEM_STACK_LIMIT },
-	{ 19567, "Canned Peas",				ITEM_TYPE_FOOD,				PARAM_HUNGER,			FOOD_CANNED_PEAS,		ITEM_RARITY_NORMAL,		true, MAX_ITEM_STACK_LIMIT },
-
-
-	// farming seeds. -- models need modelled
-	{ 2663, "Orange Seed", 				ITEM_TYPE_SEED, 			PARAM_UNDEFINED, 		SEED_ORANGE, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 2663, "Red Apple Seed", 			ITEM_TYPE_SEED, 			PARAM_UNDEFINED, 		SEED_APPLE_RED, 		ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 2663, "Green Apple Seed", 		ITEM_TYPE_SEED, 			PARAM_UNDEFINED, 		SEED_APPLE_GREEN, 		ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 2663, "Tomato Seed", 				ITEM_TYPE_SEED, 			PARAM_UNDEFINED, 		SEED_TOMATO, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 2663, "Pumpkin Seed", 			ITEM_TYPE_SEED, 			PARAM_UNDEFINED, 		SEED_PUMPKIN, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 2663, "Cabbage Seed", 			ITEM_TYPE_SEED, 			PARAM_UNDEFINED, 		SEED_CABBAGE, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 2663, "Wheat Seed", 				ITEM_TYPE_SEED, 			PARAM_UNDEFINED, 		SEED_WHEAT, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	// Hunting items
-	{ 19582, "Slab of Meat", 			ITEM_TYPE_SELL, 			PARAM_HUNTING, 			WILDLIFE_MEAT, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 19882, "Slab of Hide", 			ITEM_TYPE_SELL, 			PARAM_HUNTING, 			WILDLIFE_HIDE, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 19847, "Meat Leg", 				ITEM_TYPE_SELL, 			PARAM_HUNTING, 			WILDLIFE_MEAT_LEG, 		ITEM_RARITY_NORMAL, 	true, 1 } ,
-		
-	// Fishing Items	
-	{ 18632, "Fishing Rod", 			ITEM_TYPE_EQUIP, 			PARAM_FISHING, 			FISHING_ROD, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 1604, "Blue Fish", 				ITEM_TYPE_SELL, 			PARAM_FISHING, 			FISHING_BLUE_1, 		ITEM_RARITY_COMMON, 	true, 2 } ,
-	{ 1599, "Yellow Fish", 				ITEM_TYPE_SELL, 			PARAM_FISHING, 			FISHING_YELLOW, 		ITEM_RARITY_COMMON, 	true, 2 } ,
-	{ 19630, "Big Fish", 				ITEM_TYPE_SELL, 			PARAM_FISHING, 			FISHING_BIGFISH, 		ITEM_RARITY_RARE, 		true, 2 } ,
-	{ 1600, "Blue Fish 2", 				ITEM_TYPE_SELL, 			PARAM_FISHING, 			FISHING_BLUE_2, 		ITEM_RARITY_RARE, 		true, 2 } ,
-	{ 1608, "Baby Shark",				ITEM_TYPE_SELL,				PARAM_FISHING,			FISHING_SHARK, 			ITEM_RARITY_EPIC, 		true, 2 } , 
-	{ 11735, "Boot", 					ITEM_TYPE_JUNK, 			PARAM_FISHING, 			FISHING_BOOT, 			ITEM_RARITY_NORMAL, 	false, 1 } , // Random fail catch
-		
-	// Mining Items	
-	{ PICKAXE, "Pickaxe",				ITEM_TYPE_EQUIP,			PARAM_MINING,			MINE_PICKAXE, 			ITEM_RARITY_RARE, 		true, 1 } ,
-	{ 3929, "Normal Ore",				ITEM_TYPE_SELL,				PARAM_MINING,			MINE_ROCK, 				ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ NUGGET_COPPER, "Copper Ore",		ITEM_TYPE_SELL,				PARAM_MINING,			MINE_COPPER_ORE, 		ITEM_RARITY_COMMON, 	true, 1 } ,
-	{ NUGGET_COAL, "Coal Ore",			ITEM_TYPE_SELL,				PARAM_MINING,			MINE_COAL_ORE, 			ITEM_RARITY_RARE, 		true, 1 } ,
-	{ NUGGET_TIN, "Tin Ore",			ITEM_TYPE_SELL,				PARAM_MINING,			MINE_TIN_ORE, 			ITEM_RARITY_RARE, 		true, 1 } ,
-	{ NUGGET_IRON, "Iron Ore",			ITEM_TYPE_SELL,				PARAM_MINING,			MINE_IRON_ORE, 			ITEM_RARITY_EPIC, 		true, 1 } ,
-	{ NUGGET_GOLD, "Gold Ore",			ITEM_TYPE_SELL,				PARAM_MINING,			MINE_GOLD_ORE, 			ITEM_RARITY_EPIC, 		true, 1 } ,
-
-	{ HATCHET, "Hatchet",				ITEM_TYPE_EQUIP,			PARAM_LUMBER,			LUMBER_HATCHET, 		ITEM_RARITY_COMMON, 	true, 1 } ,
-	{ 19793, "Oak Log",					ITEM_TYPE_SELL,				PARAM_LUMBER,			LUMBER_OAK_LOG,			ITEM_RARITY_COMMON, 	true, 1 } ,
-	{ 19793, "Birch Log",				ITEM_TYPE_SELL,				PARAM_LUMBER,			LUMBER_BIRCH_LOG,		ITEM_RARITY_RARE, 		true, 1 } ,
-	{ 19793, "Yew Log",					ITEM_TYPE_SELL,				PARAM_LUMBER,			LUMBER_YEW_LOG,			ITEM_RARITY_EPIC, 		true, 1 } ,
-
-	// Farming shit
-	{ 2060, "Bag of Soil",				ITEM_TYPE_USE,				PARAM_FARMING,			FARMING_SOIL_BAG,		ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 19626, "Spade",					ITEM_TYPE_USE,				PARAM_FARMING,			FARMING_SHOVEL,			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 18890, "Rake",					ITEM_TYPE_USE,				PARAM_FARMING,			FARMING_RAKE,			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 19468, "Filled Water Pail",		ITEM_TYPE_USE,				PARAM_FARMING,			FARMING_PAIL,			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 19468, "Empty Water Pail",		ITEM_TYPE_USE,				PARAM_FARMING,			FARMING_EMPTY_PAIL,		ITEM_RARITY_NORMAL, 	true, 1 } ,
-
-	{ 2037, "Pistol Ammo Crate",		ITEM_TYPE_USE,				PARAM_AMMO,				AMMO_CRATE_PISTOL,		ITEM_RARITY_COMMON, 	true, 1 } ,
-	{ 2041, "Shotgun Ammo Crate",		ITEM_TYPE_USE,				PARAM_AMMO,				AMMO_CRATE_SHOTGUN,		ITEM_RARITY_RARE, 		true, 1 } ,
-	{ 2043, "Rifle Ammo Crate",			ITEM_TYPE_USE,				PARAM_AMMO,				AMMO_CRATE_RIFLE,		ITEM_RARITY_EPIC, 		true, 1 } ,
-
-	{ 2037, "Pistol Ammo Crate",		ITEM_TYPE_USE,				PARAM_AMMO,				FACTION_AMMO_PISTOL,	ITEM_RARITY_COMMON, 	true, 1 } ,
-	{ 2041, "Shotgun Ammo Crate",		ITEM_TYPE_USE,				PARAM_AMMO,				FACTION_AMMO_SHOTGUN,	ITEM_RARITY_RARE, 		true, 1 } ,
-	{ 2043, "Rifle Ammo Crate",			ITEM_TYPE_USE,				PARAM_AMMO,				FACTION_AMMO_RIFLE,		ITEM_RARITY_EPIC, 		true, 1 } ,
-
-	// Available Beverages
-	{ 1544, "Pale Lager",				ITEM_TYPE_EQUIP,			PARAM_LIQUOR,			LIQUOR_PALELAGER,		ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 1543, "Mild Ale",					ITEM_TYPE_EQUIP,			PARAM_LIQUOR,			LIQUOR_MILDALE,			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 1486, "Malt Liquor",				ITEM_TYPE_EQUIP,			PARAM_LIQUOR,			LIQUOR_MALTLIQUOR,		ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 1484, "Wheat Beer",				ITEM_TYPE_EQUIP,			PARAM_LIQUOR,			LIQUOR_WHEATBEER,		ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 19824, "White Wine",				ITEM_TYPE_EQUIP,			PARAM_LIQUOR,			LIQUOR_WHITEWINE,		ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 19822, "Red Wine",				ITEM_TYPE_EQUIP,			PARAM_LIQUOR,			LIQUOR_REDWINE,			ITEM_RARITY_NORMAL, 	true, 1 } , 
-	{ 19823, "Grain Whiskey",			ITEM_TYPE_EQUIP,			PARAM_LIQUOR,			LIQUOR_GRAINWHISKEY,	ITEM_RARITY_NORMAL, 	true, 1 } , 
-	{ 19820, "Malt Whiskey",			ITEM_TYPE_EQUIP,			PARAM_LIQUOR,			LIQUOR_MALTWHISKEY,		ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ 19821, "Moonshine",				ITEM_TYPE_EQUIP,			PARAM_LIQUOR,			LIQUOR_VODKA,			ITEM_RARITY_NORMAL, 	true, 1 } ,
-
-	// Ciggies
-	{19897, "Cigar Pack (blue)", 		ITEM_TYPE_EQUIP,			PARAM_SMOKES,			SMOKE_CIGARPACK,		ITEM_RARITY_NORMAL,		true, 1 } ,
-	{19896, "Cigaratte Pack (red)",		ITEM_TYPE_EQUIP,			PARAM_SMOKES,			SMOKE_BLUNTPACK,		ITEM_RARITY_NORMAL,		true, 1 } ,
-
-	// Misc items
-	{ 19942, "Transmission Device", 	ITEM_TYPE_USE,				PARAM_UNDEFINED,		RADIO,					ITEM_RARITY_NORMAL,		false, 1 } ,
-	{ 19043, "Pocket Watch", 			ITEM_TYPE_UNDEFINED,		PARAM_MISC,				POCKET_WATCH,			ITEM_RARITY_NORMAL,		false, 1 } ,
-	{ 2953, "Lottery Ticket", 			ITEM_TYPE_UNDEFINED,		PARAM_UNDEFINED, 		LOTTERY_TICKET,			ITEM_RARITY_NORMAL,		false, 1 },
-	{ 19775, "Mayoral Badge", 			ITEM_TYPE_UNDEFINED, 		PARAM_MISC, 			MAYORAL_BADGE, 			ITEM_RARITY_EPIC, 		false, 1 },
-	{ 335, "Skinning Knife",			ITEM_TYPE_EQUIP,			PARAM_HUNTING,			HUNTING_KNIFE,			ITEM_RARITY_COMMON,		true, 1 },
-	{ TRAP_FOOTLOCK, "Animal Trap",		ITEM_TYPE_USE,				PARAM_HUNTING,			HUNTING_TRAP,			ITEM_RARITY_NORMAL,		true, 1 },
-	{ 1923, "Thermostat",				ITEM_TYPE_USE,				PARAM_MISC,				THERMOSTAT,				ITEM_RARITY_NORMAL,		true, 1 },
-	{ GLOVES_BROWN, "Gloves",			ITEM_TYPE_USE,				PARAM_MISC,				GLOVES,					ITEM_RARITY_NORMAL,		true, 1 },
-	{ LONGJOHNS_OBJ, "Long Johns",		ITEM_TYPE_USE,				PARAM_MISC,				LONG_JOHNS,				ITEM_RARITY_NORMAL,		true, 1 },
+    { 11749, "Kelepce",               ITEM_TYPE_UNDEFINED,        PARAM_UNDEFINED,        SHERIFF_HANDCUFFS,      ITEM_RARITY_RARE,       false,          1 } ,
+    { 18635, "Cekic",                  ITEM_TYPE_USE,              PARAM_UNDEFINED,        EXTRA_PARAM_UNDEFINED,  ITEM_RARITY_NORMAL,     false,          1 } ,
+    { 18644, "Tornavida",             ITEM_TYPE_USE,              PARAM_UNDEFINED,        EXTRA_PARAM_UNDEFINED,  ITEM_RARITY_NORMAL,     false,          1 } ,
+    { 11747, "Sargi Bezi",                 ITEM_TYPE_USE,              PARAM_HEAL,             BANDAGE,                ITEM_RARITY_COMMON,     true,           2 } ,
+        
+    { 19623, "Kamera",                  ITEM_TYPE_EQUIP,            PARAM_WEAPON,           CAMERA,                 ITEM_RARITY_NORMAL,     true,           1 } ,
+    { 19347, "Serif Rozeti",           ITEM_TYPE_MISC,             PARAM_UNDEFINED,        SHERIFF_BADGE,          ITEM_RARITY_RARE,       false,          1 } ,
+    { 19775, "Federal Rozet",           ITEM_TYPE_MISC,             PARAM_UNDEFINED,        FEDERAL_BADGE       ,   ITEM_RARITY_EPIC,       false,          1 } ,
+    { 19774, "Baskanlik Rozeti",      ITEM_TYPE_MISC,             PARAM_UNDEFINED,        PRESIDENTIAL_BADGE,     ITEM_RARITY_LEGENDARY,  false,          1 } ,
+    { 19088, "Ip",                    ITEM_TYPE_USE,              PARAM_UNDEFINED,        EXTRA_PARAM_UNDEFINED,  ITEM_RARITY_NORMAL,     false,          1 } ,
+    { 1654, "Dinamit",                 ITEM_TYPE_EQUIP,            PARAM_WEAPON,           DYNAMITE,               ITEM_RARITY_EPIC,       true,           2 } ,
+    
+    // Edible Items 
+    { 19570, "Su Sisesi (Dolu)",     ITEM_TYPE_FOOD,             PARAM_THIRST,           FOOD_WATER_FULL,        ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },   
+    { 19570, "Sut (Dolu)",             ITEM_TYPE_FOOD,             PARAM_THIRST,           FOOD_MILK_FULL,         ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT }, 
+    { 19574, "Portakal",                  ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_ORANGE,            ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19575, "Kirmizi Elma",               ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_APPLE_RED,         ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT }, 
+    { 19576, "Yesil Elma",           ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_APPLE_GREEN,       ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT }, 
+    { 19577, "Domates",                  ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_TOMATO,            ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19578, "Muz",                  ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_BANANA,            ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19579, "Somun Ekmek",              ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_BREAD,             ITEM_RARITY_COMMON,     true, MAX_ITEM_STACK_LIMIT },
+    { 19582, "Pismis Et",             ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_MEAT,              ITEM_RARITY_COMMON,     true, MAX_ITEM_STACK_LIMIT },
+    { 19847, "Pismis But",         ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_MEAT_LEG,          ITEM_RARITY_COMMON,     true, MAX_ITEM_STACK_LIMIT },
+    { 19320, "Bal Kabagi",                 ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_PUMPKIN,           ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19321, "Lahana",                 ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_CABBAGE,           ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19882, "Pismis Et",             ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_COOKED_MEAT,       ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19882, "Pismis But",         ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_COOKED_MEAT_LEG,   ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19567, "Somon Konservesi",           ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_CANNED_SALMON,     ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19567, "Sogus Konservesi",      ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_CANNED_CORNED_BEEF,ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19564, "Ananas Konservesi",       ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_CANNED_PINEAPPLES, ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19564, "Cilek Konservesi",     ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_CANNED_STRAWBERRIES,ITEM_RARITY_NORMAL,    true, MAX_ITEM_STACK_LIMIT },
+    { 19567, "Kuru Fasulye Konservesi",     ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_CANNED_KIDNEY_BEANS,ITEM_RARITY_NORMAL,    true, MAX_ITEM_STACK_LIMIT },
+    { 19564, "Seftali Konservesi",          ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_CANNED_PEACHES,    ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19567, "Misir Konservesi",        ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_CANNED_SWEETCORN,  ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19567, "Soslu Fasulye",             ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_CANNED_BAKED_BEANS,ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19564, "Kayisi Konservesi",         ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_CANNED_APRICOTS,   ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
+    { 19567, "Bezelye Konservesi",           ITEM_TYPE_FOOD,             PARAM_HUNGER,           FOOD_CANNED_PEAS,       ITEM_RARITY_NORMAL,     true, MAX_ITEM_STACK_LIMIT },
 
 
-	{ 19575, "Animal Bait",				ITEM_TYPE_USE,				PARAM_HUNTING,			HUNTING_BAIT,			ITEM_RARITY_NORMAL,		true, 1 },
-	
+    // farming seeds. -- models need modelled
+    { 2663, "Portakal Tohumu",              ITEM_TYPE_SEED,             PARAM_UNDEFINED,        SEED_ORANGE,            ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 2663, "Kirmizi Elma Tohumu",           ITEM_TYPE_SEED,             PARAM_UNDEFINED,        SEED_APPLE_RED,         ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 2663, "Yesil Elma Tohumu",         ITEM_TYPE_SEED,             PARAM_UNDEFINED,        SEED_APPLE_GREEN,       ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 2663, "Domates Tohumu",              ITEM_TYPE_SEED,             PARAM_UNDEFINED,        SEED_TOMATO,            ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 2663, "Bal Kabagi Tohumu",             ITEM_TYPE_SEED,             PARAM_UNDEFINED,        SEED_PUMPKIN,           ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 2663, "Lahana Tohumu",             ITEM_TYPE_SEED,             PARAM_UNDEFINED,        SEED_CABBAGE,           ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 2663, "Bugday Tohumu",               ITEM_TYPE_SEED,             PARAM_UNDEFINED,        SEED_WHEAT,             ITEM_RARITY_NORMAL,     true, 1 } ,
+    // Hunting items
+    { 19582, "Parca Et",            ITEM_TYPE_SELL,             PARAM_HUNTING,           WILDLIFE_MEAT,          ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 19882, "Hayvan Derisi",            ITEM_TYPE_SELL,             PARAM_HUNTING,           WILDLIFE_HIDE,          ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 19847, "Cig But",                ITEM_TYPE_SELL,             PARAM_HUNTING,           WILDLIFE_MEAT_LEG,      ITEM_RARITY_NORMAL,     true, 1 } ,
+        
+    // Fishing Items    
+    { 18632, "Olta",             ITEM_TYPE_EQUIP,            PARAM_FISHING,           FISHING_ROD,            ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 1604, "Mavi Balik",                ITEM_TYPE_SELL,             PARAM_FISHING,           FISHING_BLUE_1,         ITEM_RARITY_COMMON,     true, 2 } ,
+    { 1599, "Sari Balik",              ITEM_TYPE_SELL,             PARAM_FISHING,           FISHING_YELLOW,         ITEM_RARITY_COMMON,     true, 2 } ,
+    { 19630, "Buyuk Balik",                ITEM_TYPE_SELL,             PARAM_FISHING,           FISHING_BIGFISH,        ITEM_RARITY_RARE,       true, 2 } ,
+    { 1600, "Mavi Balik 2",              ITEM_TYPE_SELL,             PARAM_FISHING,           FISHING_BLUE_2,         ITEM_RARITY_RARE,       true, 2 } ,
+    { 1608, "Yavru Kopekbaligi",               ITEM_TYPE_SELL,             PARAM_FISHING,           FISHING_SHARK,          ITEM_RARITY_EPIC,       true, 2 } , 
+    { 11735, "Cizme",                    ITEM_TYPE_JUNK,             PARAM_FISHING,           FISHING_BOOT,           ITEM_RARITY_NORMAL,     false, 1 } , // Random fail catch
+        
+    // Mining Items 
+    { PICKAXE, "Kazma",               ITEM_TYPE_EQUIP,            PARAM_MINING,           MINE_PICKAXE,           ITEM_RARITY_RARE,       true, 1 } ,
+    { 3929, "Normal Cevher",               ITEM_TYPE_SELL,             PARAM_MINING,           MINE_ROCK,              ITEM_RARITY_NORMAL,     true, 1 } ,
+    { NUGGET_COPPER, "Bakir Cevheri",      ITEM_TYPE_SELL,             PARAM_MINING,           MINE_COPPER_ORE,        ITEM_RARITY_COMMON,     true, 1 } ,
+    { NUGGET_COAL, "Komur Cevheri",          ITEM_TYPE_SELL,             PARAM_MINING,           MINE_COAL_ORE,          ITEM_RARITY_RARE,       true, 1 } ,
+    { NUGGET_TIN, "Teneke Cevheri",            ITEM_TYPE_SELL,             PARAM_MINING,           MINE_TIN_ORE,           ITEM_RARITY_RARE,       true, 1 } ,
+    { NUGGET_IRON, "Demir Cevheri",          ITEM_TYPE_SELL,             PARAM_MINING,           MINE_IRON_ORE,          ITEM_RARITY_EPIC,       true, 1 } ,
+    { NUGGET_GOLD, "Altin Cevheri",          ITEM_TYPE_SELL,             PARAM_MINING,           MINE_GOLD_ORE,          ITEM_RARITY_EPIC,       true, 1 } ,
 
-	{ 2936, "Fractured Substance",		ITEM_TYPE_USE,				PARAM_GUNCREATION,		FRACTURED_SUBSTANCE,	ITEM_RARITY_EPIC,		false, 3 },
-	{ 854, "Furnace Coal",				ITEM_TYPE_USE,				PARAM_GUNCREATION,		FURNACE_COAL,			ITEM_RARITY_NORMAL,		false, 3 },
-	{ 19941, "Ingot",					ITEM_TYPE_USE,				PARAM_GUNCREATION,		INGOT,					ITEM_RARITY_NORMAL,		false, 3 },
-	{ 2034, "Gunpart",					ITEM_TYPE_USE,				PARAM_GUNCREATION,		GUNPART,				ITEM_RARITY_NORMAL,		false, 3 },
+    { HATCHET, "Balta",               ITEM_TYPE_EQUIP,            PARAM_LUMBER,           LUMBER_HATCHET,         ITEM_RARITY_COMMON,     true, 1 } ,
+    { 19793, "Mese Kutugu",                 ITEM_TYPE_SELL,             PARAM_LUMBER,           LUMBER_OAK_LOG,         ITEM_RARITY_COMMON,     true, 1 } ,
+    { 19793, "Nyayin Kutugu",               ITEM_TYPE_SELL,             PARAM_LUMBER,           LUMBER_BIRCH_LOG,       ITEM_RARITY_RARE,       true, 1 } ,
+    { 19793, "Porsuk Kutugu",                 ITEM_TYPE_SELL,             PARAM_LUMBER,           LUMBER_YEW_LOG,         ITEM_RARITY_EPIC,       true, 1 } ,
 
-	{ 19592,  "Empty Basket", 				ITEM_TYPE_USE, 				PARAM_FARMING, 		EMPTY_BASKET, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ FARM_BASKET_EMPTY, "Orange-Filled Basket", 		ITEM_TYPE_SELL, 			PARAM_FARMING, 		ORANGE_BASKET, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ FARM_BASKET_RAPPLE, "Red Apple-Filled Basket", 	ITEM_TYPE_SELL, 			PARAM_FARMING, 		RAPPLE_BASKET, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ FARM_BASKET_GAPPLE, "Green Apple-Filled Basket", 	ITEM_TYPE_SELL, 			PARAM_FARMING, 		GAPPLE_BASKET, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ FARM_BASKET_WHEAT, "Wheat-Filled Basket", 		ITEM_TYPE_SELL, 			PARAM_FARMING, 		WHEAT_BASKET, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ FARM_BASKET_TOMATO, "Tomato-Filled Basket", 		ITEM_TYPE_SELL, 			PARAM_FARMING, 		TOMATO_BASKET, 			ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ FARM_BASKET_CABBAGE, "Cabbage-Filled Basket", 	ITEM_TYPE_SELL, 			PARAM_FARMING, 		CABBAGE_BASKET, 		ITEM_RARITY_NORMAL, 	true, 1 } ,
-	{ FARM_BASKET_PUMPKIN, "Pumpkin-Filled Basket", 	ITEM_TYPE_SELL, 			PARAM_FARMING, 		PUMPKIN_BASKET, 		ITEM_RARITY_NORMAL, 	true, 1 } ,
+    // Farming shit
+    { 2060, "Toprak Torbasi",              ITEM_TYPE_USE,              PARAM_FARMING,          FARMING_SOIL_BAG,       ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 19626, "Kurek",                    ITEM_TYPE_USE,              PARAM_FARMING,          FARMING_SHOVEL,         ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 18890, "Tirmik",                    ITEM_TYPE_USE,              PARAM_FARMING,          FARMING_RAKE,           ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 19468, "Dolu Su Kovasi",       ITEM_TYPE_USE,              PARAM_FARMING,          FARMING_PAIL,           ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 19468, "Bos Su Kovasi",        ITEM_TYPE_USE,              PARAM_FARMING,          FARMING_EMPTY_PAIL,     ITEM_RARITY_NORMAL,     true, 1 } ,
 
-	{ 19088, "Long Lasso",				ITEM_TYPE_EQUIP,			PARAM_UNDEFINED,			SHERIFF_LONG_LASSO,			ITEM_RARITY_RARE, 	true, 1 } ,
-	{ 19088, "Lasso",					ITEM_TYPE_EQUIP,			PARAM_UNDEFINED,			SHERIFF_LASSO,				ITEM_RARITY_RARE, 	true, 1 } 
+    { 2037, "Tabanca Mermi Kasasi",        ITEM_TYPE_USE,              PARAM_AMMO,             AMMO_CRATE_PISTOL,      ITEM_RARITY_COMMON,     true, 1 } ,
+    { 2041, "Tufek Mermi Kasasi",       ITEM_TYPE_USE,              PARAM_AMMO,             AMMO_CRATE_SHOTGUN,     ITEM_RARITY_RARE,       true, 1 } ,
+    { 2043, "Kalasnikof Mermi Kasasi",         ITEM_TYPE_USE,              PARAM_AMMO,             AMMO_CRATE_RIFLE,       ITEM_RARITY_EPIC,       true, 1 } ,
+
+    { 2037, "Tabanca Mermi Kasasi",        ITEM_TYPE_USE,              PARAM_AMMO,             FACTION_AMMO_PISTOL,    ITEM_RARITY_COMMON,     true, 1 } ,
+    { 2041, "Tufek Mermi Kasasi",       ITEM_TYPE_USE,              PARAM_AMMO,             FACTION_AMMO_SHOTGUN,   ITEM_RARITY_RARE,       true, 1 } ,
+    { 2043, "Kalasnikof Mermi Kasasi",         ITEM_TYPE_USE,              PARAM_AMMO,             FACTION_AMMO_RIFLE,     ITEM_RARITY_EPIC,       true, 1 } ,
+
+    // Available Beverages
+    { 1544, "Hafif Bira",               ITEM_TYPE_EQUIP,            PARAM_LIQUOR,           LIQUOR_PALELAGER,       ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 1543, "Sert Bira",                 ITEM_TYPE_EQUIP,            PARAM_LIQUOR,           LIQUOR_MILDALE,         ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 1486, "Yuksek Alkollu Bira",              ITEM_TYPE_EQUIP,            PARAM_LIQUOR,           LIQUOR_MALTLIQUOR,      ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 1484, "Bugday Birasi",               ITEM_TYPE_EQUIP,            PARAM_LIQUOR,           LIQUOR_WHEATBEER,       ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 19824, "Beyaz Sarap",              ITEM_TYPE_EQUIP,            PARAM_LIQUOR,           LIQUOR_WHITEWINE,       ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 19822, "Kirmizi Sarap",                ITEM_TYPE_EQUIP,            PARAM_LIQUOR,           LIQUOR_REDWINE,         ITEM_RARITY_NORMAL,     true, 1 } , 
+    { 19823, "Tahil Viski",           ITEM_TYPE_EQUIP,            PARAM_LIQUOR,           LIQUOR_GRAINWHISKEY,    ITEM_RARITY_NORMAL,     true, 1 } , 
+    { 19820, "Malt Viski",            ITEM_TYPE_EQUIP,            PARAM_LIQUOR,           LIQUOR_MALTWHISKEY,     ITEM_RARITY_NORMAL,     true, 1 } ,
+    { 19821, "Kacak Icki",               ITEM_TYPE_EQUIP,            PARAM_LIQUOR,           LIQUOR_VODKA,           ITEM_RARITY_NORMAL,     true, 1 } ,
+
+    // Ciggies
+    {19897, "Puro Paketi (Mavi)",        ITEM_TYPE_EQUIP,            PARAM_SMOKES,           SMOKE_CIGARPACK,        ITEM_RARITY_NORMAL,     true, 1 } ,
+    {19896, "Sigara Paketi (Kirmizi)",     ITEM_TYPE_EQUIP,            PARAM_SMOKES,           SMOKE_BLUNTPACK,        ITEM_RARITY_NORMAL,     true, 1 } ,
+
+    // Misc items
+    { 19942, "Telsiz Cihazi",     ITEM_TYPE_USE,              PARAM_UNDEFINED,        RADIO,                  ITEM_RARITY_NORMAL,     false, 1 } ,
+    { 19043, "Cep Saati",            ITEM_TYPE_UNDEFINED,        PARAM_MISC,             POCKET_WATCH,           ITEM_RARITY_NORMAL,     false, 1 } ,
+    { 2953, "Piyango Bileti",           ITEM_TYPE_UNDEFINED,        PARAM_UNDEFINED,        LOTTERY_TICKET,         ITEM_RARITY_NORMAL,     false, 1 },
+    { 19775, "Belediye Baskani Rozeti",          ITEM_TYPE_UNDEFINED,        PARAM_MISC,             MAYORAL_BADGE,          ITEM_RARITY_EPIC,       false, 1 },
+    { 335, "Yuzme Bicagi",            ITEM_TYPE_EQUIP,            PARAM_HUNTING,           HUNTING_KNIFE,          ITEM_RARITY_COMMON,     true, 1 },
+    { TRAP_FOOTLOCK, "Ayak Kapani",     ITEM_TYPE_USE,              PARAM_HUNTING,           HUNTING_TRAP,           ITEM_RARITY_NORMAL,     true, 1 },
+    { 1923, "Termostat",               ITEM_TYPE_USE,              PARAM_MISC,             THERMOSTAT,             ITEM_RARITY_NORMAL,     true, 1 },
+    { GLOVES_BROWN, "Eldiven",           ITEM_TYPE_USE,              PARAM_MISC,             GLOVES,                 ITEM_RARITY_NORMAL,     true, 1 },
+    { LONGJOHNS_OBJ, "Termal Iclik",      ITEM_TYPE_USE,              PARAM_MISC,             LONG_JOHNS,             ITEM_RARITY_NORMAL,     true, 1 },
+
+
+    { 19575, "Av Yemi",             ITEM_TYPE_USE,              PARAM_HUNTING,           HUNTING_BAIT,           ITEM_RARITY_NORMAL,     true, 1 },
+    
+
+    { 2936, "Islem Gormus Madde",      ITEM_TYPE_USE,              PARAM_GUNCREATION,      FRACTURED_SUBSTANCE,    ITEM_RARITY_EPIC,       false, 3 },
+    { 854, "Ocak Komuru",              ITEM_TYPE_USE,              PARAM_GUNCREATION,      FURNACE_COAL,           ITEM_RARITY_NORMAL,     false, 3 },
+    { 19941, "Kulce",                   ITEM_TYPE_USE,              PARAM_GUNCREATION,      INGOT,                  ITEM_RARITY_NORMAL,     false, 3 },
+    { 2034, "Silah Parcasi",                  ITEM_TYPE_USE,              PARAM_GUNCREATION,      GUNPART,                ITEM_RARITY_NORMAL,     false, 3 },
+
+    { 19592,  "Bos Sepet",               ITEM_TYPE_USE,              PARAM_FARMING,      EMPTY_BASKET,           ITEM_RARITY_NORMAL,     true, 1 } ,
+    { FARM_BASKET_EMPTY, "Portakal Dolu Sepet",        ITEM_TYPE_SELL,             PARAM_FARMING,      ORANGE_BASKET,          ITEM_RARITY_NORMAL,     true, 1 } ,
+    { FARM_BASKET_RAPPLE, "Kirmizi Elma Dolu Sepet",    ITEM_TYPE_SELL,             PARAM_FARMING,      RAPPLE_BASKET,          ITEM_RARITY_NORMAL,     true, 1 } ,
+    { FARM_BASKET_GAPPLE, "Yesil Elma Dolu Sepet",  ITEM_TYPE_SELL,             PARAM_FARMING,      GAPPLE_BASKET,          ITEM_RARITY_NORMAL,     true, 1 } ,
+    { FARM_BASKET_WHEAT, "Bugday Dolu Sepet",         ITEM_TYPE_SELL,             PARAM_FARMING,      WHEAT_BASKET,           ITEM_RARITY_NORMAL,     true, 1 } ,
+    { FARM_BASKET_TOMATO, "Domates Dolu Sepet",       ITEM_TYPE_SELL,             PARAM_FARMING,      TOMATO_BASKET,          ITEM_RARITY_NORMAL,     true, 1 } ,
+    { FARM_BASKET_CABBAGE, "Lahana Dolu Sepet",     ITEM_TYPE_SELL,             PARAM_FARMING,      CABBAGE_BASKET,         ITEM_RARITY_NORMAL,     true, 1 } ,
+    { FARM_BASKET_PUMPKIN, "Bal Kabagi Dolu Sepet",     ITEM_TYPE_SELL,             PARAM_FARMING,      PUMPKIN_BASKET,         ITEM_RARITY_NORMAL,     true, 1 } ,
+
+    { 19088, "Uzun Kement",              ITEM_TYPE_EQUIP,            PARAM_UNDEFINED,            SHERIFF_LONG_LASSO,         ITEM_RARITY_RARE,   true, 1 } ,
+    { 19088, "Kement",                   ITEM_TYPE_EQUIP,            PARAM_UNDEFINED,            SHERIFF_LASSO,              ITEM_RARITY_RARE,   true, 1 } 
 } ;
 
 GetItemByParamID ( param ) {
