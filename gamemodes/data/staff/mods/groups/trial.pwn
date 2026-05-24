@@ -1,46 +1,38 @@
-
 new Float: spec_pos_x 	[ MAX_PLAYERS ] ;
 new Float: spec_pos_y 	[ MAX_PLAYERS ] ;
 new Float: spec_pos_z 	[ MAX_PLAYERS ] ;
 new spec_int 	[ MAX_PLAYERS ] ;
 new spec_vw 	[ MAX_PLAYERS ] ;
 
-// timer DelayedGunAttachments[1000](playerid) {
-
-// ////	print("DelayedGunAttachments timer called (basic.pwn)");
-
-// 	return SetupPlayerGunAttachments ( playerid ) ;
-// }
-
 CMD:trialban ( playerid, params [] ) {
 
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new uid, reason [ 64 ], hours = 24 ;
 
 	if ( sscanf ( params, "k<u>s[64]", uid, reason ) ) {
 
-		SendServerMessage ( playerid, "This command will ban a player for 24 hours, contact a basic moderator for a permanant ban situation.", MSG_TYPE_WARN ) ;
-		return SendServerMessage ( playerid, "/trialban [ playerid / name ] [ reason ]", MSG_TYPE_ERROR ) ;
+		SendServerMessage ( playerid, "Bu komut oyuncuyu 24 saat yasaklayacaktýr, kalýcý yasak için temel moderatörle iletiþime geçin.", MSG_TYPE_WARN ) ;
+		return SendServerMessage ( playerid, "/trialban [ oyuncuID / ad ] [ sebep ]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( strlen ( reason ) > sizeof ( reason ) ) {
 
-		return SendServerMessage ( playerid, "Reason can't be longer than 64 characters!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Sebep 64 karakterden uzun olamaz!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerConnected ( uid ) ) {
 
-		return SendServerMessage ( playerid, "Selected player doesn't exist, they might be offline.", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Seçilen oyuncu yok, çevrimdýþý olabilir.", MSG_TYPE_INFO ) ;
 	}
 		
 
@@ -49,7 +41,7 @@ CMD:trialban ( playerid, params [] ) {
     
     new query[256], reason_temp [ 128 ] ;
 
-    strins(reason_temp, sprintf("[TEMP] %s", reason), 0, sizeof ( reason_temp ) ) ;
+    strins(reason_temp, sprintf("[GEÇÝCÝ] %s", reason), 0, sizeof ( reason_temp ) ) ;
     
     mysql_format(mysql, query, sizeof(query), "INSERT INTO bans (account_id, account_name, ip, ban_admin, ban_reason, ban_time, unban_time) VALUES (%d, '%e', '%e', '%e', '%e', %d, %d)",
 	Account [ uid ] [ account_id ], Account [ uid ] [ account_name ], ReturnIP ( uid ), Account [ playerid ] [ account_name ], reason_temp, gettime(), unbants);
@@ -57,9 +49,9 @@ CMD:trialban ( playerid, params [] ) {
 	mysql_tquery(mysql, query);
 
 	SetAdminRecord ( Account [ uid ] [ account_id ], Account [ playerid ] [ account_id ], ARECORD_TYPE_BAN, reason, hours, ReturnDateTime () ) ;
-	SendSplitMessageToAll ( COLOR_STAFF, sprintf("[STAFF] %s (%d) has temp-banned %s (%d) for \"%s\"", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid,  reason) ) ;
+	SendSplitMessageToAll ( COLOR_STAFF, sprintf("[PERSONEL] %s (%d) - %s (%d) kullanýcýsýný geçici olarak \"%s\" sebebiyle yasakladý", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid,  reason) ) ;
 
-	WriteLog ( playerid, "mods/trialban", sprintf("[STAFF] %s (%d) has temp-banned %s (%d) for \"%s\"", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid,  reason) ) ;
+	WriteLog ( playerid, "mods/trialban", sprintf("[PERSONEL] %s (%d) - %s (%d) kullanýcýsýný geçici olarak \"%s\" sebebiyle yasakladý", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid,  reason) ) ;
 
 	SendRconCommand(sprintf("banip %s", ReturnIP ( uid )));
 	KickPlayer ( uid ) ;
@@ -72,18 +64,18 @@ CMD:spectate(playerid, params[])
 {
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	if (!isnull(params) && !strcmp(params, "off", true))
 	{
 	    if (GetPlayerState(playerid) != PLAYER_STATE_SPECTATING)
-			return SendServerMessage(playerid, "You are not spectating any player.", MSG_TYPE_ERROR);
+			return SendServerMessage(playerid, "Herhangi bir oyuncuyu izlemiyorsunuz.", MSG_TYPE_ERROR);
 
 	    PlayerSpectatePlayer(playerid, INVALID_PLAYER_ID);
 
@@ -95,24 +87,20 @@ CMD:spectate(playerid, params[])
 	    SetPlayerInterior ( playerid, spec_int [ playerid ] ) ;
 	    SetPlayerVirtualWorld( playerid, spec_vw [ playerid ] ) ;
 
-	    //defer DelayedGunAttachments(playerid);
+		SendModeratorWarning ( sprintf("[ÝZLEME] %s (%d) oyuncuyu izlemeyi durdurdu.", ReturnUserName ( playerid, true ), playerid), MOD_WARNING_MED ) ;
 
-		SendModeratorWarning ( sprintf("[SPEC] %s (%d) has stopped spectating.", ReturnUserName ( playerid, true ), playerid), MOD_WARNING_MED ) ;
-		//OldLog ( playerid, "mod/spec", sprintf("%s (%d) has stopped spectating.", ReturnUserName ( playerid, true ), playerid)) ;
-
-		//ReloadPlayerAttachments ( playerid ) ;
 		SetTimerEx("DelayAttachmentPlacement", 2000, false, "i", playerid);
 
-	    return SendServerMessage(playerid, "You are no longer in spectator mode.", MSG_TYPE_WARN);
+	    return SendServerMessage(playerid, "Artýk izleyici modundasýnýz deðilsiniz.", MSG_TYPE_WARN);
 	}
 
 	new userid;
 
 	if (sscanf(params, "k<u>", userid))
-		return SendServerMessage(playerid, "/spectate [playerid/name] - Type \"/spectate off\" to stop spectating.", MSG_TYPE_ERROR );
+		return SendServerMessage(playerid, "/spectate [oyuncuID/ad] - Ýzlemeyi durdurmak için \"/spectate off\" yazýn.", MSG_TYPE_ERROR );
 
 	if (!IsPlayerConnected(userid))
-	    return SendServerMessage(playerid, "You have specified an invalid player.", MSG_TYPE_ERROR );
+	    return SendServerMessage(playerid, "Geçersiz oyuncu belirttiniz.", MSG_TYPE_ERROR );
 
 	if (GetPlayerState(playerid) != PLAYER_STATE_SPECTATING) {
 
@@ -131,20 +119,16 @@ CMD:spectate(playerid, params[])
 	IsPlayerSpectating [ playerid ] = userid ;
 
 	new buffer[256];
-	format ( buffer, sizeof ( buffer ), "(%d) %s's admin note: %s", userid, ReturnUserName(userid), Account [ userid ] [ account_anote] ) ;
+	format ( buffer, sizeof ( buffer ), "(%d) %s'nin admin notu: %s", userid, ReturnUserName(userid), Account [ userid ] [ account_anote] ) ;
 	SendClientMessage(playerid, COLOR_YELLOW, buffer);
 
-	//SendServerMessage(playerid, sprintf("You are now spectating %s (ID: %d).", ReturnUserName(userid, false), userid), MSG_TYPE_WARN );
-
 	if ( ! IsPlayerManager ( playerid ) ) {
-		SendModeratorWarning ( sprintf("[SPEC] %s (%d) is spectating %s (%d)", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( userid, true ), userid ), MOD_WARNING_MED ) ;
+		SendModeratorWarning ( sprintf("[ÝZLEME] %s (%d) - %s (%d) oyuncusunu izliyor", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( userid, true ), userid ), MOD_WARNING_MED ) ;
 	}
 
 	if(Account[userid][account_rulecheck]) {
-		SendServerMessage(playerid,"This player's account is flagged as a \"Potential Rulebreaker\".",MSG_TYPE_WARN);
+		SendServerMessage(playerid,"Bu oyuncunun hesabý \"Potansiyel Kural Ýhlali Yapan\" olarak iþaretlenmiþtir.",MSG_TYPE_WARN);
 	}
-	
-	//OldLog ( playerid, "mod/spec", sprintf("%s (%d) is spectating %s (%d)", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( userid, true ), userid )) ;
 
 	return 1;
 }
@@ -158,24 +142,24 @@ CMD:lastonline ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new name [ MAX_PLAYER_NAME ] ;
 
 	if ( sscanf ( params, "s[24]", name ) ) {
 
-		return SendServerMessage ( playerid, "/lastonline [master_account]: use /getma to get master account from character", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/lastonline [master_hesap]: hesap adýný almak için /getma kullanýn", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( strlen ( name ) > MAX_PLAYER_NAME ) {
 
-		return SendServerMessage ( playerid, "Names can't be longer than 24 characters.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Adlar 24 karakterden uzun olamaz.", MSG_TYPE_ERROR ) ;
 	}
 
 	inline ReturnAccountLastLogin() {
@@ -185,7 +169,7 @@ CMD:lastonline ( playerid, params [] ) {
 
 		if ( ! rows ) {
 
-			return SendServerMessage ( playerid, "Database didn't return any data. Did you type the name correctly?", MSG_TYPE_WARN ) ;
+			return SendServerMessage ( playerid, "Veritabaný veri döndürmedi. Adý doðru yazdýnýz mý?", MSG_TYPE_WARN ) ;
 		}
 
 		if ( rows ) {
@@ -194,12 +178,12 @@ CMD:lastonline ( playerid, params [] ) {
 
 			if ( ! returned_date ) { 
 
-				return SendServerMessage ( playerid, "Date cannot be calculated (timestamp is 0)", MSG_TYPE_ERROR ) ;
+				return SendServerMessage ( playerid, "Tarih hesaplanamýyor (zaman damgasý 0)", MSG_TYPE_ERROR ) ;
 			}
 
 			TimestampToDate ( returned_date, date[0], date[1], date[2], date[3], date[4], date[5], 1 ) ;
 
-			return SendServerMessage ( playerid, sprintf("{D19932}%s{FFFFFF} was last online at %02d/%02d/%d - %02d:%02d:%02d.", name, date[2], date[1], date[0], date[3], date[4], date[5] ), MSG_TYPE_INFO ) ; 
+			return SendServerMessage ( playerid, sprintf("{D19932}%s{FFFFFF} son olarak %02d/%02d/%d - %02d:%02d:%02d tarihinde çevrimiçiydi.", name, date[2], date[1], date[0], date[3], date[4], date[5] ), MSG_TYPE_INFO ) ; 
 		}
 	}
 
@@ -214,26 +198,26 @@ CMD:getstate ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( sscanf ( params, "k<u>", targetid ) ) {
 
-		return SendServerMessage ( playerid, "/getstate [playerid/name]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/getstate [oyuncuID/ad]", MSG_TYPE_ERROR ) ;
 	}
 
-	SendServerMessage ( playerid, sprintf("%s State Information", ReturnUserName ( targetid, false ) ), MSG_TYPE_INFO ) ;
+	SendServerMessage ( playerid, sprintf("%s Durum Bilgisi", ReturnUserName ( targetid, false ) ), MSG_TYPE_INFO ) ;
 
-	SendServerMessage ( playerid, sprintf("{629C5C}Masked{FFFFFF}: %s", ( ReturnPlayerMasked ( targetid ) ) ? ("Yes") : ("No") ), MSG_TYPE_INFO ) ;
-	SendServerMessage ( playerid, sprintf("{FF6347}Injured{FFFFFF}: %s", ( Character [ targetid ] [character_dmgmode ] == 1 ) ? ("Yes") : ("No") ), MSG_TYPE_INFO ) ;
-	SendServerMessage ( playerid, sprintf("{629C5C}Dead{FFFFFF}: %s", ( Character [ targetid ] [character_dmgmode ] == 2 ) ? ("Yes") : ("No") ), MSG_TYPE_INFO ) ;
-	SendServerMessage ( playerid, sprintf("{FF6347}Riding Horse{FFFFFF}: %s", ( IsPlayerRidingHorse [ targetid ] ) ? ("Yes") : ("No") ), MSG_TYPE_INFO ) ;
-	SendServerMessage ( playerid, sprintf("{629C5C}Paused{FFFFFF}: %s", ( IsPlayerPaused ( targetid ) ) ? ("Yes") : ("No") ), MSG_TYPE_INFO ) ;
+	SendServerMessage ( playerid, sprintf("{629C5C}Maskelenmis{FFFFFF}: %s", ( ReturnPlayerMasked ( targetid ) ) ? ("Evet") : ("Hayir") ), MSG_TYPE_INFO ) ;
+	SendServerMessage ( playerid, sprintf("{FF6347}Yaralý{FFFFFF}: %s", ( Character [ targetid ] [character_dmgmode ] == 1 ) ? ("Evet") : ("Hayir") ), MSG_TYPE_INFO ) ;
+	SendServerMessage ( playerid, sprintf("{629C5C}Ölü{FFFFFF}: %s", ( Character [ targetid ] [character_dmgmode ] == 2 ) ? ("Evet") : ("Hayir") ), MSG_TYPE_INFO ) ;
+	SendServerMessage ( playerid, sprintf("{FF6347}Ata Binili{FFFFFF}: %s", ( IsPlayerRidingHorse [ targetid ] ) ? ("Evet") : ("Hayir") ), MSG_TYPE_INFO ) ;
+	SendServerMessage ( playerid, sprintf("{629C5C}Durduruldu{FFFFFF}: %s", ( IsPlayerPaused ( targetid ) ) ? ("Evet") : ("Hayir") ), MSG_TYPE_INFO ) ;
 
 	return true ;
 }
@@ -243,24 +227,24 @@ CMD:getmasteraccount ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 	
 	new name [ MAX_PLAYER_NAME ] ;
 
 	if ( sscanf ( params, "s[24]", name ) ) {
 
-		return SendServerMessage ( playerid, "/getma(steraccount) [character name]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/getma(steraccount) [karakter_adi]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( strlen ( name ) > MAX_PLAYER_NAME ) {
 
-		return SendServerMessage ( playerid, "Names can't be longer than 24 characters.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Adlar 24 karakterden uzun olamaz.", MSG_TYPE_ERROR ) ;
 	}
 
 	inline ReturnAccountID() {
@@ -270,7 +254,7 @@ CMD:getmasteraccount ( playerid, params [] ) {
 
 		if ( ! rows ) {
 
-			return SendServerMessage ( playerid, "Database didn't return any data. Did you type the name correctly?", MSG_TYPE_WARN ) ;
+			return SendServerMessage ( playerid, "Veritabaný veri döndürmedi. Adý doðru yazdýnýz mý?", MSG_TYPE_WARN ) ;
 		}
 
 		if ( rows ) {
@@ -283,14 +267,14 @@ CMD:getmasteraccount ( playerid, params [] ) {
 
 				if ( ! rows ) {
 
-					return SendServerMessage ( playerid, "Database didn't return any data. This isn't supposed to happen. You should probably contact a dev.", MSG_TYPE_WARN ) ;
+					return SendServerMessage ( playerid, "Veritabaný veri döndürmedi. Bu olmak istenmiyordu. Bir geliþtiriciyle iletiþime geçmelisiniz.", MSG_TYPE_WARN ) ;
 				}
 
 				if ( rows ) {
 
 					cache_get_value_name(0, "account_name", returned_name, sizeof ( returned_name ) ) ;
 
-					return SendServerMessage ( playerid, sprintf("{D19932}%s's{FFFFFF} master account is {D19932}(%d) %s{FFFFFF}", name, returned_id, returned_name ), MSG_TYPE_INFO ) ; 
+					return SendServerMessage ( playerid, sprintf("{D19932}%s'nin{FFFFFF} master hesabý {D19932}(%d) %s{FFFFFF}", name, returned_id, returned_name ), MSG_TYPE_INFO ) ; 
 				}
 			}
 
@@ -311,24 +295,24 @@ CMD:getcharacters ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new name [ MAX_PLAYER_NAME ] ;
 
 	if ( sscanf ( params, "s[24]", name ) ) {
 
-		return SendServerMessage ( playerid, "/getc(haracters) [master_name]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/getc(haracters) [master_adi]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( strlen ( name ) > MAX_PLAYER_NAME ) {
 
-		return SendServerMessage ( playerid, "Names can't be longer than 24 characters.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Adlar 24 karakterden uzun olamaz.", MSG_TYPE_ERROR ) ;
 	}
 
 	inline ReturnMasterID() {
@@ -338,7 +322,7 @@ CMD:getcharacters ( playerid, params [] ) {
 
 		if ( ! rows ) {
 
-			return SendServerMessage ( playerid, "Database didn't return any data. Did you type the name correctly?", MSG_TYPE_WARN ) ;
+			return SendServerMessage ( playerid, "Veritabaný veri döndürmedi. Adý doðru yazdýnýz mý?", MSG_TYPE_WARN ) ;
 		}
 
 		if ( rows ) {
@@ -352,7 +336,7 @@ CMD:getcharacters ( playerid, params [] ) {
 
 				if ( ! rows ) {
 
-					return SendServerMessage ( playerid, "Database didn't return any data. This isn't supposed to happen. You should probably contact a dev.", MSG_TYPE_WARN ) ;
+					return SendServerMessage ( playerid, "Veritabaný veri döndürmedi. Bu olmak istenmiyordu. Bir geliþtiriciyle iletiþime geçmelisiniz.", MSG_TYPE_WARN ) ;
 				}
 
 				if ( rows ) {
@@ -363,7 +347,7 @@ CMD:getcharacters ( playerid, params [] ) {
 						format ( char_string, sizeof ( char_string), "%s (%d) %s", char_string, i, returned_name  ) ;
 					}
 
-					SendServerMessage ( playerid, sprintf("Found characters for account {D19932}(%d) %s{FFFFFF}:", returned_id, name ), MSG_TYPE_INFO ) ;
+					SendServerMessage ( playerid, sprintf("Hesap {D19932}(%d) %s{FFFFFF} için karakterler bulundu:", returned_id, name ), MSG_TYPE_INFO ) ;
 					SendServerMessage ( playerid, sprintf("{D19932}%s{FFFFFF}", char_string ), MSG_TYPE_INFO ) ;
 
 					
@@ -388,24 +372,24 @@ CMD:makeooc ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new uid ;
 
 	if ( sscanf ( params, "k<u>", uid ) ) {
 
-		return SendServerMessage ( playerid, "/makeooc [player / name]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/makeooc [oyuncu / ad]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerConnected ( uid ) ) {
 
-		return SendServerMessage ( playerid, "Selected player doesn't exist, they might be offline.", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Seçilen oyuncu yok, çevrimdýþý olabilir.", MSG_TYPE_INFO ) ;
 	}
 
 	if ( ! IsPlayerOOC [ uid ] ) {
@@ -417,21 +401,19 @@ CMD:makeooc ( playerid, params [] ) {
 			cmd_stopinjuries ( playerid, Character [ uid ] [ character_name ] ) ; 
 		}
 
-		SendServerMessage ( uid, sprintf("You've been made OOC by %s", ReturnUserName ( playerid, true ) ), MSG_TYPE_INFO ) ;
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) has made %s (%d) OOC.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
+		SendServerMessage ( uid, sprintf("%s tarafýndan OOC yapýldýnýz", ReturnUserName ( playerid, true ) ), MSG_TYPE_INFO ) ;
+		SendModeratorWarning ( sprintf("[PERSONEL] %s (%d) - %s (%d) oyuncusunu OOC yaptý.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
 
-       	SetName ( uid,  sprintf("(( Out of Character ))\n{[ (%d) %s ]}", uid, ReturnUserName ( uid, false ) ), COLOR_OOC ) ;
-		//OldLog ( uid, "mod/oocstatus", sprintf("%s (%d) has made %s (%d) OOC.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ) ) ;
+       	SetName ( uid,  sprintf("(( Oyunun Dýþýnda ))\n{[ (%d) %s ]}", uid, ReturnUserName ( uid, false ) ), COLOR_OOC ) ;
 	}
 
 	else if ( IsPlayerOOC [ uid ] ) {
 
 		IsPlayerOOC [ uid ] = false ;
 
-		SendServerMessage ( uid, sprintf("You've been made IC by %s", ReturnUserName ( playerid, true ) ), MSG_TYPE_INFO ) ;
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) has removed %s (%d)'s OOC status.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
+		SendServerMessage ( uid, sprintf("%s tarafýndan IC yapýldýnýz", ReturnUserName ( playerid, true ) ), MSG_TYPE_INFO ) ;
+		SendModeratorWarning ( sprintf("[PERSONEL] %s (%d) - %s (%d) oyuncusunun OOC durumunu kaldýrdý.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
 
-		//OldLog ( uid, "mod/oocstatus", sprintf("%s (%d) has removed %s (%d)'s' OOC status.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ) ) ;
        	SetName ( uid,  sprintf("(%d) %s", uid, ReturnUserName ( uid, false ) ), 0xCFCFCFFF ) ;
 	}
 
@@ -442,12 +424,12 @@ CMD:modduty ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerOnAdminDuty [ playerid ] ) {
@@ -460,12 +442,12 @@ CMD:modduty ( playerid, params [] ) {
 			cmd_stopinjuries ( playerid, Character [ playerid ] [ character_name ] ) ; 
 		}		
 
-		SendServerMessage ( playerid, "You went on mod duty. Please go to /staffisland when you're out of work.", MSG_TYPE_INFO ) ;
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) has gone on mod duty.", ReturnUserName ( playerid, true ), playerid), MOD_WARNING_LOW ) ;
+		SendServerMessage ( playerid, "Mod görevine baþladýnýz. Ýþiniz bittiðinde /staffisland'a gidin.", MSG_TYPE_INFO ) ;
+		SendModeratorWarning ( sprintf("[PERSONEL] %s (%d) mod görevine baþladý.", ReturnUserName ( playerid, true ), playerid), MOD_WARNING_LOW ) ;
 
 		if ( Account [ playerid ] [ account_id ] == 1 || Account [ playerid ] [ account_id ] == 2 ) {
 
-    		SetName ( playerid, sprintf("(( OOC: Developer on Duty ))\n{[ (%d) %s ]}", playerid, ReturnUserName ( playerid, false ) ), 0x855A83FF ) ;
+    		SetName ( playerid, sprintf("(( OOC: Geliþtirici Görevde ))\n{[ (%d) %s ]}", playerid, ReturnUserName ( playerid, false ) ), 0x855A83FF ) ;
 		}
 
 		else {
@@ -474,25 +456,23 @@ CMD:modduty ( playerid, params [] ) {
 
 				case STAFF_MANAGER: {
 					
-	        		SetName ( playerid, sprintf("(( OOC: Manager on Duty ))\n{[ (%d) %s ]}", playerid, ReturnUserName ( playerid, false ) ), MANAGER_COLOR ) ;
+	        		SetName ( playerid, sprintf("(( OOC: Yönetici Görevde ))\n{[ (%d) %s ]}", playerid, ReturnUserName ( playerid, false ) ), MANAGER_COLOR ) ;
 				}
 
-				default: SetName ( playerid, sprintf("(( OOC: Moderator on Duty ))\n{[ (%d) %s ]}", playerid, ReturnUserName ( playerid, false ) ), 0x408040FF ) ;
+				default: SetName ( playerid, sprintf("(( OOC: Moderatör Görevde ))\n{[ (%d) %s ]}", playerid, ReturnUserName ( playerid, false ) ), 0x408040FF ) ;
 			}
 		}
 
-		//OldLog ( playerid, "mod/modduty", sprintf("%s (%d) has gone on mod duty", ReturnUserName ( playerid, true ), playerid ) ) ;
 	}
 
 	else if ( IsPlayerOnAdminDuty [ playerid ] ) {
 
 		IsPlayerOnAdminDuty [ playerid ] = false ;
 
-		SendServerMessage ( playerid, "You've gone off mod duty.", MSG_TYPE_INFO ) ;
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) has gone off mod duty.", ReturnUserName ( playerid, true ), playerid), MOD_WARNING_LOW ) ;
+		SendServerMessage ( playerid, "Mod görevini bitirdiniz.", MSG_TYPE_INFO ) ;
+		SendModeratorWarning ( sprintf("[PERSONEL] %s (%d) mod görevini bitirdi.", ReturnUserName ( playerid, true ), playerid), MOD_WARNING_LOW ) ;
 
         SetName ( playerid, sprintf("(%d) %s", playerid, ReturnUserName ( playerid, false )), 0xCFCFCFFF ) ;
-		//OldLog ( playerid, "mod/modduty", sprintf("%s (%d) has gone off mod duty", ReturnUserName ( playerid, true ), playerid ) ) ;
 	}
 
 	return true ;
@@ -502,33 +482,30 @@ CMD:givelogoutperm ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new uid;
 
 	if ( sscanf ( params, "k<u>", uid ) ) {
 
-		return SendServerMessage ( playerid, "/givelogoutperm [ playerid / name ]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/givelogoutperm [ oyuncu / ad ]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerConnected ( uid ) ) {
 
-		return SendServerMessage ( playerid, "Selected player doesn't exist, they might be offline.", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Seçilen oyuncu yok, çevrimdýþý olabilir.", MSG_TYPE_INFO ) ;
 	}
 
 	LogoutPermission [ uid ] = true ;
 
-	SendServerMessage ( uid, "You've been given /logout permission. You can now use /logout.", MSG_TYPE_INFO ) ;
-	SendModeratorWarning ( sprintf("[STAFF] %s (%d) has given %s (%d) logout permission.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
-
-	//OldLog ( uid, "mod/logoutperms", sprintf("%s (%d) has given %s (%d) logout permission.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ) ) ;
-
+	SendServerMessage ( uid, "/logout izni verildi. Artýk /logout komutunu kullanabilirsiniz.", MSG_TYPE_INFO ) ;
+	SendModeratorWarning ( sprintf("[PERSONEL] %s (%d) - %s (%d) oyuncusuna logout izni verdi.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
 
 	return true ;
 }
@@ -538,19 +515,19 @@ CMD:aooc ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new string[256],text [ 144 ] ;
 
 	if ( sscanf ( params, "s[144]", text ) ) {
 
-		return SendServerMessage ( playerid, "/aooc [ text ]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/aooc [ metin ]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( strlen ( Account [ playerid ] [ account_staffname ] ) == 0 ) {
@@ -572,37 +549,37 @@ CMD:kick ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new uid, reason [ 64 ] ;
 
 	if ( sscanf ( params, "k<u>s[64]", uid, reason ) ) {
 
-		return SendServerMessage ( playerid, "/kick [ playerid / name ] [ reason ]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/kick [ oyuncuID / ad ] [ sebep ]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerConnected ( uid ) ) {
 
-		return SendServerMessage ( playerid, "Selected player doesn't exist, they might be offline.", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Seçilen oyuncu yok, çevrimdýþý olabilir.", MSG_TYPE_INFO ) ;
 	}
 
 	if ( strlen ( reason ) > sizeof ( reason ) ) {
 
-		return SendServerMessage ( playerid, "Can't be longer than 64 characters!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "64 karakterden uzun olamaz!", MSG_TYPE_ERROR ) ;
 	}
 
 	SetDynamicObjectPos ( HorseObject [ uid ], 0.0, 0.0, 0.0 ) ;
 	SetDynamicObjectPos ( CowObject [ uid ], 0.0, 0.0, 0.0 ) ;
 
 	SetAdminRecord ( Account [ uid ] [ account_id ], Account [ playerid ] [ account_id ], ARECORD_TYPE_KICK, reason, 0, ReturnDateTime () ) ;
-	SendSplitMessageToAll ( COLOR_STAFF, sprintf("[STAFF] %s (%d) has kicked %s (%d) for \"%s\"", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid,  reason) ) ;
-	WriteLog ( uid, "mod/kicks", sprintf("%s (%d) has kicked %s (%d) for \"%s\"", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid, reason ) ) ;
+	SendSplitMessageToAll ( COLOR_STAFF, sprintf("[PERSONEL] %s (%d) - %s (%d) oyuncusunu \"%s\" sebebiyle çýkardý", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid,  reason) ) ;
+	WriteLog ( uid, "mod/kicks", sprintf("%s (%d) - %s (%d) oyuncusunu \"%s\" sebebiyle çýkardý", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid, reason ) ) ;
 
 	KickPlayer ( uid ) ;
 
@@ -613,49 +590,40 @@ CMD:ajail ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new uid, time, reason [ 64 ] ;
 
 	if ( sscanf ( params, "k<u>is[64]", uid, time, reason ) ) {
 
-		return SendServerMessage ( playerid, "/ajail [player] [time in minutes] [reason]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/ajail [oyuncu] [dakika cinsinden zaman] [sebep]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( strlen ( reason ) > 64 ) {
 
-		return SendServerMessage ( playerid, "Reason can't be longer than 64 characters!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Sebep 64 karakterden uzun olamaz!", MSG_TYPE_ERROR ) ;
 	}
-/*
-	if ( time < 10 || time > 120 ) {
-
-		return SendServerMessage ( playerid, "You can't admin jail someone for more than 2 hours or less than 10 minutes.", MSG_TYPE_ERROR ) ;
-	}
-*/
-	//time * 60 ; // 60 seconds
 
 	new query [ 128 ] ;
 
-	//mysql_format(mysql, query, sizeof ( query ), "UPDATE characters SET character_ajailed = '%d' WHERE character_id = '%d'", time, Character [ playerid ] [ SelectedCharacter [ playerid ] ] [ character_id ] ) ;
 	mysql_format(mysql, query, sizeof ( query ), "UPDATE characters SET character_ajailed = '%d' WHERE character_id = '%d'", time, Character [ uid ]  [ character_id ] ) ;
 	mysql_tquery ( mysql, query ) ;
 
-	// Character [ uid ] [ SelectedCharacter [ uid ] ] [ character_ajailed ] = time ;
 	Character [ uid ] [ character_ajailed ] = time ;
 	IsPlayerInAdminJail [ uid ] = true ;
 
 	SetAdminRecord ( Account [ uid ] [ account_id ], Account [ playerid ] [ account_id ], ARECORD_TYPE_AJAIL, reason, time, ReturnDateTime () ) ;
 
-	SendSplitMessageToAll ( COLOR_STAFF, sprintf("[STAFF] %s (%d) has ajailed %s (%d) for %d minutes", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid, time) ) ;
-	SendSplitMessageToAll ( COLOR_STAFF, sprintf("[STAFF] Reason: \"%s\"", reason ) ) ;
+	SendSplitMessageToAll ( COLOR_STAFF, sprintf("[PERSONEL] %s (%d) - %s (%d) oyuncusunu %d dakika cezalandýrdý", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid, time) ) ;
+	SendSplitMessageToAll ( COLOR_STAFF, sprintf("[PERSONEL] Sebep: \"%s\"", reason ) ) ;
 
-	WriteLog ( uid, "mod/ajail", sprintf("%s (%d) has ajailed %s (%d) for %d minutes. Reason: \"%s\"", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid, time, reason ) ) ;
+	WriteLog ( uid, "mod/ajail", sprintf("%s (%d) - %s (%d) oyuncusunu %d dakika cezalandýrdý. Sebep: \"%s\"", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid, time, reason ) ) ;
 
 	@pT_AdminJail_Handler_60000 () ;
 
@@ -666,51 +634,47 @@ CMD:unajail ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new uid ;
 
 	if ( sscanf ( params, "k<u>", uid ) ) {
 
-		return SendServerMessage ( playerid, "/unajail [playerid]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/unajail [oyuncuID]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerInAdminJail [ uid ] ) {
 
 		new query [ 128 ] ;
 
-		//mysql_format(mysql, query, sizeof ( query ), "UPDATE characters SET character_ajailed = 0 WHERE character_id = '%d'", Character [ uid ] [ SelectedCharacter [ uid ] ] [ character_id ] ) ;
 		mysql_format(mysql, query, sizeof ( query ), "UPDATE characters SET character_ajailed = 0 WHERE character_id = '%d'", Character [ uid ] [ character_id ] ) ;
 		mysql_tquery ( mysql, query ) ;
 
-		//Character [ uid ] [ SelectedCharacter [ uid ] ] [ character_ajailed ] = 0 ;
 		Character [ uid ] [ character_ajailed ] = 0 ;
 		IsPlayerInAdminJail [ uid ] = false ;
 
-		return SendServerMessage ( playerid, "Player doesn't seem to be in admin jail, but their data has been reset nonetheless.", MSG_TYPE_WARN ) ;
+		return SendServerMessage ( playerid, "Oyuncu cezaevinde deðil, ancak verileri sýfýrlandý.", MSG_TYPE_WARN ) ;
 	}
 
 	new query [ 256 ] ;
 
-	//mysql_format(mysql, query, sizeof ( query ), "UPDATE characters SET character_ajailed = 0 WHERE character_id = '%d'", Character [ uid ] [ SelectedCharacter [ uid ] ] [ character_id ] ) ;
 	mysql_format(mysql, query, sizeof ( query ), "UPDATE characters SET character_ajailed = 0 WHERE character_id = '%d'", Character [ uid ] [ character_id ] ) ;
 	mysql_tquery ( mysql, query ) ;
 
-	//Character [ uid ] [ SelectedCharacter [ uid ] ] [ character_ajailed ] = 0 ;
 	Character [ uid ]  [ character_ajailed ] = 0 ;
 	IsPlayerInAdminJail [ uid ] = false ;
 
-	SendServerMessage ( uid, "You've been released from admin jail. Try to behave this time.", MSG_TYPE_INFO ) ;
+	SendServerMessage ( uid, "Cezaevinden salýndýnýz. Bu sefer davranýþlý olun lütfen.", MSG_TYPE_INFO ) ;
 	SpawnPlayer_Character ( uid ) ;
 
-	SendSplitMessageToAll ( COLOR_STAFF, sprintf("[STAFF] %s (%d) has unjailed %s (%d)", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid) ) ;
-	WriteLog ( uid, "mod/unjail", sprintf("%s (%d) has unjailed %s (%d) ", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ) ) ;
+	SendSplitMessageToAll ( COLOR_STAFF, sprintf("[PERSONEL] %s (%d) - %s (%d) oyuncusunun cezasýný iptal etti", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid) ) ;
+	WriteLog ( uid, "mod/unjail", sprintf("%s (%d) - %s (%d) oyuncusunun cezasýný iptal etti", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ) ) ;
 
 	return true ;
 }
@@ -721,41 +685,41 @@ CMD:offlinejail ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new charname [  MAX_PLAYER_NAME ], time, reason [ 64 ] ;
 
 	if ( sscanf ( params, "s[24]is[64]", charname, time, reason ) ) {
 
-		return SendServerMessage ( playerid, "/offlinejail [character] [time in minutes] [reason] ( use /getma or /getc to get acc name )", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/offlinejail [karakter] [dakika cinsinden zaman] [sebep] ( hesap adýný almak için /getma veya /getc kullanýn )", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( strlen ( charname ) > MAX_PLAYER_NAME ) {
 
-		return SendServerMessage ( playerid, "Names can't be longer than 24 characters ", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Adlar 24 karakterden uzun olamaz", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( strlen ( reason ) > 64 ) {
 
-		return SendServerMessage ( playerid, "Reason can't be longer than 64 characters!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Sebep 64 karakterden uzun olamaz!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( time < 10 || time > 120 ) {
 
-		return SendServerMessage ( playerid, "You can't admin jail someone for more than 2 hours or less than 10 minutes.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Birini 2 saatten fazla veya 10 dakikadan az cezalandýramazsýnýz.", MSG_TYPE_ERROR ) ;
 	}
 
 	foreach(new i: Player) {
 
 		if ( ! strcmp(charname, ReturnUserName ( i, true ) ) ) {
 
-			return SendServerMessage ( playerid, sprintf("Player seems to be connected as ID %d. Use /ajail instead.", i ), MSG_TYPE_WARN ) ;
+			return SendServerMessage ( playerid, sprintf("Oyuncu ID %d olarak baðlý görünüyor. Bunun yerine /ajail kullanýn.", i ), MSG_TYPE_WARN ) ;
 		}
 	}
 
@@ -767,7 +731,7 @@ CMD:offlinejail ( playerid, params [] ) {
 
 		if ( ! rows ) {
 
-			return SendServerMessage ( playerid, "Database didn't return any account data. Maybe your mistyped the name.", MSG_TYPE_WARN ) ;
+			return SendServerMessage ( playerid, "Veritabaný hesap verisi döndürmedi. Adý yanlýþ yazmýþ olabilirsiniz.", MSG_TYPE_WARN ) ;
 		}
 
 		if ( rows ) {
@@ -779,8 +743,8 @@ CMD:offlinejail ( playerid, params [] ) {
 			mysql_tquery ( mysql, query ) ;
 
 			SetAdminRecord ( acc_id, Account [ playerid ] [ account_id ], ARECORD_TYPE_AJAIL, reason, time, ReturnDateTime () ) ;
-			SendSplitMessageToAll ( COLOR_STAFF, sprintf("[STAFF] %s (%d) has offline jailed %s for \"%s\"", ReturnUserName ( playerid, true ), playerid, charname,  reason) ) ;
-			WriteLog ( INVALID_PLAYER_ID, "mod/ajail", sprintf("%s (%d) has offline jailed %s for \"%s\"", ReturnUserName ( playerid, true ), playerid, charname,  reason) ) ;
+			SendSplitMessageToAll ( COLOR_STAFF, sprintf("[PERSONEL] %s (%d) - %s adlý oyuncuyu çevrimdýþý olarak \"%s\" sebebiyle cezalandýrdý", ReturnUserName ( playerid, true ), playerid, charname,  reason) ) ;
+			WriteLog ( INVALID_PLAYER_ID, "mod/ajail", sprintf("%s (%d) - %s adlý oyuncuyu çevrimdýþý olarak \"%s\" sebebiyle cezalandýrdý", ReturnUserName ( playerid, true ), playerid, charname,  reason) ) ;
 		}
 	}
 
@@ -796,16 +760,13 @@ CMD:ojail ( playerid, params [] ) {
 
 task AdminJail_Handler[60000]() {
 
-////	print("AdminJail_Handler timer called (basic.pwn)");
-
 	foreach (new playerid: Player) {
 
 		if ( IsPlayerInAdminJail [ playerid ] ) {
 
-			//if ( Character [ playerid ] [ SelectedCharacter [ playerid ] ] [ character_ajailed ] <= 0 ) {
 			if ( Character [ playerid ] [ character_ajailed ] <= 0 ) {
 
-				SendServerMessage ( playerid, "You've been released from admin jail. Try to behave this time.", MSG_TYPE_INFO ) ;
+				SendServerMessage ( playerid, "Cezaevinden salýndýnýz. Bu sefer davranýþlý olun lütfen.", MSG_TYPE_INFO ) ;
 
 				IsPlayerInAdminJail [ playerid ] = false ;
 
@@ -813,18 +774,15 @@ task AdminJail_Handler[60000]() {
 			}
 
 			GameTextForPlayer(playerid, 
-			//	sprintf("~w~~n~~n~~n~~n~~n~Time left in admin jail:~n~~r~%d~w~ minutes", Character [ playerid ] [ SelectedCharacter [ playerid ] ] [ character_ajailed ] ) , 59500, 3);
-				sprintf("~w~~n~~n~~n~~n~~n~Time left in admin jail:~n~~r~%d~w~ minutes", Character [ playerid ] [ character_ajailed ] ) , 59500, 3);
+				sprintf("~w~~n~~n~~n~~n~~n~Cezaevinde kalan zaman:~n~~r~%d~w~ dakika", Character [ playerid ] [ character_ajailed ] ) , 59500, 3);
 
 			new query [ 128 ] ;
 
-			//Character [ playerid ] [ SelectedCharacter [ playerid ] ] [ character_ajailed ] -- ;
 			Character [ playerid ] [ character_ajailed ] -- ;
 			ac_SetPlayerPos ( playerid, 154.1281, -1951.9653, 47.4766 ) ;
 			TogglePlayerControllable ( playerid, true ) ;
 
 			mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_ajailed = '%d' WHERE character_id = '%d'", 
-				//Character [ playerid ] [ SelectedCharacter [ playerid ] ] [ character_ajailed ], Character [ playerid ] [ SelectedCharacter [ playerid ] ] [ character_id ] ) ;
 				Character [ playerid ] [ character_ajailed ], Character [ playerid ] [ character_id ] ) ;
 			mysql_tquery ( mysql, query, "" ) ;
 		}
@@ -833,24 +791,16 @@ task AdminJail_Handler[60000]() {
 	return true ;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 CMD:fw ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new Float: xpos, Float: ypos, Float: zpos ;
@@ -867,12 +817,12 @@ CMD:dn ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new Float: xpos, Float: ypos, Float: zpos ;
@@ -887,12 +837,12 @@ CMD:up ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new Float: xpos, Float: ypos, Float: zpos ;
@@ -907,32 +857,30 @@ CMD:freeze ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new uid;
 
 	if ( sscanf ( params, "k<u>", uid ) ) {
 
-		return SendServerMessage ( playerid, "/freeze [ playerid / name ]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/freeze [ oyuncuID / ad ]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerConnected ( uid ) ) {
 
-		return SendServerMessage ( playerid, "Selected player doesn't exist, they might be offline.", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Seçilen oyuncu yok, çevrimdýþý olabilir.", MSG_TYPE_INFO ) ;
 	}
 
 	TogglePlayerControllable(uid, false ) ;
 
-	SendServerMessage ( uid, sprintf("You've been frozen by moderator %s (%d)", ReturnUserName ( playerid, true ), playerid ), MSG_TYPE_INFO ) ;
-	SendModeratorWarning ( sprintf("[STAFF] %s (%d) has frozen %s (%d).", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
-
-	//OldLog ( uid, "mod/freezes", sprintf("%s (%d) has frozen %s (%d)", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ) ) ;
+	SendServerMessage ( uid, sprintf("Moderatör %s (%d) tarafýndan donduruldunuz", ReturnUserName ( playerid, true ), playerid ), MSG_TYPE_INFO ) ;
+	SendModeratorWarning ( sprintf("[PERSONEL] %s (%d) - %s (%d) oyuncusunu dondurdu.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
 
 	return true ;
 }
@@ -941,33 +889,30 @@ CMD:unfreeze ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new uid;
 
 	if ( sscanf ( params, "k<u>", uid ) ) {
 
-		return SendServerMessage ( playerid, "/unfreeze [ playerid / name ]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/unfreeze [ oyuncuID / ad ]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerConnected ( uid ) ) {
 
-		return SendServerMessage ( playerid, "Selected player doesn't exist, they might be offline.", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Seçilen oyuncu yok, çevrimdýþý olabilir.", MSG_TYPE_INFO ) ;
 	}
 
 	TogglePlayerControllable(uid, true ) ;
 
-	SendServerMessage ( uid, sprintf("You've been unfrozen by moderator %s (%d)", ReturnUserName ( playerid, true ), playerid ), MSG_TYPE_INFO ) ;
-	SendModeratorWarning ( sprintf("[STAFF] %s (%d) has unfrozen %s (%d).", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
-
-	//OldLog ( uid, "mod/freezes", sprintf("%s (%d) has unfrozen %s (%d)", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ) ) ;
-
+	SendServerMessage ( uid, sprintf("Moderatör %s (%d) tarafýndan çözüldünüz", ReturnUserName ( playerid, true ), playerid ), MSG_TYPE_INFO ) ;
+	SendModeratorWarning ( sprintf("[PERSONEL] %s (%d) - %s (%d) oyuncusunu çözdü.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
 
 	return true ;
 }
@@ -976,24 +921,24 @@ CMD:slap ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new uid;
 
 	if ( sscanf ( params, "k<u>", uid ) ) {
 
-		return SendServerMessage ( playerid, "/slap [ playerid / name ]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/slap [ oyuncuID / ad ]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerConnected ( uid ) ) {
 
-		return SendServerMessage ( playerid, "Selected player doesn't exist, they might be offline.", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Seçilen oyuncu yok, çevrimdýþý olabilir.", MSG_TYPE_INFO ) ;
 	}
 
     new Float:x, Float:y, Float:z;
@@ -1003,11 +948,8 @@ CMD:slap ( playerid, params [] ) {
 
 	PlayerPlaySound ( uid, 1190, x, y, z ) ;
 
-	SendServerMessage ( uid, sprintf("You've been slapped by moderator %s (%d)", ReturnUserName ( playerid, true ), playerid ), MSG_TYPE_INFO ) ;
-	SendModeratorWarning ( sprintf("[STAFF] %s (%d) has slapped %s (%d).", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
-
-	//OldLog ( uid, "mod/slaps", sprintf("%s (%d) has slapped %s (%d)", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ) ) ;
-
+	SendServerMessage ( uid, sprintf("Moderatör %s (%d) tarafýndan dövüldünüz", ReturnUserName ( playerid, true ), playerid ), MSG_TYPE_INFO ) ;
+	SendModeratorWarning ( sprintf("[PERSONEL] %s (%d) - %s (%d) oyuncusunu dövdü.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
 
 	return true ;
 }
@@ -1016,30 +958,29 @@ CMD:bring ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new uid, Float: x, Float: y, Float: z ;
 
 	if ( sscanf ( params, "u", uid ) ) {
 
-		return SendServerMessage ( playerid, "/bring [ playerid / name ]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/bring [ oyuncuID / ad ]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerConnected ( uid ) ) {
 
-		return SendServerMessage ( playerid, "Selected player doesn't exist, they might be offline.", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Seçilen oyuncu yok, çevrimdýþý olabilir.", MSG_TYPE_INFO ) ;
 	}
 
-	SendServerMessage ( uid, sprintf("You've been teleported to moderator %s (%d).", ReturnUserName ( playerid, true ), playerid ), MSG_TYPE_INFO ) ;
+	SendServerMessage ( uid, sprintf("Moderatör %s (%d) tarafýndan yanýna ýþýnlandýnýz.", ReturnUserName ( playerid, true ), playerid ), MSG_TYPE_INFO ) ;
 
-	SendModeratorWarning ( sprintf("[STAFF] %s (%d) has teleported %s (%d) to them.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
-	//OldLog ( uid, "mod/teleport", sprintf("%s (%d) has teleported %s (%d) to them", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ) ) ;
+	SendModeratorWarning ( sprintf("[PERSONEL] %s (%d) - %s (%d) oyuncusunu yanýna ýþýnladý.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
 
 	BlackScreen ( uid ) ;
 
@@ -1059,8 +1000,6 @@ CMD:bring ( playerid, params [] ) {
 		if(GetCharacterPointID(playerid) != -1) { SetCharacterPointID(uid,GetCharacterPointID(playerid)); }
 	}
 
-//	FadeIn ( uid ) ;
-
 	return true ;
 }
 
@@ -1068,30 +1007,29 @@ CMD:goto ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak için moderatör olmanýz gerekir!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < TRIAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a trial moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için en az aday moderatör olmanýz gerekir.", MSG_TYPE_ERROR ) ;
 	}
 
 	new uid, Float: x, Float: y, Float: z ;
 
 	if ( sscanf ( params, "k<u>", uid ) ) {
 
-		return SendServerMessage ( playerid, "/goto [ playerid / name ]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/goto [ oyuncuID / ad ]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerConnected ( uid ) ) {
 
-		return SendServerMessage ( playerid, "Selected player doesn't exist, they might be offline.", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Seçilen oyuncu yok, çevrimdýþý olabilir.", MSG_TYPE_INFO ) ;
 	}
 
-	SendServerMessage ( uid, sprintf("Moderator %s (%d) has teleported to you.", ReturnUserName ( playerid, true ), playerid ), MSG_TYPE_INFO ) ;
+	SendServerMessage ( uid, sprintf("Moderatör %s (%d) sizin yanýnýza ýþýnlandý.", ReturnUserName ( playerid, true ), playerid ), MSG_TYPE_INFO ) ;
 
-	SendModeratorWarning ( sprintf("[STAFF] %s (%d) has teleported to %s (%d).", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
-	//OldLog ( uid, "mod/teleport", sprintf("%s (%d) has teleported to %s (%d).", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ) ) ;
+	SendModeratorWarning ( sprintf("[PERSONEL] %s (%d) - %s (%d) oyuncusunun yanýna ýþýnlandý.", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( uid, true ), uid ), MOD_WARNING_LOW ) ;
 
 	GetPlayerPos ( uid, x, y, z ) ;
 	ac_SetPlayerPos ( playerid, x, y, z, 0 ) ;
@@ -1103,14 +1041,6 @@ CMD:goto ( playerid, params [] ) {
 
 	return true ;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 {
@@ -1127,9 +1057,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 
 				IsPlayerSpectating [ playerid ] = i ;
 
-				SendServerMessage(playerid, sprintf("You are now spectating %s (ID: %d).", ReturnUserName(i, false), i), MSG_TYPE_WARN );
-
-				//SendModeratorWarning ( sprintf("[SPEC] %s (%d) is spectating %s (%d)", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( i, true ), i ), MOD_WARNING_MED ) ;
+				SendServerMessage(playerid, sprintf("%s (ID: %d) oyuncusunu izliyorsunuz.", ReturnUserName(i, false), i), MSG_TYPE_WARN );
 
 				return true ;
 			}
@@ -1146,9 +1074,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 
 				IsPlayerSpectating [ playerid ] = i ;
 
-				SendServerMessage(playerid, sprintf("You are now spectating %s (ID: %d).", ReturnUserName(i, false), i), MSG_TYPE_WARN );
-
-				//SendModeratorWarning ( sprintf("[SPEC] %s (%d) is spectating %s (%d)", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( i, true ), i ), MOD_WARNING_MED ) ;
+				SendServerMessage(playerid, sprintf("%s (ID: %d) oyuncusunu izliyorsunuz.", ReturnUserName(i, false), i), MSG_TYPE_WARN );
 
 				return true ;
 			}
@@ -1168,9 +1094,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 
 				IsPlayerSpectating [ playerid ] = i ;
 
-				SendServerMessage(playerid, sprintf("You are now spectating %s (ID: %d).", ReturnUserName(i, false), i), MSG_TYPE_WARN );
-
-				//SendModeratorWarning ( sprintf("[SPEC] %s (%d) is spectating %s (%d)", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( i, true ), i ), MOD_WARNING_MED ) ;
+				SendServerMessage(playerid, sprintf("%s (ID: %d) oyuncusunu izliyorsunuz.", ReturnUserName(i, false), i), MSG_TYPE_WARN );
 
 				return true ;
 			}
@@ -1187,9 +1111,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 
 				IsPlayerSpectating [ playerid ] = i ;
 
-				SendServerMessage(playerid, sprintf("You are now spectating %s (ID: %d).", ReturnUserName(i, false), i), MSG_TYPE_WARN );
-
-				//SendModeratorWarning ( sprintf("[SPEC] %s (%d) is spectating %s (%d)", ReturnUserName ( playerid, true ), playerid, ReturnUserName ( i, true ), i ), MOD_WARNING_MED ) ;
+				SendServerMessage(playerid, sprintf("%s (ID: %d) oyuncusunu izliyorsunuz.", ReturnUserName(i, false), i), MSG_TYPE_WARN );
 
 				return true ;
 			}
