@@ -55,7 +55,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 		if ( playertextid == creation_tds_player [ 7 ]  ) player_RaceSelection [ playerid ] -- ;
 		else if ( playertextid == creation_tds_player [ 8 ] ) player_RaceSelection [ playerid ] ++ ;
 
-		new races [ ] [ ] = { "Caucasian", "Hispanic", "African", "Asian", "Native" } ;
+		new races [ ] [ ] = { "Beyaz (Kafkas)", "Hispandik", "Afrikali", "Asyali", "Yerli" } ;
 
 		if (  player_RaceSelection [ playerid ] < 0 ) player_RaceSelection [ playerid ] = sizeof ( races ) - 1 ;
 		else if ( player_RaceSelection [ playerid ] >= sizeof ( races ) ) player_RaceSelection [ playerid ] = 0 ;

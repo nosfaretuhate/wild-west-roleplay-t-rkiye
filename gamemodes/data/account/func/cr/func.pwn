@@ -5,9 +5,9 @@ NameSelection ( playerid, error = 0 ) {
 	new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
 	
 	switch ( error ) {
-		case 0: await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_INPUT, "Character: Name Selection", "Enter your character's name.", "Continue", "Cancel" );
-		case 1: await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_INPUT, "{DEDEDE}Character: Name Selection", "{DEDEDE}Enter your character's name.\n{C23838}ERROR:{DEDEDE} This name already exists.", "Continue", "Cancel" );
-		case 2: await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_INPUT, "{DEDEDE}Character: Name Selection", "{DEDEDE}Enter your character's name.\n{C23838}ERROR:{DEDEDE} This name is not a roleplaying name.\n\nExample: \"Firstname_Lastname\".", "Continue", "Cancel" );
+		case 0: await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_INPUT, "Karakter: Ýsim seç.", "Karakter adýný gir.", "Devam et", "Ýptal" );
+		case 1: await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_INPUT, "{DEDEDE}Karakter: Ýsim seç", "{DEDEDE}Karakter adýný gir.\n{C23838}ERROR:{DEDEDE} Zaten böyle bir karakter var.", "Devam et", "Ýptal" );
+		case 2: await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_INPUT, "{DEDEDE}Karakter: Ýsim seç", "{DEDEDE}Karakter adýný gir.\n{C23838}ERROR:{DEDEDE} Bu isim roleplay ismi deðil.\n\nÖrnek: \"Ýsim_Soyisim\".", "Devam et", "Ýptal" );
 	}
 	
 	//printf("%s", inputtext ) ;
