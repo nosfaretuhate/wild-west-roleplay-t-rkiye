@@ -42,21 +42,21 @@ StartIntro ( playerid ) {
 
 			InterpolateCameraPos 	( playerid, -31.927661, 2110.429199, 18.589181,  -29.0172, 2115.6719, 18.4520, 10000);
 			InterpolateCameraLookAt ( playerid, -29.8427, 2115.1118, 18.3270, -32.759414, 2113.078369, 18.204807, 10000);
-			PlayAudioStreamForPlayer(playerid, "http://play.wildwest-roleplay.com/files/sounds/intro/ennio_morricone_fistful_of_dollars.mp3");
+			PlayAudioStreamForPlayer(playerid, "https://ia600908.us.archive.org/19/items/wildwesttheme3/wildwesttheme3.mp3");
 		}
 
 		case 1: {
 
 			InterpolateCameraPos(playerid, -879.5424, -2187.2505, 30.7152, -872.4539, -2178.1621, 27.4038, 10000);
 			InterpolateCameraLookAt(playerid, -878.6913, -2186.7302, 30.4202, -871.9009, -2178.9954, 27.0538, 10000);
-			PlayAudioStreamForPlayer(playerid, "http://play.wildwest-roleplay.com/files/sounds/intro/ennio_morricone_ecstacy_of_gold.mp3");
+			PlayAudioStreamForPlayer(playerid, "https://ia601000.us.archive.org/28/items/wildwesttheme2/wildwesttheme2.mp3");
 		}
 
 		case 2: {
 
 			InterpolateCameraPos(playerid, 550.2329, 2331.3120, 35.6223,  546.3969, 2354.9231, 32.6356, 10000);
 			InterpolateCameraLookAt(playerid, 551.1557, 2331.6941, 35.3323,  547.3342, 2354.5786, 32.6056, 10000);
-			PlayAudioStreamForPlayer(playerid, "http://play.wildwest-roleplay.com/files/sounds/intro/ennio_morricone_the_trio.mp3");
+			PlayAudioStreamForPlayer(playerid, "https://ia601603.us.archive.org/22/items/wildwesttheme1/wildwesttheme1.mp3");
 		}
 	}
 
