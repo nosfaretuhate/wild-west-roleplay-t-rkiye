@@ -1,6 +1,6 @@
 CMD:ammocrate ( playerid, params [] ) {
 
-	SendServerMessage ( playerid, "This feature is deprecated! You need to use ammo crates through your inventory!", MSG_TYPE_ERROR ) ;
+	SendServerMessage ( playerid, "Bu seçenek kaldýrýldý Envanterinden kullanabilirsin!", MSG_TYPE_ERROR ) ;
 	return true ;
 }
 /*

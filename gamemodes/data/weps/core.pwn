@@ -44,12 +44,12 @@ wep_GivePlayerWeapon ( playerid, WEAPON: weaponid, ammo) {
 
 	if ( Character [ playerid ] [ character_handweapon] ) {
 
-		return SendServerMessage ( playerid, "You already have a weapon equipped. Holster it first.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Zaten elinde bir silah var, onu kýlýfýna koy!", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( EquippedItem [playerid] != -1) {
 
-		return SendServerMessage(playerid,"You need to unequip your current item before buying a weapon.",MSG_TYPE_ERROR);
+		return SendServerMessage(playerid,"Elindeki eþyayý býrakman gerekli!",MSG_TYPE_ERROR);
 	}
 
 	if(IsPlayerAttachedObjectSlotUsed(playerid,ATTACH_SLOT_HANDS)) { RemovePlayerAttachedObject ( playerid, ATTACH_SLOT_HANDS ) ; }
