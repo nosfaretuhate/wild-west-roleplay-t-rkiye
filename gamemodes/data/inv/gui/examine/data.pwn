@@ -37,13 +37,13 @@ LoadStaticInventoryExamineGUI ( ) {
 	TextDrawUseBox ( inventory_examine_tds [ 0 ], true ) ;
 	TextDrawBoxColor ( inventory_examine_tds [ 0 ], INVENTORY_BACKG_COLOR  ) ;
 
-	inventory_examine_tds [ 1 ]= TextDrawCreate ( 522.5 - INV_ADJUST_MODEL, 167 + INV_ADJUST_VERTICAL_EXAMINE, "Item Name:" ) ;
+	inventory_examine_tds [ 1 ]= TextDrawCreate ( 522.5 - INV_ADJUST_MODEL, 167 + INV_ADJUST_VERTICAL_EXAMINE, "Esya Adi:" ) ;
 	TextDrawLetterSize ( inventory_examine_tds [ 1 ], 0.20, 0.8 ) ;
 	TextDrawColor ( inventory_examine_tds [ 1 ], INVENTORY_TILE_COLOR ) ;
 	TextDrawFont ( inventory_examine_tds [ 1 ], TEXT_DRAW_FONT_2 ) ;
 	TextDrawBackgroundColor( inventory_examine_tds [ 1 ], 51);
 
-	inventory_examine_tds [ 2 ]= TextDrawCreate ( 522.5 - INV_ADJUST_MODEL, 195 + INV_ADJUST_VERTICAL_EXAMINE, "Item Quantity:" ) ;
+	inventory_examine_tds [ 2 ]= TextDrawCreate ( 522.5 - INV_ADJUST_MODEL, 195 + INV_ADJUST_VERTICAL_EXAMINE, "Esya Miktari:" ) ;
 	TextDrawLetterSize ( inventory_examine_tds [ 2 ], 0.20, 0.8 ) ;
 	TextDrawColor ( inventory_examine_tds [ 2 ], INVENTORY_TILE_COLOR ) ;
 	TextDrawFont ( inventory_examine_tds [ 2 ], TEXT_DRAW_FONT_2 ) ;
@@ -75,7 +75,7 @@ LoadStaticInventoryExamineGUI ( ) {
 	TextDrawBackgroundColor( inventory_examine_tds [ 6 ], 51);
 	TextDrawSetSelectable ( inventory_examine_tds [ 6 ], true ) ;
 
-	inventory_examine_tds [ 7 ] = TextDrawCreate ( 524 - INV_ADJUST_MODEL, 218 + INV_ADJUST_VERTICAL_EXAMINE, "Options" ) ;
+	inventory_examine_tds [ 7 ] = TextDrawCreate ( 524 - INV_ADJUST_MODEL, 218 + INV_ADJUST_VERTICAL_EXAMINE, "Ayarlar" ) ;
 	TextDrawTextSize ( inventory_examine_tds [ 7 ], 510, 10 ) ;
 	TextDrawLetterSize ( inventory_examine_tds [ 7 ], 0.20, 0.8 ) ;
 	TextDrawColor ( inventory_examine_tds [ 7 ], INVENTORY_TILE_COLOR ) ;
@@ -83,7 +83,7 @@ LoadStaticInventoryExamineGUI ( ) {
 	TextDrawBackgroundColor( inventory_examine_tds [ 7 ], 51);
 	TextDrawSetSelectable ( inventory_examine_tds [ 7 ], true ) ;
 
-	inventory_examine_tds [ 8 ] = TextDrawCreate ( 577 - INV_ADJUST_MODEL, 218 + INV_ADJUST_VERTICAL_EXAMINE, "Drop" ) ;
+	inventory_examine_tds [ 8 ] = TextDrawCreate ( 577 - INV_ADJUST_MODEL, 218 + INV_ADJUST_VERTICAL_EXAMINE, "At" ) ;
 	TextDrawTextSize ( inventory_examine_tds [ 8 ], 560, 10 ) ;
 	TextDrawLetterSize ( inventory_examine_tds [ 8 ], 0.20, 0.8 ) ;
 	TextDrawColor ( inventory_examine_tds [ 8 ], INVENTORY_TILE_COLOR ) ;
@@ -105,7 +105,7 @@ LoadPlayerInventoryExamineGUI ( playerid ) {
 	PlayerTextDrawBoxColor ( playerid, inventory_examine_ptds [ 0 ], 0x00000000  ) ;
 	PlayerTextDrawSetPreviewModel(playerid, inventory_examine_ptds [ 0 ], 18631 );
 
-	inventory_examine_ptds [ 1 ] = CreatePlayerTextDraw ( playerid,  522.5 - INV_ADJUST_MODEL, 175 + INV_ADJUST_VERTICAL_EXAMINE, "insert item name here~n~insert item two" ) ;
+	inventory_examine_ptds [ 1 ] = CreatePlayerTextDraw ( playerid,  522.5 - INV_ADJUST_MODEL, 175 + INV_ADJUST_VERTICAL_EXAMINE, "esya adini buraya girin~n~ikinci esyayi girin" ) ;
 	PlayerTextDrawLetterSize ( playerid, inventory_examine_ptds [ 1 ], 0.19, 1 ) ;
 	PlayerTextDrawColor ( playerid, inventory_examine_ptds [ 1 ], 0xDEDEDEFF ) ;
 	PlayerTextDrawFont ( playerid, inventory_examine_ptds [ 1 ], TEXT_DRAW_FONT_2 ) ;

@@ -61,8 +61,8 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 
 		new tileid = PlayerExaminingItemTile [ playerid ], dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
 
-		await_arr ( dialog_response ) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_LIST, sprintf("Options for item (%d) %s", PlayerItem [ playerid ] [ tileid ] [ player_item_id ], Item [ PlayerItem [ playerid ] [ tileid ] [ player_item_id ] ] [ item_name ] ), \
-	    	"Give Item\nSplit Item\nStack Item\nDiscard Item", "Select", "Cancel" ) ;
+		await_arr ( dialog_response ) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_LIST, sprintf("Eþya (%d) %s için ayarlar", PlayerItem [ playerid ] [ tileid ] [ player_item_id ], Item [ PlayerItem [ playerid ] [ tileid ] [ player_item_id ] ] [ item_name ] ), \
+	    	"Eþyayý Ver\nEþyayý Ayýr\nEþyayý Grupla\nEþyayý At", "Seç", "Ýptal" ) ;
 
 		if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
@@ -92,7 +92,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 				case 2: { // stack
 
 					//StackItem ( playerid, tileid ) ;
-					SendServerMessage ( playerid, "Disabled for bug fixing.", MSG_TYPE_ERROR ) ;
+					SendServerMessage ( playerid, "Bug fix için þuanlýk kapalý.", MSG_TYPE_ERROR ) ;
 					return true ;
 				}
 
@@ -100,10 +100,9 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 
 					new dialog_response_x [ e_DIALOG_RESPONSE_INFO ] ;
 
-					await_arr ( dialog_response_x ) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, "{CC4343}Deletion Warning", \
-						"{CC4343}Deletion Warning!!!{DEDEDE}\n\nYou're about to discard an item.\nThis means it will get deleted from your inventory, with no way to get it back.\n\nPress \"DELETE\" to continue, or cancel to back out.", \
-						"{CC4343}Delete", "Cancel" ) ;
-
+                    await_arr ( dialog_response_x ) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, "{CC4343}Silme Uyarýsý", \
+                     "{CC4343}Silme Uyarýsý!!!{DEDEDE}\n\nBir eþyayý atmak üzeresiniz.\nBu iþlem, eþyanýn envanterinizden kalýcý olarak silineceði ve geri alýnamayacaðý anlamýna gelir.\n\nDevam etmek için \"SÝL\" tuþuna basýn veya geri çýkmak için iptal edin.", \
+                     "{CC4343}Sil", "Ýptal" ) ;
 					if ( ! dialog_response_x [ E_DIALOG_RESPONSE_Response ] ) {
 
 						return false ;
@@ -112,7 +111,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 					DiscardItem ( playerid, tileid  ) ;
 					//return SendClientMessage(playerid, -1, "This feature is disabled in this alpha test." ) ;
 					//return SendServerMessage ( playerid, "You've discarded the item. Your equipped item has been reset for security reasons.", MSG_TYPE_WARN ) ;
-					return SendServerMessage ( playerid, "You've discarded the item.", MSG_TYPE_WARN ) ;
+					return SendServerMessage ( playerid, "Eþyayý sildin.", MSG_TYPE_WARN ) ;
 				}
 			}
 
@@ -193,24 +192,24 @@ DisplayInventoryExamineGUI ( playerid, itemid, tileid ) {
 
 
 	switch ( Item [ itemid ] [ item_type ] ) {
-		case ITEM_TYPE_UNDEFINED: 	TextDrawSetString(inventory_examine_tds [ 6 ], 	"Invalid" ) ;
+		case ITEM_TYPE_UNDEFINED: 	TextDrawSetString(inventory_examine_tds [ 6 ], 	"Gecersiz" ) ;
 
 		case ITEM_TYPE_EQUIP: {
 
 			if ( EquippedItem [ playerid ] == -1 ) {
-				TextDrawSetString(inventory_examine_tds [ 6 ], 	"Equip" ) ;
+				TextDrawSetString(inventory_examine_tds [ 6 ], 	"Kusan" ) ;
 			}
 
-			else TextDrawSetString(inventory_examine_tds [ 6 ], 	"Unequip" ) ;
+			else TextDrawSetString(inventory_examine_tds [ 6 ], 	"Kusanma" ) ;
 		}
 
-		case ITEM_TYPE_MISC: 	TextDrawSetString(inventory_examine_tds [ 6 ], 	"Use" ) ;
-		case ITEM_TYPE_FOOD: 	TextDrawSetString(inventory_examine_tds [ 6 ], 	"Consume" ) ;
-		case ITEM_TYPE_USE: 	TextDrawSetString(inventory_examine_tds [ 6 ], 	"Use" ) ;
-		case ITEM_TYPE_SEED: 	TextDrawSetString(inventory_examine_tds [ 6 ], 	"Plant" ) ;
-		case ITEM_TYPE_JUNK: 	TextDrawSetString(inventory_examine_tds [ 6 ], 	"Sell" ) ;
-		case ITEM_TYPE_CRAFT: 	TextDrawSetString(inventory_examine_tds [ 6 ], 	"Craft" ) ;
-		case ITEM_TYPE_SELL: 	TextDrawSetString(inventory_examine_tds [ 6 ], 	"Sell" ) ;
+        case ITEM_TYPE_MISC:    TextDrawSetString(inventory_examine_tds [ 6 ],  "Kullan" ) ;
+        case ITEM_TYPE_FOOD:    TextDrawSetString(inventory_examine_tds [ 6 ],  "Tuket" ) ;
+        case ITEM_TYPE_USE:     TextDrawSetString(inventory_examine_tds [ 6 ],  "Kullan" ) ;
+        case ITEM_TYPE_SEED:    TextDrawSetString(inventory_examine_tds [ 6 ],  "Ek" ) ;
+        case ITEM_TYPE_JUNK:    TextDrawSetString(inventory_examine_tds [ 6 ],  "Sat" ) ;
+        case ITEM_TYPE_CRAFT:   TextDrawSetString(inventory_examine_tds [ 6 ],  "Uret" ) ;
+        case ITEM_TYPE_SELL:    TextDrawSetString(inventory_examine_tds [ 6 ],  "Sat" ) ;
 	}
 
 /*

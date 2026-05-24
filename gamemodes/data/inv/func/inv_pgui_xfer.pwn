@@ -235,19 +235,19 @@ LoadInventoryTextDraws ( playerid ) {
 	////////////////////////////////////////////////////////////////////////////
 
 	new NAME_VAR  = 475 ;
-	inventory_player_gui [ 27 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR - INV_ADJUST_MODEL, 200 + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	inventory_player_gui [ 27 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR - INV_ADJUST_MODEL, 200 + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, inventory_player_gui [ 27 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, inventory_player_gui [ 27 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, inventory_player_gui [ 27 ], 2 ) ;
 	PlayerTextDrawBackgroundColor( playerid, inventory_player_gui [ 27 ], 51);
 
-	inventory_player_gui [ 28 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL - INV_ADJUST_MODEL, 200 + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	inventory_player_gui [ 28 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL - INV_ADJUST_MODEL, 200 + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, inventory_player_gui [ 28 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, inventory_player_gui [ 28 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, inventory_player_gui [ 28 ], 2 ) ;
 	PlayerTextDrawBackgroundColor( playerid, inventory_player_gui [ 28 ], 51);
 
-	inventory_player_gui [ 29 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL * 2 - INV_ADJUST_MODEL, 200 + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	inventory_player_gui [ 29 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL * 2 - INV_ADJUST_MODEL, 200 + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, inventory_player_gui [ 29 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, inventory_player_gui [ 29 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, inventory_player_gui [ 29 ], 2 ) ;
@@ -256,19 +256,19 @@ LoadInventoryTextDraws ( playerid ) {
 	////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////
 
-	inventory_player_gui [ 30 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	inventory_player_gui [ 30 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, inventory_player_gui [ 30 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, inventory_player_gui [ 30 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, inventory_player_gui [ 30 ], 2 ) ;
 	PlayerTextDrawBackgroundColor( playerid, inventory_player_gui [ 30 ], 51);
 
-	inventory_player_gui [ 31 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	inventory_player_gui [ 31 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, inventory_player_gui [ 31 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, inventory_player_gui [ 31 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, inventory_player_gui [ 31 ], 2 ) ;
 	PlayerTextDrawBackgroundColor( playerid, inventory_player_gui [ 31 ], 51);
 
-	inventory_player_gui [ 32 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL * 2 - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	inventory_player_gui [ 32 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL * 2 - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, inventory_player_gui [ 32 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, inventory_player_gui [ 32 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, inventory_player_gui [ 32 ], 2 ) ;
@@ -277,19 +277,19 @@ LoadInventoryTextDraws ( playerid ) {
 	////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////
 
-	inventory_player_gui [ 33 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL * 2 + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	inventory_player_gui [ 33 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL * 2 + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, inventory_player_gui [ 33 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, inventory_player_gui [ 33 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, inventory_player_gui [ 33 ], 2 ) ;
 	PlayerTextDrawBackgroundColor( playerid, inventory_player_gui [ 33 ], 51);
 
-	inventory_player_gui [ 34 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL * 2 + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	inventory_player_gui [ 34 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL * 2 + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, inventory_player_gui [ 34 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, inventory_player_gui [ 34 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, inventory_player_gui [ 34 ], 2 ) ;
 	PlayerTextDrawBackgroundColor( playerid, inventory_player_gui [ 34 ], 51);
 
-	inventory_player_gui [ 35 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL * 2 - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL * 2 + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	inventory_player_gui [ 35 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL * 2 - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL * 2 + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, inventory_player_gui [ 35 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, inventory_player_gui [ 35 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, inventory_player_gui [ 35 ], 2 ) ;

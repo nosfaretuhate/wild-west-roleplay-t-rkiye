@@ -30,7 +30,7 @@ InitiateInventoryTiles ( playerid, page ) {
 	
 		Init_LoadPlayerItems ( playerid ) ;
 
-		return SendServerMessage ( playerid, "You don't seem to have any items to display. Try again in a moment to reload them.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Herhangi bir eþyaya sahip deðilsin.", MSG_TYPE_ERROR ) ;
 	}
 
 	switch ( page ) {
@@ -175,16 +175,16 @@ ToggleInventory ( playerid, tiles, bool: toggle ) {
 				TextDrawShowForPlayer ( playerid, inventory_static_gui [ i ] ) ;
 			}
 			
-			TextDrawSetString ( inventory_static_gui [ 3 ], "PAGE 1 OF 1" ) ;
+			TextDrawSetString ( inventory_static_gui [ 3 ], "SAYFA 1/1" ) ;
 			
 			if ( !PlayerInventoryPage [ playerid ] && ReturnPlayerItemCount [ playerid ] > INV_MAX_TILES ) {
 				TextDrawShowForPlayer ( playerid, inventory_static_gui [ 4 ] ) ;
-				TextDrawSetString ( inventory_static_gui [ 3 ], "PAGE 1 OF 2" ) ;
+				TextDrawSetString ( inventory_static_gui [ 3 ], "SAYFA 1/2" ) ;
 			}
 
 			else if ( PlayerInventoryPage [ playerid ] ) {
 				TextDrawShowForPlayer ( playerid, inventory_static_gui [ 5 ] ) ;
-   				TextDrawSetString ( inventory_static_gui [ 3 ], "PAGE 2 OF 2" ) ;
+   				TextDrawSetString ( inventory_static_gui [ 3 ], "SAYFA 2/2" ) ;
 			}
 
 			IsPlayerViewingInventory [ playerid ] = true ;

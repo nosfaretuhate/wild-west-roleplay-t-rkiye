@@ -28,43 +28,43 @@ new PlayerText: InventoryTileModel  	[ INV_MAX_TILES ] = PlayerText: INVALID_TEX
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 LoadStaticInventoryTextDraws ( ) {
-	inventory_static_gui [ 0 ]= TextDrawCreate ( 408, 135 + INV_ADJUST_VERTICAL, "background" ) ;
-	TextDrawLetterSize ( inventory_static_gui [ 0 ], 0.000000, 23 ) ;
-	TextDrawTextSize ( inventory_static_gui [ 0 ], 571, 0.000000 ) ;
-	TextDrawUseBox ( inventory_static_gui [ 0 ], true ) ;
-	TextDrawBoxColor ( inventory_static_gui [ 0 ], INVENTORY_BACKG_COLOR) ;
+    inventory_static_gui [ 0 ]= TextDrawCreate ( 408, 135 + INV_ADJUST_VERTICAL, "background" ) ;
+    TextDrawLetterSize ( inventory_static_gui [ 0 ], 0.000000, 23 ) ;
+    TextDrawTextSize ( inventory_static_gui [ 0 ], 571, 0.000000 ) ;
+    TextDrawUseBox ( inventory_static_gui [ 0 ], true ) ;
+    TextDrawBoxColor ( inventory_static_gui [ 0 ], INVENTORY_BACKG_COLOR) ;
 
-	inventory_static_gui [ 1 ] = TextDrawCreate ( 409, 140.5 + INV_ADJUST_VERTICAL, "Provisions" ) ;
-	TextDrawLetterSize ( inventory_static_gui [ 1 ], 0.333333, 1.4 ) ;
-	TextDrawColor ( inventory_static_gui [ 1 ], INVENTORY_TILE_COLOR   ) ;
-	TextDrawFont ( inventory_static_gui [ 1 ], TEXT_DRAW_FONT_2 ) ;
-	TextDrawBackgroundColor( inventory_static_gui [ 1 ], 51);
+    inventory_static_gui [ 1 ] = TextDrawCreate ( 409, 140.5 + INV_ADJUST_VERTICAL, "Levazimat" ) ; // Provisions -> Levazimat
+    TextDrawLetterSize ( inventory_static_gui [ 1 ], 0.333333, 1.4 ) ;
+    TextDrawColor ( inventory_static_gui [ 1 ], INVENTORY_TILE_COLOR   ) ;
+    TextDrawFont ( inventory_static_gui [ 1 ], TEXT_DRAW_FONT_2 ) ;
+    TextDrawBackgroundColor( inventory_static_gui [ 1 ], 51);
 
-	inventory_static_gui [ 2 ] = TextDrawCreate ( 493, 140.5 + INV_ADJUST_VERTICAL, "Inventory" ) ;
-	TextDrawLetterSize ( inventory_static_gui [ 2 ], 0.333666, 1.4 ) ;
-	TextDrawColor ( inventory_static_gui [ 2 ], -1 ) ;
-	TextDrawFont ( inventory_static_gui [ 2 ], TEXT_DRAW_FONT_2 ) ;
-	TextDrawBackgroundColor( inventory_static_gui [ 2 ], 51);
+    inventory_static_gui [ 2 ] = TextDrawCreate ( 493, 140.5 + INV_ADJUST_VERTICAL, "Envanter" ) ; // Inventory -> Envanter
+    TextDrawLetterSize ( inventory_static_gui [ 2 ], 0.333666, 1.4 ) ;
+    TextDrawColor ( inventory_static_gui [ 2 ], -1 ) ;
+    TextDrawFont ( inventory_static_gui [ 2 ], TEXT_DRAW_FONT_2 ) ;
+    TextDrawBackgroundColor( inventory_static_gui [ 2 ], 51);
 
-	inventory_static_gui [ 3 ]= TextDrawCreate ( 452, 325 + INV_ADJUST_VERTICAL, "Inventory" ) ;
-	TextDrawLetterSize ( inventory_static_gui [ 3 ], 0.333666, 1.4 ) ;
-	TextDrawColor ( inventory_static_gui [ 3 ], INVENTORY_TILE_COLOR ) ;
-	TextDrawFont ( inventory_static_gui [ 3 ], TEXT_DRAW_FONT_2 ) ;
-	TextDrawBackgroundColor( inventory_static_gui [ 3 ], 51);
+    inventory_static_gui [ 3 ]= TextDrawCreate ( 452, 325 + INV_ADJUST_VERTICAL, "Envanter" ) ; // Inventory -> Envanter
+    TextDrawLetterSize ( inventory_static_gui [ 3 ], 0.333666, 1.4 ) ;
+    TextDrawColor ( inventory_static_gui [ 3 ], INVENTORY_TILE_COLOR ) ;
+    TextDrawFont ( inventory_static_gui [ 3 ], TEXT_DRAW_FONT_2 ) ;
+    TextDrawBackgroundColor( inventory_static_gui [ 3 ], 51);
 
-	inventory_static_gui [ 4 ] = TextDrawCreate ( 555, 325 + INV_ADJUST_VERTICAL, "LD_BEAT:right" ) ;
-	TextDrawTextSize ( inventory_static_gui [ 4 ], 15, 15 ) ;
-	TextDrawColor ( inventory_static_gui [ 4 ], INVENTORY_BACKG_COLOR ) ;
-	TextDrawFont ( inventory_static_gui [ 4 ], TEXT_DRAW_FONT_SPRITE_DRAW ) ;
-	TextDrawBackgroundColor( inventory_static_gui [ 4 ], 51);
-	TextDrawSetSelectable( inventory_static_gui [ 4 ], true);
-	
-	inventory_static_gui [ 5 ] = TextDrawCreate ( 408.5, 325 + INV_ADJUST_VERTICAL, "LD_BEAT:left" ) ;
-	TextDrawTextSize ( inventory_static_gui [ 5 ], 15, 15 ) ;
-	TextDrawColor ( inventory_static_gui [ 5 ], INVENTORY_BACKG_COLOR ) ;
-	TextDrawFont ( inventory_static_gui [ 5 ], TEXT_DRAW_FONT_SPRITE_DRAW ) ;
-	TextDrawBackgroundColor( inventory_static_gui [ 5 ], 51);
-	TextDrawSetSelectable( inventory_static_gui [ 5 ], true);
+    inventory_static_gui [ 4 ] = TextDrawCreate ( 555, 325 + INV_ADJUST_VERTICAL, "LD_BEAT:right" ) ;
+    TextDrawTextSize ( inventory_static_gui [ 4 ], 15, 15 ) ;
+    TextDrawColor ( inventory_static_gui [ 4 ], INVENTORY_BACKG_COLOR ) ;
+    TextDrawFont ( inventory_static_gui [ 4 ], TEXT_DRAW_FONT_SPRITE_DRAW ) ;
+    TextDrawBackgroundColor( inventory_static_gui [ 4 ], 51);
+    TextDrawSetSelectable( inventory_static_gui [ 4 ], true);
+    
+    inventory_static_gui [ 5 ] = TextDrawCreate ( 408.5, 325 + INV_ADJUST_VERTICAL, "LD_BEAT:left" ) ;
+    TextDrawTextSize ( inventory_static_gui [ 5 ], 15, 15 ) ;
+    TextDrawColor ( inventory_static_gui [ 5 ], INVENTORY_BACKG_COLOR ) ;
+    TextDrawFont ( inventory_static_gui [ 5 ], TEXT_DRAW_FONT_SPRITE_DRAW ) ;
+    TextDrawBackgroundColor( inventory_static_gui [ 5 ], 51);
+    TextDrawSetSelectable( inventory_static_gui [ 5 ], true);
 
     // GivePlayerItems ( playerid ) ;
 // 	InitiateInventoryTiles ( playerid, 0 ) ;
@@ -307,19 +307,19 @@ LoadInventoryTextDraws ( playerid ) {
 	////////////////////////////////////////////////////////////////////////////
 
 	new NAME_VAR  = 475 ;
-	InventoryTileName  [ 0 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR - INV_ADJUST_MODEL, 200 + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	InventoryTileName  [ 0 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR - INV_ADJUST_MODEL, 200 + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, InventoryTileName  [ 0 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, InventoryTileName  [ 0 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, InventoryTileName  [ 0 ], TEXT_DRAW_FONT_2 ) ;
 	PlayerTextDrawBackgroundColor( playerid, InventoryTileName  [ 0 ], 51);
 
-	InventoryTileName  [ 1 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL - INV_ADJUST_MODEL, 200 + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	InventoryTileName  [ 1 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL - INV_ADJUST_MODEL, 200 + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, InventoryTileName  [ 1 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, InventoryTileName  [ 1 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, InventoryTileName  [ 1 ], TEXT_DRAW_FONT_2 ) ;
 	PlayerTextDrawBackgroundColor( playerid, InventoryTileName  [ 1 ], 51);
 
-	InventoryTileName  [ 2 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL * 2 - INV_ADJUST_MODEL, 200 + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	InventoryTileName  [ 2 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL * 2 - INV_ADJUST_MODEL, 200 + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, InventoryTileName  [ 2 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, InventoryTileName  [ 2 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, InventoryTileName  [ 2 ], TEXT_DRAW_FONT_2 ) ;
@@ -328,19 +328,19 @@ LoadInventoryTextDraws ( playerid ) {
 	////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////
 
-	InventoryTileName  [ 3 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	InventoryTileName  [ 3 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, InventoryTileName  [ 3 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, InventoryTileName  [ 3 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, InventoryTileName  [ 3 ], TEXT_DRAW_FONT_2 ) ;
 	PlayerTextDrawBackgroundColor( playerid, InventoryTileName  [ 3 ], 51);
 
-	InventoryTileName  [ 4 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	InventoryTileName  [ 4 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, InventoryTileName  [ 4 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, InventoryTileName  [ 4 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, InventoryTileName  [ 4 ], TEXT_DRAW_FONT_2 ) ;
 	PlayerTextDrawBackgroundColor( playerid, InventoryTileName  [ 4 ], 51);
 
-	InventoryTileName  [ 5 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL * 2 - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	InventoryTileName  [ 5 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL * 2 - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, InventoryTileName  [ 5 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, InventoryTileName  [ 5 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, InventoryTileName  [ 5 ], TEXT_DRAW_FONT_2 ) ;
@@ -349,19 +349,19 @@ LoadInventoryTextDraws ( playerid ) {
 	////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////
 
-	InventoryTileName  [ 6 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL * 2 + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	InventoryTileName  [ 6 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL * 2 + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, InventoryTileName  [ 6 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, InventoryTileName  [ 6 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, InventoryTileName  [ 6 ], TEXT_DRAW_FONT_2 ) ;
 	PlayerTextDrawBackgroundColor( playerid, InventoryTileName  [ 6 ], 51);
 
-	InventoryTileName  [ 7 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL * 2 + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	InventoryTileName  [ 7 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL * 2 + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, InventoryTileName  [ 7 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, InventoryTileName  [ 7 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, InventoryTileName  [ 7 ], TEXT_DRAW_FONT_2 ) ;
 	PlayerTextDrawBackgroundColor( playerid, InventoryTileName  [ 7 ], 51);
 
-	InventoryTileName  [ 8 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL * 2 - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL * 2 + INV_ADJUST_VERTICAL, "Item Name" ) ;
+	InventoryTileName  [ 8 ] = CreatePlayerTextDraw ( playerid,  NAME_VAR + INV_LIST_JUMP_HORIZONTAL * 2 - INV_ADJUST_MODEL, 200 + INV_LIST_JUMP_VERTICAL * 2 + INV_ADJUST_VERTICAL, "Esya Adi" ) ;
 	PlayerTextDrawLetterSize ( playerid, InventoryTileName  [ 8 ], 0.19, 0.6 ) ;
 	PlayerTextDrawColor ( playerid, InventoryTileName  [ 8 ], INVENTORY_TILE_COLOR ) ;
 	PlayerTextDrawFont ( playerid, InventoryTileName  [ 8 ], TEXT_DRAW_FONT_2 ) ;

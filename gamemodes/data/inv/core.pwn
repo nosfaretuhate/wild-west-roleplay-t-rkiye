@@ -146,7 +146,7 @@ public OnPlayerKeyStateChange (playerid, KEY: newkeys, KEY: oldkeys) {
 
 		if ( PlayerInventoryCooldown [ playerid ]  >= gettime ()) {
 
-			return SendServerMessage ( playerid, sprintf("You need to wait %d seconds before opening your inventory again.", PlayerInventoryCooldown[playerid] - gettime ()), MSG_TYPE_WARN ) ;
+			return SendServerMessage ( playerid, sprintf("%d Saniye sonra tekrardan envanterini açabilirsin.", PlayerInventoryCooldown[playerid] - gettime ()), MSG_TYPE_WARN ) ;
 		}
 
 		PlayerInventoryCooldown [ playerid ] = gettime () + 3 ;
@@ -313,7 +313,7 @@ CMD:viewplayeritems ( playerid, params [] ) {
 
 	if ( sscanf ( params, "k<u>", targetid ) ) {
 
-		return SendServerMessage ( playerid, "/viewplayeritems [playerid/name]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/viewplayeritems [oyuncuid]", MSG_TYPE_ERROR ) ;
 	}
 
 	new string [ 256 ] ;
@@ -373,7 +373,7 @@ CMD:giveitem ( playerid, params [] ) {
 
 	if ( !IsPlayerAdmin ( playerid ) ) {
 
-		return SendClientMessage(playerid, COLOR_RED, "Fuck off.");
+		return SendClientMessage(playerid, COLOR_RED, "Bu komutu kullanamazsýn.");
 	}
 
 	new id, amount, param1, param2 ;

@@ -9,21 +9,21 @@ SendServerMessage ( playerid, const string [], type ) {
 
 		case MSG_TYPE_INFO: {
 
-            format(text,sizeof(text),"Info:{dedede} %s",string);
+            format(text,sizeof(text),"Bilgi:{dedede} %s",string);
             return SendSplitMessage(playerid,0x92C742FF,text);
 			//return SendClientMessageFormatted ( playerid, 0x92C742FF, "Info:{dedede} %s", string); // 0x92C742FF - olive
 		}
 
 		case MSG_TYPE_WARN: {
 
-            format(text,sizeof(text),"Warning:{dedede} %s",string);
+            format(text,sizeof(text),"Uyarý:{dedede} %s",string);
             return SendSplitMessage(playerid,COLOR_YELLOW,text);
 			//return SendClientMessageFormatted ( playerid, COLOR_YELLOW, "Warning:{dedede} %s", string); 
 		}
 
         case MSG_TYPE_ERROR: {
 
-            format(text,sizeof(text),"Error:{dedede} %s",string);
+            format(text,sizeof(text),"Hata:{dedede} %s",string);
             return SendSplitMessage(playerid,COLOR_RED,text);
             //return SendClientMessageFormatted ( playerid, COLOR_RED, "Error:{dedede} %s", string ) ;
         }
