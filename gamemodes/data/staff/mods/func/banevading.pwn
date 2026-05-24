@@ -1,35 +1,35 @@
 BanEvaderCheck ( playerid ) {
 
-	inline GetBanData() {
+    inline GetBanData() {
 
-		new rows, banned_ip [ 16 ];
-		cache_get_row_count ( rows ) ;
-		
-		if ( rows ) {
+        new rows, banned_ip [ 16 ];
+        cache_get_row_count ( rows ) ;
+        
+        if ( rows ) {
 
-			for ( new i ; i < rows ; i ++ ) {
+            for ( new i ; i < rows ; i ++ ) {
 
-				cache_get_value_name(i, "ip", banned_ip, sizeof ( banned_ip ) ) ;
+                cache_get_value_name(i, "ip", banned_ip, sizeof ( banned_ip ) ) ;
 
-				if ( ! strcmp(banned_ip, "OFFLINE BAN", true ) ) {
+                if ( ! strcmp(banned_ip, "OFFLINE BAN", true ) ) {
 
-					continue ;
-				}
+                    continue ;
+                }
 
-				if ( IpMatch ( banned_ip, ReturnIP ( playerid ) ) ) {
-					
-					SendModeratorWarning ( sprintf("[BAN EVADING] User %s (%d) may be ban evading!", ReturnUserName ( playerid, true ), playerid ), MOD_WARNING_HIGH ) ;
-					SendModeratorWarning ( sprintf("Their IP (%s) matches netblock of banned IP (%s). Do a GEO location check!", ReturnIP ( playerid ), banned_ip ), MOD_WARNING_MED ) ;
-				}
+                if ( IpMatch ( banned_ip, ReturnIP ( playerid ) ) ) {
+                    
+                    SendModeratorWarning ( sprintf("[BAN KAÇIRMA] %s (%d) kullanýcýsý ban kaçýrýyor olabilir!", ReturnUserName ( playerid, true ), playerid ), MOD_WARNING_HIGH ) ;
+                    SendModeratorWarning ( sprintf("IP adresi (%s), yasaklý bir IP'nin (%s) net bloðu ile eþleþiyor. Lütfen GEO konum kontrolü yap!", ReturnIP ( playerid ), banned_ip ), MOD_WARNING_MED ) ;
+                }
 
-				else continue ;
-			}
-		}
-	}
+                else continue ;
+            }
+        }
+    }
 
-	MySQL_TQueryInline(mysql, using inline GetBanData, "SELECT ip FROM bans");
+    MySQL_TQueryInline(mysql, using inline GetBanData, "SELECT ip FROM bans");
 
-	return true ;
+    return true ;
 }
 
 GetIPVal ( const ip[] ) {
