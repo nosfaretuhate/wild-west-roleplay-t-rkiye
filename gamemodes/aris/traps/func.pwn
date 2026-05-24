@@ -176,14 +176,14 @@ OnPlayerTriggerTrap (playerid, trapid) {
 
     Trap[trapid][trap_deployed] = 1;
 
-    ProxDetector(playerid, 20, COLOR_ACTION, "* A trap has been sprung nearby!");
+    ProxDetector(playerid, 20, COLOR_ACTION, "* Yakýnlarda tuzak kurma sesi duyuyorsunuz.");
 
     new query[128];
 
     mysql_format(mysql, query, sizeof(query), "UPDATE traps SET trap_deployed_state = '%i' WHERE trap_id = '%i'", Trap[trapid][trap_deployed], Trap[trapid][trap_id]);
     mysql_tquery(mysql, query);
 
-    SendServerMessage(playerid, "Your feet has been caught in a trap. Someone has to release you or you have to wait to free yourself.", MSG_TYPE_INFO);
+    SendServerMessage(playerid, "Ayaklarýnýz bir tuzaða yakalandý! Birisi sizi serbest býrakmalý veya siz kendinizden kurtulmalýsýnýz.", MSG_TYPE_INFO);
     TogglePlayerControllable(playerid, false);
     ApplyAnimation(playerid, "CRACK", "crckidle2", 4.0, true, false, false, false, 0);
 
@@ -196,22 +196,22 @@ CreateTrap(playerid, trapid) {
 
     if(trapid == INVALID_TRAP_ID) {
 
-        SendServerMessage(playerid, "Max traps reached.", MSG_TYPE_ERROR);
+        SendServerMessage(playerid, "Maximum tuzak sayýsý aþýldý.", MSG_TYPE_ERROR);
         return false;
     }
     if(IsPlayerTrapped[playerid]) {
 
-        SendServerMessage(playerid, "You can't create a trap while you're trapped!", MSG_TYPE_ERROR);
+        SendServerMessage(playerid, "Tuzaða yakalanmýþ iken tuzak kuramazsýnýz!", MSG_TYPE_ERROR);
         return false;
     }
     if(IsPlayerNearPoint(playerid,4.5)) {
 
-        SendServerMessage(playerid, "You cannot place a trap here.", MSG_TYPE_ERROR);
+        SendServerMessage(playerid, "Buraya tuzak kuramazsýn.", MSG_TYPE_ERROR);
         return false;
     }
     if(IsZoneSafeZone(GetPlayerZone(playerid))) { 
 
-        SendServerMessage(playerid,"You cannot place a trap in a safezone.",MSG_TYPE_ERROR); 
+        SendServerMessage(playerid,"Güvenli bölgelerde tuzak kuramazsýn.",MSG_TYPE_ERROR); 
         return false; 
     }
 
@@ -246,9 +246,9 @@ CreateTrap(playerid, trapid) {
 
     ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 4.1, false, false, false, false, 0, SYNC_ALL);
 
-    ProxDetector(playerid, 20.0, COLOR_ACTION, sprintf("* %s has placed down a trap.", ReturnUserName(playerid, false)));
+    ProxDetector(playerid, 20.0, COLOR_ACTION, sprintf("* %s yere tuzak kurar.", ReturnUserName(playerid, false)));
 
-    SendServerMessage(playerid, "You've placed down your trap, use /trap to arm it.", MSG_TYPE_INFO);
+    SendServerMessage(playerid, "Tuzaðýnýzý yerleþtirdiniz, kurmak için /trap komutunu kullanýn.", MSG_TYPE_INFO);
 
     new query[256];
 
@@ -261,7 +261,7 @@ CreateTrap(playerid, trapid) {
 RemoveTrap(playerid, trapid){
 
     if(Trap[trapid][trap_id] == INVALID_TRAP_ID)
-        return SendServerMessage(playerid, sprintf("Unknown trap %i.", Trap[trapid][trap_id]), MSG_TYPE_INFO);
+        return SendServerMessage(playerid, sprintf("Bilinmeyen tuzak %i.", Trap[trapid][trap_id]), MSG_TYPE_INFO);
 
     new query[128];
     mysql_format(mysql, query, sizeof(query), "DELETE FROM traps WHERE trap_id = '%i'", Trap[trapid][trap_id]);
@@ -333,9 +333,9 @@ public ToggleTrapSelfRelease(playerid, trapid) {
 
         IsPlayerTrapped[playerid] = false;
 
-        SendServerMessage(playerid, "You've managed to release the trap.", MSG_TYPE_INFO);
+        SendServerMessage(playerid, "Tuzaktan çýkmayý baþardýn.", MSG_TYPE_INFO);
 
-        ProxDetector(playerid, 20, COLOR_ACTION, sprintf("* %s releases the trap.", ReturnUserName(playerid,false)));
+        ProxDetector(playerid, 20, COLOR_ACTION, sprintf("* %s tuzaktan kurtulur.", ReturnUserName(playerid,false)));
         TogglePlayerControllable(playerid, true);
         ClearAnimations(playerid);
     }

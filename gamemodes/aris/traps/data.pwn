@@ -99,12 +99,12 @@ public LoadTrapData() {
             //Trap[i][trap_label] = CreateDynamic3DTextLabel(sprintf("TRAP - [ID: %i (DB: %i)]", i, Trap[i][trap_id]), COLOR_BLUE, Trap[i][trap_pos_x], Trap[i][trap_pos_y], Trap[i][trap_pos_z], 15.0);
             Trap[i][trap_object] = CreateDynamicObject(TRAP_FOOTLOCK, Trap [ i ] [ trap_pos_x ], Trap [ i ] [ trap_pos_y ], Trap [ i ] [ trap_pos_z ] + 0.2, Trap[i][trap_rot_x], Trap[i][trap_rot_y], Trap[i][trap_rot_z]);
 
-            printf("loaded a trap with id %i", Trap[i][trap_id]);
+            printf("tuzak %i idsi ile yuklendi.", Trap[i][trap_id]);
         }
 
     }
 
-    printf("* [TRAP]: Loaded %d traps\n", rows) ;
+    printf("* [TUZAKLAR] %d adet tuzak yuklendi.\n", rows) ;
 
     return true ;
 }

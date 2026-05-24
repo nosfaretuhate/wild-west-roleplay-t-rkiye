@@ -8,7 +8,7 @@
 
 public OnGameModeInit() {
 
-	//AddSimpleModel(0, 1923, -2000, "traps/footlock.dff", "traps/footlock.txd");
+	AddSimpleModel(0, 1923, -2000, "traps/footlock.dff", "traps/footlock.txd");
 
     for(new i; i < MAX_TRAPS; i++){
         Trap[i][trap_id] = INVALID_TRAP_ID;
