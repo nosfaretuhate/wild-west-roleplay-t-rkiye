@@ -193,7 +193,7 @@ public ChangeCharacterTick(playerid, selectedid) {
 ////	print("ChangeCharacterTick timer called (character.pwn)");
 
 	CharSwitchTick [ playerid ] -- ;
-	GameTextForPlayer(playerid, sprintf("~n~~n~~n~~n~~b~Switch time left:~w~ %d", CharSwitchTick [ playerid ] ), 1000, 3);
+    GameTextForPlayer(playerid, sprintf("~n~~n~~n~~n~~b~Kalan degistirme suresi:~w~ %d", CharSwitchTick [ playerid ] ), 1000, 3);
 
 	if ( CharSwitchTick [ playerid ] > 0 ) {
 
@@ -212,7 +212,7 @@ public ChangeCharacterTick(playerid, selectedid) {
     	SetPlayerVirtualWorld(playerid, 0);
     	SetPlayerInterior(playerid, 0);
 
-		SendModeratorWarning ( sprintf("[SWITCH] %s has switched to their character %s.", ReturnUserName ( playerid, false ), CharBuffer [ playerid ] [ selectedid ] [ character_name ]), MOD_WARNING_LOW ) ;
+		SendModeratorWarning ( sprintf("[deðiþtirme] %s karakterini deðiþtirdi %s.", ReturnUserName ( playerid, false ), CharBuffer [ playerid ] [ selectedid ] [ character_name ]), MOD_WARNING_LOW ) ;
 		//OldLog ( playerid, "switchchar", sprintf("%s has switched to their character %s.", ReturnUserName ( playerid, false ), CharBuffer [ playerid ] [ selectedid ] [ character_name ])) ;
 
         TogglePlayerControllable(playerid, true ) ;
@@ -229,7 +229,7 @@ CMD:reloadgui ( playerid, params [] ) {
 	HideGUITextDraws ( playerid ) ;
 	ShowGUITextDraws ( playerid ) ;
 
-	SendServerMessage ( playerid, "GUI has been reloaded.", MSG_TYPE_INFO ) ;
+	SendServerMessage ( playerid, "GUI yenilendi.", MSG_TYPE_INFO ) ;
 	return true ;
 }
 
@@ -241,7 +241,7 @@ CMD:switchcharacter ( playerid, params [] ) {
 
 	if ( ! IsPlayerFree ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You can't do this right now.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Þuanda bunu yapamazsýn.", MSG_TYPE_ERROR ) ;
 	}
 
 	new query [ 512 ] = "{DEDEDE}ID \t Name\n" ;
@@ -255,14 +255,14 @@ CMD:switchcharacter ( playerid, params [] ) {
 
 		else if ( ! CharBuffer [ playerid ] [ i ] [ character_id ] ) {
 
-			format ( query, sizeof ( query ), "%s(%d)\tNone\n", query, i ) ;
+			format ( query, sizeof ( query ), "%s(%d)\tYok\n", query, i ) ;
 		}
 	}
 
 	task_yield ( 1 ) ;
 
 	new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
-	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, "Character Switch", query, "Continue", "Cancel" );
+	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, "Karakter deðiþtir.", query, "Devam et", "Ýptal" );
 
 	if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
@@ -273,29 +273,29 @@ CMD:switchcharacter ( playerid, params [] ) {
 
 	if ( CharBuffer [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ character_id ] ) {
 
-		SendServerMessage ( playerid, sprintf("You have selected character slot %d. [DB ID: (%d)] %s. You will switch momentarily.", dialog_response [ E_DIALOG_RESPONSE_Listitem ], CharBuffer [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ character_id ], CharBuffer [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ character_name ] ), MSG_TYPE_INFO ) ;
-		SendServerMessage ( playerid, "You're gonna be frozen for fifteen seconds. These will serve as a cooldown and a deterrence to abuse.", MSG_TYPE_WARN) ;
+        SendServerMessage ( playerid, sprintf("Karakter slotu %d seçildi. [DB ID: (%d)] %s. Kýsa süre içinde geçiþ yapacaksýnýz.", dialog_response [ E_DIALOG_RESPONSE_Listitem ], CharBuffer [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ character_id ], CharBuffer [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ character_name ] ), MSG_TYPE_INFO ) ;
+        SendServerMessage ( playerid, "On beþ saniye boyunca dondurulacaksýnýz. Bu süre, sistemi suistimal etmenizi önlemek amacýyla bir bekleme süresi iþlevi görür.", MSG_TYPE_WARN) ;
 
 		CharSwitchTick [ playerid ] = 15 ;
 		SetTimerEx( "ChangeCharacterTick", 1000, false, "ii", playerid, dialog_response [ E_DIALOG_RESPONSE_Listitem ]) ;
 
 		TogglePlayerControllable(playerid, false ) ;
 
-		SetName ( playerid, sprintf("[SWITCHING CHARACTERS]{DEDEDE}\n(%d) %s", playerid, ReturnUserName ( playerid, false )), COLOR_BLUE ) ;
-		GameTextForPlayer(playerid, sprintf("~n~~n~~n~~n~~b~Switch time left:~w~ %d", CharSwitchTick [ playerid ] ), 1000, 3);
+		SetName ( playerid, sprintf("[KARAKTER DEGISTIRME]{DEDEDE}\n(%d) %s", playerid, ReturnUserName ( playerid, false )), COLOR_BLUE ) ;
+		GameTextForPlayer(playerid, sprintf("~n~~n~~n~~n~~b~Kalan degistirme suresi:~w~ %d", CharSwitchTick [ playerid ] ), 1000, 3);
 
-		SendModeratorWarning ( sprintf("[SWITCH] %s is trying to switch to character %s.", ReturnUserName ( playerid, false ), CharBuffer [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ character_name ]), MOD_WARNING_LOW ) ;
+		SendModeratorWarning ( sprintf("[deðiþtirme] %s karakterini deðiþtiriyor... %s.", ReturnUserName ( playerid, false ), CharBuffer [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ character_name ]), MOD_WARNING_LOW ) ;
 		//OldLog ( playerid, "switchchar", sprintf("%s is trying to switch to character %s.", ReturnUserName ( playerid, false ), CharBuffer [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ character_name ])) ;
 
 		return true ;
 	}
 
-	else SendServerMessage ( playerid, "You don't have a character in this slot.", MSG_TYPE_ERROR ) ;
+	else SendServerMessage ( playerid, "Bu slotta karakterin yok.", MSG_TYPE_ERROR ) ;
 
 	return true ;
 }
 
-CMD:switchc ( playerid, params [] ) {
+CMD:karakterdegistir ( playerid, params [] ) {
 
 	return cmd_switchcharacter ( playerid, params ) ;
 }
@@ -312,11 +312,11 @@ CMD:selectcharacter ( playerid, params [] ) {
 
 	if ( selectid > MAX_CHARACTERS ) {
 
-		return SendServerMessage ( playerid, "You can only have three characters.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Maximum 3 karaktere sahip olabilirsin.", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! Login_SelectionPage [ playerid ] ) {
-		return SendServerMessage ( playerid, "You're not in the character selection screen. If you are but it says you're not, use /logout to fix it.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Karakter seçme ekranýnda deðilsin, eðer ordaysan /logout dene.", MSG_TYPE_ERROR ) ;
 	}
 
 	new characters ;
@@ -331,8 +331,8 @@ CMD:selectcharacter ( playerid, params [] ) {
 
 	if ( selectid >= characters ) {
 
-		SendServerMessage ( playerid, "There isn't a character in the slot you selected.", MSG_TYPE_ERROR ) ;
-		return SendServerMessage ( playerid, "You can use {E87654}/createcharacter{DEDEDE} to create one.", MSG_TYPE_ERROR ) ;
+		SendServerMessage ( playerid, "Bu slotta bir karakter bulunamadý.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Karakter oluþturmak için {E87654}/createcharacter{DEDEDE} kullanabilirsin.", MSG_TYPE_ERROR ) ;
 	}
 
 	SpawnPlayer_Character ( playerid ) ;
@@ -344,7 +344,7 @@ CreateCharacter ( playerid, master_account, char_name [], char_gender, char_orig
 
 	if ( ! IsPlayerCreatingCharacter [ playerid ] ) {
 
-		return SendClientMessage(playerid, -1, "Something went wrong. Please relog and /report for assistance (invalid CreateCharacter variable)." ) ;
+		return SendClientMessage(playerid, -1, "Bir þeyler ters gitti. Lütfen tekrar giriþ yapýn ve yardým için /report komutunu kullanýn (geçersiz CreateCharacter deðiþkeni)" ) ;
 	}
 
 	IsPlayerCreatingCharacter [ playerid ] = false ;
@@ -352,7 +352,7 @@ CreateCharacter ( playerid, master_account, char_name [], char_gender, char_orig
 
 	if ( ! player_SkinSelection [ playerid ] ) {
 
-		SendClientMessage(playerid, -1, "Something went wrong. Your skin hasn't been found, so we have manually set it for you based on your selections." ) ;
+		return SendClientMessage(playerid, -1, "Bir þeyler ters gitti. Skin seçiminiz bulunamadý, bu nedenle seçimlerinize göre manuel olarak ayarlandý." ) ;
 		UpdateCreationSkin ( playerid ) ;
 	}
 
@@ -385,7 +385,7 @@ CreateCharacter ( playerid, master_account, char_name [], char_gender, char_orig
 
 	Account_CharacterCheck ( playerid ) ;
 
-	SendModeratorWarning ( sprintf("[CREATE] (%d) %s (%d: %s) has registered a new character.", playerid, char_name, master_account, Account [ playerid ] [ account_name] ), MOD_WARNING_LOW ) ;
+	SendModeratorWarning ( sprintf("[kayýt] (%d) %s (%d: %s) yeni karakter oluþturdu.", playerid, char_name, master_account, Account [ playerid ] [ account_name] ), MOD_WARNING_LOW ) ;
 	//OldLog ( playerid, "char/create", sprintf("(%d) %s (%d: %s) has registered a new character.", playerid, char_name, master_account, Account [ playerid ] [ account_name] )) ;
 
 	return true ;
@@ -430,10 +430,10 @@ SpawnPlayer_Character ( playerid ) {
 	if ( IsPlayerModerator ( playerid ) ) {
 
 		// The mod warnings are set to true in main.pwn OnPlayerSpawn
-		SendServerMessage ( playerid, "Moderator warnings have been automatically enabled. Use /togmodwarnings to disable it.", MSG_TYPE_WARN ) ;
+		SendServerMessage ( playerid, "Möderatör uyarýlarý açýldý, kapatmak için /togmodwarnings kullanýn.", MSG_TYPE_WARN ) ;
 	}
 
-	SendServerMessage ( playerid, "Your animations will be preloaded shortly. This may mean that you experience a small lag spike.", MSG_TYPE_ERROR ) ;
+	SendServerMessage ( playerid, "Animasyonlarýnýz kýsa süre içinde yüklenecek. Bu, küçük bir gecikme yaþamanýzý saðlayabilir.", MSG_TYPE_ERROR ) ;
 	SetTimerEx("LoadAnimations", 5000, false, "i", playerid) ;
 
 	ResetPlayerWounds ( playerid ) ;
@@ -514,54 +514,53 @@ public LoadDelayedData(playerid) {
 
 	// HandleTutorial ( playerid ) ;
 
-	if ( ! Character [ playerid ] [ character_prison ] ) {
+       if ( ! Character [ playerid ] [ character_prison ] ) {
 
-		switch ( random ( 4 ) ) {
-			case 0: SendClientMessage(playerid, COLOR_DEFAULT, "** You've woken up from a brief nap and feel somewhat refreshed.." ) ;
-			case 1: SendClientMessage(playerid, COLOR_DEFAULT, "** You've woken up with your head pounding and the smell of alcohol emitting from your clothes.." ) ;
-			case 2: SendClientMessage(playerid, COLOR_DEFAULT, "** You've woken up after a fight. Your face hurts and your knuckles seem to be bloodied.." ) ;
-			case 3: {
+        switch ( random ( 4 ) ) {
+            case 0: SendClientMessage(playerid, COLOR_DEFAULT, "** Kýsa bir þekerlemeden uyandýnýz ve biraz dinlenmiþ hissediyorsunuz.." ) ;
+            case 1: SendClientMessage(playerid, COLOR_DEFAULT, "** Baþýnýz çatlayarak ve kýyafetlerinizden yayýlan alkol kokusuyla uyandýnýz.." ) ;
+            case 2: SendClientMessage(playerid, COLOR_DEFAULT, "** Bir kavgadan sonra uyandýnýz. Yüzünüz acýyor ve eklemleriniz kanamýþ gibi görünüyor.." ) ;
+            case 3: {
 
-				if ( Character [ playerid ] [ character_horseid ] != -1 ) {
+                if ( Character [ playerid ] [ character_horseid ] != -1 ) {
 
-					SendClientMessage(playerid, COLOR_DEFAULT, "** You've woken up on the ground. It seems your horse has ran off, it shouldn't be too far away.." ) ;
-				}
+                    SendClientMessage(playerid, COLOR_DEFAULT, "** Yerde uyandýnýz. Görünüþe göre atýnýz kaçmýþ, çok uzakta olmamalý.." ) ;
+                }
 
-				else SendClientMessage(playerid, COLOR_DEFAULT, "** You've woken up due to a horse hinnicking loudly. You push yourself off the floor..") ;
-			}
-		}
-	}
+                else SendClientMessage(playerid, COLOR_DEFAULT, "** Bir atýn yüksek sesle kiþnemesiyle uyandýnýz. Kendinizi yerden yukarý doðru itiyorsunuz..") ;
+            }
+        }
+    }
 
-	SendServerMessage(playerid, "If your character selection/creation textdraws haven't gone away, please use /fixchartds", MSG_TYPE_INFO);
-
+    SendServerMessage(playerid, "Eðer karakter seçim/oluþturma textdrawlarý ekrandan gitmediyse, lütfen /fixchartds komutunu kullanýn.", MSG_TYPE_INFO);
 	if(Character [ playerid ] [ character_age ] == 0) {
 
 		task_yield(1);
 
 		new error, dialog_response[e_DIALOG_RESPONSE_INFO];
 
-		for(;;) {
-			switch(error) {
-				case 0: {
-					
-					await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Character Age", "The server detected that your age is zero.\n\nIf this isn't correct, take a screenshot of this dialog and send it to a developer.\n\nEnter your character's age below: (8-80)", "Finish", "") ;
-				}
-				
-				case 1: {
+          for(;;) {
+            switch(error) {
+                case 0: {
+                    
+                    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Karakter Yasi", "Sunucu yasinizin sifir oldugunu tespit etti.\n\nEger bu dogru degilse, bu diyalogun ekran goruntusunu alin ve bir gelistiriciye gonderin.\n\nKarakterinizin yasini asagiya girin: (8-80)", "Bitir", "") ;
+                }
+                
+                case 1: {
 
-					await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Character Age", "No characters were detected.\n\nEnter your character's age below: (8-80)", "Finish", "") ;
-				}
+                    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Karakter Yasi", "Hicbir karakter tespit edilemedi.\n\nKarakterinizin yasini asagiya girin: (8-80)", "Bitir", "") ;
+                }
 
-				case 2: {
+                case 2: {
 
-					await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Character Age", "That is not a numeric character.\n\nEnter your character's age below: (8-80)", "Finish", "") ;
-				}
+                    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Karakter Yasi", "Bu sayisal bir karakter degil.\n\nKarakterinizin yasini asagiya girin: (8-80)", "Bitir", "") ;
+                }
 
-				case 3: {
+                case 3: {
 
-					await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Character Age", "You character cannot be younger than 8 or older than 80.\n\nEnter your character's age below: (8-80)", "Finish", "") ;
-				}
-			}
+                    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_INPUT, "Karakter Yasi", "Karakteriniz 8 yasindan kucuk veya 80 yasindan buyuk olamaz.\n\nKarakterinizin yasini asagiya girin: (8-80)", "Bitir", "") ;
+                }
+            }
 
 			error = 0;
 
@@ -597,7 +596,7 @@ public LoadDelayedData(playerid) {
 			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_age = %d WHERE character_id = %d",Character[playerid][character_age],Character[playerid][character_id]);
 			mysql_tquery(mysql,query);
 
-			SendServerMessage(playerid,sprintf("You've set your character's age to %d.",Character[playerid][character_age]),MSG_TYPE_INFO);
+			SendServerMessage(playerid,sprintf("Karakter yaþýný %d olarak güncelledin.",Character[playerid][character_age]),MSG_TYPE_INFO);
 			break;
 		}
 
@@ -626,26 +625,26 @@ public SpawnPlayerDeter(playerid) {
 forward NameTagProofCheck(playerid);
 public NameTagProofCheck(playerid) {
 
-	new namelabel [ MAX_PLAYER_NAME ] ;
- 	GetDynamic3DTextLabelText ( nametag[playerid], namelabel ) ;
+    new namelabel [ MAX_PLAYER_NAME ] ;
+    GetDynamic3DTextLabelText ( nametag[playerid], namelabel ) ;
 
- 	if ( Account [ playerid ] [ account_tutorial ] < ReturnTaskListSize ( ) + 1 ) {
-		
-		SendClientMessage(playerid, -1, " " ) ;
-		SendClientMessage(playerid, 0xDEDEDEFF, "It seems you haven't finished your tutorial tasks yet. If you are new to the server and want to learn the basics" ) ;
-		SendClientMessage(playerid, 0xDEDEDEFF, "it is adviced to use {D4AE72}/tasks{DEDEDE} to see your progress. You also get a reward for completing them." ) ;
-		SendClientMessage(playerid, -1, " " ) ;
+    if ( Account [ playerid ] [ account_tutorial ] < ReturnTaskListSize ( ) + 1 ) {
+        
+        SendClientMessage(playerid, -1, " " ) ;
+        SendClientMessage(playerid, 0xDEDEDEFF, "Görünüþe göre eðitim görevlerinizi henüz tamamlamadýnýz. Eðer sunucuda yeniyseniz ve temel bilgileri öðrenmek istiyorsanýz" ) ;
+        SendClientMessage(playerid, 0xDEDEDEFF, "ilerlemenizi görmek için {D4AE72}/tasks{DEDEDE} komutunu kullanmanýz önerilir. Ayrýca görevleri tamamladýðýnýzda bir ödül kazanýrsýnýz." ) ;
+        SendClientMessage(playerid, -1, " " ) ;
 
-	}
+    }
 
-	if ( ! IsRPName ( ReturnUserName ( playerid ) ) ) {
+    if ( ! IsRPName ( ReturnUserName ( playerid ) ) ) {
 
-		KickPlayer ( playerid );
-		SendServerMessage ( playerid, "There was an error processing your name. Please try relogging or create a new character.", MSG_TYPE_WARN);
-		return SendServerMessage ( playerid, "You might want to contact the management team on the forums if you wish to retrieve it.", MSG_TYPE_WARN );
-	}
+        KickPlayer ( playerid );
+        SendServerMessage ( playerid, "Ýsminiz iþlenirken bir hata oluþtu. Lütfen tekrar baðlanmayý deneyin veya yeni bir karakter oluþturun.", MSG_TYPE_WARN);
+        return SendServerMessage ( playerid, "Eðer isminizi geri almak istiyorsanýz, forumlar üzerinden yönetim ekibiyle iletiþime geçebilirsiniz.", MSG_TYPE_WARN );
+    }
 
-	return true ;
+    return true ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -688,7 +687,7 @@ public Account_RetrieveCharacters ( playerid ) {
 		}
 	}
 
-	SendClientMessage(playerid, 0xDEDEDEFF, "Please wait a moment while we load the character textdraws, they should appear shortly.") ;
+	SendClientMessage(playerid, 0xDEDEDEFF, "Karakter verileriniz yükleniyor, lütfen bekleyin..." ) ;
 	SendClientMessage(playerid, 0xDEDEDEFF, " ") ;
 
 	BanChecker ( playerid ) ;
@@ -996,4 +995,8 @@ GiveRegisterReward ( playerid, charid ) {
 
 		NewlyRegistered [ playerid ] = false ;
 	}
+}
+CMD:karaktersec ( playerid, params [] ) {
+
+	return cmd_selectcharacter ( playerid, params ) ;
 }
