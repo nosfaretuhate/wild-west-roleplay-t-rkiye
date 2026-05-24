@@ -33009,3 +33009,11 @@ WW      WW IIIII LL      DDDDD      WW      WW EEEEEEE  SSSSS  TTTTTTT
 [2026-05-24T19:05:49+0300] [Info] [ANTICHEAT] (0) Baba_Siken may be fly hacking! GROUND: -1266.00, PLAYER HEIGHT: 0.00
 [2026-05-24T19:05:50+0300] [Info] Cleared account data for player 0: Baba Siken
 [2026-05-24T19:05:50+0300] [Info] [part] Baba_Siken has left the server (0:1)
+[2026-05-24T19:35:08+0300] [Info] [ADM] Info: Unload 3DTryg Gen. 2 v1.0.2 for SA:MP 0.3 DL by Abyss Morgan
+[2026-05-24T19:35:08+0300] [Info] **plugin: TPoker by ThreeKingz was successfully unloaded! ** 
+[2026-05-24T19:35:08+0300] [Info]  PawnPlus v1.5.1 unloaded
+[2026-05-24T19:35:08+0300] [Info] 
+
+*** Streamer Plugin v2.9.6 by Incognito unloaded ***
+
+[2026-05-24T19:35:08+0300] [Info] plugin.mysql: Unloading plugin...
