@@ -9,7 +9,7 @@ public OnPlayerEditAttachedObject(playerid, EDIT_RESPONSE:response, index, model
 			return false ;
 		}
 
-		SendServerMessage ( playerid, "You cancelled editing the object.", MSG_TYPE_INFO ) ;
+		SendServerMessage ( playerid, "Nesneyi düzenlemeyi iptal ettiniz.", MSG_TYPE_INFO ) ;
 
 		RemovePlayerAttachedObject(playerid, index) ;
 		Init_LoadPlayerAttachments ( playerid ) ;
@@ -27,7 +27,7 @@ public OnPlayerEditAttachedObject(playerid, EDIT_RESPONSE:response, index, model
 
 				if(fScaleX != 1.0 || fScaleY != 1.0 || fScaleZ != 1.0) {
 
-					SendServerMessage(playerid,"You cannot adjust the scale of the gun.",MSG_TYPE_ERROR);
+					SendServerMessage(playerid,"Silahýn ölçeðini ayarlayamazsýnýz.",MSG_TYPE_ERROR);
 
 					fScaleX = 1.0, fScaleY = 1.0, fScaleZ = 1.0;
 				}
@@ -52,14 +52,14 @@ public OnPlayerEditAttachedObject(playerid, EDIT_RESPONSE:response, index, model
 
 				mysql_tquery ( mysql, query ) ;
 
-				SendServerMessage ( playerid, "Adjusted weapon position on your trousers slot. It should save when you relog.", MSG_TYPE_INFO ) ;
+				SendServerMessage ( playerid, "Pantolon yuvanýzdaki silah pozisyonu ayarlandý. Tekrar giriþ yaptýðýnýzda kaydedilmiþ olmalý.", MSG_TYPE_INFO ) ;
 			}
 
 			else if ( index == ATTACH_SLOT_BACK ) {
 
 				if(fScaleX != 1.0 || fScaleY != 1.0 || fScaleZ != 1.0) {
 
-					SendServerMessage(playerid,"You cannot adjust the scale of the gun.",MSG_TYPE_ERROR);
+					SendServerMessage(playerid,"Silahýn ölçeðini ayarlayamazsýnýz.",MSG_TYPE_ERROR);
 
 					fScaleX = 1.0, fScaleY = 1.0, fScaleZ = 1.0;
 				}
@@ -84,7 +84,7 @@ public OnPlayerEditAttachedObject(playerid, EDIT_RESPONSE:response, index, model
 
 				mysql_tquery ( mysql, query ) ;
 
-				SendServerMessage ( playerid, "Adjusted weapon position on your back slot. It should save when you relog.", MSG_TYPE_INFO ) ;
+				SendServerMessage ( playerid, "Sýrt yuvanýzdaki silah pozisyonu ayarlandý. Tekrar giriþ yaptýðýnýzda kaydedilmiþ olmalý.", MSG_TYPE_INFO ) ;
 			}
 
 			else if ( index == ATTACH_SLOT_MASK ) {
@@ -110,7 +110,7 @@ public OnPlayerEditAttachedObject(playerid, EDIT_RESPONSE:response, index, model
 
 				mysql_tquery ( mysql, query ) ;
 
-				SendServerMessage ( playerid, "Adjusted mask position. It should save when you relog.", MSG_TYPE_INFO ) ;
+				SendServerMessage ( playerid, "Maske pozisyonu ayarlandý. Tekrar giriþ yaptýðýnýzda kaydedilmiþ olmalý.", MSG_TYPE_INFO ) ;
 			}
 
 			SetupPlayerGunAttachments ( playerid ) ;
@@ -128,10 +128,10 @@ public OnPlayerEditAttachedObject(playerid, EDIT_RESPONSE:response, index, model
 			if ( PlayerAddingAttachment [ playerid ] != -1 ) {
 
 	   			TakeCharacterChange ( playerid, 50, MONEY_SLOT_HAND ) ;
-	   			SendServerMessage ( playerid, "You've paid $0.50 for the attachment. You can access it by using /attachments.", MSG_TYPE_INFO ) ;
+	   			SendServerMessage ( playerid, "Aksesuar için 0.50$ ödediniz. /attachments komutunu kullanarak eriþebilirsiniz.", MSG_TYPE_INFO ) ;
 			}
 
-			else SendServerMessage ( playerid, "You have adjusted your attachment.", MSG_TYPE_INFO ) ;
+			else SendServerMessage ( playerid, "Aksesuarýnýzý ayarladýnýz.", MSG_TYPE_INFO ) ;
 
 			mysql_format ( mysql, query, sizeof ( query ), "UPDATE attachments SET attach_character_index = %d, attach_character_array = %d, attach_character_bone = %d, \
 				attach_character_offsetx = %f, attach_character_offsety = '%f', attach_character_offsetz = '%f', attach_character_rotx = '%f', attach_character_roty = '%f', attach_character_rotz = '%f',\
@@ -172,24 +172,24 @@ CMD:attachments ( playerid, params [] ) {
 	
 	new string [ 1024 ], attach_id, dialog_response [ e_DIALOG_RESPONSE_INFO ]  ;
 
-	format ( string, sizeof ( string ), "ID \t Name" ) ;
+	format ( string, sizeof ( string ), "ID \t Ýsim" ) ;
 
 	for ( new i; i < MAX_ATTACHMENTS ; i ++ ) {
 
 		if ( PlayerAttachments [ playerid ] [ i ] [ attach_character_array ] != -1 ) {
 			attach_id = PlayerAttachments [ playerid ] [ i ] [ attach_character_array ] ;
 
-			if ( PlayerAttachments [ playerid ] [ i ] [ attach_character_visible] != 0 ) format ( string, sizeof ( string ), "%s\n%d \t %s [WEARING]", string, i, Attachments [ attach_id ] [ attach_name ] ) ;
+			if ( PlayerAttachments [ playerid ] [ i ] [ attach_character_visible] != 0 ) format ( string, sizeof ( string ), "%s\n%d \t %s [GÝYÝLÝYOR]", string, i, Attachments [ attach_id ] [ attach_name ] ) ;
 			else format ( string, sizeof ( string ), "%s\n%d \t %s", string, i, Attachments [ attach_id ] [ attach_name ] ) ;
 		}
 
 		else if ( PlayerAttachments [ playerid ] [ i ] [ attach_character_array ] == -1 ) {
 
-			format ( string, sizeof ( string ), "%s\nNone", string ) ;
+			format ( string, sizeof ( string ), "%s\nYok", string ) ;
 		}
 	}
 
-	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, "Display Attachments", string, "Continue", "Cancel" );
+	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, "Aksesuarlarý Göster", string, "Devam Et", "Ýptal" );
 
 	if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
@@ -200,12 +200,12 @@ CMD:attachments ( playerid, params [] ) {
 
 		if ( PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_array ] == -1 ) {
 
-			SendServerMessage ( playerid, "You don't have an attachment in this slot.", MSG_TYPE_ERROR ) ;
+			SendServerMessage ( playerid, "Bu yuvada bir aksesuarýnýz yok.", MSG_TYPE_ERROR ) ;
 			return cmd_attachments ( playerid, params) ;
 		}
 
 		new dialog_response_x [ e_DIALOG_RESPONSE_INFO ] ;
-		await_arr ( dialog_response_x ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, "Display Attachments: Edit Menu", "Choose an action\n(Un)equip Attachment\nModify Attachment\nDiscard Attachment", "Continue", "Back" );
+		await_arr ( dialog_response_x ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, "Aksesuarlarý Göster: Düzenleme Menüsü", "Bir eylem seçin\nAksesuarý Giy/Çýkar\nAksesuarý Düzenle\nAksesuarý At", "Devam Et", "Geri" );
 
 		if ( ! dialog_response_x [ E_DIALOG_RESPONSE_Response ] ) {
 
@@ -239,14 +239,14 @@ CMD:attachments ( playerid, params [] ) {
 						PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_visible ], Character [ playerid ] [ character_id ], PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_attach_id ] ) ;
 					mysql_tquery ( mysql, string ) ;
 
-					SendServerMessage ( playerid, sprintf("You have %s your \"%s\".", ( PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_visible ] ) ? ("equipped") : ("unequipped"), Attachments [ PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_array ] ] [ attach_name ]), MSG_TYPE_INFO ) ;
+					SendServerMessage ( playerid, sprintf("\"%s\" adlý aksesuarýnýzý %s.", Attachments [ PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_array ] ] [ attach_name ], ( PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_visible ] ) ? ("giydiniz") : ("çýkardýnýz")), MSG_TYPE_INFO ) ;
 					return cmd_attachments ( playerid, params ) ;
 				}
 
 				case 1: {
 
 					new dialog_response_ex [ e_DIALOG_RESPONSE_INFO ] ;
-					await_arr ( dialog_response_ex ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, "Display Attachments", "Choose an action\nEdit placement\nChange bone", "Continue", "Back" );
+					await_arr ( dialog_response_ex ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, "Aksesuarlarý Göster", "Bir eylem seçin\nYerleþimi düzenle\nKemiði deðiþtir", "Devam Et", "Geri" );
 					
 					if ( ! dialog_response_ex [ E_DIALOG_RESPONSE_Response] ) {
 
@@ -275,21 +275,21 @@ CMD:attachments ( playerid, params [] ) {
 							case 1: {
 								
 								new dialog_response_exe [ e_DIALOG_RESPONSE_INFO ], BoneNames [] [] = {
-									"Invalid", "Spine", "Head", "Left Arm", "Right Arm", "Left Hand", "Right Hand", "Left Thigh", "Right Thigh",
-									"Left Foot", "Right Foot", "Right Calf", "Left Calf", "Left Forearm", "Right Forearm", "Left Shoulder", "Right Shoulder",
-									"Neck", "Jaw" 
+									"Geçersiz", "Omurga", "Kafa", "Sol Kol", "Sað Kol", "Sol El", "Sað El", "Sol Uyluk", "Sað Uyluk",
+									"Sol Ayak", "Sað Ayak", "Sað Baldýr", "Sol Baldýr", "Sol Önkol", "Sað Önkol", "Sol Omuz", "Sað Omuz",
+									"Boyun", "Çene" 
 								} ;
 
 								string [ 0 ] = EOS ;
 
-								format ( string, sizeof ( string ), "Select a bone") ;
+								format ( string, sizeof ( string ), "Bir kemik seçin") ;
 
 								for ( new i = 1, j = sizeof ( BoneNames ); i < j ; i ++ ) {
 
 									format ( string, sizeof ( string ), "%s\n%s", string, BoneNames [ i ] [ 0 ] ) ;
 								}
 
-								await_arr ( dialog_response_exe ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, "Display Attachments: Editing Bones", string, "Continue", "Back" );
+								await_arr ( dialog_response_exe ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, "Aksesuarlarý Göster: Kemikleri Düzenleme", string, "Devam Et", "Geri" );
 
 								if ( ! dialog_response_exe [ E_DIALOG_RESPONSE_Response ] ) {
 
@@ -306,7 +306,7 @@ CMD:attachments ( playerid, params [] ) {
 										selection, Character [ playerid ] [ character_id ], PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_attach_id ] ) ;
 									mysql_tquery ( mysql, string ) ;
 
-									SendServerMessage ( playerid, sprintf("You have changed the bone of your \"%s\" to %s", Attachments [ PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_array ] ] [ attach_name ], BoneNames [ selection ] [ 0 ] ), MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, sprintf("\"%s\" adlý aksesuarýnýzýn kemiðini %s olarak deðiþtirdiniz.", Attachments [ PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_array ] ] [ attach_name ], BoneNames [ selection ] [ 0 ] ), MSG_TYPE_INFO ) ;
 									Init_LoadPlayerAttachments ( playerid ) ;
 
 									return true ;
@@ -329,10 +329,9 @@ CMD:attachments ( playerid, params [] ) {
 
 					mysql_tquery ( mysql, string ) ;
 
-					SendServerMessage ( playerid, sprintf("You have removed your \"%s\".", Attachments [ PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_array ] ] [ attach_name ]), MSG_TYPE_INFO ) ;
+					SendServerMessage ( playerid, sprintf("\"%s\" adlý aksesuarýnýzý kaldýrdýnýz.", Attachments [ PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_array ] ] [ attach_name ]), MSG_TYPE_INFO ) ;
 
-					//GiveCharacterMoney ( playerid, 15, MONEY_SLOT_HAND ) ;
-					WriteLog ( playerid, "money/clothing_abuse", sprintf ( "%s has sold their attachment. If continued use, they are trying to do the money bug (+15$)", ReturnUserName ( playerid, false ))) ;
+					WriteLog ( playerid, "money/clothing_abuse", sprintf ( "%s aksesuarýný sattý. Eðer sürekli kullanýyorsa, para hilesi yapmaya çalýþýyor (+15$).", ReturnUserName ( playerid, false ))) ;
 
 
 					RemovePlayerAttachedObject(playerid, PlayerAttachments [ playerid ] [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ attach_character_index ] ) ;

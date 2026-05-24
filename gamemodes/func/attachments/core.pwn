@@ -1,9 +1,9 @@
 /*
 
 
-_model variable should be changed to _array, as it should pull the modelid from the array.
-Add a /buy command for toy purchasing, with gammix new dialog include
-While we're at it, update this include as well and add a directory in Drive for david & me
+_model deðiþkeni, modeli diziden çekmesi gerektiði için _array olarak deðiþtirilmelidir.
+Gammix'in yeni diyalog include'u ile oyuncak satýn alýmý için bir /buy komutu ekle.
+Hazýr baþlamýþken, bu include'u da güncelle ve Drive'da david & benim için bir dizin ekle.
 
 */
 
@@ -72,7 +72,7 @@ ShowToyMenu ( playerid ) {
 
 	for(;;) {
 
-		await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Attachments Store", sQuery, "Select", "Cancel");
+		await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Aksesuar Maðazasý", sQuery, "Seç", "Ýptal");
 
    		if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
@@ -80,7 +80,7 @@ ShowToyMenu ( playerid ) {
 
    				if ( Character [ playerid ] [ character_handchange ] < 50 ) {
 
-   					return SendServerMessage ( playerid, "You don't have enough money. All attachments cost $0.50!", MSG_TYPE_ERROR ) ;
+   					return SendServerMessage ( playerid, "Yeterli paranýz yok. Tüm aksesuarlar 0.50$ tutarýndadýr!", MSG_TYPE_ERROR ) ;
    				}
    			}
 
@@ -88,7 +88,7 @@ ShowToyMenu ( playerid ) {
 
    				if ( ! IsLawEnforcementPosse ( Character [ playerid ] [ character_posse ] ) ) {
 
-   					SendServerMessage ( playerid, "You need to be in a law enforcement posse to buy this attachment.", MSG_TYPE_ERROR ) ;
+   					SendServerMessage ( playerid, "Bu aksesuarý satýn almak için bir kanun uygulayýcý çetesinde olmanýz gerekiyor.", MSG_TYPE_ERROR ) ;
    					ShowToyMenu ( playerid ) ;
    					return true ;
    				}
@@ -101,9 +101,9 @@ ShowToyMenu ( playerid ) {
    			new string[1024];
    			new BoneNames [] [] = {
 				
-				"Invalid", "Spine", "Head", "Left Arm", "Right Arm", "Left Hand", "Right Hand", "Left Thigh", "Right Thigh",
-				"Left Foot", "Right Foot", "Right Calf", "Left Calf", "Left Forearm", "Right Forearm", "Left Shoulder", "Right Shoulder",
-				"Neck", "Jaw" 
+				"Geçersiz", "Omurga", "Kafa", "Sol Kol", "Sað Kol", "Sol El", "Sað El", "Sol Uyluk", "Sað Uyluk",
+				"Sol Ayak", "Sað Ayak", "Sað Baldýr", "Sol Baldýr", "Sol Önkol", "Sað Önkol", "Sol Omuz", "Sað Omuz",
+				"Boyun", "Çene" 
 			} ;
 
 			string[0] = EOS;
@@ -114,28 +114,25 @@ ShowToyMenu ( playerid ) {
 			}
 
 			new dialog_response_1 [ e_DIALOG_RESPONSE_INFO ] ;
-			await_arr ( dialog_response_1 ) ShowPlayerAsyncDialog(playerid,DIALOG_STYLE_LIST,"Choose Attachment Bone",string,"Select","Cancel");
+			await_arr ( dialog_response_1 ) ShowPlayerAsyncDialog(playerid,DIALOG_STYLE_LIST,"Aksesuar Kemiðini Seçin",string,"Seç","Ýptal");
 
 			if(dialog_response_1 [ E_DIALOG_RESPONSE_Response ]) {
 
 				new bone = dialog_response_1 [ E_DIALOG_RESPONSE_Listitem ]+1;
 
-				SendServerMessage ( playerid, "Adjust the model to your needs. Once you click save, the money will be taken from you.", MSG_TYPE_INFO ) ;
-				//SendServerMessage(playerid,"Please wait...",MSG_TYPE_INFO);
+				SendServerMessage ( playerid, "Modeli ihtiyaçlarýnýza göre ayarlayýn. Kaydet'e týkladýðýnýzda para sizden alýnacaktýr.", MSG_TYPE_INFO ) ;
 
 				new slot = GetFreeAttachmentSlot ( playerid ) ;
 
 				if ( slot == -1) {
 
-					return SendServerMessage ( playerid, "You don't seem to have a free attachment slot. Please unequip an item first.", MSG_TYPE_ERROR ) ;
+					return SendServerMessage ( playerid, "Boþ bir aksesuar yuvanýz yok gibi görünüyor. Lütfen önce bir eþyayý çýkarýn.", MSG_TYPE_ERROR ) ;
 				}
 
 				PlayerEditingObject [ playerid ] = slot ;
 
 				SetPlayerAttachedObject ( playerid, slot, objectid, bone ) ;
 				EditAttachedObject ( playerid, PlayerEditingObject [ playerid ] ) ;
-				//SetPVarInt(playerid,"editing_attachment",1);	
-				//defer AllowAttachEdit(playerid);
 			}
 			else { continue; }
    		}
