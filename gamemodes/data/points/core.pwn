@@ -223,12 +223,12 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 		if ( IsPlayerRidingHorse [ playerid ] ) {
 
-			return SendServerMessage ( playerid, "You can't enter a business whilst being on a horse.", MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, "At üstünde bu giriþten giremezsin.", MSG_TYPE_ERROR ) ;
 		}
 
 		if ( Character [ playerid ] [ character_prison ] ) {
 
-			return SendServerMessage ( playerid, "You can't leave a building when you're in prison.", MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, "Hapiste iken kullanýlamaz.", MSG_TYPE_ERROR ) ;
 		}
 
 		new query [ 256 ] ; 
@@ -246,23 +246,23 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 						if ( Point [ i ] [ point_owner ] == Character [ playerid ] [ character_id ] ) {
 
-							SendServerMessage ( playerid, "You own this entrance. Use /point to manage it.", MSG_TYPE_INFO ) ;
+							SendServerMessage ( playerid, "Bu mülkün sahibisin /point ile kontrol edebilirsin.", MSG_TYPE_INFO ) ;
 
 							if ( Point [ i ] [ point_type ] == POINT_TYPE_BIZ ) {
-								SendServerMessage ( playerid, sprintf("There's %s waiting for you in the business till.", IntegerWithDelimiter( Point [ i ] [ point_till ])), MSG_TYPE_INFO );
+								SendServerMessage ( playerid, sprintf("Ýþletme kasasýnda seni bekleyen %s var.", IntegerWithDelimiter( Point [ i ] [ point_till ])), MSG_TYPE_INFO );
 							}
 						}
 
 						if ( Point [ i ] [ point_locked ] ) {
 
-							return SendServerMessage ( playerid, "You try the door to find out it's locked.", MSG_TYPE_ERROR ) ;
+							return SendServerMessage ( playerid, "Kapýyý açmaya çalýþýrken kilitli olduðunu fark ediyorsun.", MSG_TYPE_ERROR ) ;
 						}
 
 						if ( Point [ i ] [ point_fee ] ) {
 							//if ( Character [ playerid ] [ character_handmoney ] < Point [ i ] [ point_fee ] ) {
 							if(Character[playerid][character_handmoney] == 0 && Character[playerid][character_handchange] < Point[i][point_fee]) {
 
-								return SendServerMessage ( playerid, "You don't have enough money to enter this business.", MSG_TYPE_ERROR ) ;
+								return SendServerMessage ( playerid, "Ýþyeri giriþ ücretini karþýlayamýyorsun.", MSG_TYPE_ERROR ) ;
 							}
 
 							TakeCharacterChange ( playerid, Point [ i ] [ point_fee ], MONEY_SLOT_HAND ) ;
@@ -273,7 +273,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 								Point[i][point_till_change] = 0;
 							}
 
-							SendServerMessage ( playerid, sprintf("You've been charged $%s for the entrance fee.", IntegerWithDelimiter ( Point [ i ] [ point_fee ] ) ), MSG_TYPE_INFO ) ;
+							SendServerMessage ( playerid, sprintf("Ýþyeri giriþ ücreti olarak $%s ödedin.", IntegerWithDelimiter ( Point [ i ] [ point_fee ] ) ), MSG_TYPE_INFO ) ;
 
 							mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_till = %d,point_till_change = %d WHERE point_id = %d", Point [ i ] [ point_till ], Point[i][point_till_change],Point [ i ] [ point_id ] ) ;
 							mysql_tquery ( mysql, query ) ;
@@ -289,52 +289,52 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 
 								case POINT_TYPE_GEN_STORE: {
-									SendServerMessage ( playerid, "Available commands: /buy", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Kullanýlabilir komutlar: /buy", MSG_TYPE_INFO ) ;
 								}
 
 								case POINT_TYPE_GUN_STORE: {
-									SendServerMessage ( playerid, "Available commands: /buy", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Kullanýlabilir komutlar: /buy", MSG_TYPE_INFO ) ;
 								}
 
 								case POINT_TYPE_CLOTHING: {
 
-									SendServerMessage ( playerid, "Available commands: /buy [optional: mask, attachments, misc]", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Kullanýlabilir komutlar: /buy [opsiyonel: mask(maske), attachments(aksesuar), misc(diðer)]", MSG_TYPE_INFO ) ;
 								}
 
 								case POINT_TYPE_BARBER: {
-									SendServerMessage ( playerid, "Available commands: None", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Kullanýlabilir komutlar: Yok", MSG_TYPE_INFO ) ;
 								}
 
 								case POINT_TYPE_LIQUOR: {
-									SendServerMessage ( playerid, "Available commands: /buy", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Kullanýlabilir komutlar: /buy", MSG_TYPE_INFO ) ;
 								}
 
 								case POINT_TYPE_SALOON: {
-									SendServerMessage ( playerid, "Available commands: /buy", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Kullanýlabilir komutlar: /buy", MSG_TYPE_INFO ) ;
 								}
 
 								case POINT_TYPE_HUNTING: {
-									SendServerMessage ( playerid, "Available commands: /buy - sell meat through your inventory.", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Kullanýlabilir komutlar: /buy - envanterinden eþya satabilirsin.", MSG_TYPE_INFO ) ;
 								}
 
 								case POINT_TYPE_BANK: {
-									SendServerMessage ( playerid, "Available commands: /bank", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Kullanýlabilir komutlar: /bank", MSG_TYPE_INFO ) ;
 								}
 
 								case POINT_TYPE_POSTAL: {
-									SendServerMessage ( playerid, "Available commands: /ad(vertise), /paycheck, /buytelegramnumber, /tele(gram)", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Kullanýlabilir komutlar: /advertise(reklam), /paycheck(maaþýný çek), /buytelegramnumber(telegram numarasý satýn al), /tele(gram)", MSG_TYPE_INFO ) ;
 								}
 
 								case POINT_TYPE_SHERIFF: {
-									SendServerMessage ( playerid, "Available commands: None", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Kullanýlabilir komutlar: Yok", MSG_TYPE_INFO ) ;
 								}
 
 								case POINT_TYPE_BLACKSMITH: {
-									SendServerMessage ( playerid, "Available commands: /buy", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Kullanýlabilir komutlar: /buy", MSG_TYPE_INFO ) ;
 								}
 
 								case POINT_TYPE_STABLEMASTER: {
-									SendServerMessage ( playerid, "Available commands: /buy, /revivehorse", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Kullanýlabilir komutlar: /buy, /revivehorse(atý iyileþtir)", MSG_TYPE_INFO ) ;
 								}
 							}
 						}
@@ -399,7 +399,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 				if ( Point [ id ] [ point_locked ] ) {
 
-					return SendServerMessage ( playerid, "The door is locked. You can't leave now. If you are stuck, call an admin.", MSG_TYPE_ERROR ) ;
+					return SendServerMessage ( playerid, "Kapý kilitli çýkamazsýn, eðer sýkýþtýysan /helpme kullanmaktan çekinme.", MSG_TYPE_ERROR ) ;
 				}
 
 				//BlackScreen ( playerid ) ;
@@ -502,8 +502,7 @@ OnPlayerSell ( playerid, itemid, tileid ) {
 								ProcessTask ( playerid, DoingTask [ playerid ] ) ;
 							}
 
-							SendServerMessage ( playerid, sprintf("You have sold your %s for $0.%02d.", Item [ itemid ] [ item_name ], change ), MSG_TYPE_INFO ) ;
-
+							SendServerMessage ( playerid, sprintf("%s adlý eþyayý $0.%02d karþýlýðýnda sattýn.", Item [ itemid ] [ item_name ], change ), MSG_TYPE_INFO ) ;
 							return true ;
 						}
 
@@ -549,7 +548,7 @@ OnPlayerSell ( playerid, itemid, tileid ) {
 								ProcessTask ( playerid, DoingTask [ playerid ] ) ;
 							}
 
-							SendServerMessage ( playerid, sprintf("You have sold your %s for $0.%02d.", Item [ itemid ] [ item_name ], change ), MSG_TYPE_INFO ) ;
+							SendServerMessage ( playerid, sprintf("%s adlý eþyayý $0.%02d karþýlýðýnda sattýn.", Item [ itemid ] [ item_name ], change ), MSG_TYPE_INFO ) ;
 
 							return true ;
 						}
@@ -586,7 +585,7 @@ OnPlayerSell ( playerid, itemid, tileid ) {
 								ProcessTask ( playerid, DoingTask [ playerid ] ) ;
 							}
 
-							SendServerMessage ( playerid, sprintf("You have sold your %s for $0.%02d.", Item [ itemid ] [ item_name ],change ), MSG_TYPE_INFO ) ;
+							SendServerMessage ( playerid, sprintf("%s adlý eþyayý $0.%02d karþýlýðýnda sattýn.", Item [ itemid ] [ item_name ],change ), MSG_TYPE_INFO ) ;
 
 							return true ;
 						}
@@ -608,13 +607,13 @@ OnPlayerSell ( playerid, itemid, tileid ) {
 
 							GivePlayerItemByParam ( playerid, PARAM_FARMING, EMPTY_BASKET, 1, 0, 0, 0,0);
 
-							SendServerMessage ( playerid, sprintf("You have sold your %s for $%d.%02d.", Item [ itemid ] [ item_name ], money, change ), MSG_TYPE_INFO ) ;
+							SendServerMessage ( playerid, sprintf("%s adlý eþyayý $%d.%02d karþýlýðýnda sattýn.", Item [ itemid ] [ item_name ], money, change ), MSG_TYPE_INFO ) ;
 						}
 						else return false;
 
 					}
 
-					default: return SendServerMessage ( playerid, "Something went wrong. You can't sell your items at the location you're at.", MSG_TYPE_ERROR ) ; 
+					default: return SendServerMessage ( playerid, "Birþeyler ters gitti bu lokasyonda satýþ yapamazsýn.", MSG_TYPE_ERROR ) ; 
 				}
 
 				// else if ( Point ) --- for mining
@@ -624,37 +623,37 @@ OnPlayerSell ( playerid, itemid, tileid ) {
 		}
 	}
 
-	return SendServerMessage ( playerid, "Something went wrong. You can't sell your items at the location you're at.", MSG_TYPE_ERROR ) ;
+	return SendServerMessage ( playerid, "Birþeyler ters gitti bu lokasyonda satýþ yapamazsýn.", MSG_TYPE_ERROR ) ;
 }
 
 CMD:givegunpermit ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid )  ) {
 
-		return SendServerMessage ( playerid, "Nice try.", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Yetersiz yetki.", MSG_TYPE_INFO ) ;
 	}
 
 	new target ;
 
 	if ( sscanf ( params, "k<u>", target )) {
 
-		return SendServerMessage ( playerid, "/givegunpermit [target]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/givegunpermit [oyuncuid]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerConnected(target)) {
 
-		return SendServerMessage ( playerid, "Player isn't online!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Oyuncu bulunamadý.", MSG_TYPE_ERROR ) ;
 	}
 
 	if (  DoesPlayerHaveItem ( target, CARD_PASSPORT) == -1 ) {
 
-		return SendServerMessage ( playerid, "Target doesn't have a passport.", MSG_TYPE_ERROR );
+		return SendServerMessage ( playerid, "Hedefin pasaportu yok.", MSG_TYPE_ERROR );
 	}
 
 
-	SendServerMessage ( playerid, "Mis use of this will result in a ban. ", MSG_TYPE_ERROR ) ;
+	SendServerMessage ( playerid, "Kötü kullaným yasaklanmanýza sebep olabilir.", MSG_TYPE_ERROR ) ;
 	GivePlayerItemByParam ( target, PARAM_MISC, CARD_GUNPERMIT, 1, 0, 0, 0 ) ;
-	SendServerMessage ( playerid, "You've have given the goods.", MSG_TYPE_WARN ) ;
+	SendServerMessage ( playerid, "Baþarýyla silah eriþimi verildi.", MSG_TYPE_WARN ) ;
 
 	return true ;
 }
@@ -663,23 +662,23 @@ CMD:givelicense ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid )  ) {
 
-		return SendServerMessage ( playerid, "Nice try.", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Yetersiz yetki.", MSG_TYPE_INFO ) ;
 	}
 
 	new target ;
 
 	if ( sscanf ( params, "k<u>", target )) {
 
-		return SendServerMessage ( playerid, "/givelicense [target]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/givelicense [oyuncuid]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerConnected(target)) {
 
-		return SendServerMessage ( playerid, "Player isn't online!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Oyuncu bulunamadý.", MSG_TYPE_ERROR ) ;
 	}
 
 	GivePlayerItemByParam ( target, PARAM_MISC, CARD_PASSPORT, 1, 0, 0, 0 ) ;
-	SendServerMessage ( playerid, "You've have given the goods.", MSG_TYPE_WARN ) ;
+	SendServerMessage ( playerid, "Baþarýyla lisans verildi.", MSG_TYPE_WARN ) ;
 
 	return true ;
 }
@@ -726,7 +725,7 @@ CMD:buy ( playerid, const params [] ) {
 
 				if ( Point [ i ] [ point_type ] != POINT_TYPE_BIZ ) {
 
-					return SendServerMessage ( playerid, "You're not in a business. If you are and you get this message, it's not set up correctly. Get an admin.", MSG_TYPE_ERROR ) ;
+					return SendServerMessage ( playerid, "Ýþyerinde deðilsin, eðer içerde isen iþyeri ayarlanmamýþtýr. Admin ile kontakt kurun.", MSG_TYPE_ERROR ) ;
 				}
 
 				switch ( Point [ i ] [ point_biztype ] ) {
@@ -751,7 +750,7 @@ CMD:buy ( playerid, const params [] ) {
 
 							if ( Character [ playerid ] [ character_level ] < 10 ) {
 
-								return SendServerMessage ( playerid, "You need to be level 10 to buy masks.", MSG_TYPE_ERROR ) ;
+								return SendServerMessage ( playerid, "10. seviyede olman gerekir.", MSG_TYPE_ERROR ) ;
 							}
 
 							ShowMaskSelection ( playerid ) ;
@@ -770,12 +769,12 @@ CMD:buy ( playerid, const params [] ) {
 							return true;
 						}
 
-						else return SendServerMessage ( playerid, "You can't do this in a clothing score. Correct param for a clothing store is: /buy [optional: mask, attachments, misc]", MSG_TYPE_ERROR ) ;
+						else return SendServerMessage ( playerid, "Bu giysi maðazasýnda bunu yapamazsýn. Doðru parametre: /buy [isteðe baðlý: mask(maske), attachments(aksesuar), misc(diðer)]", MSG_TYPE_ERROR ) ;
 
 					}
 
 					case POINT_TYPE_BARBER: {
-						return SendServerMessage ( playerid, "This entrance has no /buy scripted to it yet!", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "Bu iþyerinde bu iþlemi yapamazsýn.", MSG_TYPE_ERROR ) ;
 					}
 
 					case POINT_TYPE_LIQUOR: {
@@ -788,19 +787,19 @@ CMD:buy ( playerid, const params [] ) {
 
 					case POINT_TYPE_HUNTING: {
 						ShowHuntingStoreSelection ( playerid ) ;
-						return SendServerMessage ( playerid, "You can sell meat through your inventory.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "Envanterin üzerinden et satabilirsin.", MSG_TYPE_ERROR ) ;
 					}
 
 					case POINT_TYPE_BANK: {
-						return SendServerMessage ( playerid, "You cannot buy anything here.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "Burada hiçbir þey alamazsýn.", MSG_TYPE_ERROR ) ;
 					}
 
 					case POINT_TYPE_POSTAL: {
-						return SendServerMessage ( playerid, "/buy does not work here, /ad does though.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "/buy bu yerde çalýþmaz, /ad(reklam) ise çalýþýr.", MSG_TYPE_ERROR ) ;
 					}
 
 					case POINT_TYPE_SHERIFF: {
-						return SendServerMessage ( playerid, "You can't buy anything here.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "Burdan birþey satýn alamazsýn.", MSG_TYPE_ERROR ) ;
 					}
 
 					case POINT_TYPE_BLACKSMITH: {
@@ -822,70 +821,35 @@ CMD:buy ( playerid, const params [] ) {
 }
 
 ShowMiscClothingSelection(playerid) {
-
-	task_yield(1);
-
-	new sQuery [ 256 ], dialog_response [ e_DIALOG_RESPONSE_INFO ];
-
-   	format(sQuery,sizeof(sQuery),"%d\tGloves ($3.50)\n%d\tLong Johns ($6.25)\n",GLOVES_BROWN,LONGJOHNS_OBJ);
-
-   	await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Blacksmith Store", sQuery, "Select", "Cancel");
-
-	if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
-
-		switch ( dialog_response [ E_DIALOG_RESPONSE_Listitem ] ) {
-
-			case 0: {
-
-				GivePlayerItemByParam ( playerid, PARAM_MISC, GLOVES, 1, PARAM_MISC, GLOVES, 3, 50 ) ;
-			}
-
-			case 1: {
-
-				GivePlayerItemByParam ( playerid, PARAM_MISC, LONG_JOHNS, 1, PARAM_MISC, LONG_JOHNS, 6, 25 ) ;
-			}
-		}
-	}
-	return true;
+    task_yield(1);
+    new sQuery [ 256 ], dialog_response [ e_DIALOG_RESPONSE_INFO ];
+    format(sQuery,sizeof(sQuery),"%d\tEldiven ($3.50)\n%d\tUzun Iclik ($6.25)\n",GLOVES_BROWN,LONGJOHNS_OBJ);
+    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL, "Demirci dükkaný", sQuery, "Seç", "Iptal");
+    if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+        switch ( dialog_response [ E_DIALOG_RESPONSE_Listitem ] ) {
+            case 0: GivePlayerItemByParam ( playerid, PARAM_MISC, GLOVES, 1, PARAM_MISC, GLOVES, 3, 50 ) ;
+            case 1: GivePlayerItemByParam ( playerid, PARAM_MISC, LONG_JOHNS, 1, PARAM_MISC, LONG_JOHNS, 6, 25 ) ;
+        }
+    }
+    return true;
 }
-
 ShowBlacksmithMenu ( playerid ) {
-
-	task_yield(1);
-
-	//change crop cutter num.
-   	new sQuery [ 256 ], dialog_response [ e_DIALOG_RESPONSE_INFO ];
-   	format(sQuery,sizeof(sQuery),"%d\tPickaxe ($8.04)\n19468\tPail ($2.45)\n19626\tShovel ($4.02)\n",PICKAXE);
-   	await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Blacksmith Store", sQuery, "Select", "Cancel");
-
-	if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
-
-		switch ( dialog_response [ E_DIALOG_RESPONSE_Listitem ] ) {
-
-			case 0: {
-
-				if ( Character [ playerid ] [ character_level ] < 2 ) {
-
-					return SendServerMessage ( playerid, "You need to be level 2 to buy a pickaxe.", MSG_TYPE_ERROR ) ;
-				}
-
-				GivePlayerItemByParam ( playerid, PARAM_MINING, MINE_PICKAXE, 1, 0, 0, 8,4 ) ;
-			}
-
-			case 1: {
-				GivePlayerItemByParam ( playerid, PARAM_FARMING, FARMING_PAIL, 1, 0, 0, 2,45 ) ;
-				
-			}
-
-			case 2: {
-
-				GivePlayerItemByParam ( playerid, PARAM_FARMING, FARMING_SHOVEL, 1, 0, 0, 4,2 ) ;
-			}
-		}
-		cmd_buy(playerid,"");
-	}
-
-	return true ;
+    task_yield(1);
+    new sQuery [ 256 ], dialog_response [ e_DIALOG_RESPONSE_INFO ];
+    format(sQuery,sizeof(sQuery),"%d\tKazma ($8.04)\n19468\tKova ($2.45)\n19626\tKurek ($4.02)\n",PICKAXE);
+    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL, "Demirci dükkaný", sQuery, "Seç", "Iptal");
+    if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+        switch ( dialog_response [ E_DIALOG_RESPONSE_Listitem ] ) {
+            case 0: {
+                if ( Character [ playerid ] [ character_level ] < 2 ) return SendServerMessage ( playerid, "Bir kazma satýn almak için en az 2. seviye olmalýsýn.", MSG_TYPE_ERROR ) ;
+                GivePlayerItemByParam ( playerid, PARAM_MINING, MINE_PICKAXE, 1, 0, 0, 8, 4 ) ;
+            }
+            case 1: GivePlayerItemByParam ( playerid, PARAM_FARMING, FARMING_PAIL, 1, 0, 0, 2, 45 ) ;
+            case 2: GivePlayerItemByParam ( playerid, PARAM_FARMING, FARMING_SHOVEL, 1, 0, 0, 4, 2 ) ;
+        }
+        cmd_buy(playerid,"");
+    }
+    return true ;
 }
 
 ShowLiquorMenu ( playerid ) {
@@ -894,18 +858,18 @@ ShowLiquorMenu ( playerid ) {
    	task_yield(1);
 	
 	new dialog_response [ e_DIALOG_RESPONSE_INFO ], sQuery [ 256 ] = "\
-   	1544\tPale Lager ($1.23)\n\
-   	1543\tMild Ale ($1.20)\n\
-   	1486\tMalt Liquor ($2.00)\n\
-   	1484\tWheat Beer ($1.89)\n\
-   	19824\tWhite Wine ($2.05)\n\
-   	19822\tRed Wine ($2.11)\n\
-   	19823\tGrain Whiskey~n~($2.33)\n\
-   	19820\tMalt Whiskey~n~($2.64)\n\
-   	19821\tMoonshine~n~Vodka ($3.05)\n\
+    1544\tAcik Bira ($1.23)\n\
+    1543\tHafif Ale ($1.20)\n\
+    1486\tMalt Likor ($2.00)\n\
+    1484\tBugday Birasi ($1.89)\n\
+    19824\tBeyaz Sarap ($2.05)\n\
+    19822\tKirmizi Sarap ($2.11)\n\
+    19823\tTahil Viski~n~($2.33)\n\
+    19820\tMalt Viski~n~($2.64)\n\
+    19821\tMoonshine~n~Votka ($3.05)\n\
 	   	" ;
 
-   	await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Liquor Store", sQuery, "Select", "Cancel");
+   	await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Ýçki dükkaný", sQuery, "Seç", "Iptal");
 	
 	if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
@@ -970,23 +934,23 @@ CMD:revivehorse ( playerid, params [] ) {
 
 					if ( Character [ playerid ] [ character_horseid ] == -1 ) {
 
-						return SendServerMessage ( playerid, "You don't have a horse, so you can't revive it.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "Herhangi bir atýn yok.", MSG_TYPE_ERROR ) ;
 					}
 
 					if ( Character [ playerid ] [ character_horsehealth ] <= 5 ) {
 
 						if ( Character [ playerid ] [ character_handmoney ] < 15 ) {
 
-							return SendServerMessage ( playerid, "You need $15 in order to revive your horse.", MSG_TYPE_ERROR ) ;
+							return SendServerMessage ( playerid, "Atýný canlandýrmak için $15'ye ihtiyacýn var.", MSG_TYPE_ERROR ) ;
 						}
 
-						SendServerMessage ( playerid, "Your horse has been revived for a small fee of $15. You can now /spawnhorse again!", MSG_TYPE_INFO ) ;
+						SendServerMessage ( playerid, "Atýn küçük bir ücret karþýlýðý canlandýrýldý. Artýk /spawnhorse komutunu kullanabilirsin!", MSG_TYPE_INFO ) ;
 
 						SetHorseHealth ( playerid, -1, 100 ) ;
 						TakeCharacterMoney ( playerid, 15, MONEY_SLOT_HAND ) ;
 					}
 
-					else return SendServerMessage ( playerid, "Your horse seems to be healthy, there's no need to revive it.", MSG_TYPE_ERROR ) ;
+					else return SendServerMessage ( playerid, "Atýn saðlýklý görünüyor, canlandýrman gerekmiyor.", MSG_TYPE_ERROR ) ;
 				}
 
 				else continue ;
@@ -998,7 +962,7 @@ CMD:revivehorse ( playerid, params [] ) {
 		else continue ;
 	}
 
-	SendServerMessage ( playerid, "You're not near a stablemaster. Make sure to enter the shop before doing this command.", MSG_TYPE_ERROR ) ;
+	SendServerMessage ( playerid, "Gereken lokasyonda deðilsin.", MSG_TYPE_ERROR ) ;
 
 	return true ;
 }
@@ -1008,10 +972,10 @@ ShowHuntingStoreSelection ( playerid ) {
    	task_yield(1);
 	
 	new string [ 256 ], dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
-	format(string,sizeof(string),"18632\tFishing Rod ($1.04)\n335\tHunting Knife ($17.50)\n%d\tAnimal Trap ($11.32)\n",TRAP_FOOTLOCK);
+	format(string,sizeof(string),"18632\tBalikci oltasi ($1.04)\n335\tAv Bicagi ($17.50)\n%d\tHayvan tuzagi ($11.32)\n",TRAP_FOOTLOCK);
 
 
-   	await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Hunting Store", string, "Select", "Cancel");
+   	await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Av Dükkaný", string, "Seç", "Iptal");
 	
 	if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
@@ -1049,13 +1013,13 @@ ShowHorseSelection ( playerid ) {
 
 	  		price = horseType [ i ] [ h_price ] ;
 
-	  		strcat(string, sprintf("11733\t~b~%s~w~~n~Price:~g~$%d~w~~n~Level Required: %d\n", horseType [ i ] [ h_td_name ], price, horseType [ i ] [ h_level_requirement ] ) ) ;
+	  		strcat(string, sprintf("11733\t~b~%s~w~~n~Ucret:~g~$%d~w~~n~Gereken Seviye: %d\n", horseType [ i ] [ h_td_name ], price, horseType [ i ] [ h_level_requirement ] ) ) ;
 	 	}
 
 	 	else continue ;
   	}
 
-	await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "General Store", string, "Select", "Cancel");
+	await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Genel Maðaza", string, "Seç", "Ýptal");
 
 	if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
@@ -1064,19 +1028,19 @@ ShowHorseSelection ( playerid ) {
 
 		if ( horseType [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ h_donator ] && ! Account [ playerid ] [ account_donatorlevel ] ) {
 
-			return SendServerMessage ( playerid, "You need to be a donator in order to purchase this horse.", MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, "Bu atý satýn almak için donator olman gerekiyor.", MSG_TYPE_ERROR ) ;
 		}
 
 		if ( horseType [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ h_level_requirement ] > Character [ playerid ] [ character_level ] ) {
 
-			return SendServerMessage ( playerid, sprintf("You need to be level %d to buy a %s.", horseType [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ h_level_requirement ], horseType [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ h_td_name ] ) , MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, sprintf("Bu atý satýn almak için %d seviyede olman gerekiyor.", horseType [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ h_level_requirement ] ), MSG_TYPE_ERROR ) ;
 		}
 
 		price = horseType [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ h_price ] ;
 
 		if ( Character [ playerid ] [ character_handmoney ] < price ) {
 
-			return SendServerMessage ( playerid, sprintf("You don't have this much money. You need at least $%d.", price ), MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, sprintf("Gerekli paraya sahip deðilsin, $%d gerekli.", price ), MSG_TYPE_ERROR ) ;
 		}
 
 		TakeCharacterMoney ( playerid, price, MONEY_SLOT_HAND ) ;
@@ -1087,7 +1051,7 @@ ShowHorseSelection ( playerid ) {
 		mysql_format ( mysql, string, sizeof ( string ), "UPDATE characters SET character_horseid = %d, character_horsehealth = 100 WHERE character_id = %d", Character [ playerid ] [ character_horseid ], Character [ playerid ] [ character_id ] ) ;
 		mysql_tquery ( mysql, string ) ;
 
-		SendServerMessage ( playerid, sprintf("You have purchased a {876C45}%s{DEDEDE} for {458754}$%d.", horseType [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ h_td_name ], price ), MSG_TYPE_INFO ) ;
+		SendServerMessage ( playerid, sprintf("{876C45}%s{DEDEDE} model atý {458754}$%d karþýlýðýnda aldýn.", horseType [ dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] [ h_td_name ], price ), MSG_TYPE_INFO ) ;
 	}
 
 	return true ; 
@@ -1095,484 +1059,403 @@ ShowHorseSelection ( playerid ) {
 
 ShowGunStoreSelection ( playerid ) {
 
-	/*
-	if (DoesPlayerHaveItem ( playerid, CARD_PASSPORT) == -1 ) {
+    /*
+    if (DoesPlayerHaveItem ( playerid, CARD_PASSPORT) == -1 ) {
 
-		return SendServerMessage ( playerid, "You lack the necessary documents in order to purchase items here.", MSG_TYPE_ERROR );
-	}
-	*/
+        return SendServerMessage ( playerid, "Burada alýþveriþ yapabilmek için gerekli belgelere sahip deðilsin.", MSG_TYPE_ERROR );
+    }
+    */
 
-	if ( Character [ playerid ] [ character_level ] < 3) {
+    if ( Character [ playerid ] [ character_level ] < 3) {
 
-		return SendServerMessage ( playerid, "Your level must at least be 3.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "3. Seviye olman gerekli.", MSG_TYPE_ERROR ) ;
+    }
 
-	task_yield(1);
+    task_yield(1);
 
-	new dialog_response [ e_DIALOG_RESPONSE_INFO ], sQuery [ 256 ] = "\
-   	336\tBaseball Bat ($5.00)\n\
-   	335\tKnife ($7.50)\n\
-   	348\tPistol ($40.00)\n\
-   	349\tShotgun ($66.00)\n\
-   	350\tSawn-off ($51.00)\n\
-   	357\tRifle ($82.00)\n\
-   	358\tScope Rifle~n~($104.00)\n\
-   	2037\tPistol Ammo~n~($2.50)\n\
-   	2041\tShotgun Ammo~n~($1.50)\n\
-   	2043\tRifle Ammo~n~($3.50)\n\
-	   	" ;
+    new dialog_response [ e_DIALOG_RESPONSE_INFO ], sQuery [ 512 ] = "\
+    336\tBeyzbol Sopasi ($5.00)\n\
+    335\tBicak ($7.50)\n\
+    348\tTabanca ($40.00)\n\
+    349\tPompali Tufek ($66.00)\n\
+    350\tSawn-off ($51.00)\n\
+    357\tAv Tufegi ($82.00)\n\
+    358\tDurbunlu Av Tufegi~n~($104.00)\n\
+    2037\tTabanca mermisi~n~($2.50)\n\
+    2041\tPompali tufek mermisi~n~($1.50)\n\
+    2043\tYuksek kalibre mermi(av tufegi, durbunlu)~n~($3.50)";
 
-   	await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Weapon Store", sQuery, "Select", "Cancel");
+    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Silah Dukkani", sQuery, "Sec", "Iptal");
 
-	if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+    if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
-		return false ;
-	}
+        return false ;
+    }
 
-	if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+    if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
-		if ( EquippedItem [ playerid ] >= 0 ) {
+        if ( EquippedItem [ playerid ] >= 0 ) {
 
-			return SendServerMessage ( playerid, "Please unequip the item you have equipped before buying a weapon.", MSG_TYPE_ERROR);
-		}
+            return SendServerMessage ( playerid, "Ýlk önce kuþandýðýn eþyayý býrakman gerekmektedir.", MSG_TYPE_ERROR);
+        }
 
-		if ( Character [ playerid ] [ character_handweapon ] ) {
+        if ( Character [ playerid ] [ character_handweapon ] ) {
 
-			return SendServerMessage ( playerid, "You can't buy a weapon whilst you already have one equipped.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Elinde bir silah varken ikinciyi alamazsýn!", MSG_TYPE_ERROR ) ;
+        }
 
-		switch ( dialog_response [ E_DIALOG_RESPONSE_Listitem ] ) {
+        switch ( dialog_response [ E_DIALOG_RESPONSE_Listitem ] ) {
 
-			case 0: { //bat
+            case 0: { //bat
 
-				if ( Character [ playerid ] [ character_level ] < 3 ) {
+                if ( Character [ playerid ] [ character_level ] < 3 ) {
 
-					return SendServerMessage ( playerid, "You need to be level 3 to buy a baseball bat.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Beyzbol sopasý satýn almak için 3. seviye olman gerek.", MSG_TYPE_ERROR ) ;
+                }
 
-				if ( Character [ playerid ] [ character_handmoney ] < 5 ) {
+                if ( Character [ playerid ] [ character_handmoney ] < 5 ) {
 
-					return SendServerMessage ( playerid, " You don't have enough money. You need to pay $5 for a baseball bat.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Yeterli paran yok. Beyzbol sopasý için 5 dolar ödemelisin.", MSG_TYPE_ERROR ) ;
+                }
 
-				TakeCharacterMoney ( playerid, 5, MONEY_SLOT_HAND ) ;
-				wep_GivePlayerWeapon ( playerid, WEAPON_BAT, 1 ) ;
+                TakeCharacterMoney ( playerid, 5, MONEY_SLOT_HAND ) ;
+                wep_GivePlayerWeapon ( playerid, WEAPON_BAT, 1 ) ;
 
-				WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a baseball bat.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
+                WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a baseball bat.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
 
-				SendServerMessage ( playerid, "You've purchased a baseball bat.", MSG_TYPE_INFO ) ;
-			}
+                SendServerMessage ( playerid, "Bir beyzbol sopasý satýn aldýn.", MSG_TYPE_INFO ) ;
+            }
 
-			case 1: { //knife
+            case 1: { //knife
 
-				if ( Character [ playerid ] [ character_level ] < 4 ) {
+                if ( Character [ playerid ] [ character_level ] < 4 ) {
 
-					return SendServerMessage ( playerid, "You need to be level 4 to buy a knife.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Býçak satýn almak için 4. seviye olman gerek.", MSG_TYPE_ERROR ) ;
+                }
 
-				if(Character[playerid][character_handmoney] < 7) { return SendServerMessage ( playerid, " You don't have enough money. You need to pay $7.50 for a knife.", MSG_TYPE_ERROR ) ; }
+                if(Character[playerid][character_handmoney] < 7) { return SendServerMessage ( playerid, "Yeterli paran yok. Býçak için 7.50 dolar ödemelisin.", MSG_TYPE_ERROR ) ; }
 
-				if ( Character [ playerid ] [ character_handmoney ] == 7 && Character[playerid][character_handchange] < 50) {
+                if ( Character [ playerid ] [ character_handmoney ] == 7 && Character[playerid][character_handchange] < 50) {
 
-					return SendServerMessage ( playerid, " You don't have enough money. You need to pay $7.50 for a knife.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Yeterli paran yok. Býçak için 7.50 dolar ödemelisin.", MSG_TYPE_ERROR ) ;
+                }
 
-				TakeCharacterMoney ( playerid, 7, MONEY_SLOT_HAND ) ;
-				TakeCharacterChange(playerid,50,MONEY_SLOT_HAND);
-				wep_GivePlayerWeapon ( playerid, WEAPON_KNIFE, 1 ) ;
+                TakeCharacterMoney ( playerid, 7, MONEY_SLOT_HAND ) ;
+                TakeCharacterChange(playerid,50,MONEY_SLOT_HAND);
+                wep_GivePlayerWeapon ( playerid, WEAPON_KNIFE, 1 ) ;
 
-				WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a knife.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
+                WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a knife.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
 
-				SendServerMessage ( playerid, "You've purchased a knife.", MSG_TYPE_INFO ) ;
-			}
+                SendServerMessage ( playerid, "Bir býçak satýn aldýn.", MSG_TYPE_INFO ) ;
+            }
 
-			case 2: { // Desert Eagle
+            case 2: { // Desert Eagle
 
-				if ( Character [ playerid ] [ character_level ] < 6 ) {
+                if ( Character [ playerid ] [ character_level ] < 6 ) {
 
-					return SendServerMessage ( playerid, "You need to be level 6 to buy a revolver.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Tabanca satýn almak için 6. seviye olman gerek.", MSG_TYPE_ERROR ) ;
+                }
 
-				if ( Character [ playerid ] [ character_handmoney ] < 40 ) {
+                if ( Character [ playerid ] [ character_handmoney ] < 40 ) {
 
-					return SendServerMessage ( playerid, " You don't have enough money. You need to pay $40 for a revolver.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Yeterli paran yok. Tabanca için 40 dolar ödemelisin.", MSG_TYPE_ERROR ) ;
+                }
 
-				TakeCharacterMoney ( playerid, 40, MONEY_SLOT_HAND ) ;
-				wep_GivePlayerWeapon ( playerid, WEAPON_DEAGLE, 0 ) ;
+                TakeCharacterMoney ( playerid, 40, MONEY_SLOT_HAND ) ;
+                wep_GivePlayerWeapon ( playerid, WEAPON_DEAGLE, 0 ) ;
 
-				WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a revolver.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
+                WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a revolver.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
 
-				SendServerMessage ( playerid, "You've purchased a revolver. You need to buy the appropiate ammo pack to add bullets to your magazine!", MSG_TYPE_INFO ) ;
-			}
+                SendServerMessage ( playerid, "Bir tabanca satýn aldýn. Þarjörüne mermi eklemek için uygun mermi paketini satýn almalýsýn!", MSG_TYPE_INFO ) ;
+            }
 
-			case 3: { // Shotgun
+            case 3: { // Shotgun
 
-				if ( Character [ playerid ] [ character_level ] < 8 ) {
+                if ( Character [ playerid ] [ character_level ] < 8 ) {
 
-					return SendServerMessage ( playerid, "You need to be level 8 to buy a shotgun.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Pompalý tüfek satýn almak için 8. seviye olman gerek.", MSG_TYPE_ERROR ) ;
+                }
 
-				if ( Character [ playerid ] [ character_handmoney ] < 66 ) {
+                if ( Character [ playerid ] [ character_handmoney ] < 66 ) {
 
-					return SendServerMessage ( playerid, " You don't have enough money. You need to pay $66 for a shotgun.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Yeterli paran yok. Pompalý tüfek için 66 dolar ödemelisin.", MSG_TYPE_ERROR ) ;
+                }
 
-				TakeCharacterMoney ( playerid, 66, MONEY_SLOT_HAND ) ;
-				wep_GivePlayerWeapon ( playerid, WEAPON_SHOTGUN, 0 ) ;
+                TakeCharacterMoney ( playerid, 66, MONEY_SLOT_HAND ) ;
+                wep_GivePlayerWeapon ( playerid, WEAPON_SHOTGUN, 0 ) ;
 
-				WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a shotgun.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
+                WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a shotgun.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
 
-				SendServerMessage ( playerid, "You've purchased a shotgun. You need to buy the appropiate ammo pack to add bullets to your magazine!", MSG_TYPE_INFO ) ;
-			}
+                SendServerMessage ( playerid, "Bir pompalý tüfek satýn aldýn. Þarjörüne mermi eklemek için uygun mermi paketini satýn almalýsýn!", MSG_TYPE_INFO ) ;
+            }
 
-			case 4: { // Sawn Shotgun
+            case 4: { // Sawn Shotgun
 
-				if ( Character [ playerid ] [ character_level ] < 8 ) {
+                if ( Character [ playerid ] [ character_level ] < 8 ) {
 
-					return SendServerMessage ( playerid, "You need to be level 8 to buy a sawn off shotgun.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Sawn-off satýn almak için 8. seviye olman gerek.", MSG_TYPE_ERROR ) ;
+                }
 
-				if ( Character [ playerid ] [ character_handmoney ] < 51 ) {
+                if ( Character [ playerid ] [ character_handmoney ] < 51 ) {
 
-					return SendServerMessage ( playerid, " You don't have enough money. You need to pay $51 for a sawn off shotgun.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Yeterli paran yok. Sawn-off için 51 dolar ödemelisin.", MSG_TYPE_ERROR ) ;
+                }
 
-				TakeCharacterMoney ( playerid, 51, MONEY_SLOT_HAND ) ;
-				wep_GivePlayerWeapon ( playerid, WEAPON_SAWEDOFF, 0 ) ;
+                TakeCharacterMoney ( playerid, 51, MONEY_SLOT_HAND ) ;
+                wep_GivePlayerWeapon ( playerid, WEAPON_SAWEDOFF, 0 ) ;
 
-				WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a sawn off shotgun.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
+                WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a sawn off shotgun.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
 
-				SendServerMessage ( playerid, "You've purchased a sawn-off shotgun. You need to buy the appropiate ammo pack to add bullets to your magazine!", MSG_TYPE_INFO ) ;
-			}
+                SendServerMessage ( playerid, "Bir sawn-off satýn aldýn. Þarjörüne mermi eklemek için uygun mermi paketini satýn almalýsýn!", MSG_TYPE_INFO ) ;
+            }
 
-			case 5: { // Rifle
+            case 5: { // Rifle
 
-				if ( Character [ playerid ] [ character_level ] < 12 ) {
+                if ( Character [ playerid ] [ character_level ] < 12 ) {
 
-					return SendServerMessage ( playerid, "You need to be level 12 to buy a rifle.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Av tüfeði satýn almak için 12. seviye olman gerek.", MSG_TYPE_ERROR ) ;
+                }
 
-				if ( Character [ playerid ] [ character_handmoney ] < 82 ) {
+                if ( Character [ playerid ] [ character_handmoney ] < 82 ) {
 
-					return SendServerMessage ( playerid, " You don't have enough money. You need to pay $82 for a rifle.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Yeterli paran yok. Av tüfeði için 82 dolar ödemelisin.", MSG_TYPE_ERROR ) ;
+                }
 
-				TakeCharacterMoney ( playerid, 82, MONEY_SLOT_HAND ) ;
-				wep_GivePlayerWeapon ( playerid, WEAPON_RIFLE, 0 ) ;
+                TakeCharacterMoney ( playerid, 82, MONEY_SLOT_HAND ) ;
+                wep_GivePlayerWeapon ( playerid, WEAPON_RIFLE, 0 ) ;
 
-				WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a rifle.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
+                WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a rifle.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
 
-				SendServerMessage ( playerid, "You've purchased a rifle. You need to buy the appropiate ammo pack to add bullets to your magazine!", MSG_TYPE_INFO ) ;
-			}      
+                SendServerMessage ( playerid, "Bir av tüfeði satýn aldýn. Þarjörüne mermi eklemek için uygun mermi paketini satýn almalýsýn!", MSG_TYPE_INFO ) ;
+            }      
 
-			case 6: { // Sniper
+            case 6: { // Sniper
 
-				if ( Character [ playerid ] [ character_level ] < 16 ) {
+                if ( Character [ playerid ] [ character_level ] < 16 ) {
 
-					return SendServerMessage ( playerid, "You need to be level 16 to buy a scoped rifle.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Dürbünlü av tüfeði satýn almak için 16. seviye olman gerek.", MSG_TYPE_ERROR ) ;
+                }
 
-				if ( Character [ playerid ] [ character_handmoney ] < 104 ) {
+                if ( Character [ playerid ] [ character_handmoney ] < 104 ) {
 
-					return SendServerMessage ( playerid, " You don't have enough money. You need to pay $104 for a scoped rifle.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Yeterli paran yok. Dürbünlü av tüfeði için 104 dolar ödemelisin.", MSG_TYPE_ERROR ) ;
+                }
 
-				TakeCharacterMoney ( playerid, 104, MONEY_SLOT_HAND ) ;
-				wep_GivePlayerWeapon ( playerid, WEAPON_SNIPER, 0 ) ;
+                TakeCharacterMoney ( playerid, 104, MONEY_SLOT_HAND ) ;
+                wep_GivePlayerWeapon ( playerid, WEAPON_SNIPER, 0 ) ;
 
-				WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a scoped rifle.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
+                WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a scoped rifle.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
 
-				SendServerMessage ( playerid, "You've purchased a scoped rifle. You need to buy the appropiate ammo pack to add bullets to your weapon!", MSG_TYPE_INFO ) ;
-			}   
+                SendServerMessage ( playerid, "Bir dürbünlü av tüfeði satýn aldýn. Þarjörüne mermi eklemek için uygun mermi paketini satýn almalýsýn!", MSG_TYPE_INFO ) ;
+            }   
 
-			case 7: { // Pistol Ammo
+            case 7: { // Pistol Ammo
 
-				GivePlayerItemByParam ( playerid, PARAM_AMMO, AMMO_CRATE_PISTOL, 1, 0, 0, 2,50 ) ;
+                GivePlayerItemByParam ( playerid, PARAM_AMMO, AMMO_CRATE_PISTOL, 1, 0, 0, 2, 50 ) ;
 
-				WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a pistol ammo crate.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
-			}      
+                WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a pistol ammo crate.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
+            }      
 
-			case 8: { // Shotty Ammo
-				GivePlayerItemByParam ( playerid, PARAM_AMMO, AMMO_CRATE_SHOTGUN, 1, 0, 0, 1,50 ) ;
+            case 8: { // Shotty Ammo
+                GivePlayerItemByParam ( playerid, PARAM_AMMO, AMMO_CRATE_SHOTGUN, 1, 0, 0, 1, 50 ) ;
 
-				WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a shotgun ammo crate.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
-			}    
+                WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a shotgun ammo crate.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
+            }    
 
-			case 9: { // Rifle Ammo
+            case 9: { // Rifle Ammo
 
-				GivePlayerItemByParam ( playerid, PARAM_AMMO, AMMO_CRATE_RIFLE, 1, 0, 0, 3,50 ) ;
+                GivePlayerItemByParam ( playerid, PARAM_AMMO, AMMO_CRATE_RIFLE, 1, 0, 0, 3, 50 ) ;
 
-				WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a rifle ammo crate.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
-			}         		   
-		}
-		cmd_buy(playerid,"");
-	}
+                WriteLog ( playerid, "guns/points", sprintf("%s (%d) has bought a rifle ammo crate.", ReturnUserName ( playerid, false, false ), playerid ) ) ;
+            }                   
+        }
+        cmd_buy(playerid,"");
+    }
 
-	return true ;
+    return true ;
 }
-
 ShowGeneralStoreSelection ( playerid ) {
  
-	task_yield(1);
-	
-	new query [ 256 ], sQuery [ 2048 ], dialog_response [ e_DIALOG_RESPONSE_INFO ];
-
-   	format(sQuery,sizeof(sQuery),"19043\tPocket Watch ($5.50)\n19623\tCamera ($45.00)\n%d\tHatchet ($12.00)\n11747\tBandage ($3.46)\n19575\tRed Apple ($0.20)\n19576\tGreen Apple ($0.20)\n19570\tWater Bottle ($0.75)\n\
-   		19567\tCanned Salmon ($2.00)\n19567\tCanned Corned Beef ($1.75)\n19564\tCanned Pineapples ($1.50)\n19564\tCanned Strawberries ($1.20)\n19567\tCanned Kidney Beans ($1.50)\n19564\tCanned Peaches ($1.00)\n\
-   		19567\tCanned Sweetcorn ($1.00)\n19567\tBaked Beans ($1.20)\n19564\tCanned Apricots ($0.75)\n19567\tCanned Peas ($0.75)\n19897\tCigar Pack ($2.12)~n~20 in a pack\n19896\tBlunt Pack($2.50)~n~20 in a pack\n\
-   		363\tSmall Backpack($20.00)\n363\tLarge Backpack($45.00)\n2060\tFarming Soil Bag($0.85)\n2663\tOrange Seed ($0.10)\n2663\tRed Apple Seed ($0.12)\n2663\tGreen Apple Seed ($0.12)\n2663\tTomato Seed ($0.15)\n\
-   		2663\tPumpkin Seed ($0.11)\n2663\tCabbage Seed ($0.14)\n2663\tWheat Seed ($0.15)\n19592\tBasket ($2.78)\n",HATCHET);
-   	await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "General Store", sQuery, "Select", "Cancel");
-
-	if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
-
-		return false ;
-	}
-
-	switch ( dialog_response [ E_DIALOG_RESPONSE_Listitem ] ) {
-
-		case 0: { // Pocket Watch
-
-			GivePlayerItemByParam ( playerid, PARAM_MISC, POCKET_WATCH, 1, 0, POCKET_WATCH, 5,50 ) ;
-		}
-
-		case 1: { // Camera
-
-			GivePlayerItemByParam ( playerid, PARAM_WEAPON, CAMERA, 1, 0, 0, 45 ) ;
-		}
-
-		case 2: { // Hatchet
-
-			if ( Character [ playerid ] [ character_level ] < 2 ) {
-
-				return SendServerMessage ( playerid, "You need to be level 2 to buy a hatchet.", MSG_TYPE_ERROR ) ;
-			}
-
-			GivePlayerItemByParam ( playerid, PARAM_LUMBER, LUMBER_HATCHET, 1, 0, 0, 12 ) ;
-		}
-
-		case 3: { // Bandage
-
-
-			GivePlayerItemByParam ( playerid, PARAM_HEAL, BANDAGE, 1, 0, 0, 3,46 ) ;
-		}
-
-		case 4: { // Red Apple
-
-			GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_APPLE_RED, 1, 0, 0, 0,20 ) ;
-		}
-
-		case 5: { // Green Apple
-
-			GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_APPLE_GREEN, 1, 0, 0, 0,20 ) ;
-
-		} 
-
-		case 6: { // water bottle
-
-			GivePlayerItemByParam ( playerid, PARAM_THIRST, FOOD_WATER_FULL, 1, 0, 0, 0,75);
-		}
-
-		case 7: { // canned salmon
-
-			GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_SALMON, 1, 0, 0, 2);
-		}
-
-		case 8: { // canned corned beef
-
-			GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_CORNED_BEEF, 1, 0, 0, 1,75);
-		}
-
-		case 9: { // canned pineapples
-
-			GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_PINEAPPLES, 1, 0, 0, 1,50);
-		}
-
-		case 10: { // canned strawberries
-
-			GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_STRAWBERRIES, 1, 0, 0, 1,20);
-		}
-
-		case 11: { // canned kidney beans
-
-			GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_KIDNEY_BEANS, 1, 0, 0, 1,50);
-		}
-
-		case 12: { // canned peaches
-
-			GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_PEACHES, 1, 0, 0, 1);
-		}
-
-		case 13: { // canned sweetcorn
-
-			GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_SWEETCORN, 1, 0, 0, 1);
-		}
-
-		case 14: { // baked beans
-
-			GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_BAKED_BEANS, 1, 0, 0, 1,20);
-		}
-
-		case 15: { // canned apricots
-
-			GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_APRICOTS, 1, 0, 0, 0,75);
-		}
-
-		case 16: { // canned peas
-
-			GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_PEAS, 1, 0, 0, 0,75);
-		}	
-
-		case 17: { // Cigars
-
-			GivePlayerItemByParam ( playerid, PARAM_SMOKES, SMOKE_CIGARPACK, 20, 0, 0, 2,12) ;
-		} 	
-
-		case 18: { // Blunt
-
-			GivePlayerItemByParam ( playerid, PARAM_SMOKES, SMOKE_BLUNTPACK, 20, 0, 0, 2,50) ;
-		} 	
-
-		case 19: { // Backpack lvl 1: 12 slots
-
-			if ( Character [ playerid ] [ character_handmoney ] < 20 ) {
-
-				return SendServerMessage ( playerid, "You don't have enough money.", MSG_TYPE_ERROR ) ;
-			}
-
-			TakeCharacterMoney ( playerid, 20, MONEY_SLOT_HAND ) ;
-
-			Character [ playerid ] [ character_backpack ] = 1 ;
-
-			mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_backpack = %d WHERE character_id = %d", Character [ playerid ] [ character_backpack ], Character [ playerid ] [ character_id ] ) ;
-			mysql_tquery ( mysql, query ) ;
-
-			SendServerMessage ( playerid, "You bought a small backpack for $20.", MSG_TYPE_INFO ) ;
-
-			return true ;
-
-		}
-
-		case 20: { // Backpack lvl 2: 18 slots
-
-			if ( Character [ playerid ] [ character_handmoney ] < 45 ) {
-
-				return SendServerMessage ( playerid, "You don't have enough money.", MSG_TYPE_ERROR ) ;
-			}
-
-			TakeCharacterMoney ( playerid, 45, MONEY_SLOT_HAND ) ;
-
-			Character [ playerid ] [ character_backpack ] = 2 ;
-
-			mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_backpack = %d WHERE character_id = %d", Character [ playerid ] [ character_backpack ], Character [ playerid ] [ character_id ] ) ;
-			mysql_tquery ( mysql, query ) ;
-
-			SendServerMessage ( playerid, "You bought a large backpack for $45.", MSG_TYPE_INFO ) ;
-
-			return true ;
-		}
-
-		case 21: { // soil bag
-			GivePlayerItemByParam ( playerid, PARAM_FARMING, FARMING_SOIL_BAG, 1, 0, 0, 0,85) ;
-		}
-
-		case 22: { // orange seed.
-			GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_ORANGE, 1, 0, 0, 0,10) ;
-		}
-
-		case 23: { // red apple seed.
-			GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_APPLE_RED, 1, 0, 0, 0,13) ;
-		}
-
-		case 24: { // green apple seed.
-			GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_APPLE_GREEN, 1, 0, 0, 0,13) ;
-		}
-
-		case 25: { // tomato seed.
-			GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_TOMATO, 1, 0, 0, 0,15) ;
-		}
-
-		case 26: { // pumpkin seed.
-			GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_PUMPKIN, 1, 0, 0, 0,11) ;
-		}
-
-		case 27: { // cabbage seed.
-			GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_CABBAGE, 1, 0, 0, 0,14) ;
-		}
-
-		case 28: { // orange seed.
-			GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_WHEAT, 1, 0, 0, 0,15) ;
-		}
-
-		case 29:{
-			GivePlayerItemByParam(playerid, PARAM_FARMING, EMPTY_BASKET, 1, 0, 0, 2, 78);
-		}
-	}
-	cmd_buy(playerid,"");
+    task_yield(1);
+    
+    new query [ 256 ], sQuery [ 2048 ], dialog_response [ e_DIALOG_RESPONSE_INFO ];
+
+    format(sQuery,sizeof(sQuery),"19043\tCep Saati ($5.50)\n19623\tKamera ($45.00)\n%d\tBalta ($12.00)\n11747\tSargi Bezi ($3.46)\n19575\tKirmizi Elma ($0.20)\n19576\tYesil Elma ($0.20)\n19570\tSu Sisesi ($0.75)\n\
+        19567\tKonserve Somon ($2.00)\n19567\tKonserve Sigir Eti ($1.75)\n19564\tKonserve Ananas ($1.50)\n19564\tKonserve Cilek ($1.20)\n19567\tKonserve Fasulye ($1.50)\n19564\tKonserve Seftali ($1.00)\n\
+        19567\tKonserve Misir ($1.00)\n19567\tFirin Fasulye ($1.20)\n19564\tKonserve Kayisi ($0.75)\n19567\tKonserve Bezelye ($0.75)\n19897\tPuro Paketi ($2.12)~n~Pakette 20 adet\n19896\tBlunt Paketi ($2.50)~n~Pakette 20 adet\n\
+        363\tKucuk Sirt Cantasi ($20.00)\n363\tBuyuk Sirt Cantasi ($45.00)\n2060\tTarim Topragi ($0.85)\n2663\tPortakal Tohumu ($0.10)\n2663\tKirmizi Elma Tohumu ($0.12)\n2663\tYesil Elma Tohumu ($0.12)\n2663\tDomates Tohumu ($0.15)\n\
+        2663\tKabak Tohumu ($0.11)\n2663\tLahana Tohumu ($0.14)\n2663\tBugday Tohumu ($0.15)\n19592\tSepet ($2.78)\n",HATCHET);
+    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Genel Market", sQuery, "Sec", "Iptal");
+
+    if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+
+        return false ;
+    }
+
+    switch ( dialog_response [ E_DIALOG_RESPONSE_Listitem ] ) {
+
+        case 0: { // Pocket Watch
+            GivePlayerItemByParam ( playerid, PARAM_MISC, POCKET_WATCH, 1, 0, POCKET_WATCH, 5,50 ) ;
+        }
+        case 1: { // Camera
+            GivePlayerItemByParam ( playerid, PARAM_WEAPON, CAMERA, 1, 0, 0, 45 ) ;
+        }
+        case 2: { // Hatchet
+            if ( Character [ playerid ] [ character_level ] < 2 ) {
+                return SendServerMessage ( playerid, "Balta satin almak icin 2. seviye olman gerekir.", MSG_TYPE_ERROR ) ;
+            }
+            GivePlayerItemByParam ( playerid, PARAM_LUMBER, LUMBER_HATCHET, 1, 0, 0, 12 ) ;
+        }
+        case 3: { // Bandage
+            GivePlayerItemByParam ( playerid, PARAM_HEAL, BANDAGE, 1, 0, 0, 3,46 ) ;
+        }
+        case 4: { // Red Apple
+            GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_APPLE_RED, 1, 0, 0, 0,20 ) ;
+        }
+        case 5: { // Green Apple
+            GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_APPLE_GREEN, 1, 0, 0, 0,20 ) ;
+        } 
+        case 6: { // water bottle
+            GivePlayerItemByParam ( playerid, PARAM_THIRST, FOOD_WATER_FULL, 1, 0, 0, 0,75);
+        }
+        case 7: { // canned salmon
+            GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_SALMON, 1, 0, 0, 2);
+        }
+        case 8: { // canned corned beef
+            GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_CORNED_BEEF, 1, 0, 0, 1,75);
+        }
+        case 9: { // canned pineapples
+            GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_PINEAPPLES, 1, 0, 0, 1,50);
+        }
+        case 10: { // canned strawberries
+            GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_STRAWBERRIES, 1, 0, 0, 1,20);
+        }
+        case 11: { // canned kidney beans
+            GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_KIDNEY_BEANS, 1, 0, 0, 1,50);
+        }
+        case 12: { // canned peaches
+            GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_PEACHES, 1, 0, 0, 1);
+        }
+        case 13: { // canned sweetcorn
+            GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_SWEETCORN, 1, 0, 0, 1);
+        }
+        case 14: { // baked beans
+            GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_BAKED_BEANS, 1, 0, 0, 1,20);
+        }
+        case 15: { // canned apricots
+            GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_APRICOTS, 1, 0, 0, 0,75);
+        }
+        case 16: { // canned peas
+            GivePlayerItemByParam ( playerid, PARAM_HUNGER, FOOD_CANNED_PEAS, 1, 0, 0, 0,75);
+        }   
+        case 17: { // Cigars
+            GivePlayerItemByParam ( playerid, PARAM_SMOKES, SMOKE_CIGARPACK, 20, 0, 0, 2,12) ;
+        }   
+        case 18: { // Blunt
+            GivePlayerItemByParam ( playerid, PARAM_SMOKES, SMOKE_BLUNTPACK, 20, 0, 0, 2,50) ;
+        }   
+        case 19: { // Backpack lvl 1
+            if ( Character [ playerid ] [ character_handmoney ] < 20 ) {
+                return SendServerMessage ( playerid, "Yeterli paran yok.", MSG_TYPE_ERROR ) ;
+            }
+            TakeCharacterMoney ( playerid, 20, MONEY_SLOT_HAND ) ;
+            Character [ playerid ] [ character_backpack ] = 1 ;
+            mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_backpack = %d WHERE character_id = %d", Character [ playerid ] [ character_backpack ], Character [ playerid ] [ character_id ] ) ;
+            mysql_tquery ( mysql, query ) ;
+            SendServerMessage ( playerid, "20 Dolar karsiliginda kucuk bir sirt cantasi satin aldin.", MSG_TYPE_INFO ) ;
+            return true ;
+        }
+        case 20: { // Backpack lvl 2
+            if ( Character [ playerid ] [ character_handmoney ] < 45 ) {
+                return SendServerMessage ( playerid, "Yeterli paran yok.", MSG_TYPE_ERROR ) ;
+            }
+            TakeCharacterMoney ( playerid, 45, MONEY_SLOT_HAND ) ;
+            Character [ playerid ] [ character_backpack ] = 2 ;
+            mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_backpack = %d WHERE character_id = %d", Character [ playerid ] [ character_backpack ], Character [ playerid ] [ character_id ] ) ;
+            mysql_tquery ( mysql, query ) ;
+            SendServerMessage ( playerid, "45 Dolar karsiliginda buyuk bir sirt cantasi satin aldin.", MSG_TYPE_INFO ) ;
+            return true ;
+        }
+        case 21: { // soil bag
+            GivePlayerItemByParam ( playerid, PARAM_FARMING, FARMING_SOIL_BAG, 1, 0, 0, 0,85) ;
+        }
+        case 22: { // orange seed.
+            GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_ORANGE, 1, 0, 0, 0,10) ;
+        }
+        case 23: { // red apple seed.
+            GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_APPLE_RED, 1, 0, 0, 0,13) ;
+        }
+        case 24: { // green apple seed.
+            GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_APPLE_GREEN, 1, 0, 0, 0,13) ;
+        }
+        case 25: { // tomato seed.
+            GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_TOMATO, 1, 0, 0, 0,15) ;
+        }
+        case 26: { // pumpkin seed.
+            GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_PUMPKIN, 1, 0, 0, 0,11) ;
+        }
+        case 27: { // cabbage seed.
+            GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_CABBAGE, 1, 0, 0, 0,14) ;
+        }
+        case 28: { // wheat seed.
+            GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SEED_WHEAT, 1, 0, 0, 0,15) ;
+        }
+        case 29:{
+            GivePlayerItemByParam(playerid, PARAM_FARMING, EMPTY_BASKET, 1, 0, 0, 2, 78);
+        }
+    }
+    cmd_buy(playerid,"");
  
-	return true ;
+    return true ;
 }
-
 
 ShowSkinSelection ( playerid ) {
 
-	new sex = Character [ playerid ] [ character_gender ] ;
-	new race = Character [ playerid ] [ character_origin ] ;
+    new sex = Character [ playerid ] [ character_gender ] ;
+    new race = Character [ playerid ] [ character_origin ] ;
+    new skins [ sizeof ( SkinArray ) ], skincount, basecount = 0;
+    new sQuery [ 1024 ] ;
 
-	new skins [ sizeof ( SkinArray ) ], skincount, basecount = 0;
+    for ( new i; i < sizeof ( SkinArray ); i ++ ) {
+        if ( SkinArray [ i ] [ gender ] == sex ) {
+            if ( SkinArray [ i ] [ ethnicity ] == race ) {
+                skins [ i ] = SkinArray [ i ] [ skinid ] ;
+                format ( sQuery, sizeof ( sQuery ), "%s%d\t%d\n", sQuery, skins [ i ], i ) ;
+                skincount ++ ;
+                if ( ( race || sex ) && ! basecount  ) { basecount = i; }
+            }
+        }
+    }
 
-	new sQuery [ 1024 ] ;
+    if ( skincount == 0 ) {
+        return SendServerMessage ( playerid, "Karakter verisi islenirken hata olustu. Lutfen tekrar dene veya bir gelistiriciye ulas.", MSG_TYPE_ERROR ) ;
+    }
 
-	for ( new i; i < sizeof ( SkinArray ); i ++ ) {
+    task_yield(1);
 
-		if ( SkinArray [ i ] [ gender ] == sex ) {
+    new dialog_response[e_DIALOG_RESPONSE_INFO];
+    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Karakter Secimi", sQuery, "Sec", "Iptal");
 
-			if ( SkinArray [ i ] [ ethnicity ] == race ) {
+    if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+        return false ;
+    }
 
-				skins [ i ] = SkinArray [ i ] [ skinid ] ;
-				format ( sQuery, sizeof ( sQuery ), "%s%d\t%d\n", sQuery, skins [ i ], i ) ;
+    if ( Character [ playerid ] [ character_handmoney ] < 1 || (Character[playerid][character_handmoney] == 1 && Character[playerid][character_handchange] < 25) ) {
+        return SendServerMessage ( playerid, "Yeterli paran yok. Yeni bir karakter tipi icin 1.25 dolar odemelisin.", MSG_TYPE_ERROR ) ;
+    }
 
-				skincount ++ ;
-				if ( ( race || sex ) && ! basecount  ) { basecount = i; }
-			}
-		}
-	}
+    TakeCharacterMoney ( playerid, 1, MONEY_SLOT_HAND ) ;
+    TakeCharacterChange(playerid,25,MONEY_SLOT_HAND);
 
-	if ( skincount == 0 ) {
+    SendServerMessage(playerid, sprintf("Karakter tipi ID %d'yi 1.25 dolar karsiliginda satin aldin.", skins [ basecount+dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] ), MSG_TYPE_INFO ) ; 
 
-		return SendServerMessage ( playerid, "Error processing skin data. Please try again or call a developer.", MSG_TYPE_ERROR ) ;
-	}
+    Character [ playerid ] [ character_skin ] = skins [ basecount+dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] ;
+    SetPlayerSkin ( playerid, Character [ playerid ] [ character_skin ] ) ;
+    TogglePlayerControllable(playerid, true ) ;
 
-	task_yield(1);
-
-	new dialog_response[e_DIALOG_RESPONSE_INFO];
-	await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_PREVMODEL,  "Skin selection", sQuery, "Select", "Cancel");
-
-	if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
-
-		return false ;
-	}
-
-	if ( Character [ playerid ] [ character_handmoney ] < 1 || (Character[playerid][character_handmoney] == 1 && Character[playerid][character_handchange] < 25) ) {
-
-		return SendServerMessage ( playerid, " You don't have enough money. You need to pay $1.25 for a new skin.", MSG_TYPE_ERROR ) ;
-	}
-
-	TakeCharacterMoney ( playerid, 1, MONEY_SLOT_HAND ) ;
-	TakeCharacterChange(playerid,25,MONEY_SLOT_HAND);
-
-	SendServerMessage(playerid, sprintf("You've purchased skin ID %d for $1.25.", skins [ basecount+dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] ), MSG_TYPE_INFO ) ; 
-
-	Character [ playerid ] [ character_skin ] = skins [ basecount+dialog_response [ E_DIALOG_RESPONSE_Listitem ] ] ;
-	SetPlayerSkin ( playerid, Character [ playerid ] [ character_skin ] ) ;
-
-	TogglePlayerControllable(playerid, true ) ;
-
-	new query [ 256 ] ;
-
-	mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_skin = %d WHERE character_id = %d", Character [ playerid ] [ character_skin ], Character [ playerid ] [ character_id ] ) ;
-	mysql_tquery ( mysql, query ) ;
+    new query [ 256 ] ;
+    mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_skin = %d WHERE character_id = %d", Character [ playerid ] [ character_skin ], Character [ playerid ] [ character_id ] ) ;
+    mysql_tquery ( mysql, query ) ;
  
-	return true ;
+    return true ;
 }
