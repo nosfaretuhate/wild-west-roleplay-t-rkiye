@@ -67,7 +67,7 @@ public Delayed_TextdrawLoad(playerid) {
 		Login_SelectionPage [ playerid ] = false ;
 //		Account_CharacterCheck ( playerid ) ;
 
-		SendServerMessage ( playerid, "There was an issue loading the character textdraws. Please wait one second while we refresh them.", MSG_TYPE_WARN ) ;
+		SendServerMessage ( playerid, "Karakter textdrawlarý yüklenirken bir sorun oluþtu. Yenilenirken lütfen bir saniye bekleyin.", MSG_TYPE_WARN ) ;
 		SetTimerEx("Delayed_TextdrawLoad", 1000, false, "i", playerid) ;
 	}
 
@@ -97,7 +97,7 @@ DisplayCharacterTextDraws ( playerid ) {
 
 		if ( ! character [ i ] ) {
 
-			TextDrawSetString( CharacterEmpty_Header [ i ], "No character found") ;
+			TextDrawSetString( CharacterEmpty_Header [ i ], "Karakter bulunamadi.") ;
 			TextDrawShowForPlayer ( playerid, CharacterEmpty_Header [ i ] ) ;	
 
 			TextDrawShowForPlayer ( playerid, CharacterEmpty_Button [ i ] ) ;
@@ -109,7 +109,7 @@ DisplayCharacterTextDraws ( playerid ) {
 			TextDrawShowForPlayer(playerid, CharacterSelButton_Text 	[ i ] ) ;
 
 
-			PlayerTextDrawSetString ( playerid,  CharacterSel_HoursText [ i ], "Hours:~n~~w~%d", CharBuffer [ playerid ] [ i ] [ character_hours ] ) ;
+			PlayerTextDrawSetString ( playerid,  CharacterSel_HoursText [ i ], "Saat:~n~~w~%d", CharBuffer [ playerid ] [ i ] [ character_hours ] ) ;
 			PlayerTextDrawShow(playerid, CharacterSel_HoursText [ i ]  ) ;
 
 			PlayerTextDrawSetString ( playerid, CharacterSel_Name [ i ], characterName [ i ]) ;
@@ -120,8 +120,8 @@ DisplayCharacterTextDraws ( playerid ) {
 
 			switch ( CharBuffer [ playerid ] [ i ] [ character_posse ] ) {
 
-				case 1: string = "Posse:~n~~w~Law Office";
-				default: string = "Posse:~n~~w~Civilian";
+                case 1: string = "Olusum:~n~~w~Serif";
+                default: string = "Olusum:~n~~w~Sivil";
 			}
 
 			PlayerTextDrawSetString(playerid, CharacterSel_PosseText [ i ], string );
@@ -147,19 +147,19 @@ DisplayCharacterTextDraws ( playerid ) {
 
 LoadEmptyCharacterTextDraws ( ) {
 	
-	CharacterEmpty_Header[ 0 ] = TextDrawCreate(215 - CHAR_INCR_FIX, 200.355560, "No character found");
+	CharacterEmpty_Header[ 0 ] = TextDrawCreate(215 - CHAR_INCR_FIX, 200.355560, "Karakter bulunamadi");
 	TextDrawLetterSize(CharacterEmpty_Header[ 0 ], 0.297666, 1.272297);
 	TextDrawAlignment(CharacterEmpty_Header[ 0 ], TEXT_DRAW_ALIGN_CENTRE) ;
 	TextDrawColor(CharacterEmpty_Header [ 0 ], -780181761);
 	TextDrawBackgroundColor(CharacterEmpty_Header [ 0 ], 51);
 
-	CharacterEmpty_Header[ 1 ] = TextDrawCreate(215 + CHAR_INCR_HORIZONTAL, 200.355560, "No character found");
+	CharacterEmpty_Header[ 1 ] = TextDrawCreate(215 + CHAR_INCR_HORIZONTAL, 200.355560, "Karakter bulunamadi");
 	TextDrawLetterSize(CharacterEmpty_Header[ 1 ], 0.297666, 1.272297);
 	TextDrawAlignment(CharacterEmpty_Header[ 1 ], TEXT_DRAW_ALIGN_CENTRE) ;
 	TextDrawColor(CharacterEmpty_Header [ 1 ], -780181761);
 	TextDrawBackgroundColor(CharacterEmpty_Header [ 1 ], 51);
 
-	CharacterEmpty_Header[ 2 ] = TextDrawCreate(215 + CHAR_INCR_HORIZONTAL * 2.25, 200.355560, "No character found");
+	CharacterEmpty_Header[ 2 ] = TextDrawCreate(215 + CHAR_INCR_HORIZONTAL * 2.25, 200.355560, "Karakter bulunamadi");
 	TextDrawLetterSize(CharacterEmpty_Header[ 2 ], 0.297666, 1.272297);
 	TextDrawAlignment(CharacterEmpty_Header[ 2 ], TEXT_DRAW_ALIGN_CENTRE) ;
 	TextDrawColor(CharacterEmpty_Header [ 2 ], -780181761);
@@ -196,24 +196,23 @@ LoadEmptyCharacterTextDraws ( ) {
 
 		////////////////////////////////////////////////////////////////////////////
 
-	CharacterEmpty_Text [ 0 ] = TextDrawCreate(215 - CHAR_INCR_FIX, 270, "Click the ? to~n~create a new~n~character.");
-	TextDrawLetterSize(CharacterEmpty_Text [ 0 ], 0.339333, 1.288888);
-	TextDrawAlignment(CharacterEmpty_Text[ 0 ], TEXT_DRAW_ALIGN_CENTRE) ;
-	TextDrawColor(CharacterEmpty_Text [ 0 ], -780181761);
-	TextDrawBackgroundColor(CharacterEmpty_Text [ 0 ], 51);
+CharacterEmpty_Text [ 0 ] = TextDrawCreate(215 - CHAR_INCR_FIX, 270, "Yeni bir karakter~n~olusturmak icin~n~? isaretine tiklayin.");
+    TextDrawLetterSize(CharacterEmpty_Text [ 0 ], 0.339333, 1.288888);
+    TextDrawAlignment(CharacterEmpty_Text[ 0 ], TEXT_DRAW_ALIGN_CENTRE) ;
+    TextDrawColor(CharacterEmpty_Text [ 0 ], -780181761);
+    TextDrawBackgroundColor(CharacterEmpty_Text [ 0 ], 51);
 
-	CharacterEmpty_Text [ 1 ] = TextDrawCreate(215 + CHAR_INCR_HORIZONTAL, 270, "Click the ? to~n~create a new~n~character.");
-	TextDrawLetterSize(CharacterEmpty_Text [ 1 ], 0.339333, 1.288888);
-	TextDrawAlignment(CharacterEmpty_Text[ 1 ], TEXT_DRAW_ALIGN_CENTRE) ;
-	TextDrawColor(CharacterEmpty_Text [ 1 ], -780181761);
-	TextDrawBackgroundColor(CharacterEmpty_Text [ 1 ], 51);
+    CharacterEmpty_Text [ 1 ] = TextDrawCreate(215 + CHAR_INCR_HORIZONTAL, 270, "Yeni bir karakter~n~olusturmak icin~n~? isaretine tiklayin.");
+    TextDrawLetterSize(CharacterEmpty_Text [ 1 ], 0.339333, 1.288888);
+    TextDrawAlignment(CharacterEmpty_Text[ 1 ], TEXT_DRAW_ALIGN_CENTRE) ;
+    TextDrawColor(CharacterEmpty_Text [ 1 ], -780181761);
+    TextDrawBackgroundColor(CharacterEmpty_Text [ 1 ], 51);
 
-	CharacterEmpty_Text [ 2 ] = TextDrawCreate(215 + CHAR_INCR_HORIZONTAL * 2.25, 270, "Click the ? to~n~create a new~n~character.");
-	TextDrawLetterSize(CharacterEmpty_Text [ 2 ], 0.339333, 1.288888);
-	TextDrawAlignment(CharacterEmpty_Text[ 2 ], TEXT_DRAW_ALIGN_CENTRE) ;
-	TextDrawColor(CharacterEmpty_Text [ 2 ], -780181761);
-	TextDrawBackgroundColor(CharacterEmpty_Text [ 2 ], 51);
-
+    CharacterEmpty_Text [ 2 ] = TextDrawCreate(215 + CHAR_INCR_HORIZONTAL * 2.25, 270, "Yeni bir karakter~n~olusturmak icin~n~? isaretine tiklayin.");
+    TextDrawLetterSize(CharacterEmpty_Text [ 2 ], 0.339333, 1.288888);
+    TextDrawAlignment(CharacterEmpty_Text[ 2 ], TEXT_DRAW_ALIGN_CENTRE) ;
+    TextDrawColor(CharacterEmpty_Text [ 2 ], -780181761);
+    TextDrawBackgroundColor(CharacterEmpty_Text [ 2 ], 51);
 	return true ;
 }
 
@@ -226,7 +225,7 @@ LoadStaticCharacterSelectDraws ( ) {
 	TextDrawBoxColor(CharacterSel_HeaderBox, 0x111111AA);
 	TextDrawBackgroundColor(CharacterSel_HeaderBox, 0x00000000 ) ;
 
-	CharacterSel_HeaderText = TextDrawCreate(276 - CHAR_HEADER_ADJUST, 175, "Select your character");
+	CharacterSel_HeaderText = TextDrawCreate(276 - CHAR_HEADER_ADJUST, 175, "Karakter Secin");
 	TextDrawLetterSize(CharacterSel_HeaderText, 0.339333, 1.288888);
 	TextDrawColor(CharacterSel_HeaderText, -780181761);
 	TextDrawBackgroundColor(CharacterSel_HeaderText, 51);
@@ -302,14 +301,14 @@ LoadStaticCharacterSelectDraws ( ) {
 
 		////////////////////////////////////////////////////////////////////////////
 
-	CharacterSelButton_Text [ 0 ] = TextDrawCreate(215 - CHAR_INCR_FIX, 291.5, "Spawn");
+	CharacterSelButton_Text [ 0 ] = TextDrawCreate(215 - CHAR_INCR_FIX, 291.5, "Dog");
 	TextDrawLetterSize(CharacterSelButton_Text [ 0 ], 0.339333, 1.288888);
 	TextDrawTextSize(CharacterSelButton_Text [ 0 ], 255 - CHAR_INCR_FIX, 10 ) ;
 	TextDrawColor(CharacterSelButton_Text [ 0 ], -780181761);
 	TextDrawBackgroundColor(CharacterSelButton_Text [ 0 ], 51);
 	TextDrawSetSelectable(CharacterSelButton_Text [ 0 ], true ) ;
 
-	CharacterSelButton_Text [ 1 ] = TextDrawCreate(215 + CHAR_INCR_HORIZONTAL, 291.5, "Spawn");
+	CharacterSelButton_Text [ 1 ] = TextDrawCreate(215 + CHAR_INCR_HORIZONTAL, 291.5, "Dog");
 	TextDrawLetterSize(CharacterSelButton_Text [ 1 ], 0.339333, 1.288888);
 	TextDrawTextSize(CharacterSelButton_Text [ 1 ], 255 + CHAR_INCR_HORIZONTAL, 10 ) ;
 	TextDrawColor(CharacterSelButton_Text [ 1 ], -780181761);
@@ -317,7 +316,7 @@ LoadStaticCharacterSelectDraws ( ) {
 	TextDrawSetSelectable(CharacterSelButton_Text [ 1 ], true ) ;
 
 
-	CharacterSelButton_Text [ 2 ] = TextDrawCreate(215 + CHAR_INCR_HORIZONTAL * 2.25, 291.5, "Spawn");
+	CharacterSelButton_Text [ 2 ] = TextDrawCreate(215 + CHAR_INCR_HORIZONTAL * 2.25, 291.5, "Dog");
 	TextDrawLetterSize(CharacterSelButton_Text [ 2 ], 0.339333, 1.288888);
 	TextDrawTextSize(CharacterSelButton_Text [ 2 ], 255 + CHAR_INCR_HORIZONTAL * 2.25, 10 ) ;
 	TextDrawColor(CharacterSelButton_Text [ 2 ], -780181761);
@@ -333,19 +332,19 @@ LoadCharacterSelectDraws ( playerid ) {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	CharacterSel_Name [ 0 ] = CreatePlayerTextDraw(playerid, 216.333374 - CHAR_INCR_FIX, 200.355560, "Undefined");
+	CharacterSel_Name [ 0 ] = CreatePlayerTextDraw(playerid, 216.333374 - CHAR_INCR_FIX, 200.355560, "Tanimlandi");
 	PlayerTextDrawLetterSize(playerid, CharacterSel_Name [ 0 ], 0.297666, 1.272297);
 	PlayerTextDrawAlignment(playerid, CharacterSel_Name [ 0 ], TEXT_DRAW_ALIGN_CENTRE);
 	PlayerTextDrawColor(playerid, CharacterSel_Name [ 0 ], -780181761);
 	PlayerTextDrawBackgroundColor(playerid, CharacterSel_Name [ 0 ], 51);
 
-	CharacterSel_Name [ 1 ] = CreatePlayerTextDraw(playerid, 216.333374 + CHAR_INCR_HORIZONTAL, 200.355560, "Undefined");
+	CharacterSel_Name [ 1 ] = CreatePlayerTextDraw(playerid, 216.333374 + CHAR_INCR_HORIZONTAL, 200.355560, "Tanimlanmadi");
 	PlayerTextDrawLetterSize(playerid, CharacterSel_Name [ 1 ], 0.297666, 1.272297);
 	PlayerTextDrawAlignment(playerid, CharacterSel_Name [ 1 ], TEXT_DRAW_ALIGN_CENTRE);
 	PlayerTextDrawColor(playerid, CharacterSel_Name [ 1 ], -780181761);
 	PlayerTextDrawBackgroundColor(playerid, CharacterSel_Name [ 1 ], 51);
 
-	CharacterSel_Name [ 2 ] = CreatePlayerTextDraw(playerid, 216.333374 + CHAR_INCR_HORIZONTAL * 2.25, 200.355560, "Undefined");
+	CharacterSel_Name [ 2 ] = CreatePlayerTextDraw(playerid, 216.333374 + CHAR_INCR_HORIZONTAL * 2.25, 200.355560, "Tanimlanmadi");
 	PlayerTextDrawLetterSize(playerid, CharacterSel_Name [ 2 ], 0.297666, 1.272297);
 	PlayerTextDrawAlignment(playerid, CharacterSel_Name [ 2 ], TEXT_DRAW_ALIGN_CENTRE);
 	PlayerTextDrawColor(playerid, CharacterSel_Name [ 2 ], -780181761);
@@ -379,51 +378,51 @@ LoadCharacterSelectDraws ( playerid ) {
 
 	////////////////////////////////////////////////////////////////////////////
 
-	CharacterSel_HoursText [ 0 ] = CreatePlayerTextDraw(playerid, 211.5 - CHAR_INCR_FIX, 215, "Hours:~n~~w~0");
+	CharacterSel_HoursText [ 0 ] = CreatePlayerTextDraw(playerid, 211.5 - CHAR_INCR_FIX, 215, "Saat:~n~~w~0");
 	PlayerTextDrawLetterSize(playerid, CharacterSel_HoursText [ 0 ], 0.256333, 1.081481);
 	PlayerTextDrawColor(playerid, CharacterSel_HoursText [ 0 ], -780181761);
 	PlayerTextDrawBackgroundColor(playerid, CharacterSel_HoursText [ 0 ], 51);
 
-	CharacterSel_HoursText [ 1 ] = CreatePlayerTextDraw(playerid, 211.5 + CHAR_INCR_HORIZONTAL, 215, "Hours:~n~~w~0");
+	CharacterSel_HoursText [ 1 ] = CreatePlayerTextDraw(playerid, 211.5 + CHAR_INCR_HORIZONTAL, 215, "Saat:~n~~w~0");
 	PlayerTextDrawLetterSize(playerid, CharacterSel_HoursText [ 1 ], 0.256333, 1.081481);
 	PlayerTextDrawColor(playerid, CharacterSel_HoursText [ 1 ], -780181761);
 	PlayerTextDrawBackgroundColor(playerid, CharacterSel_HoursText [ 1 ], 51);
 
-	CharacterSel_HoursText [ 2 ] = CreatePlayerTextDraw(playerid, 211.5 + CHAR_INCR_HORIZONTAL * 2.25, 215, "Hours:~n~~w~0");
+	CharacterSel_HoursText [ 2 ] = CreatePlayerTextDraw(playerid, 211.5 + CHAR_INCR_HORIZONTAL * 2.25, 215, "Saat:~n~~w~0");
 	PlayerTextDrawLetterSize(playerid, CharacterSel_HoursText [ 2 ], 0.256333, 1.081481);
 	PlayerTextDrawColor(playerid, CharacterSel_HoursText [ 2 ], -780181761);
 	PlayerTextDrawBackgroundColor(playerid, CharacterSel_HoursText [ 2 ], 51);
 
 	////////////////////////////////////////////////////////////////////////////
 
-	CharacterSel_PosseText [ 0 ] = CreatePlayerTextDraw(playerid, 211.5 - CHAR_INCR_FIX, 240, "Posse:~n~~w~Civilian");
-	PlayerTextDrawLetterSize(playerid, CharacterSel_PosseText [ 0 ], 0.256333, 1.081481);
-	PlayerTextDrawColor(playerid, CharacterSel_PosseText [ 0 ], -780181761);
-	PlayerTextDrawBackgroundColor(playerid, CharacterSel_PosseText [ 0 ], 51);
+   CharacterSel_PosseText [ 0 ] = CreatePlayerTextDraw(playerid, 211.5 - CHAR_INCR_FIX, 240, "Olusum:~n~~w~Sivil");
+    PlayerTextDrawLetterSize(playerid, CharacterSel_PosseText [ 0 ], 0.256333, 1.081481);
+    PlayerTextDrawColor(playerid, CharacterSel_PosseText [ 0 ], -780181761);
+    PlayerTextDrawBackgroundColor(playerid, CharacterSel_PosseText [ 0 ], 51);
 
-	CharacterSel_PosseText [ 1 ] = CreatePlayerTextDraw(playerid, 211.5 + CHAR_INCR_HORIZONTAL, 240, "Posse:~n~~w~Civilian");
-	PlayerTextDrawLetterSize(playerid, CharacterSel_PosseText [ 1 ], 0.256333, 1.081481);
-	PlayerTextDrawColor(playerid, CharacterSel_PosseText [ 1 ], -780181761);
-	PlayerTextDrawBackgroundColor(playerid, CharacterSel_PosseText [ 1 ], 51);
+    CharacterSel_PosseText [ 1 ] = CreatePlayerTextDraw(playerid, 211.5 + CHAR_INCR_HORIZONTAL, 240, "Olusum:~n~~w~Sivil");
+    PlayerTextDrawLetterSize(playerid, CharacterSel_PosseText [ 1 ], 0.256333, 1.081481);
+    PlayerTextDrawColor(playerid, CharacterSel_PosseText [ 1 ], -780181761);
+    PlayerTextDrawBackgroundColor(playerid, CharacterSel_PosseText [ 1 ], 51);
 
-	CharacterSel_PosseText [ 2 ] = CreatePlayerTextDraw(playerid, 211.5 + CHAR_INCR_HORIZONTAL * 2.25, 240, "Posse:~n~~w~Civilian");
-	PlayerTextDrawLetterSize(playerid, CharacterSel_PosseText [ 2 ], 0.256333, 1.081481);
-	PlayerTextDrawColor(playerid, CharacterSel_PosseText [ 2 ], -780181761);
-	PlayerTextDrawBackgroundColor(playerid, CharacterSel_PosseText [ 2 ], 51);
+    CharacterSel_PosseText [ 2 ] = CreatePlayerTextDraw(playerid, 211.5 + CHAR_INCR_HORIZONTAL * 2.25, 240, "Olusum:~n~~w~Sivil");
+    PlayerTextDrawLetterSize(playerid, CharacterSel_PosseText [ 2 ], 0.256333, 1.081481);
+    PlayerTextDrawColor(playerid, CharacterSel_PosseText [ 2 ], -780181761);
+    PlayerTextDrawBackgroundColor(playerid, CharacterSel_PosseText [ 2 ], 51);
 
 	////////////////////////////////////////////////////////////////////////////
 
-	CharacterSel_ExpText [ 0 ] = CreatePlayerTextDraw(playerid, 211.5 - CHAR_INCR_FIX, 265, "Experience:");
+	CharacterSel_ExpText [ 0 ] = CreatePlayerTextDraw(playerid, 211.5 - CHAR_INCR_FIX, 265, "Deneyim:");
 	PlayerTextDrawLetterSize(playerid, CharacterSel_ExpText [ 0 ], 0.256333, 1.081481);
 	PlayerTextDrawColor(playerid, CharacterSel_ExpText [ 0 ], -780181761);
 	PlayerTextDrawBackgroundColor(playerid, CharacterSel_ExpText [ 0 ], 51);
 
-	CharacterSel_ExpText [ 1 ] = CreatePlayerTextDraw(playerid, 211.5 + CHAR_INCR_HORIZONTAL, 265, "Experience:");
+	CharacterSel_ExpText [ 1 ] = CreatePlayerTextDraw(playerid, 211.5 + CHAR_INCR_HORIZONTAL, 265, "Deneyim:");
 	PlayerTextDrawLetterSize(playerid, CharacterSel_ExpText [ 1 ], 0.256333, 1.081481);
 	PlayerTextDrawColor(playerid, CharacterSel_ExpText [ 1 ], -780181761);
 	PlayerTextDrawBackgroundColor(playerid, CharacterSel_ExpText [ 1 ], 51);
 
-	CharacterSel_ExpText [ 2 ] = CreatePlayerTextDraw(playerid, 211.5 + CHAR_INCR_HORIZONTAL * 2.25, 265, "Experience:");
+	CharacterSel_ExpText [ 2 ] = CreatePlayerTextDraw(playerid, 211.5 + CHAR_INCR_HORIZONTAL * 2.25, 265, "Deneyim:");
 	PlayerTextDrawLetterSize(playerid, CharacterSel_ExpText [ 2 ], 0.256333, 1.081481);
 	PlayerTextDrawColor(playerid, CharacterSel_ExpText [ 2 ], -780181761);
 	PlayerTextDrawBackgroundColor(playerid, CharacterSel_ExpText [ 2 ], 51);
