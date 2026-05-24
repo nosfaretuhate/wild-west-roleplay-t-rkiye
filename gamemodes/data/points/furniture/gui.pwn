@@ -2,7 +2,7 @@ new Text:FurnitureTexturePreview[4],PlayerText:FurnitureTextureName;
 
 LoadFurnTextureTD()
 {
-	FurnitureTexturePreview[0] = TextDrawCreate(298.000000, 373.000000, "Confirm");
+	FurnitureTexturePreview[0] = TextDrawCreate(298.000000, 373.000000, "Onayla");
 	TextDrawLetterSize(FurnitureTexturePreview[0], 0.301333, 1.293036);
 	TextDrawTextSize(FurnitureTexturePreview[0], 337.000000, 6.000000);
 	TextDrawColor(FurnitureTexturePreview[0], -1);
@@ -35,7 +35,7 @@ LoadFurnTextureTD()
 	TextDrawSetShadow(FurnitureTexturePreview[2], 0);
 	TextDrawSetSelectable(FurnitureTexturePreview[2], true);
 
-	FurnitureTexturePreview[3] = TextDrawCreate(302.000000, 389.000000, "Cancel");
+	FurnitureTexturePreview[3] = TextDrawCreate(302.000000, 389.000000, "Iptal Et");
 	TextDrawLetterSize(FurnitureTexturePreview[3], 0.301299, 1.292999);
 	TextDrawTextSize(FurnitureTexturePreview[3], 334.000000, 6.000000);
 	TextDrawColor(FurnitureTexturePreview[3], -1);
