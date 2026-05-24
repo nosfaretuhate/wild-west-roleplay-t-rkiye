@@ -2,452 +2,427 @@
 
 IsLawEnforcementPosse ( posseid ) {
 
-	if ( posseid == -1 ) {
+    if ( posseid == -1 ) {
 
-		return false ;
-	}
+        return false ;
+    }
 
-	if ( Posse [ posseid ] [ posse_type ] == 1 || Posse [ posseid ] [ posse_type ] == 2 ) {
+    if ( Posse [ posseid ] [ posse_type ] == 1 || Posse [ posseid ] [ posse_type ] == 2 ) {
 
-		return true ;
-	}
+        return true ;
+    }
 
-	return false ;
+    return false ;
 }
 
 
 new IsPlayerTackled [ MAX_PLAYERS ] ;
 CMD:tackle ( playerid, params [] ) {
 
- 	new posseid = Character [ playerid ] [ character_posse ] ;
+    new posseid = Character [ playerid ] [ character_posse ] ;
 
-	if ( ! IsPlayerInPosse ( playerid ) || !IsLawEnforcementPosse ( posseid ) ) {
+    if ( ! IsPlayerInPosse ( playerid ) || !IsLawEnforcementPosse ( posseid ) ) {
 
-		return SendServerMessage ( playerid, "You have to be in a police posse in order to do this command.", MSG_TYPE_INFO ) ;
-	}
+        return SendServerMessage ( playerid, "Bu komutu kullanmak için bir kolluk kuvveti grubunda olmalýsýn.", MSG_TYPE_INFO ) ;
+    }
 
-	new closest = INVALID_PLAYER_ID, Float: x, Float: y, Float: z ;
+    new closest = INVALID_PLAYER_ID, Float: x, Float: y, Float: z ;
 
-	foreach(new i: Player) {
+    foreach(new i: Player) {
 
-		if ( i == playerid ) {
+        if ( i == playerid ) {
 
-			continue ;
-		}
+            continue ;
+        }
 
-		if ( IsPlayerTackled [ i ] ) {
+        if ( IsPlayerTackled [ i ] ) {
 
-			continue ;
-		}
+            continue ;
+        }
 
-		if ( IsPlayerRidingHorse [ i ] ) {
+        if ( IsPlayerRidingHorse [ i ] ) {
 
-			IsPlayerRidingHorse [ i ] = false ;
-			SendServerMessage ( playerid, "You've been tackled off of your horse!", MSG_TYPE_INFO ) ;
+            IsPlayerRidingHorse [ i ] = false ;
+            SendServerMessage ( playerid, "Atýndan düþürdün!", MSG_TYPE_INFO ) ;
 
-			RemovePlayerAttachedObject(playerid, 6);
-			ClearAudioForZone ( playerid ) ;
-		}
+            RemovePlayerAttachedObject(playerid, 6);
+            ClearAudioForZone ( playerid ) ;
+        }
 
-		GetPlayerPos ( i, x, y, z ) ;
+        GetPlayerPos ( i, x, y, z ) ;
 
-		if ( IsPlayerInRangeOfPoint ( playerid, 3.5, x, y, z ) ) {
+        if ( IsPlayerInRangeOfPoint ( playerid, 3.5, x, y, z ) ) {
 
-			closest = i ;
-			break ;
-		}
+            closest = i ;
+            break ;
+        }
 
-		else continue ;
-	}
+        else continue ;
+    }
 
-	if ( closest == INVALID_PLAYER_ID || ! IsPlayerConnected (closest )) {
+    if ( closest == INVALID_PLAYER_ID || ! IsPlayerConnected (closest )) {
 
-		return SendServerMessage ( playerid, "You're not close enough to someone!", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Yakýnýnda kimse yok!", MSG_TYPE_ERROR ) ;
+    }
 
-	TogglePlayerControllable ( closest, false ) ;
+    TogglePlayerControllable ( closest, false ) ;
 
-	new Float: angle ;
+    new Float: angle ;
 
-	GetPlayerFacingAngle(playerid, angle ) ;
-	SetPlayerFacingAngle ( closest, angle ) ;
+    GetPlayerFacingAngle(playerid, angle ) ;
+    SetPlayerFacingAngle ( closest, angle ) ;
 
-	AnimationLoop(playerid, "PED", "EV_dive", 4.1, false, true, true, true, 0, SYNC_ALL);
-	AnimationLoop(closest, "PED", "EV_dive", 4.1, false, true, true, true, 0, SYNC_ALL);
+    AnimationLoop(playerid, "PED", "EV_dive", 4.1, false, true, true, true, 0, SYNC_ALL);
+    AnimationLoop(closest, "PED", "EV_dive", 4.1, false, true, true, true, 0, SYNC_ALL);
 
-	ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s has tackled %s.", ReturnUserName ( playerid, false ), ReturnUserName ( closest, false ) )) ;
-	SendServerMessage ( closest, sprintf("You've been tackled by (%d) %s. You will be unfrozen shortly. Please roleplay accordingly.", playerid, ReturnUserName ( playerid, true )), MSG_TYPE_ERROR );
+    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s, %s kiþisini yere devirdi.", ReturnUserName ( playerid, false ), ReturnUserName ( closest, false ) )) ;
+    SendServerMessage ( closest, sprintf(" (%d) %s tarafýndan yere devrildin. Kýsa bir süre hareket edemeyeceksin. Lütfen rolüne uygun davran.", playerid, ReturnUserName ( playerid, true )), MSG_TYPE_ERROR );
 
-	SetTimerEx("TackleUnfreeze", 60000, false, "i", closest) ;
-	SetTimerEx("TackleAnimFix", 1000, false, "i", playerid);
+    SetTimerEx("TackleUnfreeze", 60000, false, "i", closest) ;
+    SetTimerEx("TackleAnimFix", 1000, false, "i", playerid);
 
-	IsPlayerTackled [ closest ] = true ;
+    IsPlayerTackled [ closest ] = true ;
 
-	return true ;
+    return true ;
 }
 
 forward TackleAnimFix(playerid);
 public TackleAnimFix(playerid) {
 
-	return AnimationLoop(playerid,"PED", "FLOOR_hit_f", 4.1, false, true, true, true, 1, SYNC_ALL); 
+    return AnimationLoop(playerid,"PED", "FLOOR_hit_f", 4.1, false, true, true, true, 1, SYNC_ALL); 
 }
 
 forward TackleUnfreeze(playerid);
 public TackleUnfreeze(playerid) {
 
-	SendServerMessage ( playerid, "You've woken up from the tackle. You still feel a little dizzy, so take it easy.", MSG_TYPE_WARN ) ;
+    SendServerMessage ( playerid, "Yere devrilme etkisinden kurtuldun. Baþýn biraz dönüyor, dikkatli ol.", MSG_TYPE_WARN ) ;
 
-	TogglePlayerControllable ( playerid, true ) ;
-	IsPlayerTackled [ playerid ] = false ;
+    TogglePlayerControllable ( playerid, true ) ;
+    IsPlayerTackled [ playerid ] = false ;
 
-	return AnimationLoop(playerid,"PED", "FLOOR_hit_f", 4.1, false, true, true, true, 1, SYNC_ALL); 
+    return AnimationLoop(playerid,"PED", "FLOOR_hit_f", 4.1, false, true, true, true, 1, SYNC_ALL); 
 }
 
 
 new bool: playerCuffed [ MAX_PLAYERS ] ;
 CMD:prisoners ( playerid, params [] ) {
 
-	new posseid = Character [ playerid ] [ character_posse ] ;
+    new posseid = Character [ playerid ] [ character_posse ] ;
 
-	if ( ! IsPlayerInPosse ( playerid ) || !IsLawEnforcementPosse ( posseid ) ) {
+    if ( ! IsPlayerInPosse ( playerid ) || !IsLawEnforcementPosse ( posseid ) ) {
 
-		return SendServerMessage ( playerid, "You have to be in a police posse in order to do this command.", MSG_TYPE_INFO ) ;
-	}
+        return SendServerMessage ( playerid, "Bu komutu kullanmak için bir kolluk kuvveti grubunda olmalýsýn.", MSG_TYPE_INFO ) ;
+    }
 
-	if ( GetPointIDFromType ( playerid, POINT_TYPE_SHERIFF ) == -1 ) {
+    if ( GetPointIDFromType ( playerid, POINT_TYPE_SHERIFF ) == -1 ) {
 
-		return SendServerMessage ( playerid, "You are not in a sheriff's office!", MSG_TYPE_ERROR );
-	}
+        return SendServerMessage ( playerid, "Þerif ofisinde deðilsin!", MSG_TYPE_ERROR );
+    }
 
-	new count ;
+    new count ;
 
-	SendServerMessage ( playerid, "List of prisoners:", MSG_TYPE_INFO ) ;
+    SendServerMessage ( playerid, "Mahkum listesi:", MSG_TYPE_INFO ) ;
 
-	foreach ( new i : Player ) {
+    foreach ( new i : Player ) {
 
-		if ( Character [ i ] [ character_prison ] ) {
+        if ( Character [ i ] [ character_prison ] ) {
 
-			SendClientMessage(playerid, -1, sprintf("(%d) %s: prisoned for %d minutes", i, ReturnUserName ( i ), (Character [ i ] [ character_prison] - gettime()) / 60 ) );
-			count ++ ;
-		}
+            SendClientMessage(playerid, -1, sprintf("(%d) %s: %d dakika hapis cezasý kaldý", i, ReturnUserName ( i ), (Character [ i ] [ character_prison] - gettime()) / 60 ) );
+            count ++ ;
+        }
 
-		else continue;
-	}
+        else continue;
+    }
 
 
-	if ( ! count ) {
+    if ( ! count ) {
 
-		return SendClientMessage ( playerid, -1, "No prisoners at this time." ) ;
-	}
+        return SendClientMessage ( playerid, -1, "Þu an hapis cezasý çeken mahkum bulunmuyor." ) ;
+    }
 
-/*
-	inline cop_CheckPrisoners(pid, dialogid, response, listitem, string:inputtext[]) {
-
-		#pragma unused inputtext, listitem, dialogid, pid, response
-
-		new count = 0;
-
-		foreach ( new i : Player ) {
-
-			if ( Character [ i ] [ character_prison ] ) {
-
-				strcat ( string, sprintf("%s\n", ReturnUserName ( i, true ) ) ) ;
-				count ++ ;
-			}
-			else continue;
-		}
-
-		if ( ! count ) {
-
-			return SendServerMessage ( playerid, "There are no prisoners online.", MSG_TYPE_ERROR ) ;
-		}
-	}
-
-	Dialog_ShowCallback(playerid, using inline cop_CheckPrisoners, DIALOG_STYLE_MSGBOX, "Prisoners", string, "Exit", "" );
-*/
-	return true ;
+    return true ;
 }
 
 CMD:cuff ( playerid, params [] ) {
 
-	new targetid, Float: pos_x, Float: pos_y, Float: pos_z, posseid = Character [ playerid ] [ character_posse ] ;
+    new targetid, Float: pos_x, Float: pos_y, Float: pos_z, posseid = Character [ playerid ] [ character_posse ] ;
 
-	if ( ! IsPlayerInPosse ( playerid ) || !IsLawEnforcementPosse ( posseid ) ) {
+    if ( ! IsPlayerInPosse ( playerid ) || !IsLawEnforcementPosse ( posseid ) ) {
 
-		return SendServerMessage ( playerid, "You have to be in a police posse in order to do this command.", MSG_TYPE_INFO ) ;
-	}
+        return SendServerMessage ( playerid, "Bu komutu kullanmak için bir kolluk kuvveti grubunda olmalýsýn.", MSG_TYPE_INFO ) ;
+    }
 
-	if ( sscanf ( params, "k<u>", targetid ) ) {
+    if ( sscanf ( params, "k<u>", targetid ) ) {
 
-		return SendServerMessage ( playerid, "Syntax: /cuff <player>", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/cuff [oyuncu_id(target)]", MSG_TYPE_ERROR ) ;
+    }
 
-	GetPlayerPos ( targetid, pos_x, pos_y, pos_z ) ;
+    GetPlayerPos ( targetid, pos_x, pos_y, pos_z ) ;
 
-	if ( IsPlayerInRangeOfPoint ( playerid, 2.5, pos_x, pos_y, pos_z ) && GetPlayerInterior ( playerid ) == GetPlayerInterior ( targetid ) && GetPlayerVirtualWorld ( playerid ) == GetPlayerVirtualWorld ( targetid ) ) {
+    if ( IsPlayerInRangeOfPoint ( playerid, 2.5, pos_x, pos_y, pos_z ) && GetPlayerInterior ( playerid ) == GetPlayerInterior ( targetid ) && GetPlayerVirtualWorld ( playerid ) == GetPlayerVirtualWorld ( targetid ) ) {
 
-		playerCuffed [ targetid ] = !playerCuffed [ targetid ] ; 
+        playerCuffed [ targetid ] = !playerCuffed [ targetid ] ; 
 
-		if ( playerCuffed [ targetid ] ) { 
-		
-			if ( ReturnItemByParam ( playerid, SHERIFF_HANDCUFFS, true ) != -1 ) {
-			
-				SetPlayerCuffed ( targetid, true ) ; 
-				DecreaseItem ( playerid, ReturnItemByParam ( playerid, SHERIFF_HANDCUFFS, true ), 1 ) ;
-			}
+        if ( playerCuffed [ targetid ] ) { 
+        
+            if ( ReturnItemByParam ( playerid, SHERIFF_HANDCUFFS, true ) != -1 ) {
+            
+                SetPlayerCuffed ( targetid, true ) ; 
+                DecreaseItem ( playerid, ReturnItemByParam ( playerid, SHERIFF_HANDCUFFS, true ), 1 ) ;
+            }
 
-			else {
+            else {
 
-				playerCuffed [ targetid ] = false;
-				return SendServerMessage ( playerid, "You need handcuffs to handcuff a player!", MSG_TYPE_ERROR ) ;
-			}
+                playerCuffed [ targetid ] = false;
+                return SendServerMessage ( playerid, "Birini kelepçelemek için kelepçeye ihtiyacýn var!", MSG_TYPE_ERROR ) ;
+            }
 
-		}
-		else { 
+        }
+        else { 
 
-			SetPlayerCuffed ( targetid, false ) ; 
+            SetPlayerCuffed ( targetid, false ) ; 
 
-			if ( ! IsPlayerInvFull ( playerid ) ) {
+            if ( ! IsPlayerInvFull ( playerid ) ) {
 
-				GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SHERIFF_HANDCUFFS, 1, 0, SHERIFF_HANDCUFFS, 0 ) ;
-			}
-		}
+                GivePlayerItemByParam ( playerid, PARAM_UNDEFINED, SHERIFF_HANDCUFFS, 1, 0, SHERIFF_HANDCUFFS, 0 ) ;
+            }
+        }
 
-		SendServerMessage ( playerid, sprintf("You have successfully %s %s.", ( playerCuffed [ targetid ] ) ? ( "cuffed" ) : ( "uncuffed" ), ReturnUserName ( targetid, false, true ) ), MSG_TYPE_INFO ) ;
-		SendServerMessage ( targetid, sprintf("You have been %s by %s.", ( playerCuffed [ targetid ] ) ? ( "cuffed" ) : ( "uncuffed" ), ReturnUserName ( playerid, false, true ) ), MSG_TYPE_INFO ) ;
+        SendServerMessage ( playerid, sprintf("Baþarýyla %s kiþisini %s.", ( playerCuffed [ targetid ] ) ? ( "kelepçeledin" ) : ( "kelepçeden çýkardýn" ), ReturnUserName ( targetid, false, true ) ), MSG_TYPE_INFO ) ;
+        SendServerMessage ( targetid, sprintf("Bir yetkili tarafýndan %s.", ( playerCuffed [ targetid ] ) ? ( "kelepçelendin" ) : ( "kelepçen açýldý" ) ), MSG_TYPE_INFO ) ;
 
-		ProxDetector ( playerid, 30.0, COLOR_ACTION, sprintf("%s has %s %s.",ReturnUserName ( playerid, false ), ( playerCuffed [ targetid ] ) ? ( "cuffed" ) : ( "uncuffed" ), ReturnUserName ( targetid, false, true ) ) );
+        ProxDetector ( playerid, 30.0, COLOR_ACTION, sprintf("%s, %s kiþisini %s.",ReturnUserName ( playerid, false ), ReturnUserName ( targetid, false, true ), ( playerCuffed [ targetid ] ) ? ( "kelepçeledi" ) : ( "kelepçesini açtý" ) ) );
 
-	}
+    }
 
-	else return SendServerMessage ( playerid, "You are not near that player.", MSG_TYPE_ERROR ) ;
+    else return SendServerMessage ( playerid, "Hedeflediðin kiþi yakýnýnda deðil.", MSG_TYPE_ERROR ) ;
 
-	return true ;
+    return true ;
 }
 
 CMD:disarm ( playerid, params [] ) {
-	// removes weapons from player
-	new targetid, Float: pos_x, Float: pos_y, Float: pos_z, posseid = Character [ playerid ] [ character_posse ] ;
 
-	if ( ! IsPlayerInPosse ( playerid ) || !IsLawEnforcementPosse ( posseid )) {
+    new targetid, Float: pos_x, Float: pos_y, Float: pos_z, posseid = Character [ playerid ] [ character_posse ] ;
 
-		return SendServerMessage ( playerid, "You have to be in a police posse in order to do this command.", MSG_TYPE_INFO ) ;
-	}
+    if ( ! IsPlayerInPosse ( playerid ) || !IsLawEnforcementPosse ( posseid )) {
 
-	if ( sscanf ( params, "k<u>", targetid ) ) {
+        return SendServerMessage ( playerid, "Bu komutu kullanmak için bir kolluk kuvveti grubunda olmalýsýn.", MSG_TYPE_INFO ) ;
+    }
 
-		return SendServerMessage ( playerid, "Syntax: /disarm <player>", MSG_TYPE_ERROR ) ;
-	}
+    if ( sscanf ( params, "k<u>", targetid ) ) {
 
-	GetPlayerPos ( targetid, pos_x, pos_y, pos_z ) ;
+        return SendServerMessage ( playerid, "/disarm [oyuncu_id(target)]", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( IsPlayerInRangeOfPoint ( playerid, 2.5, pos_x, pos_y, pos_z ) && GetPlayerInterior ( playerid ) == GetPlayerInterior ( targetid ) && GetPlayerVirtualWorld ( playerid ) == GetPlayerVirtualWorld ( targetid ) ) {
+    GetPlayerPos ( targetid, pos_x, pos_y, pos_z ) ;
 
-		SendServerMessage ( playerid, sprintf ( "You've sent a disarm request to %s.", ReturnUserName ( targetid, false ) ), MSG_TYPE_INFO ) ;
+    if ( IsPlayerInRangeOfPoint ( playerid, 2.5, pos_x, pos_y, pos_z ) && GetPlayerInterior ( playerid ) == GetPlayerInterior ( targetid ) && GetPlayerVirtualWorld ( playerid ) == GetPlayerVirtualWorld ( targetid ) ) {
 
-		task_yield(1);
+        SendServerMessage ( playerid, sprintf ( "%s kiþisine silahsýzlandýrma isteði gönderildi.", ReturnUserName ( targetid, false ) ), MSG_TYPE_INFO ) ;
 
-		new dialog_response[e_DIALOG_RESPONSE_INFO];
-		await_arr(dialog_response) ShowPlayerAsyncDialog(targetid, DIALOG_STYLE_MSGBOX, "{C23030}WARNING", sprintf ( "{C23030}READ THIS BEFORE PRESSING CONTINUE.{DEDEDE}\n\n%s %s is about to disarm you of your weapons.\nThis dialog is meant to prevent abuse of the command but does not mean you can decline if everything's roleplayed properly.\n\nIf %s %s is attempting to abuse this command, file a complaint on the forum and use /report.  If not, click Proceed", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, false ), Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, false ) ), "{C23030}Proceed", "Cancel" ) ; 
+        task_yield(1);
 
-		if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+        new dialog_response[e_DIALOG_RESPONSE_INFO];
+        await_arr(dialog_response) ShowPlayerAsyncDialog(targetid, DIALOG_STYLE_MSGBOX, "{C23030}UYARI", sprintf ( "{C23030}DEVAM ETMEDEN ÖNCE OKU.{DEDEDE}\n\n%s %s seni silahsýzlandýrmak üzere.\nBu diyalog kötüye kullanýmý önlemek içindir, ancak her þey rol icabý yapýlýyorsa reddedemezsin.\n\nEðer %s %s bu komutu kötüye kullanýyorsa, forumdan þikayet et ve /report kullan. Aksi takdirde, Devam et butonuna týkla.", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, false ), Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, false ) ), "{C23030}Devam Et", "Ýptal" ) ; 
 
-			return false ;
-		}			
+        if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
-		RemovePlayerWeapon ( targetid ) ;
+            return false ;
+        }          
 
-		Character [ targetid ] [ character_pantsweapon ] = WEAPON_FIST;
-		Character [ targetid ] [ character_pantsammo ] = 0;
+        RemovePlayerWeapon ( targetid ) ;
 
-		Character [ targetid ] [ character_backweapon ] = WEAPON_FIST;
-		Character [ targetid ] [ character_backammo ] = 0;
+        Character [ targetid ] [ character_pantsweapon ] = WEAPON_FIST;
+        Character [ targetid ] [ character_pantsammo ] = 0;
 
-		SavePlayerWeapons ( targetid ) ;
+        Character [ targetid ] [ character_backweapon ] = WEAPON_FIST;
+        Character [ targetid ] [ character_backammo ] = 0;
 
-		if ( DoesPlayerHaveItem ( playerid, CARD_GUNPERMIT ) != -1 ) {
+        SavePlayerWeapons ( targetid ) ;
 
-			DiscardItem ( playerid, DoesPlayerHaveItem ( playerid, CARD_GUNPERMIT ) ) ;
-		}
+        if ( DoesPlayerHaveItem ( playerid, CARD_GUNPERMIT ) != -1 ) {
 
-		SendServerMessage ( playerid, sprintf("You have successfully disarmed %s.", ReturnUserName ( targetid, false, true ) ), MSG_TYPE_INFO ) ;
-		SendServerMessage ( targetid, sprintf("%s has disarmed you of your weapons and ammo.", ReturnUserName ( playerid, false, true ) ), MSG_TYPE_INFO ) ;
+            DiscardItem ( playerid, DoesPlayerHaveItem ( playerid, CARD_GUNPERMIT ) ) ;
+        }
 
-		ProxDetector ( playerid, 30.0, COLOR_ACTION, sprintf("%s has disarmed %s.",ReturnUserName ( playerid, false, true ), ReturnUserName ( targetid, false, true ) ) );
-	
-	}
+        SendServerMessage ( playerid, sprintf("Baþarýyla %s kiþisini silahsýzlandýrdýn.", ReturnUserName ( targetid, false, true ) ), MSG_TYPE_INFO ) ;
+        SendServerMessage ( targetid, sprintf("%s seni silahsýzlandýrdý.", ReturnUserName ( playerid, false, true ) ), MSG_TYPE_INFO ) ;
 
-	else return SendServerMessage ( playerid, "You are not near that player.", MSG_TYPE_ERROR ) ;
+        ProxDetector ( playerid, 30.0, COLOR_ACTION, sprintf("%s, %s kiþisini silahsýzlandýrdý.",ReturnUserName ( playerid, false, true ), ReturnUserName ( targetid, false, true ) ) );
+    
+    }
 
-	return true ;
+    else return SendServerMessage ( playerid, "Hedeflediðin kiþi yakýnýnda deðil.", MSG_TYPE_ERROR ) ;
+
+    return true ;
 }
 
 CMD:clearcharge ( playerid, params [] ) {
 
-	new posseid = Character [ playerid ] [ character_posse ] ;
+    new posseid = Character [ playerid ] [ character_posse ] ;
 
-	if ( ! IsPlayerInPosse ( playerid ) ||  !IsLawEnforcementPosse ( posseid ) ) {
+    if ( ! IsPlayerInPosse ( playerid ) ||  !IsLawEnforcementPosse ( posseid ) ) {
 
-		return SendServerMessage ( playerid, "You have to be in a police posse in order to do this command.", MSG_TYPE_INFO ) ;
-	}
+        return SendServerMessage ( playerid, "Bu komutu kullanmak için bir kolluk kuvveti grubunda olmalýsýn.", MSG_TYPE_INFO ) ;
+    }
 
-	if ( GetPointIDFromType ( playerid, POINT_TYPE_SHERIFF ) == -1 ) {
+    if ( GetPointIDFromType ( playerid, POINT_TYPE_SHERIFF ) == -1 ) {
 
-		return SendServerMessage ( playerid, "You are not in a sheriff's office!", MSG_TYPE_ERROR );
-	}
+        return SendServerMessage ( playerid, "Þerif ofisinde deðilsin!", MSG_TYPE_ERROR );
+    }
 
-	new targetid, chargeid;
+    new targetid, chargeid;
 
-	if ( sscanf ( params, "k<u>i", targetid, chargeid ) ) {
+    if ( sscanf ( params, "k<u>i", targetid, chargeid ) ) {
 
-		return SendServerMessage ( playerid, "/clearcharge [playerid] [chargeid]", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/clearcharge [oyuncu_id(target)] [suç_id(chargeid)]", MSG_TYPE_ERROR ) ;
+    }
 
-	new query [ 256 ] ;
+    new query [ 256 ] ;
 
-	inline CheckPlayerCharge() {
+    inline CheckPlayerCharge() {
 
-		new rows;
-		cache_get_row_count ( rows ) ;
+        new rows;
+        cache_get_row_count ( rows ) ;
 
-		if ( rows ) {
+        if ( rows ) {
 
-			for ( new i; i < ReturnChargeCount ( targetid ); i++ ) {
+            for ( new i; i < ReturnChargeCount ( targetid ); i++ ) {
 
-				if ( Charge [ targetid ] [ i ] [ charge_id ] == chargeid ) {
+                if ( Charge [ targetid ] [ i ] [ charge_id ] == chargeid ) {
 
-					SendServerMessage ( playerid, sprintf("You have successfully cleared %s's charge of $%i.", ReturnUserName ( targetid, false ), Charge [ targetid ] [ i ] [ charge_amount ] ), MSG_TYPE_INFO ) ;
+                    SendServerMessage ( playerid, sprintf("Baþarýyla %s kiþisinin $%i tutarýndaki suç kaydýný sildin.", ReturnUserName ( targetid, false ), Charge [ targetid ] [ i ] [ charge_amount ] ), MSG_TYPE_INFO ) ;
 
-					SendPosseWarning ( posseid, sprintf("%s %s has cleared %s's charge of $%i.", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, false ), ReturnUserName ( targetid, false ), Charge [ targetid ] [ i ] [ charge_amount ] ) ) ;
+                    SendPosseWarning ( posseid, sprintf("%s %s, %s kiþisinin $%i tutarýndaki suç kaydýný sildi.", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, false ), ReturnUserName ( targetid, false ), Charge [ targetid ] [ i ] [ charge_amount ] ) ) ;
 
-					TakeCharacterMoney ( targetid, Charge [ targetid ] [ i ] [ charge_amount ], MONEY_SLOT_HAND ) ;
+                    TakeCharacterMoney ( targetid, Charge [ targetid ] [ i ] [ charge_amount ], MONEY_SLOT_HAND ) ;
 
-					Posse [ posseid ] [ posse_bank ] += Charge [ targetid ] [ i ] [ charge_amount ] ;
-					Posse [ posseid ] [ posse_bank_decimal ] += Charge [ targetid ] [ i ] [ charge_change ] ;
+                    Posse [ posseid ] [ posse_bank ] += Charge [ targetid ] [ i ] [ charge_amount ] ;
+                    Posse [ posseid ] [ posse_bank_decimal ] += Charge [ targetid ] [ i ] [ charge_change ] ;
 
-					Charge [ targetid ] [ i ] [ charge_amount ] = 0;
-					Charge [ targetid ] [ i ] [ charge_change ] = 0;
+                    Charge [ targetid ] [ i ] [ charge_amount ] = 0;
+                    Charge [ targetid ] [ i ] [ charge_change ] = 0;
 
-					Init_LoadCharges ( targetid ) ;
+                    Init_LoadCharges ( targetid ) ;
 
-					mysql_format ( mysql, query, sizeof ( query ), "UPDATE charges SET charge_amount = %d, charge_change = %d WHERE charge_id = %d", Charge [ targetid ] [ i ] [ charge_amount ], Charge [ targetid ] [ i ] [ charge_change], chargeid ) ;
-					mysql_tquery ( mysql, query ) ; 
+                    mysql_format ( mysql, query, sizeof ( query ), "UPDATE charges SET charge_amount = %d, charge_change = %d WHERE charge_id = %d", Charge [ targetid ] [ i ] [ charge_amount ], Charge [ targetid ] [ i ] [ charge_change], chargeid ) ;
+                    mysql_tquery ( mysql, query ) ; 
 
-					mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET posse_bank = %d, posse_bank_decimal = %d WHERE posse_id = %d", Posse [ posseid ] [ posse_bank ], Posse[posseid][posse_bank_decimal], posseid ) ;
-					return mysql_tquery ( mysql, query ) ;
-				}
+                    mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET posse_bank = %d, posse_bank_decimal = %d WHERE posse_id = %d", Posse [ posseid ] [ posse_bank ], Posse[posseid][posse_bank_decimal], posseid ) ;
+                    return mysql_tquery ( mysql, query ) ;
+                }
 
-				else continue;
-			}
+                else continue;
+            }
 
-			return SendServerMessage ( playerid, "Something went wrong, take a screenshot and send this to a dev.", MSG_TYPE_ERROR ) ;
-		}
-		
-		else {
+            return SendServerMessage ( playerid, "Bir hata oluþtu, ekran görüntüsü alýp geliþtiriciye gönder.", MSG_TYPE_ERROR ) ;
+        }
+        
+        else {
 
-			return SendServerMessage ( playerid, "There is no charge present with that charge ID.", MSG_TYPE_ERROR ) ;
-		}
-	}
+            return SendServerMessage ( playerid, "Bu ID ile eþleþen bir suç kaydý bulunamadý.", MSG_TYPE_ERROR ) ;
+        }
+    }
 
-	MySQL_TQueryInline(mysql, using inline CheckPlayerCharge, "SELECT charge_amount FROM charges WHERE charge_id = %d AND charge_holder = '%e'", chargeid, ReturnUserName ( targetid, true ) );
+    MySQL_TQueryInline(mysql, using inline CheckPlayerCharge, "SELECT charge_amount FROM charges WHERE charge_id = %d AND charge_holder = '%e'", chargeid, ReturnUserName ( targetid, true ) );
 
-	return true ;
+    return true ;
 }
 
 CMD:viewcharges ( playerid, params [] ) {
 
-	new posseid = Character [ playerid ] [ character_posse ] ;
+    new posseid = Character [ playerid ] [ character_posse ] ;
 
-	if ( ! IsPlayerInPosse ( playerid ) ||  !IsLawEnforcementPosse ( posseid )) {
+    if ( ! IsPlayerInPosse ( playerid ) ||  !IsLawEnforcementPosse ( posseid )) {
 
-		return SendServerMessage ( playerid, "You have to be in a police posse in order to do this command.", MSG_TYPE_INFO ) ;
-	}
+        return SendServerMessage ( playerid, "Bu komutu kullanmak için bir kolluk kuvveti grubunda olmalýsýn.", MSG_TYPE_INFO ) ;
+    }
 
-	new user[MAX_PLAYER_NAME];
+    new user[MAX_PLAYER_NAME];
 
-	if ( sscanf ( params, "s["#MAX_PLAYER_NAME"]", user ) ) {
+    if ( sscanf ( params, "s["#MAX_PLAYER_NAME"]", user ) ) {
 
-		return SendServerMessage ( playerid, "/viewcharges [player_name]", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/viewcharges [oyuncu_ismi]", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( GetPointIDFromType ( playerid, POINT_TYPE_SHERIFF ) == -1 ) {
+    if ( GetPointIDFromType ( playerid, POINT_TYPE_SHERIFF ) == -1 ) {
 
-		return SendServerMessage ( playerid, "You are not in a sheriff's office!", MSG_TYPE_ERROR );
-	}
+        return SendServerMessage ( playerid, "Þerif ofisinde deðilsin!", MSG_TYPE_ERROR );
+    }
 
-	new string [ 512 ] ;
+    new string [ 512 ] ;
 
-	inline charge_PlayerCharges() {
+    inline charge_PlayerCharges() {
 
-		new rows;
+        new rows;
 
-		cache_get_row_count ( rows ) ;
+        cache_get_row_count ( rows ) ;
 
-		if ( rows ) {
+        if ( rows ) {
 
-			new cid, cplacer[MAX_PLAYER_NAME], camount, ccents, camounttotal,ccenttotal,cinfo[32];
+            new cid, cplacer[MAX_PLAYER_NAME], camount, ccents, camounttotal,ccenttotal,cinfo[32];
 
-			for ( new i, j = rows; i < j; i++ ) {
-				
-				cache_get_value_name_int ( i, "charge_id", cid ) ;
-				cache_get_value_name ( i, "charge_placer", cplacer, MAX_PLAYER_NAME ) ;
-				cache_get_value_name_int ( i, "charge_amount", camount ) ;
-				cache_get_value_name_int ( i, "charge_change", ccents ) ;
-				cache_get_value_name ( i, "charge_info", cinfo, 32 ) ;
+            for ( new i, j = rows; i < j; i++ ) {
+                
+                cache_get_value_name_int ( i, "charge_id", cid ) ;
+                cache_get_value_name ( i, "charge_placer", cplacer, MAX_PLAYER_NAME ) ;
+                cache_get_value_name_int ( i, "charge_amount", camount ) ;
+                cache_get_value_name_int ( i, "charge_change", ccents ) ;
+                cache_get_value_name ( i, "charge_info", cinfo, 32 ) ;
 
-				camounttotal += camount;
-				ccenttotal += ccents;
-				if(ccenttotal >= 100) {
+                camounttotal += camount;
+                ccenttotal += ccents;
+                if(ccenttotal >= 100) {
 
-					camounttotal++;
-					ccenttotal = 0;
-				}
+                    camounttotal++;
+                    ccenttotal = 0;
+                }
 
-				strcat ( string, sprintf("Charge ID: %i - Charge Placer: %s - Charge Amount: $%i.%02d - Charge Info: %s\n", cid, cplacer, camount, ccents, cinfo ) ) ;
-			}
+                strcat ( string, sprintf("Suç ID: %i - Ekleyen: %s - Tutar: $%i.%02d - Bilgi: %s\n", cid, cplacer, camount, ccents, cinfo ) ) ;
+            }
 
-			strcat ( string, sprintf("\nCombined Charges Total: $%d.%02d",camounttotal,ccenttotal));
+            strcat ( string, sprintf("\nToplam Ceza Tutarý: $%d.%02d",camounttotal,ccenttotal));
 
-			ShowPlayerDialog(playerid, 9999, DIALOG_STYLE_MSGBOX, sprintf("%s's Charges", user ), string, "Exit", "" );
-		}
+            ShowPlayerDialog(playerid, 9999, DIALOG_STYLE_MSGBOX, sprintf("%s'in Suç Kayýtlarý", user ), string, "Çýkýþ", "" );
+        }
 
-		else {
+        else {
 
-			return SendServerMessage ( playerid, "There are no current charges for this player or this player doesn't exist.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Bu oyuncunun suç kaydý yok veya oyuncu bulunamadý.", MSG_TYPE_ERROR ) ;
+        }
 
-	}
+    }
 
-	MySQL_TQueryInline ( mysql, using inline charge_PlayerCharges, "SELECT charge_id, charge_placer, charge_amount, charge_info FROM charges WHERE charge_holder = '%e'", user ) ;
+    MySQL_TQueryInline ( mysql, using inline charge_PlayerCharges, "SELECT charge_id, charge_placer, charge_amount, charge_info FROM charges WHERE charge_holder = '%e'", user ) ;
 
-	return true ;
+    return true ;
 }
 
 CMD:viewdebt(playerid, params [] ) {
-	new posseid = Character [ playerid ] [ character_posse ] ;
+    new posseid = Character [ playerid ] [ character_posse ] ;
 
-	if ( ! IsPlayerInPosse ( playerid ) ||  !IsLawEnforcementPosse ( posseid ) ) {
+    if ( ! IsPlayerInPosse ( playerid ) ||  !IsLawEnforcementPosse ( posseid ) ) {
 
-		return SendServerMessage ( playerid, "You have to be in a police posse in order to do this command.", MSG_TYPE_INFO ) ;
-	}
+        return SendServerMessage ( playerid, "Bu komutu kullanmak için bir kolluk kuvveti grubunda olmalýsýn.", MSG_TYPE_INFO ) ;
+    }
 
-	new targetid ;
+    new targetid ;
 
-	if ( sscanf ( params, "k<u>", targetid ) ) {
+    if ( sscanf ( params, "k<u>", targetid ) ) {
 
-		return SendServerMessage ( playerid, "/viewdebt [target]", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/viewdebt [oyuncu_id(target)]", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( ! IsPlayerConnected ( targetid ) ) {
+    if ( ! IsPlayerConnected ( targetid ) ) {
 
-		return SendServerMessage ( playerid, "Player isn't online.", MSG_TYPE_ERROR ) ;
-	}	
+        return SendServerMessage ( playerid, "Oyuncu çevrimdýþý.", MSG_TYPE_ERROR ) ;
+    }   
 
-	if ( Character [ targetid ] [ character_bankmoney ] < 0 ) {
+    if ( Character [ targetid ] [ character_bankmoney ] < 0 ) {
 
-		SendServerMessage ( playerid, "Make sure you know their IC name before taking action, or you might get jailed for metagaming.", MSG_TYPE_WARN ) ;
-		return SendServerMessage ( playerid, sprintf("(%d) %s owes the government $%s.", targetid, ReturnUserName ( targetid ), IntegerWithDelimiter (Character [ targetid ] [ character_bankmoney ])), MSG_TYPE_WARN ) ;
-	}
+        SendServerMessage ( playerid, "Ýþlem yapmadan önce oyuncunun IC ismini bildiðinden emin ol, aksi takdirde metagaming nedeniyle hapse girebilirsin.", MSG_TYPE_WARN ) ;
+        return SendServerMessage ( playerid, sprintf("(%d) %s devlete $%s borçlu.", targetid, ReturnUserName ( targetid ), IntegerWithDelimiter (Character [ targetid ] [ character_bankmoney ])), MSG_TYPE_WARN ) ;
+    }
 
-	else return SendServerMessage ( playerid, sprintf("(%d) %s owes the government nothing.", targetid, ReturnUserName ( targetid )), MSG_TYPE_WARN ) ;
+    else return SendServerMessage ( playerid, sprintf("(%d) %s devlete borçlu deðil.", targetid, ReturnUserName ( targetid )), MSG_TYPE_WARN ) ;
 }

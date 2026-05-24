@@ -65,7 +65,7 @@ ViewPosses ( playerid ) {
 
 
 
-			format ( string, sizeof ( string ), "%s, ID %d [members online: %d]", Posse [ p ] [ posse_name ], Posse [ p ] [ posse_id ], GetOnlinePosseMembers ( p ) ) ;
+			format ( string, sizeof ( string ), "%s, ID %d [aktif üyeler: %d]", Posse [ p ] [ posse_name ], Posse [ p ] [ posse_id ], GetOnlinePosseMembers ( p ) ) ;
 			SendServerMessage ( playerid, string, MSG_TYPE_INFO ) ;	
 		}
 	}
@@ -219,7 +219,7 @@ GetPosseName( posseid ) {
 	new name[MAX_POSSE_NAME];
 	switch(posseid) {
 
-		case -1: { name = "None"; }
+		case -1: { name = "Yok"; }
 		default: { strcat(name,Posse[posseid][posse_name]); }
 	}
 	return name;
@@ -231,10 +231,10 @@ GetPosseTierName(possetier) {
 	name = "N/A";
 	switch(possetier) {
 
-		case 0: { name = "None"; }
-		case 1: { name = "Member"; }
-		case 2: { name = "Command"; }
-		case 3: { name = "Leader"; }
+		case 0: { name = "Yok"; }
+		case 1: { name = "Üye"; }
+		case 2: { name = "Komutan"; }
+		case 3: { name = "Lider"; }
 		default: { name = "N/A"; }
 	}
 	return name;

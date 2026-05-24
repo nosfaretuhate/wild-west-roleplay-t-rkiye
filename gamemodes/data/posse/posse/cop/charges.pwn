@@ -16,76 +16,56 @@ enum ChargeData {
 
 new Charge [ MAX_PLAYERS ] [ MAX_CHARGES ] [ ChargeData ], ChargeCount [ MAX_PLAYERS ] ;
 
-CMD:charge ( playerid, params [] ) { // player, charge
-// -- Should be saved in a single db
-	new user[MAX_PLAYER_NAME], charge [ 32 ], amount, cents, query [ 256 ], posseid = Character [ playerid ] [ character_posse ] ; 
+CMD:charge ( playerid, params [] ) { 
+    new user[MAX_PLAYER_NAME], charge [ 32 ], amount, cents, query [ 256 ], posseid = Character [ playerid ] [ character_posse ] ; 
 
-	if ( ! IsPlayerInPosse ( playerid ) || !IsLawEnforcementPosse ( posseid ) ) {
+    if ( ! IsPlayerInPosse ( playerid ) || !IsLawEnforcementPosse ( posseid ) ) {
+        return SendServerMessage ( playerid, "Bu komutu kullanmak için bir polis grubunda olmalýsýn.", MSG_TYPE_INFO ) ;
+    }
 
-		return SendServerMessage ( playerid, "You have to be in a police posse in order to do this command.", MSG_TYPE_INFO ) ;
-	}
+    if ( sscanf ( params, "s["#MAX_PLAYER_NAME"]iis[32]", user, amount, cents, charge ) ) {
+        return SendServerMessage ( playerid, "/charge [isim(oyuncu ismi)] [dolar] [sent] [charge(suçlama)]", MSG_TYPE_ERROR ) ;  
+    }
 
-	if ( sscanf ( params, "s["#MAX_PLAYER_NAME"]iis[32]", user, amount, cents, charge ) ) {
+    if ( strlen ( charge ) > 32 ) {
+        return SendServerMessage ( playerid, "Bir suçlama açýklamasý 32 karakterden uzun olamaz!", MSG_TYPE_WARN ) ;  
+    }
 
-		return SendServerMessage ( playerid, "/charge [criminal_name] [dollars] [cents] [charge text]", MSG_TYPE_ERROR ) ;	
+    if ( amount < 0 ) { 
+        return SendServerMessage ( playerid, "Suçlama bedeli negatif olamaz!", MSG_TYPE_WARN ) ;
+    }
 
-	}
+    if ( amount > 5000 ) {
+        return SendServerMessage ( playerid, "Bir suçlama bedeli $5,000'dan fazla olamaz!", MSG_TYPE_WARN ) ;
+    }
 
-	if ( strlen ( charge ) > 32 ) {
+    inline charge_DoesCharacterExist() {
+        new rows;
+        cache_get_row_count ( rows ) ;
 
-		return SendServerMessage ( playerid, "A charge can't have more than 32 characters!", MSG_TYPE_WARN ) ;	
-	}
+        if ( rows ) {
+            mysql_format ( mysql, query, sizeof ( query ), "INSERT INTO charges (charge_placer, charge_holder, charge_amount, charge_change, charge_info, charge_date) VALUES ('%s', '%s', %d, %d, '%s', '%s')",
+                ReturnUserName ( playerid, true ), user, amount, cents, charge, ReturnDateTime () ); 
+            mysql_tquery ( mysql, query ) ;
 
-	if ( amount < 0 ) { 
+            SendPosseWarning ( posseid, sprintf("{[ %s %s, %s adlý kiþiye '%s' suçlamasýyla $%s.%02d ceza kesti. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), user, charge, IntegerWithDelimiter ( amount ), cents ) ) ;
 
-		return SendServerMessage ( playerid, "A charge cannot have negative dollars!", MSG_TYPE_WARN ) ;
-	}
+            foreach ( new i : Player ) {
+                if ( ! strcmp ( Character [ i ] [ character_name ], user ) ) {
+                    Init_LoadCharges ( i ) ;
+                    SendServerMessage ( i, sprintf("'%s' suçu nedeniyle %s %s tarafýndan $%s.%02d tutarýnda ceza aldýn.", charge, Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, false ), IntegerWithDelimiter ( amount ), cents ), MSG_TYPE_INFO ) ;
+                }
+            }
+        }
+        else {
+            return SendServerMessage ( playerid, sprintf("'%s' adýnda bir karakter bulunamadý.", user), MSG_TYPE_ERROR ) ;
+        }
+    }
 
-	if ( amount > 5000 ) {
+    MySQL_TQueryInline(mysql, using inline charge_DoesCharacterExist, "SELECT character_name FROM characters WHERE character_name = '%e'", user );  
 
-		return SendServerMessage ( playerid, "A charge can't be more than $5,000!", MSG_TYPE_WARN ) ;
-	}
-
-	inline charge_DoesCharacterExist() {
-
-		new rows;
-
-		cache_get_row_count ( rows ) ;
-
-		if ( rows ) {
-
-			mysql_format ( mysql, query, sizeof ( query ), "INSERT INTO charges (charge_placer, charge_holder, charge_amount, charge_change, charge_info, charge_date) VALUES ('%s', '%s', %d, %d, '%s', '%s')",
-				ReturnUserName ( playerid, true ), user, amount, cents, charge, ReturnDateTime () ); 
-			mysql_tquery ( mysql, query ) ;
-
-			SendPosseWarning ( posseid, sprintf("{[ %s %s has charged %s with '%s' for $%s.%02d.", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), user, charge, IntegerWithDelimiter ( amount ),cents ) ) ;
-
-			foreach ( new i : Player ) {
-
-				if ( ! strcmp ( Character [ i ] [ character_name ], user ) ) {
-
-					Init_LoadCharges ( i ) ;
-
-					SendServerMessage ( i, sprintf("You've been charged with '%s' for $%s.%02d by %s %s.", charge, IntegerWithDelimiter ( amount ), cents, Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, false ) ), MSG_TYPE_INFO ) ;
-				}
-
-				else continue;
-			}
-
-		}
-
-		else {
-
-			return SendServerMessage ( playerid, sprintf("The character '%s' does not exist.", user), MSG_TYPE_ERROR ) ;
-		}
-
-	}
-
-	MySQL_TQueryInline(mysql, using inline charge_DoesCharacterExist, "SELECT character_name FROM characters WHERE character_name = '%e'", user );	
-
-	return true ;
+    return true ;
 }
-
 Init_LoadCharges ( playerid ) {
 	
 	new query [ 256 ] ;
