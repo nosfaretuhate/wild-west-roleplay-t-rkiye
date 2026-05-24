@@ -1,49 +1,48 @@
-/* steps on how to use the lasso: 
-
-- get one from the police hq (?)
-- equip it in the inventory,
-- use /lasso [targetid] to target a specific player. (/l [targetid] too);
-- if in range, you press click, depending on the distance, you have more chances of missing.
-- if sucessful, target gets taken off the horse (if on any), get dropped to the ground and is essentially frozen
-
-*/
+/* 
+ * Ýp (Lasso) Kullaným Adýmlarý:
+ * - Emniyet merkezinden alýn (?).
+ * - Eþyalar menüsünden (inventory) donatýn.
+ * - Hedef oyuncuyu seçmek için /yakala [hedefid] veya /ip [hedefid] komutunu kullanýn.
+ * - Menzildeysen, sol týkla saldýr. Mesafeye göre kaçýrma þansýn artar.
+ * - Baþarýyla yakalarsan, hedef atýndan iner (at üzerindeyse), yere düþer ve dondurulur.
+ */
 
 #define PRESSED(%0) \
 	(((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
 
-CMD:lasso(playerid, params[]){
+CMD:yakala(playerid, params[]){
 
 	if(IsPlayerInLassoMode[playerid]){
 
 		IsPlayerInLassoMode[playerid] = false;
-		SendServerMessage(playerid, "You exited lasso mode.", MSG_TYPE_INFO);
+		SendServerMessage(playerid, "Ýp modundan çýktýnýz.", MSG_TYPE_INFO);
 	}
 
 	if(EquippedItem[playerid] != SHERIFF_LASSO)
-		return SendServerMessage(playerid, "You must have a lasso equipped to use this command.", MSG_TYPE_ERROR);
+		return SendServerMessage(playerid, "Ýp kullanmak için sheriff ipi donatmýþ olmalýsýnýz.", MSG_TYPE_ERROR);
 
 	if(!IsLawEnforcementPosse(Character[playerid][character_posse]))
-		return SendServerMessage(playerid, "You are not in a law enforcement posse.", MSG_TYPE_ERROR);
+		return SendServerMessage(playerid, "Kolluk kuvvetleri posse'sinde deðilsiniz.", MSG_TYPE_ERROR);
 
 	new targetid;
 
 	if(sscanf(params, "u", targetid))
-    	return SendServerMessage ( playerid, "/lasso [target] - (/l [target])", MSG_TYPE_ERROR ) ;
+    	return SendServerMessage(playerid, "/yakala [hedef] veya /ip [hedef]", MSG_TYPE_ERROR);
 
     if(!IsPlayerConnected(targetid))
-    	return SendServerMessage(playerid, "Player specified is not connected!", MSG_TYPE_ERROR);
+    	return SendServerMessage(playerid, "Belirtilen oyuncu baðlý deðil!", MSG_TYPE_ERROR);
 
     if(playerid == targetid)
-    	return SendServerMessage(playerid, "You can't target yourself.", MSG_TYPE_INFO);
+    	return SendServerMessage(playerid, "Kendini hedefleyemezsin.", MSG_TYPE_INFO);
 
-    if(IsLawEnforcementPosse ( Character [ targetid ] [ character_posse ]))
-    	return SendServerMessage(playerid, "You can't target a player in the same posse as yours!", MSG_TYPE_ERROR);
+    if(IsLawEnforcementPosse(Character[targetid][character_posse]))
+    	return SendServerMessage(playerid, "Kendi posse'nizdeki bir oyuncuyu hedefleyemezsiniz!", MSG_TYPE_ERROR);
 
    	IsPlayerInLassoMode[playerid] = true;
    	LassoModeTarget[playerid] = targetid;
 
-   	SendServerMessage(playerid, sprintf("You have sucessfully entered lasso mode on %s (%i). Use LEFT-CLICK to try catching the target.", ReturnUserName(targetid), targetid), MSG_TYPE_INFO);
-   	SendServerMessage(playerid, "You can exit lasso mode by doing /lasso again.", MSG_TYPE_INFO);
+   	SendServerMessage(playerid, sprintf("%s (%i) üzerine baþarýyla ip moduna girdiniz. Hedefi yakalamak için SOL TIK'a basýn.", ReturnUserName(targetid), targetid), MSG_TYPE_INFO);
+   	SendServerMessage(playerid, "Ýp modundan çýkmak için tekrar /yakala komutunu kullanýn.", MSG_TYPE_INFO);
 
    	return true;
 }
@@ -51,7 +50,7 @@ CMD:lasso(playerid, params[]){
 public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys){
 
 	if(PRESSED(KEY_FIRE) && IsPlayerInLassoMode[playerid] && IsPlayerOnLassoCooldown[playerid]){
-		SendServerMessage(playerid, "You are currently on a lasso cooldown to prevent abuse! Try again in a few seconds.", MSG_TYPE_ERROR);
+		SendServerMessage(playerid, "Suistimali önlemek için ip kullanýmda kýsa bekleme süresindesiniz! Birkaç saniye sonra tekrar deneyin.", MSG_TYPE_ERROR);
 	} else if(PRESSED(KEY_FIRE) && IsPlayerInLassoMode[playerid] && !IsPlayerOnLassoCooldown[playerid]){
 		CheckLassoReq(playerid, LassoModeTarget[playerid]);
 	} 
@@ -88,7 +87,7 @@ CheckLassoReq(playerid, targetid){
 		TryLasso(playerid, targetid);
 
 	} else {
-		return SendServerMessage(playerid, "You are too far from your target. A attempt from here will surely miss!", MSG_TYPE_ERROR);
+		return SendServerMessage(playerid, "Hedefinizden çok uzaktasýnýz. Bu mesafeden denemek kesinlikle kaçýrmanýzla sonuçlanýr!", MSG_TYPE_ERROR);
 	}
 
 	return true;
@@ -99,19 +98,19 @@ TryLasso(playerid, targetid){
 
 	new randomChance = random(11);
 
-	if(randomChance < 5){ // sucessful attempt.
+	if(randomChance < 5){ // Baþarýlý deneme
 
-		if ( IsPlayerRidingHorse [ targetid ] ) {
+		if(IsPlayerRidingHorse[targetid]){
 
-			IsPlayerRidingHorse [ targetid ] = false ;
+			IsPlayerRidingHorse[targetid] = false;
 			IsPlayerInLasso[targetid] = true;
 
 			IsPlayerInLassoMode[playerid] = false;
 
-			SendServerMessage ( targetid, "You've been caught by a lasso and pulled off your horse!", MSG_TYPE_INFO ) ;
-			SendServerMessage(playerid, sprintf("You've caught %s with your lasso and pulled them off their horse", ReturnUserName(targetid)), MSG_TYPE_INFO);
+			SendServerMessage(targetid, "Bir ip tarafýndan yakalandýnýz ve atýnýzdan atýldýnýz!", MSG_TYPE_INFO);
+			SendServerMessage(playerid, sprintf("%s oyuncusunu ipinizle yakalayýp atýndan attýnýz.", ReturnUserName(targetid)), MSG_TYPE_INFO);
 
-			RemovePlayerAttachedObject(targetid, ATTACH_SLOT_HORSE ) ;
+			RemovePlayerAttachedObject(targetid, ATTACH_SLOT_HORSE);
 
 			TogglePlayerControllable(targetid, false);
 
@@ -126,8 +125,8 @@ TryLasso(playerid, targetid){
 			IsPlayerInLasso[targetid] = true;
 			IsPlayerInLassoMode[playerid] = false;
 
-			SendServerMessage ( targetid, "You've been caught by a lasso and pulled to the ground!", MSG_TYPE_INFO ) ;
-			SendServerMessage(playerid, sprintf("You've caught %s with your lasso and pulled them to the ground.", ReturnUserName(targetid)), MSG_TYPE_INFO);
+			SendServerMessage(targetid, "Bir ip tarafýndan yakalandýnýz ve yere atýldýnýz!", MSG_TYPE_INFO);
+			SendServerMessage(playerid, sprintf("%s oyuncusunu ipinizle yakalayýp yere attýnýz.", ReturnUserName(targetid)), MSG_TYPE_INFO);
 
 			TogglePlayerControllable(targetid, false);
 
@@ -139,9 +138,9 @@ TryLasso(playerid, targetid){
 
 		}
 
-	} else if(randomChance > 5){ // failed attempt.
+	} else if(randomChance > 5){ // Baþarýsýz deneme
 
-		SendServerMessage(playerid, "You missed your target!", MSG_TYPE_INFO);
+		SendServerMessage(playerid, "Hedefinizi kaçýrdýnýz!", MSG_TYPE_INFO);
 
 		IsPlayerOnLassoCooldown[playerid] = true;
 		SetTimerEx("ApplyLassoCooldown", 10000, false, "i", playerid);
@@ -155,7 +154,7 @@ forward ApplyLassoCooldown(playerid);
 public ApplyLassoCooldown(playerid){
 
 	IsPlayerOnLassoCooldown[playerid] = false;
-	SendServerMessage(playerid, "Your lasso cooldown has expired, you can now use it again.", MSG_TYPE_INFO);
+	SendServerMessage(playerid, "Ýp bekleme süreniz doldu, tekrar kullanabilirsiniz.", MSG_TYPE_INFO);
 
 	return true;
 }
@@ -166,15 +165,15 @@ public LassoAutoRemove(playerid){
 	IsPlayerInLasso[playerid] = false;
 	TogglePlayerControllable(playerid, true);
 
-	SendServerMessage(playerid, "You have automatically been untied from the lasso.", MSG_TYPE_INFO);
+	SendServerMessage(playerid, "Otomatik olarak ipten kurtuldunuz.", MSG_TYPE_INFO);
 
 	return true;
 }
 
-
-CMD:untielasso(playerid, params[]){
+CMD:coz(playerid, params[]){ // Ýsmi untielasso -> çöz yaptým
 
 	new Float: x, Float: y, Float: z;
+	new bool: found = false;
 
 	foreach(new i : Player){
 		if(IsPlayerInLasso[i]){
@@ -186,19 +185,19 @@ CMD:untielasso(playerid, params[]){
 				IsPlayerInLasso[i] = false;
 				TogglePlayerControllable(i, true);
 
-				SendServerMessage(playerid, sprintf("You untied %s from the lasso.", ReturnUserName(i)), MSG_TYPE_INFO);
-				SendServerMessage(i, "You have been freed from the lasso. Please roleplay properly!", MSG_TYPE_INFO);
+				SendServerMessage(playerid, sprintf("%s oyuncusunun ipini çözdünüz.", ReturnUserName(i)), MSG_TYPE_INFO);
+				SendServerMessage(i, "ipten kurtuldunuz. Lütfen uygun rol yapýn!", MSG_TYPE_INFO);
 
+				found = true;
 				break;
- 
 			}
-
-			continue;
 		}
-
-		SendServerMessage(playerid, "You aren't near any players caught in a lasso!", MSG_TYPE_ERROR);
 	}
+
+	if(!found)
+		SendServerMessage(playerid, "Yakýnda ipe baðlý oyuncu yok!", MSG_TYPE_ERROR);
 
 	return true;
 }
-
+CMD:untie(playerid, params[]) return cmd_coz(playerid, params);
+CMD:ip(playerid, params[]) return cmd_yakala(playerid, params);

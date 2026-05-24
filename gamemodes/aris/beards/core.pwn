@@ -30,20 +30,19 @@ SetHairType(playerid, hairtype){
 
 	return true;
 }
-
 RemoveHairStage(playerid){
 
-	if(Character[playerid][character_gender] == 1) // KadÄ±n karakterse iÅŸlem yapma
+	if(Character[playerid][character_gender] == 1) // Kadın karakterse işlem yapma
 		return true;
 
 	switch(Character[playerid][character_beard]){
 
 		case HAIR_NONE: 
-			print("Hata: Olmayan bir saÃ§Ä±/sakalÄ± kesemezsin.");
+			print("Hata: Olmayan bir saçı/sakalı kesemezsin.");
 
 		case BEARD_SLIGHT: {
 			Character[playerid][character_beard] = HAIR_NONE;
-			printf("Karakter %i yeni tarz: SakalsÄ±z", Character[playerid][character_id]);
+			printf("Karakter %i yeni tarz: Sakalsız", Character[playerid][character_id]);
 		}
 
 		case BEARD_SMALL: {
@@ -53,7 +52,7 @@ RemoveHairStage(playerid){
 
 		case BEARD_MEDIUM: {
 			Character[playerid][character_beard] = BEARD_SMALL;
-			printf("Karakter %i yeni tarz: KÄ±sa sakal", Character[playerid][character_id]);
+			printf("Karakter %i yeni tarz: Kısa sakal", Character[playerid][character_id]);
 		}
 
 		case BEARD_LONG: {
@@ -68,20 +67,21 @@ RemoveHairStage(playerid){
 
 		case MOUSTACHE_SMALL: {
 			Character[playerid][character_beard] = HAIR_NONE;
-			printf("Karakter %i yeni tarz: BÄ±yÄ±ksÄ±z", Character[playerid][character_id]);
+			printf("Karakter %i yeni tarz: Bıyıksız", Character[playerid][character_id]);
 		}
 
 		case MOUSTACHE_MEDIUM: {
 			Character[playerid][character_beard] = MOUSTACHE_SMALL;
-			printf("Karakter %i yeni tarz: KÄ±sa bÄ±yÄ±k", Character[playerid][character_id]);
+			printf("Karakter %i yeni tarz: Kısa bıyık", Character[playerid][character_id]);
 		}
 
 		case MOUSTACHE_LONG: {
 			Character[playerid][character_beard] = MOUSTACHE_MEDIUM;
-			printf("Karakter %i yeni tarz: Orta boy bÄ±yÄ±k", Character[playerid][character_id]);
+			printf("Karakter %i yeni tarz: Orta boy bıyık", Character[playerid][character_id]);
 		}
 	}
 
 	return true;
 }
+
 
