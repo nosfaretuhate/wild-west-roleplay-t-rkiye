@@ -4,7 +4,7 @@ SelectSpawn ( playerid ) {
 
 	if ( Character [ playerid ]  [ character_ajailed ] ) {
 
-		SendServerMessage ( playerid, sprintf("You have %d minutes left in admin jail.", Character [ playerid ]  [ character_ajailed ] ), MSG_TYPE_INFO ) ;
+		SendServerMessage ( playerid, sprintf("Admin cezasý süresi: %d dakika.", Character [ playerid ]  [ character_ajailed ] ), MSG_TYPE_INFO ) ;
 
 		IsPlayerInAdminJail [ playerid ] = true ;
 		
@@ -14,7 +14,7 @@ SelectSpawn ( playerid ) {
 		
 		SetPlayerVirtualWorld(playerid, 0 );
 
-		SendServerMessage ( playerid, "You've been returned to admin jail.", MSG_TYPE_WARN ) ;
+		SendServerMessage ( playerid, "Admin jail bölgesine geri gönderildin.", MSG_TYPE_WARN ) ;
 		return true ;
 	}
 
@@ -27,8 +27,8 @@ SelectSpawn ( playerid ) {
 			SetPlayerVirtualWorld ( playerid, Character [ playerid ] [ character_prison_vw ] );
 			switch ( random ( 2 ) ) {
 
-				case 0: SendClientMessage(playerid, COLOR_DEFAULT, "** You've woken up from fighting inside the cell block.." ) ;
-				case 1: SendClientMessage(playerid, COLOR_DEFAULT, "** You've woken up from a guard arguing with another inmate.." ) ;
+                case 0: SendClientMessage(playerid, COLOR_DEFAULT, "** Hücre bloðundaki kavgadan sonra uyandýnýz.." ) ;
+                case 1: SendClientMessage(playerid, COLOR_DEFAULT, "** Bir gardiyanýn baþka bir mahkumla tartýþma sesine uyandýnýz.." );
 			}
 			return true ;
 		}
@@ -64,7 +64,7 @@ SelectSpawn ( playerid ) {
 			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_crashed = 0 WHERE character_id = %d",Character[playerid][character_id]);
 			mysql_tquery(mysql,query);
 
-			SendServerMessage ( playerid, "You've spawned where you crashed.", MSG_TYPE_INFO ) ;
+			SendServerMessage ( playerid, "Crash aldýðýn konumda spawn edildin.", MSG_TYPE_INFO ) ;
 			return true;
 		}
 
@@ -126,7 +126,7 @@ SelectSpawn ( playerid ) {
 
 									SetCharacterPointID(playerid,i);
 
-									SendServerMessage ( playerid, "You have spawned inside your house.", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Evinde spawn edildin.", MSG_TYPE_INFO ) ;
 
 									return true ;
 								}
@@ -158,7 +158,7 @@ SelectSpawn ( playerid ) {
 
 									SetCharacterPointID(playerid,i);
 
-									SendServerMessage ( playerid, "You have spawned inside your business.", MSG_TYPE_INFO ) ;
+									SendServerMessage ( playerid, "Ýþyerinde spawn oldun.", MSG_TYPE_INFO ) ;
 
 									return true ;
 								}
@@ -201,7 +201,7 @@ SelectSpawn ( playerid ) {
 
 						SetCharacterPointID(playerid,i);
 
-						return SendServerMessage ( playerid, "You have spawned at your faction's spawnpoint.", MSG_TYPE_INFO ) ;
+						return SendServerMessage ( playerid, "Oluþum spawn'da spawn edildin.", MSG_TYPE_INFO ) ;
 					}
 
 					else continue ;
@@ -214,8 +214,7 @@ SelectSpawn ( playerid ) {
 				new motelspawn = Character [ playerid ] [ character_spawnmotel ] ; 
 
 				ac_SetPlayerPos ( playerid, MotelPoints [ motelspawn ] [ motel_pos_x ], MotelPoints [ motelspawn ] [ motel_pos_y ], MotelPoints [ motelspawn ] [ motel_pos_z ] ) ;
-				SendServerMessage ( playerid, sprintf("You've spawned at the \"%s\" (%d), to remove this use /spawn.", MotelPoints [ motelspawn ] [ motel_name ], motelspawn), MSG_TYPE_INFO ) ;
-
+                SendServerMessage ( playerid, sprintf("\"%s\" (%d) konumunda doðdunuz, bunu kaldýrmak için /spawn kullanýn.", MotelPoints [ motelspawn ] [ motel_name ], motelspawn), MSG_TYPE_INFO ) ;
 				return true ;
 			}
 
@@ -250,7 +249,7 @@ SelectSpawn ( playerid ) {
 				SetPlayerInterior ( playerid, Character [ playerid ] [ character_pos_interior ] ) ;
 				SetPlayerVirtualWorld ( playerid, Character [ playerid ] [ character_pos_vw ] ) ;
 
-				SendServerMessage ( playerid, "You've spawned where you last logged out at.", MSG_TYPE_INFO ) ;
+				SendServerMessage ( playerid, "Son çýkýþ konumunda spawn edildin.", MSG_TYPE_INFO ) ;
 
 				return true ;
 			}
@@ -264,118 +263,118 @@ SelectSpawn ( playerid ) {
 
 CMD:spawn(playerid, params [] ) {
 
-	new query [ 256 ] ;
+    new query [ 256 ] ;
 
-	if ( ! strcmp ( params, "newb" ) ) {
+    if ( ! strcmp ( params, "newb" ) || ! strcmp ( params, "yenioyuncu" ) ) {
 
-		Character [ playerid ] [ character_spawnpoint ] = 0 ;
+        Character [ playerid ] [ character_spawnpoint ] = 0 ;
 
-		SendServerMessage ( playerid, "You will now spawn at the global spawn.", MSG_TYPE_INFO ) ;
+        SendServerMessage ( playerid, "Artýk global spawn'da doðacaksýn.", MSG_TYPE_INFO ) ;
 
-	}
+    }
 
-	else if ( ! strcmp ( params, "town" ) ) {
+    else if ( ! strcmp ( params, "town" ) || ! strcmp ( params, "kasaba" ) ) {
 
-		Character [ playerid ] [ character_spawnpoint ] = 1 ;
+        Character [ playerid ] [ character_spawnpoint ] = 1 ;
 
-		SendServerMessage ( playerid, "You will now spawn in your town of origin.", MSG_TYPE_INFO ) ;
-	}
+        SendServerMessage ( playerid, "Artýk kendi kasabanda doðacaksýn.", MSG_TYPE_INFO ) ;
+    }
 
-	else if ( ! strcmp ( params, "house" ) ) {
+    else if ( ! strcmp ( params, "house" ) || ! strcmp ( params, "ev" ) ) {
 
-		new count = 0;
+        new count = 0;
 
-		for ( new i; i < MAX_POINTS; i ++ ) {
+        for ( new i; i < MAX_POINTS; i ++ ) {
 
-			if ( Point [ i ] [ point_id ] != -1 ) {
+            if ( Point [ i ] [ point_id ] != -1 ) {
 
-				if ( Point [ i ] [ point_owner ] == Character [ playerid ] [ character_id ] ) {
+                if ( Point [ i ] [ point_owner ] == Character [ playerid ] [ character_id ] ) {
 
-					if ( Point [ i ] [ point_type ] == POINT_TYPE_HOUSE ) {
+                    if ( Point [ i ] [ point_type ] == POINT_TYPE_HOUSE ) {
 
-						Character [ playerid ] [ character_spawnpoint ] = 2 ;
-						SendServerMessage ( playerid, "You will now spawn in one of your houses.", MSG_TYPE_INFO ) ;
-						count ++ ;
-					}
+                        Character [ playerid ] [ character_spawnpoint ] = 2 ;
+                        SendServerMessage ( playerid, "Artýk evinde spawn olacaksýn.", MSG_TYPE_INFO ) ;
+                        count ++ ;
+                    }
 
-					else continue ;
-				}
+                    else continue ;
+                }
 
-				else continue ;
-			}
+                else continue ;
+            }
 
-			else continue ;
-		}
+            else continue ;
+        }
 
-		if ( ! count ) {
+        if ( ! count ) {
 
-			return SendServerMessage ( playerid, "You don't have any house to spawn in.", MSG_TYPE_ERROR ) ;
-		}
-	}
+            return SendServerMessage ( playerid, "Evde spawn olmak için evin yok.", MSG_TYPE_ERROR ) ;
+        }
+    }
 
-	else if ( ! strcmp ( params, "biz" ) ) {
+    else if ( ! strcmp ( params, "biz" ) || ! strcmp ( params, "isyeri" ) ) {
 
-		new count = 0;
+        new count = 0;
 
-		for ( new i; i < MAX_POINTS; i ++ ) {
+        for ( new i; i < MAX_POINTS; i ++ ) {
 
-			if ( Point [ i ] [ point_id ] != -1 ) {
+            if ( Point [ i ] [ point_id ] != -1 ) {
 
-				if ( Point [ i ] [ point_owner ] == Character [ playerid ] [ character_id ] ) {
-					
-					if ( Point [ i ] [ point_type ] == POINT_TYPE_BIZ ) {
-						
-						Character [ playerid ] [ character_spawnpoint ] = 3 ;
-						SendServerMessage ( playerid, "You will now spawn in one of your businesses.", MSG_TYPE_INFO ) ;
-						count ++ ;
-					}
+                if ( Point [ i ] [ point_owner ] == Character [ playerid ] [ character_id ] ) {
+                    
+                    if ( Point [ i ] [ point_type ] == POINT_TYPE_BIZ ) {
+                        
+                        Character [ playerid ] [ character_spawnpoint ] = 3 ;
+                        SendServerMessage ( playerid, "Artýk iþyerinde spawn olacaksýn.", MSG_TYPE_INFO ) ;
+                        count ++ ;
+                    }
 
-					else continue ;
-				}
+                    else continue ;
+                }
 
-				else continue ;
-			}
+                else continue ;
+            }
 
-			else continue ;
-		}
+            else continue ;
+        }
 
-		if ( ! count ) {
+        if ( ! count ) {
 
-			return SendServerMessage ( playerid, "You don't have any business to spawn in.", MSG_TYPE_ERROR ) ;
-		}
-	}
+            return SendServerMessage ( playerid, "Ýþyerinde spawn olmak için iþyerin yok.", MSG_TYPE_ERROR ) ;
+        }
+    }
 
-	else if ( ! strcmp ( params, "faction" ) ) {
+    else if ( ! strcmp ( params, "faction" ) || ! strcmp ( params, "birlik" ) ) {
 
-		for ( new i; i < MAX_POSSES; i ++ ) {
+        for ( new i; i < MAX_POSSES; i ++ ) {
 
-			if ( Posse [ i ] [ posse_id] != -1 ) {
+            if ( Posse [ i ] [ posse_id] != -1 ) {
 
-				if ( Posse [ i ] [ posse_spawn_x ] == 0 || Posse [ i ] [ posse_spawn_z ] == 0 || Posse [ i ] [ posse_spawn_z ] == 0 ) {
+                if ( Posse [ i ] [ posse_spawn_x ] == 0 || Posse [ i ] [ posse_spawn_z ] == 0 || Posse [ i ] [ posse_spawn_z ] == 0 ) {
 
-					return SendServerMessage ( playerid, "There is no faction spawn set up for your faction.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Birliðiniz için ayarlanmýþ bir birlik doðma noktasý yok.", MSG_TYPE_ERROR ) ;
+                }
 
-				else {
-					
-					Character [ playerid ] [ character_spawnpoint ] = 4 ;
-					SendServerMessage ( playerid, "You will now spawn at your faction's spawnpoint", MSG_TYPE_INFO ) ;
-					break;
-				}
-			}
-		}
-	}
+                else {
+                    
+                    Character [ playerid ] [ character_spawnpoint ] = 4 ;
+                    SendServerMessage ( playerid, "Artýk birliðinizin doðma noktasýnda spawn olacaksýnýz.", MSG_TYPE_INFO ) ;
+                    break;
+                }
+            }
+        }
+    }
 
-	else if ( ! strcmp ( params, "location" ) ) {
+    else if ( ! strcmp ( params, "location" ) || ! strcmp ( params, "konum" ) ) {
 
-		Character [ playerid ] [ character_spawnpoint ] = 6 ;
-		SendServerMessage ( playerid, "You will now spawn where you last logged out at.", MSG_TYPE_INFO ) ;
-	}
+        Character [ playerid ] [ character_spawnpoint ] = 6 ;
+        SendServerMessage ( playerid, "Artýk en son çýkýþ yaptýðýnýz konumda spawn olacaksýnýz.", MSG_TYPE_INFO ) ;
+    }
 
-	else return SendServerMessage ( playerid, "/spawn [newb, town, house, biz, faction, location]", MSG_TYPE_ERROR ) ;
+    else return SendServerMessage ( playerid, "KULLANIM: /spawn [newb/yenioyuncu, town/kasaba, house/ev, biz/isyeri, faction/birlik, location/konum]", MSG_TYPE_ERROR ) ;
 
-	mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_spawnpoint = %d WHERE character_id = %d", Character [ playerid ] [ character_spawnpoint ], Character [ playerid ] [ character_id ] ) ;
- 	mysql_tquery ( mysql, query ) ;
+    mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_spawnpoint = %d WHERE character_id = %d", Character [ playerid ] [ character_spawnpoint ], Character [ playerid ] [ character_id ] ) ;
+    mysql_tquery ( mysql, query ) ;
 
- 	return true ;
+    return true ;
 }
