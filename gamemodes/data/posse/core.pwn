@@ -43,8 +43,8 @@ CMD:possehelp ( playerid, params[] ) {
 
 	if ( IsPlayerInPosse ( playerid ) && Posse [ posseid ] [ posse_type ] == 1 ) {
 
-		SendClientMessage ( playerid, ADMIN_BLUE, "[POLICE] /cuff, /disarm, /charge, /clearcharge, /viewcharges, /prison, /unprison" ) ;
-		SendClientMessage ( playerid, ADMIN_BLUE, "[POLICE] /pkiosk, /poster, /td (/r), /removeposter, /viewdebt, /prisoners, /tackle" ) ;
+		SendClientMessage ( playerid, ADMIN_BLUE, "[POLÝS] /cuff(kelepçe), /disarm(engelle), /charge(ceza yaz), /clearcharge(cezalarý temizle), /viewcharges(cezalara bak), /prison(hapse at), /unprison(hapisten çýkar)" ) ;
+		SendClientMessage ( playerid, ADMIN_BLUE, "[POLÝS] /pkiosk, /poster(aranan posteri oluþtur), /td (/r), /removeposter(postei sil), /viewdebt, /prisoners(mahkumlar), /tackle" ) ;
 	}
 
 	return cmd_posse ( playerid, params );

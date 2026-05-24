@@ -71,6 +71,6 @@ public RecieveTelegramMessage(playerid) {
 
 	if ( IsPlayerConnected ( playerid ) ) {
 
-		SendServerMessage ( playerid, "You have recieved a telegram!", MSG_TYPE_INFO ) ;
+		SendServerMessage ( playerid, "Bir posta aldýn!", MSG_TYPE_INFO ) ;
 	}
 }

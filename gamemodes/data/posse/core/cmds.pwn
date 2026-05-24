@@ -1,645 +1,583 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 CMD:badge ( playerid, params [] ) {
 
-	new posseid = Character [ playerid ] [ character_posse ] ;
+    new posseid = Character [ playerid ] [ character_posse ] ;
 
-	if ( ! IsPlayerInPosse ( playerid ) || !IsLawEnforcementPosse ( posseid ) ) {
+    if ( ! IsPlayerInPosse ( playerid ) || !IsLawEnforcementPosse ( posseid ) ) {
 
-		return SendServerMessage ( playerid, "You have to be in a police posse in order to do this command.", MSG_TYPE_INFO ) ;
-	}
+        return SendServerMessage ( playerid, "Bu komutu kullanmak için bir polis grubunda (posse) olmalýsýn.", MSG_TYPE_INFO ) ;
+    }
 
-	new type ;
+    new type ;
 
-	if ( sscanf ( params, "i", type ) ) {
+    if ( sscanf ( params, "i", type ) ) {
 
-		return SendServerMessage ( playerid, "/badge [type: 0 - 3]", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/badge [tip: 0 - 3]", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( type < 0 || type > 3 ) {
+    if ( type < 0 || type > 3 ) {
 
-		return SendServerMessage ( playerid, "No lower than 0, or higher than 3!", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "0'dan küçük veya 3'ten büyük olamaz!", MSG_TYPE_ERROR ) ;
+    }
 
-	switch ( type ) {
+    switch ( type ) {
 
-		case 0: {
-			
-			SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, 19347, 1 ) ;
-		}
-		case 1: {
-			
-			SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, 19774, 1 ) ;
-		}
-		case 2: {
-			
-			SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, 19775, 1 ) ;
-		}
-		case 3: {
-			
-			SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, 19776, 1 ) ;
-		}
-	}
+        case 0: {
+            
+            SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, 19347, 1 ) ;
+        }
+        case 1: {
+            
+            SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, 19774, 1 ) ;
+        }
+        case 2: {
+            
+            SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, 19775, 1 ) ;
+        }
+        case 3: {
+            
+            SetPlayerAttachedObject(playerid, ATTACH_SLOT_EQUIP, 19776, 1 ) ;
+        }
+    }
 
-	EditAttachedObject(playerid, ATTACH_SLOT_EQUIP ) ;
-	SendServerMessage ( playerid, "You can now edit the badge. Reminder: equipping an item will remove it.", MSG_TYPE_ERROR ) ;
+    EditAttachedObject(playerid, ATTACH_SLOT_EQUIP ) ;
+    SendServerMessage ( playerid, "Artýk rozeti düzenleyebilirsin. Hatýrlatma: bir eþyayý kuþanmak, mevcut olaný kaldýrýr.", MSG_TYPE_ERROR ) ;
 
-	return true ;
+    return true ;
 }
 
 
 CMD:posse ( playerid, params [] ) {
-	if ( ! IsPlayerInPosse ( playerid ) ) {
+    if ( ! IsPlayerInPosse ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You're not in a posse.", MSG_TYPE_INFO ) ;	
-	}
+        return SendServerMessage ( playerid, "Bir grupta (posse) deðilsin.", MSG_TYPE_INFO ) ;    
+    }
 
-	new option [ 32 ], value, extra [ 36 ], posseid = Character [ playerid ] [ character_posse ] ;
+    new option [ 32 ], value, extra [ 36 ], posseid = Character [ playerid ] [ character_posse ] ;
 
-	if ( sscanf ( params, "s[32]I(-1)S(-1)[36]", option, value, extra) ) {
+    if ( sscanf ( params, "s[32]I(-1)S(-1)[36]", option, value, extra) ) {
 
-		return SendServerMessage ( playerid, "/posse [chat, invite, uninvite, tier, rank, spawn, members] [player: optional] [extra: optional]", MSG_TYPE_ERROR ) ;
-	} 
+        return SendServerMessage ( playerid, "/posse [chat, invite, uninvite, tier, rank, spawn, members] [oyuncu: isteðe baðlý] [ekstra: isteðe baðlý]", MSG_TYPE_ERROR ) ;
+    } 
 
-	if ( ! strcmp ( option, "chat" ) ) {
+    if ( ! strcmp ( option, "chat" ) ) {
 
-		if ( ! Character [ playerid ] [ character_posse ] ) {
-			return SendServerMessage ( playerid, "You're not in a posse.", MSG_TYPE_INFO ) ;
-		}
-		
-		if ( Character [ playerid ] [ character_possetier ] < 2 ) {
-			return SendServerMessage ( playerid, "You lack the correct privileges to perform this action.", MSG_TYPE_WARN ) ;
-		}
+        if ( ! Character [ playerid ] [ character_posse ] ) {
+            return SendServerMessage ( playerid, "Bir grupta (posse) deðilsin.", MSG_TYPE_INFO ) ;
+        }
+        
+        if ( Character [ playerid ] [ character_possetier ] < 2 ) {
+            return SendServerMessage ( playerid, "Bu iþlemi gerçekleþtirmek için yeterli yetkiye sahip deðilsin.", MSG_TYPE_WARN ) ;
+        }
 
-		if ( Posse_Chat [ posseid ] ) {
-			Posse_Chat [ posseid ] = false ;
-			
-			return SendPosseWarning ( posseid, sprintf("{[ %s %s (%d) has turned the posse chat off. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid ) ) ;
-		}
+        if ( Posse_Chat [ posseid ] ) {
+            Posse_Chat [ posseid ] = false ;
+            
+            return SendPosseWarning ( posseid, sprintf("{[ %s %s (%d) grup sohbetini kapattý. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid ) ) ;
+        }
 
-		else if ( ! Posse_Chat [ posseid ] ) {
-			Posse_Chat [ posseid ] = true ;
+        else if ( ! Posse_Chat [ posseid ] ) {
+            Posse_Chat [ posseid ] = true ;
 
-			return SendPosseWarning ( posseid, sprintf("{[ %s %s (%d) has turned the posse chat on. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid ) ) ;
-		}
+            return SendPosseWarning ( posseid, sprintf("{[ %s %s (%d) grup sohbetini açtý. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid ) ) ;
+        }
+    }
 
+    else if ( ! strcmp ( option, "invite" ) ) {
 
-		//OldLog ( playerid, "posse/chat", sprintf ( "%s has toggled the faction chat of ID %d (status: %d) - 0: off, 1: on.", ReturnUserName ( playerid, true ), posseid, Posse_Chat [posseid ] )) ;
-	}
+        if ( Character [ playerid ] [ character_possetier ] < 2 ) {
 
-	else if ( ! strcmp ( option, "invite" ) ) {
+            return SendServerMessage ( playerid, "Bu iþlemi gerçekleþtirmek için yeterli yetkiye sahip deðilsin.", MSG_TYPE_WARN ) ;   
+        }
 
-		if ( Character [ playerid ] [ character_possetier ] < 2 ) {
+        if ( ! IsPlayerConnected ( value ) ) {
 
-			return SendServerMessage ( playerid, "You lack the correct privileges to perform this action.", MSG_TYPE_WARN ) ;	
-		}
+            return SendServerMessage ( playerid, "/posse invite [oyuncu] - girilen oyuncu mevcut deðil.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( ! IsPlayerConnected ( value ) ) {
+        if ( Character [ value ] [ character_posse ] > 0 ) {
 
-			return SendServerMessage ( playerid, "/posse invite [player] - entered player doesn't exist.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Oyuncu zaten bir grupta.", MSG_TYPE_WARN ) ; 
+        }
 
-		if ( Character [ value ] [ character_posse ] > 0 ) {
+        Character [ value ] [ character_posse ]        =  posseid ;
+        Character [ value ] [ character_possetier ]    = 1 ;
 
-			return SendServerMessage ( playerid, "Player is already in a posse.", MSG_TYPE_WARN ) ;	
-		}
+        Character [ value ] [ character_posserank ][0] = EOS ;
+        strcat(Character [ value ] [ character_posserank ], "Yeni Üye", 36 ) ;
 
-		Character [ value ] [ character_posse ] 		=  posseid ;
-		Character [ value ] [ character_possetier ] 	= 1 ;
+        SendPosseWarning ( posseid, sprintf("{[ %s %s (%d), %s (%d) adlý oyuncuyu gruba davet etti. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid, ReturnUserName ( value, true ), value ));
+        SavePlayerFactionData ( value ) ;
 
-		Character [ value ] [ character_posserank ][0] = EOS ;
-		strcat(Character [ value ] [ character_posserank ], "Newcomer", 36 ) ;
+        return true ;
+    }
 
-		SendPosseWarning ( posseid, sprintf("{[ %s %s (%d) has invited %s (%d) to join the posse. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid, ReturnUserName ( value, true ), value ));
-		SavePlayerFactionData ( value ) ;
+    else if ( ! strcmp ( option, "uninvite" ) ) {
 
-		//OldLog ( playerid, "posse/invite", sprintf ( "%s has invited %s to join posse ID %d", ReturnUserName ( playerid, true ), ReturnUserName ( value, true ), posseid)) ;
+        if ( Character [ playerid ] [ character_possetier ] < 3 ) {
+            return SendServerMessage ( playerid, "Bu iþlemi sadece grup lideri gerçekleþtirebilir.", MSG_TYPE_ERROR ) ;
+        }
 
-		return true ;
-	}
+        if ( ! IsPlayerConnected ( value ) ) {
 
-	else if ( ! strcmp ( option, "uninvite" ) ) {
+            return SendServerMessage ( playerid, "/posse uninvite [oyuncu] - girilen oyuncu mevcut deðil.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Character [ playerid ] [ character_possetier ] < 3 ) {
-			return SendServerMessage ( playerid, "Only the posse leader can perform this action.", MSG_TYPE_ERROR ) ;
-		}
+        SendPosseWarning ( posseid, sprintf("{[ %s %s (%d), %s (%d) adlý oyuncuyu gruptan çýkardý. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid, ReturnUserName ( value, true ), value ));
 
-		if ( ! IsPlayerConnected ( value ) ) {
+        Character [ value ] [ character_posse ]        = -1 ;
+        Character [ value ] [ character_possetier ]    = 0 ;
 
-			return SendServerMessage ( playerid, "/posse uninvite [player] - entered player doesn't exist.", MSG_TYPE_ERROR ) ;
-		}
+        Character [ value ] [ character_posserank ][0] = EOS ;
+        strcat(Character [ value ] [ character_posserank ], "Yok", 36 ) ;
 
-		SendPosseWarning ( posseid, sprintf("{[ %s %s (%d) has removed %s (%d) from the posse. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid, ReturnUserName ( value, true ), value ));
-		//OldLog ( playerid, "posse/uninvite", sprintf ( "%s has kicked %s from posse ID %d", ReturnUserName ( playerid, true ), ReturnUserName ( value, true ), posseid)) ;
+        SavePlayerFactionData ( value ) ;
 
-		Character [ value ] [ character_posse ] 		= -1 ;
-		Character [ value ] [ character_possetier ] 	= 0 ;
+        return true ;
+    }
 
-		Character [ value ] [ character_posserank ][0] = EOS ;
-		strcat(Character [ value ] [ character_posserank ], "None", 36 ) ;
+    else if ( ! strcmp ( option, "tier" ) ) {
 
-		SavePlayerFactionData ( value ) ;
+        new tier = strval ( extra ) ;
 
-		return true ;
-	}
+        if ( Character [ playerid ] [ character_possetier ] < 3 ) {
 
-	else if ( ! strcmp ( option, "tier" ) ) {
+            return SendServerMessage ( playerid, "Bu iþlemi gerçekleþtirmek için yeterli yetkiye sahip deðilsin.", MSG_TYPE_WARN ) ;
+        }
 
-		new tier = strval ( extra ) ;
+        if ( ! IsPlayerConnected ( value ) ) {
 
-		if ( Character [ playerid ] [ character_possetier ] < 3 ) {
+            return SendServerMessage ( playerid, "/posse tier [oyuncu] [seviye] - girilen oyuncu mevcut deðil.", MSG_TYPE_ERROR ) ;
+        }
+        
+        if ( tier < 1 || tier > 3 ) {
+            return SendServerMessage ( playerid, "Seviye 1'den küçük veya 3'ten büyük olamaz.", MSG_TYPE_WARN ) ;
+        }
+        
+        Character [ value ] [ character_possetier ] = tier ;
 
-			return SendServerMessage ( playerid, "You lack the correct privileges to perform this action.", MSG_TYPE_WARN ) ;
-		}
+        SendPosseWarning ( posseid, sprintf("{[ %s %s (%d), %s (%d) adlý oyuncunun seviyesini %d olarak ayarladý. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid, ReturnUserName ( value, true ), value, tier ));
 
-		if ( ! IsPlayerConnected ( value ) ) {
+        SavePlayerFactionData ( value ) ;
 
-			return SendServerMessage ( playerid, "/posse tier [player] [tier] - entered player doesn't exist.", MSG_TYPE_ERROR ) ;
-		}
-		
-		if ( tier < 1 || tier > 3 ) {
-			return SendServerMessage ( playerid, "Tier can't be less than 1 or more than 3.", MSG_TYPE_WARN ) ;
-		}
-		
-		Character [ value ] [ character_possetier ] = tier ;
+        return true ;
+    }
 
-		SendPosseWarning ( posseid, sprintf("{[ %s %s (%d) has set %s (%d)'s tier to %d. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid, ReturnUserName ( value, true ), value, tier ));
-		//OldLog ( playerid, "posse/tier", sprintf ( "%s has set %s's tier to %d (posseid: %d)", ReturnUserName ( playerid, true ), ReturnUserName ( value, true ), tier, posseid)) ;
+    else if ( ! strcmp ( option, "rank" ) ) {
 
-		SavePlayerFactionData ( value ) ;
+        if ( ! IsPlayerConnected ( value ) ) {
 
-		return true ;
-	}
+            return SendServerMessage ( playerid, "/posse rank [oyuncu] [rütbe] - girilen oyuncu mevcut deðil.", MSG_TYPE_ERROR ) ;
+        }
 
-	else if ( ! strcmp ( option, "rank" ) ) {
+        if ( Character [ playerid ] [ character_possetier ] < 2 ) {
 
-		if ( ! IsPlayerConnected ( value ) ) {
+            return SendServerMessage ( playerid, "Bu iþlemi gerçekleþtirmek için yeterli yetkiye sahip deðilsin.", MSG_TYPE_WARN ) ;
+        }
 
-			return SendServerMessage ( playerid, "/posse rank [player] [rank] - entered player doesn't exist.", MSG_TYPE_ERROR ) ;
-		}
+        if ( strlen ( extra ) > MAX_POSSE_NAME ) {
 
-		if ( Character [ playerid ] [ character_possetier ] < 2 ) {
+            return SendServerMessage ( playerid, "Rütbe 36 karakterden uzun olamaz.", MSG_TYPE_WARN ) ;
+        }
 
-			return SendServerMessage ( playerid, "You lack the correct privileges to perform this action.", MSG_TYPE_WARN ) ;
-		}
+        Character [ value ] [ character_posserank ][0] = EOS ;
+        strcat(Character [ value ] [ character_posserank ], extra, 36 ) ;
 
-		if ( strlen ( extra ) > MAX_POSSE_NAME ) {
+        SendPosseWarning ( posseid, sprintf("{[ %s %s (%d), %s (%d) adlý oyuncunun rütbesini %s olarak ayarladý. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid, ReturnUserName ( value, true ), value, extra ));
 
-			return SendServerMessage ( playerid, "Rank can't be longer than 36 characters.", MSG_TYPE_WARN ) ;
-		}
+        SavePlayerFactionData ( value ) ;
 
-		Character [ value ] [ character_posserank ][0] = EOS ;
-		strcat(Character [ value ] [ character_posserank ], extra, 36 ) ;
+        return true ;
+    }
 
-		SendPosseWarning ( posseid, sprintf("{[ %s %s (%d) has set %s (%d)'s rank to %s. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid, ReturnUserName ( value, true ), value, extra ));
-		//OldLog ( playerid, "posse/rank", sprintf ( "%s has set %s's rank to %s (posseid: %d)", ReturnUserName ( playerid, true ), ReturnUserName ( value, true ), extra, posseid)) ;
+    else if ( ! strcmp ( option, "spawn" ) ) {
 
-		SavePlayerFactionData ( value ) ;
+        if ( ! Character [ playerid ] [ character_posse ] ) {
+            return SendServerMessage ( playerid, "Bir grupta (posse) deðilsin.", MSG_TYPE_INFO ) ;
+        }
+        
+        if ( Character [ playerid ] [ character_possetier ] < 3 ) {
+            return SendServerMessage ( playerid, "Bu iþlemi gerçekleþtirmek için yeterli yetkiye sahip deðilsin.", MSG_TYPE_WARN ) ;
+        }
 
-		return true ;
-	}
+        new Float: pos_x, Float: pos_y, Float: pos_z, p_int = GetPlayerInterior ( playerid ), p_vw = GetPlayerVirtualWorld ( playerid ), query [ 256 ] ;
+        GetPlayerPos ( playerid, pos_x, pos_y, pos_z ) ;
 
-	else if ( ! strcmp ( option, "spawn" ) ) {
+        mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET posse_spawn_x = '%f', posse_spawn_y = '%f', posse_spawn_z = '%f', posse_spawn_int = '%d', posse_spawn_vw = '%d' WHERE posse_id = %d", 
+            pos_x, pos_y, pos_z, p_int, p_vw, posseid ) ;
 
-		if ( ! Character [ playerid ] [ character_posse ] ) {
-			return SendServerMessage ( playerid, "You're not in a posse.", MSG_TYPE_INFO ) ;
-		}
-		
-		if ( Character [ playerid ] [ character_possetier ] < 3 ) {
-			return SendServerMessage ( playerid, "You lack the correct privileges to perform this action.", MSG_TYPE_WARN ) ;
-		}
+        mysql_tquery ( mysql, query ) ;  
 
-		new Float: pos_x, Float: pos_y, Float: pos_z, p_int = GetPlayerInterior ( playerid ), p_vw = GetPlayerVirtualWorld ( playerid ), query [ 256 ] ;
-		GetPlayerPos ( playerid, pos_x, pos_y, pos_z ) ;
+        Init_LoadPosses () ;
 
-		mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET posse_spawn_x = '%f', posse_spawn_y = '%f', posse_spawn_z = '%f', posse_spawn_int = '%d', posse_spawn_vw = '%d' WHERE posse_id = %d", 
-			pos_x, pos_y, pos_z, p_int, p_vw, posseid ) ;
+        return SendPosseWarning ( posseid, sprintf("{[ %s %s (%d) grup doðma noktasýný deðiþtirdi. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid ) ) ;
+    }
 
-		mysql_tquery ( mysql, query ) ;  
+    else if ( ! strcmp ( option, "kiosk" ) ) {
 
-		Init_LoadPosses () ;
+        if ( ! Character [ playerid ] [ character_posse ] ) {
+            return SendServerMessage ( playerid, "Bir grupta (posse) deðilsin.", MSG_TYPE_INFO ) ;
+        }
 
-		//OldLog ( playerid, "posse/spawn", sprintf ( "%s has set posseid: %d's spawnpoint to %0.2f, %0.2f, %0.2f", ReturnUserName ( playerid, true ), posseid, pos_x, pos_y, pos_z )) ;
+        return SendServerMessage(playerid,"/possekiosk komutunu kullan.",MSG_TYPE_ERROR);
+    }
 
-		return SendPosseWarning ( posseid, sprintf("{[ %s %s (%d) has changed the faction spawnpoint. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid ) ) ;
-	}
+    else if ( ! strcmp ( option, "members" ) ) {
 
-	else if ( ! strcmp ( option, "kiosk" ) ) {
+        new string [ 1024 ], query [ 128 ] ;
+        if ( ! Character [ playerid ] [ character_posse ] ) {
+            
+            return SendServerMessage ( playerid, "Bir grupta (posse) deðilsin.", MSG_TYPE_INFO ) ;
+        }
 
-		if ( ! Character [ playerid ] [ character_posse ] ) {
-			return SendServerMessage ( playerid, "You're not in a posse.", MSG_TYPE_INFO ) ;
-		}
 
-		return SendServerMessage(playerid,"Use /possekiosk instead.",MSG_TYPE_ERROR);
-		/*
-		
-		if ( Character [ playerid ] [ character_possetier ] < 3 ) {
-			return SendServerMessage ( playerid, "You lack the correct privileges to perform this action.", MSG_TYPE_WARN ) ;
-		}
+        foreach ( new i : Player ) {
 
-		new Float: pos_x, Float: pos_y, Float: pos_z, Float: rot_z, query[256];
-		GetPlayerPos ( playerid, pos_x, pos_y, pos_z ) ;
-		GetPlayerFacingAngle ( playerid, rot_z ) ;
+            if ( Character [ i ] [ character_posse ] == posseid ) {
 
-		mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET kiosk_x = '%f', posse_kiosk_y = '%f', posse_kiosk_z = '%f', posse_kiosk_rx = '%f', posse_kiosk_ry = '%f', posse_kiosk_rz = '%f' WHERE posse_id = %d", 
-			pos_x, pos_y, pos_z, 0.0, 0.0, rot_z, posseid ) ;
+                strcat ( string, sprintf("{629C5C}[ÇEVRÝMÝÇÝ]:{DEDEDE} %s %s\n", Character [ i ] [ character_posserank ], ReturnUserName ( i, true ) ) ) ;
+            }
+            else continue;
+        }
 
-		mysql_tquery ( mysql, query ) ;  
+        inline posse_OfflineMembers() {
 
-		Init_LoadPosses () ;
+            new rows, pname[MAX_PLAYER_NAME], prank[36], bool: skipresult;
 
-		//OldLog ( playerid, "posse/spawn", sprintf ( "%s has set posseid: %d's spawnpoint to %0.2f, %0.2f, %0.2f", ReturnUserName ( playerid, true ), posseid, pos_x, pos_y, pos_z )) ;
+            cache_get_row_count ( rows ) ;
 
-		return SendPosseWarning ( posseid, sprintf("{[ %s %s (%d) has changed the faction kiosk spawnpoint. ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid ) ) ;
-		*/
-	}
+            if ( rows ) {
 
-	else if ( ! strcmp ( option, "members" ) ) {
+                query [ 0 ] = EOS ;
 
-		new string [ 1024 ], query [ 128 ] ;
-		if ( ! Character [ playerid ] [ character_posse ] ) {
-			
-			return SendServerMessage ( playerid, "You're not in a posse.", MSG_TYPE_INFO ) ;
-		}
+                for ( new i, j = rows; i < j; i ++ ) {
 
+                    new char_id;
+                    cache_get_value_name_int(i, "character_id", char_id ) ;
 
-		foreach ( new i : Player ) {
+                    cache_get_value_name ( i, "character_name", pname, MAX_PLAYER_NAME ) ;
+                    cache_get_value_name ( i, "character_posserank", prank, 36 ) ;
 
-			if ( Character [ i ] [ character_posse ] == posseid ) {
+                    foreach ( new ix: Player ) {
 
-				strcat ( string, sprintf("{629C5C}[ONLINE]:{DEDEDE} %s %s\n", Character [ i ] [ character_posserank ], ReturnUserName ( i, true ) ) ) ;
-			}
-			else continue;
-		}
+                        if ( char_id == Character [ ix ] [ character_id ] ) {
 
-		inline posse_OfflineMembers() {
+                            skipresult = true ;
+                        }
 
-			new rows, pname[MAX_PLAYER_NAME], prank[36], bool: skipresult;
+                        else continue ;
+                    }
 
-			cache_get_row_count ( rows ) ;
+                    if ( ! skipresult ) {
+                        strcat ( string, sprintf("{FF6347}[ÇEVRÝMDIÞI]:{DEDEDE} %s %s\n", prank, pname ) ) ;
 
-			if ( rows ) {
+                    }
 
-				query [ 0 ] = EOS ;
+                    else if ( skipresult ) {
+                        skipresult = false ;
+                        continue ;
+                    }
+                }
+            }
 
-				for ( new i, j = rows; i < j; i ++ ) {
+            return ShowPlayerDialog ( playerid, 9999, DIALOG_STYLE_LIST, "Grup Üyeleri", string, "Çýkýþ", "" ) ;
 
-					new char_id;
-					cache_get_value_name_int(i, "character_id", char_id ) ;
+        }
 
-					cache_get_value_name ( i, "character_name", pname, MAX_PLAYER_NAME ) ;
-					cache_get_value_name ( i, "character_posserank", prank, 36 ) ;
+        return MySQL_TQueryInline ( mysql, using inline posse_OfflineMembers, "SELECT character_id, character_name, character_posserank FROM characters WHERE character_posse = %d", posseid ) ;
 
-					foreach ( new ix: Player ) {
+    }
 
-						if ( char_id == Character [ ix ] [ character_id ] ) {
-
-							skipresult = true ;
-						}
-
-						else continue ;
-					}
-
-					if ( ! skipresult ) {
-						strcat ( string, sprintf("{FF6347}[OFFLINE]:{DEDEDE} %s %s\n", prank, pname ) ) ;
-
-					}
-
-					else if ( skipresult ) {
-						skipresult = false ;
-						continue ;
-					}
-				}
-			}
-
-			return ShowPlayerDialog ( playerid, 9999, DIALOG_STYLE_LIST, "Posse Members", string, "Exit", "" ) ;
-
-		}
-
-		return MySQL_TQueryInline ( mysql, using inline posse_OfflineMembers, "SELECT character_id, character_name, character_posserank FROM characters WHERE character_posse = %d", posseid ) ;
-
-	}
-
-	return SendServerMessage ( playerid, "/posse [invite, uninvite, tier, rank, spawn, members] [player: optional] [extra: optional]", MSG_TYPE_ERROR) ;
+    return SendServerMessage ( playerid, "/posse [invite, uninvite, tier, rank, spawn, members] [oyuncu: isteðe baðlý] [ekstra: isteðe baðlý]", MSG_TYPE_ERROR) ;
 }
 
 SavePlayerFactionData ( playerid ) {
 
-	new query [ 256 ] ;
+    new query [ 256 ] ;
 
-	mysql_format(mysql, query, sizeof ( query ), "UPDATE characters SET character_posse = '%d', character_possetier = '%d', character_posserank = '%s' WHERE character_id = '%d'", 
-		Character [ playerid ] [ character_posse ],	Character [ playerid ] [ character_possetier ], Character [ playerid ] [ character_posserank ], Character [ playerid ] [ character_id] ) ;
+    mysql_format(mysql, query, sizeof ( query ), "UPDATE characters SET character_posse = '%d', character_possetier = '%d', character_posserank = '%s' WHERE character_id = '%d'", 
+        Character [ playerid ] [ character_posse ], Character [ playerid ] [ character_possetier ], Character [ playerid ] [ character_posserank ], Character [ playerid ] [ character_id] ) ;
 
-	mysql_tquery ( mysql, query ) ;
+    mysql_tquery ( mysql, query ) ;
 
-	return true ;
+    return true ;
 }
 
 CMD:possechat ( playerid, params [] ) {
-	new text [ 144 ], string [ 256 ], posseid = Character [ playerid ] [ character_posse ] ;
+    new text [ 144 ], string [ 256 ], posseid = Character [ playerid ] [ character_posse ] ;
 
-	if ( ! IsPlayerInPosse ( playerid ) ) {
+    if ( ! IsPlayerInPosse ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You're not in a posse.", MSG_TYPE_INFO ) ;
-	}
+        return SendServerMessage ( playerid, "Bir grupta (posse) deðilsin.", MSG_TYPE_INFO ) ;
+    }
 
-	if ( sscanf ( params, "s[144]", text ) ) {
+    if ( sscanf ( params, "s[144]", text ) ) {
 
-		return SendServerMessage ( playerid, "/possechat <text>", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/possechat <mesaj>", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( ! Posse_Chat [ posseid ] && Character [ playerid ] [ character_possetier ] < 2 ) {
-		return SendServerMessage ( playerid, "Posse chat is off.", MSG_TYPE_ERROR) ;
-	}
+    if ( ! Posse_Chat [ posseid ] && Character [ playerid ] [ character_possetier ] < 2 ) {
+        return SendServerMessage ( playerid, "Grup sohbeti kapalý.", MSG_TYPE_ERROR) ;
+    }
 
-	format ( string, sizeof ( string ), "{[ %s %s (%d): %s ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid, text);
+    format ( string, sizeof ( string ), "{[ %s %s (%d): %s ]}", Character [ playerid ] [ character_posserank ], ReturnUserName ( playerid, true ), playerid, text);
 
-	//OldLog ( playerid, "posse/chat", sprintf ( "%s in posseid: %d: %s", ReturnUserName ( playerid, true ), posseid, text)) ;
+    SendPosseMessage ( posseid, string ) ;
 
-	SendPosseMessage ( posseid, string ) ;
-
-	return true ;
+    return true ;
 }
 
 CMD:pc ( playerid, params [] ) return cmd_possechat ( playerid, params ) ; 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 CMD:aposse ( playerid, params [] ) {
 
-	if ( ! IsPlayerModerator ( playerid ) ) {
+    if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Bunu yapabilmek için moderatör olman gerekiyor!", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( GetStaffGroup ( playerid ) < ADVANCED_MOD ) {
+    if ( GetStaffGroup ( playerid ) < ADVANCED_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a advanced moderator in order to do this.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Bunu yapabilmek için en az ileri seviye moderatör olmalýsýn.", MSG_TYPE_ERROR ) ;
+    }
 
-	// add sots
-	new option [ 32 ], value, extra [ 36 ] ;
+    new option [ 32 ], value, extra [ 36 ] ;
 
-	if ( sscanf ( params, "s[32]I(0)S(-1)[36]", option, value, extra) ) {
+    if ( sscanf ( params, "s[32]I(0)S(-1)[36]", option, value, extra) ) {
 
-		return SendServerMessage ( playerid, "/aposse [create, delete, leader, name, type] [extra: optional]", MSG_TYPE_ERROR ) ;
-	} 
+        return SendServerMessage ( playerid, "/aposse [create, delete, leader, name, type] [ekstra: isteðe baðlý]", MSG_TYPE_ERROR ) ;
+    } 
 
-	new query [ 256 ] ;
+    new query [ 256 ] ;
 
-	if ( ! strcmp ( option, "create" ) ) {
+    if ( ! strcmp ( option, "create" ) ) {
 
-		if ( ! value || strlen ( extra ) < 0 ) {
+        if ( ! value || strlen ( extra ) < 0 ) {
 
-			return SendServerMessage ( playerid, "/aposse create [slots] [name]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/aposse create [slot] [isim]", MSG_TYPE_ERROR ) ;
+        }
 
-		CreatePosse ( extra, 1, value ) ;
+        CreatePosse ( extra, 1, value ) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) created posse \"%s\" with %d slots.", ReturnUserName ( playerid, true ), playerid,  extra, value ), MOD_WARNING_MED ) ;
-		//OldLog ( playerid, "mod/faction", sprintf( "%s (%d) created posse \"%s\" with %d slots.", ReturnUserName ( playerid, true ), playerid,  extra, value )) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d) \"%s\" adlý grubu %d slot ile oluþturdu.", ReturnUserName ( playerid, true ), playerid,  extra, value ), MOD_WARNING_MED ) ;
 
-		SendServerMessage ( INVALID_PLAYER_ID, "Assign a type and type using /aposse type and /aposse leader.", MSG_TYPE_WARN ) ;
-		//OldLog ( playerid, "aposse/create", sprintf ( "%s created posse with name %s, slot %d", ReturnUserName ( playerid, true ), extra, value)) ;
+        SendServerMessage ( INVALID_PLAYER_ID, "Grup tipini atamak için /aposse type ve /aposse leader komutlarýný kullan.", MSG_TYPE_WARN ) ;
 
+        return true ;
+    }
 
-		return true ;
-	}
+    else if ( ! strcmp ( option, "delete" ) ) {
 
-	else if ( ! strcmp ( option, "delete" ) ) {
+        if ( ! IsValidPosse ( value ) ) {
+            
+            return SendServerMessage ( playerid, "Seçilen grup mevcut deðil.", MSG_TYPE_INFO ) ;
+        }
 
-		if ( ! IsValidPosse ( value ) ) {
-			
-			return SendServerMessage ( playerid, "Selected posse doesn't exist.", MSG_TYPE_INFO ) ;
-		}
+        task_yield ( 1 ) ;
 
-		task_yield ( 1 ) ;
+        new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
+        await_arr ( dialog_response ) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, "{C23030}ÝSTÝSMAR UYARISI", "{C23030}DEVAM ETMEDEN ÖNCE OKU.{DEDEDE}\n\nBir grubu silmek üzeresin.\nEðer bu seçeneði istismar edersen, tespit edilirsin ve KALICI olarak yasaklanýrsýn.\n\nBunu bilerek, devam et.", "{C23030}Onayla", "Ýptal" ) ;
 
-		new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
-		await_arr ( dialog_response ) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, "{C23030}ABUSE WARNING", "{C23030}READ THIS BEFORE PRESSING CONTINUE.{DEDEDE}\n\nYou're about to delete a posse.\nIf you're abusing this option, you will be caught and PERMANENTLY banned.\n\nWith that in mind, go ahead.", "{C23030}Proceed", "Cancel" ) ;
+        if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
-		if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+            return false ;
+        }
 
-			return false ;
-		}
+        new string [ 36 ] ;
 
-		new string [ 36 ] ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d) \"%s\" grubunu (%d) sildi.", ReturnUserName ( playerid, true ), playerid,  Posse [ value ] [ posse_name ], value ), MOD_WARNING_MED ) ;
+        DeletePosse ( value );
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) deleted posse \"%s\" (%d).", ReturnUserName ( playerid, true ), playerid,  Posse [ value ] [ posse_name ], value ), MOD_WARNING_MED ) ;
-		DeletePosse ( value );
+        foreach ( new i : Player ) {
 
-		foreach ( new i : Player ) {
+            if ( Character [ i ] [ character_posse ] == value ) {
 
-			if ( Character [ i ] [ character_posse ] == value ) {
+                strcopy ( string, "Yok" );
 
-				strcopy ( string, "None" );
+                Character [ i ] [ character_posse ] = 0;
+                Character [ i ] [ character_possetier ] = 0;
+                Character [ i ] [ character_posserank ] = string;
+            }
 
-				Character [ i ] [ character_posse ] = 0;
-				Character [ i ] [ character_possetier ] = 0;
-				Character [ i ] [ character_posserank ] = string;
-			}
+            else continue ;
+        }
+    }
 
-			else continue ;
-		}
-	}
+    else if ( ! strcmp ( option, "name" ) ) {
 
-	else if ( ! strcmp ( option, "name" ) ) {
+        if ( ! IsValidPosse ( value ) ) {
+            
+            return SendServerMessage ( playerid, "Seçilen grup mevcut deðil.", MSG_TYPE_INFO ) ;
+        }
 
-		if ( ! IsValidPosse ( value ) ) {
-			
-			return SendServerMessage ( playerid, "Selected posse doesn't exist.", MSG_TYPE_INFO ) ;
-		}
+        if ( strlen ( extra ) >= MAX_POSSE_NAME || strlen ( extra ) < 4 ) {
+            
+            return SendServerMessage ( playerid, "Ýsim 36 karakterden uzun veya 4 karakterden kýsa olamaz.", MSG_TYPE_INFO ) ;
+        }
 
-		if ( strlen ( extra ) >= MAX_POSSE_NAME || strlen ( extra ) < 4 ) {
-			
-			return SendServerMessage ( playerid, "Name can't be longer than 36 or less than 4 characters.", MSG_TYPE_INFO ) ;
-		}
+        mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET posse_name = '%s' WHERE posse_id = %d", extra, value) ;
+        mysql_tquery ( mysql, query ) ;  
 
-		mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET posse_name = '%s' WHERE posse_id = %d", extra, value) ;
-		mysql_tquery ( mysql, query ) ;  
+        SendPosseWarning ( value, sprintf("{[ Yetkili %s (%d) grubun ismini %s olarak deðiþtirdi. ]}", ReturnUserName ( playerid, true ), playerid, extra )) ;
 
-		SendPosseWarning ( value, sprintf("{[ Admin %s (%d) has changed the posse's name to %s. ]}", ReturnUserName ( playerid, true ), playerid, extra )) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d) %d ID'li grubun ismini %s olarak deðiþtirdi.", ReturnUserName ( playerid, true ), playerid, value, extra ), MOD_WARNING_LOW ) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) renamed posse ID %d to %s.", ReturnUserName ( playerid, true ), playerid, value, extra ), MOD_WARNING_LOW ) ;
-		//OldLog ( INVALID_PLAYER_ID, "mod/faction", sprintf( "%s (%d) renamed posse ID %d to %s.", ReturnUserName ( playerid, true ), playerid, value, extra )) ;
+        Init_LoadPosses();
+        return true ;
+    }
 
-		//OldLog ( playerid, "aposse/name", sprintf ( "%s set posseid %d's name to %s", ReturnUserName ( playerid, true ), value, extra )) ;
+    else if ( ! strcmp ( option, "leader" ) ) {
 
-		Init_LoadPosses();
-		return true ;
-	}
+        if ( ! IsValidPosse ( value ) ) {
+            
+            return SendServerMessage ( playerid, "Seçilen grup mevcut deðil.", MSG_TYPE_INFO ) ;
+        }
 
-	else if ( ! strcmp ( option, "leader" ) ) {
+        Character [ playerid ] [ character_posse ]      = value ;
+        Character [ playerid ] [ character_possetier ]  = 3 ;
 
-		if ( ! IsValidPosse ( value ) ) {
-			
-			return SendServerMessage ( playerid, "Selected posse doesn't exist.", MSG_TYPE_INFO ) ;
-		}
+        Character [ playerid] [ character_posserank ] [ 0 ] = EOS ;
+        strcat(Character [ playerid ] [ character_posserank ], "Yetkili", 36 ) ;
 
-		Character [ playerid ] [ character_posse ] 		= value ;
-		Character [ playerid ] [ character_possetier ] 	= 3 ;
+        SendPosseWarning ( value, sprintf("{[ Yetkili %s (%d) kendini grubun lideri yaptý. ]}", ReturnUserName ( playerid, true ), playerid )) ;
 
-		Character [ playerid] [ character_posserank ] [ 0 ] = EOS ;
-		strcat(Character [ playerid ] [ character_posserank ], "Admin", 36 ) ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d) kendini %d ID'li grubun lideri yaptý.", ReturnUserName ( playerid, true ), playerid, value ), MOD_WARNING_MED ) ;
 
-		SendPosseWarning ( value, sprintf("{[ Admin %s (%d) has made themselves the leader of the posse. ]}", ReturnUserName ( playerid, true ), playerid )) ;
+        SavePlayerFactionData ( playerid ) ;
 
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) has made themselves leader of posse ID %d.", ReturnUserName ( playerid, true ), playerid, value ), MOD_WARNING_MED ) ;
-		//OldLog ( playerid, "mod/faction", sprintf( "%s (%d)has made themselves leader of posse ID %d.", ReturnUserName ( playerid, true ), playerid, value )) ;
+        return true ;
+    }
 
-		//OldLog ( playerid, "aposse/name", sprintf ( "%s made themselves leader of posseid %d", ReturnUserName ( playerid, true ), value )) ;
+    else if ( ! strcmp ( option, "type" ) ) {
 
-		SavePlayerFactionData ( playerid ) ;
+        if ( ! IsValidPosse ( value ) ) {
+            
+            return SendServerMessage ( playerid, "Seçilen grup mevcut deðil.", MSG_TYPE_INFO ) ;
+        }
 
-		return true ;
-	}
+        new type = strval ( extra ) ;
+        Posse [ value ] [ posse_type ] = type ;
 
-	else if ( ! strcmp ( option, "type" ) ) {
+        mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET posse_type = '%d' WHERE posse_id = %d", type, Posse [ value ] [ posse_id ] ) ;
+        mysql_tquery ( mysql, query ) ;  
 
-		if ( ! IsValidPosse ( value ) ) {
-			
-			return SendServerMessage ( playerid, "Selected posse doesn't exist.", MSG_TYPE_INFO ) ;
-		}
+        SendPosseWarning ( value, sprintf("{[ Yetkili %s (%d) grubun tipini %d olarak deðiþtirdi. ]}", ReturnUserName ( playerid, true ), playerid, type ) ) ;
 
-		new type = strval ( extra ) ;
-		Posse [ value ] [ posse_type ] = type ;
+        SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d) %d ID'li grubun tipini %d olarak ayarladý.", ReturnUserName ( playerid, true ), playerid, value, type ), MOD_WARNING_LOW ) ;
+        
+        Init_LoadPosses();
 
-		mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET posse_type = '%d' WHERE posse_id = %d", type, Posse [ value ] [ posse_id ] ) ;
-		mysql_tquery ( mysql, query ) ;  
-
-		SendPosseWarning ( value, sprintf("{[ Admin %s (%d) has changed the posse's type to %d. ]}", ReturnUserName ( playerid, true ), playerid, type ) ) ;
-
-		SendModeratorWarning ( sprintf("[STAFF] %s (%d) has set posse ID %d's type to %d.", ReturnUserName ( playerid, true ), playerid, value, type ), MOD_WARNING_LOW ) ;
-		//OldLog ( INVALID_PLAYER_ID, "mod/faction", sprintf( "%s (%d) has set posse ID %d's type to %d.", ReturnUserName ( playerid, true ), playerid, value, type )) ;
-
-		//OldLog ( playerid, "aposse/name", sprintf ( "%s changed posseid %d's type to %d", ReturnUserName ( playerid, true ), value, type )) ;
-		Init_LoadPosses();
-
-		return true ;
-	}
+        return true ;
+    }
 
 
-	return true ;
+    return true ;
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//David
 
 CMD:possebank( playerid, params [] ) {
-	new option [ 16 ], amount, cents, query [ 256 ], posseid = Character [ playerid ] [ character_posse ] ;
+    new option [ 16 ], amount, cents, query [ 256 ], posseid = Character [ playerid ] [ character_posse ] ;
 
-	if ( ! IsPlayerInPosse ( playerid ) ) {
+    if ( ! IsPlayerInPosse ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You're not in a posse.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Bir grupta (posse) deðilsin.", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( ! IsPlayerInRangeOfPoint ( playerid, 3.5, Posse [ posseid ] [ posse_spawn_x ], Posse [ posseid ] [ posse_spawn_y ], Posse [ posseid ] [ posse_spawn_z ] ) ) {
+    if ( ! IsPlayerInRangeOfPoint ( playerid, 3.5, Posse [ posseid ] [ posse_spawn_x ], Posse [ posseid ] [ posse_spawn_y ], Posse [ posseid ] [ posse_spawn_z ] ) ) {
 
-		return SendServerMessage ( playerid, "You're not at your posse's spawn point.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Grubunun doðma noktasýnda deðilsin.", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( sscanf ( params, "s[16]I(-1)I(0)", option, amount, cents ) ) {
+    if ( sscanf ( params, "s[16]I(-1)I(0)", option, amount, cents ) ) {
 
-		return SendServerMessage ( playerid, "/p(osse)bank [balance, deposit, withdraw] [optional:dollars] [optional:cents]", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/p(osse)bank [balance, deposit, withdraw] [isteðe baðlý: dolar] [isteðe baðlý: cent]", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( !strcmp ( option, "balance", true) ) {
+    if ( !strcmp ( option, "balance", true) ) {
 
-		return SendServerMessage ( playerid, sprintf( "%s's Bank Balance: $%s.%02d", Posse [ posseid ] [ posse_name ], IntegerWithDelimiter ( Posse [ posseid ] [ posse_bank ] ),Posse[posseid][posse_bank_decimal] ), MSG_TYPE_INFO ) ;
-	}
+        return SendServerMessage ( playerid, sprintf( "%s Banka Bakiyesi: $%s.%02d", Posse [ posseid ] [ posse_name ], IntegerWithDelimiter ( Posse [ posseid ] [ posse_bank ] ),Posse[posseid][posse_bank_decimal] ), MSG_TYPE_INFO ) ;
+    }
 
-	else if ( !strcmp ( option, "deposit", true) ) {
+    else if ( !strcmp ( option, "deposit", true) ) {
 
-		if ( amount == -1 ) {
+        if ( amount == -1 ) {
 
-			return SendServerMessage ( playerid, "You need to input a value.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Bir deðer girmelisin.", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( Character [ playerid ] [ character_handmoney ] < amount ) {
+        if ( Character [ playerid ] [ character_handmoney ] < amount ) {
 
-			return SendServerMessage ( playerid, "You don't have that much money to deposit.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Yatýrmak için yeterli paran yok.", MSG_TYPE_ERROR ) ;
+        }
 
-		if(cents < 1 || cents > 99) {
+        if(cents < 1 || cents > 99) {
 
-			return SendServerMessage(playerid,"You can only give between 1-99 cent(s).", MSG_TYPE_ERROR);
-		}
+            return SendServerMessage(playerid,"Sadece 1-99 arasý cent girebilirsin.", MSG_TYPE_ERROR);
+        }
 
-		task_yield(1);
+        task_yield(1);
 
-		new dialog_response[e_DIALOG_RESPONSE_INFO];
-		await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, "{C23030}WARNING", "{C23030}READ THIS BEFORE PRESSING CONTINUE.{DEDEDE}\n\nYou're about to deposit your money into the posse's bank.\nYou will be unable to obtain your money back without having tier 3.\n\nWith that in mind, go ahead.", "{C23030}Proceed", "Cancel" ) ;
+        new dialog_response[e_DIALOG_RESPONSE_INFO];
+        await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, "{C23030}UYARI", "{C23030}DEVAM ETMEDEN ÖNCE OKU.{DEDEDE}\n\nParaný grup bankasýna yatýrmak üzeresin.\nTier 3 yetkisine sahip olmadan paraný geri çekemezsin.\n\nBunu bilerek, devam et.", "{C23030}Onayla", "Ýptal" ) ;
 
-		if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+        if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
-			return false ;
-		}
+            return false ;
+        }
 
-		Posse [ posseid ] [ posse_bank ] += amount ;
-		if(cents) { Posse [ posseid ] [ posse_bank_decimal ] += cents; }
-		TakeCharacterMoney ( playerid, amount, MONEY_SLOT_HAND ) ;
-		if(cents) { TakeCharacterChange(playerid,cents,MONEY_SLOT_HAND); }
+        Posse [ posseid ] [ posse_bank ] += amount ;
+        if(cents) { Posse [ posseid ] [ posse_bank_decimal ] += cents; }
+        TakeCharacterMoney ( playerid, amount, MONEY_SLOT_HAND ) ;
+        if(cents) { TakeCharacterChange(playerid,cents,MONEY_SLOT_HAND); }
 
-		SendPosseMessage ( posseid, sprintf("%s (%d) has deposited $%s.%02d into the posse's bank.", ReturnUserName ( playerid, true ), playerid, IntegerWithDelimiter( amount ),cents ) ) ;
+        SendPosseMessage ( posseid, sprintf("%s (%d), grup bankasýna $%s.%02d yatýrdý.", ReturnUserName ( playerid, true ), playerid, IntegerWithDelimiter( amount ),cents ) ) ;
 
-		mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET posse_bank = '%d', posse_bank_decimal = '%d' WHERE posse_id = %d", Posse [ posseid ] [ posse_bank ], Posse [ posseid ] [posse_bank_decimal], Posse [ posseid ] [ posse_id ] ) ;
-		mysql_tquery ( mysql, query ) ;
+        mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET posse_bank = '%d', posse_bank_decimal = '%d' WHERE posse_id = %d", Posse [ posseid ] [ posse_bank ], Posse [ posseid ] [posse_bank_decimal], Posse [ posseid ] [ posse_id ] ) ;
+        mysql_tquery ( mysql, query ) ;
+    }
 
-		//LOG_NEEDED: /possebank deposit 
-	}
+    else if ( !strcmp ( option, "withdraw", true) ) {
 
-	else if ( !strcmp ( option, "withdraw", true) ) {
+        if ( Character [ playerid ] [ character_possetier ] < 3 ) {
 
-		if ( Character [ playerid ] [ character_possetier ] < 3 ) {
+            return SendServerMessage ( playerid, "Bu iþlemi gerçekleþtirmek için yeterli yetkiye sahip deðilsin.", MSG_TYPE_WARN ) ;   
+        }
 
-			return SendServerMessage ( playerid, "You lack the correct privileges to perform this action.", MSG_TYPE_WARN ) ;	
-		}
+        if ( amount == -1 ) {
 
-		if ( amount == -1 ) {
+            return SendServerMessage ( playerid, "Bir deðer girmelisin.", MSG_TYPE_ERROR ) ;
+        }
 
-			return SendServerMessage ( playerid, "You need to input a value.", MSG_TYPE_ERROR ) ;
-		}
+        if ( Posse [ posseid ] [ posse_bank ] < amount ) {
 
-		if ( Posse [ posseid ] [ posse_bank ] < amount ) {
+            return SendServerMessage ( playerid, "Grup bankasýnda çekilecek kadar para yok.", MSG_TYPE_ERROR ) ;
+        }
 
-			return SendServerMessage ( playerid, "The posse's bank doesn't have that much money to withdraw.", MSG_TYPE_ERROR ) ;
-		}
+        if(cents < 1 || cents > 99) {
 
-		if(cents < 1 || cents > 99) {
+            return SendServerMessage(playerid,"Sadece 1-99 arasý cent çekebilirsin.", MSG_TYPE_ERROR);
+        }
 
-			return SendServerMessage(playerid,"You can only take between 1-99 cent(s).", MSG_TYPE_ERROR);
-		}
+        task_yield(1);
 
-		task_yield(1);
+        new dialog_response[e_DIALOG_RESPONSE_INFO];
+        await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, "{C23030}ÝSTÝSMAR UYARISI", "{C23030}DEVAM ETMEDEN ÖNCE OKU.{DEDEDE}\n\nGrup bankasýndan para çekmek üzeresin.\nBunun istismarý tespit edilmene ve /KALICI/ olarak yasaklanmana yol açar.\n\nBunu bilerek, devam et.", "{C23030}Onayla", "Ýptal" ) ;
 
-		new dialog_response[e_DIALOG_RESPONSE_INFO];
-		await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, "{C23030}ABUSE WARNING", "{C23030}READ THIS BEFORE PRESSING CONTINUE.{DEDEDE}\n\nYou're about to withdraw money from the posse's bank.\nAbuse of this will lead to you being caught, and you being /PERMANENTLY/ banned.\n\nWith that in mind, go ahead.", "{C23030}Proceed", "Cancel" ) ;
+        if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
-		if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+            return false ;
+        }
 
-			return false ;
-		}
+        Posse [ posseid ] [ posse_bank ] -= amount ;
+        if(cents) { Posse[posseid][posse_bank_decimal] -= cents; }
+        GiveCharacterMoney ( playerid, amount, MONEY_SLOT_HAND ) ;
+        if(cents) { GiveCharacterChange(playerid,cents,MONEY_SLOT_HAND); }
 
-		Posse [ posseid ] [ posse_bank ] -= amount ;
-		if(cents) { Posse[posseid][posse_bank_decimal] -= cents; }
-		GiveCharacterMoney ( playerid, amount, MONEY_SLOT_HAND ) ;
-		if(cents) { GiveCharacterChange(playerid,cents,MONEY_SLOT_HAND); }
+        SendPosseMessage ( posseid, sprintf("%s (%d), grup bankasýndan $%s.%02d çekti.", ReturnUserName ( playerid, true ), playerid, IntegerWithDelimiter( amount ),cents ) ) ;
 
-		SendPosseMessage ( posseid, sprintf("%s (%d) has withdrawn $%s.%02d from the posse's bank.", ReturnUserName ( playerid, true ), playerid, IntegerWithDelimiter( amount ),cents ) ) ;
+        mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET posse_bank = '%d', posse_bank_decimal = '%d' WHERE posse_id = %d", Posse [ posseid ] [ posse_bank ], Posse [ posseid ] [ posse_bank_decimal], Posse [ posseid ] [ posse_id ] ) ;
+        mysql_tquery ( mysql, query ) ; 
+    }
 
-		mysql_format ( mysql, query, sizeof ( query ), "UPDATE posses SET posse_bank = '%d', posse_bank_decimal = '%d' WHERE posse_id = %d", Posse [ posseid ] [ posse_bank ], Posse [ posseid ] [ posse_bank_decimal], Posse [ posseid ] [ posse_id ] ) ;
-		mysql_tquery ( mysql, query ) ; 
-
-		//LOG_NEEDED: /possebank withdraw
-	}
-
-	return true ;
+    return true ;
 }
 
-CMD:pbank ( playerid, params [] ) return cmd_possebank ( playerid, params ) ; 
+CMD:pbank ( playerid, params [] ) return cmd_possebank ( playerid, params ) ;
