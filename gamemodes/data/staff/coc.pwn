@@ -187,11 +187,11 @@ CMD:coc ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You're not a moderator.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Moderatör deðilsiniz.", MSG_TYPE_ERROR ) ;
 	}
 
 	playerLastCOCPage [ playerid ] = 1 ;
-	SendServerMessage ( playerid, "Click on a listed item to teleport to it. Use ESC to cancel.", MSG_TYPE_ERROR ) ;
+	SendServerMessage ( playerid, "Iþýnlanmak için bir öðeyi týklayýn. Ýptal etmek için ESC basýn.", MSG_TYPE_ERROR ) ;
 
 	return DisplayCOCDialogs ( playerid ) ;
 }
@@ -203,7 +203,7 @@ DisplayCOCDialogs(playerid) {
     new pages = floatround ( sizeof ( CenterCoordinates ) / MAX_ITEMS_ON_PAGE, floatround_floor ) + 1, 
     	resultcount = ( ( MAX_ITEMS_ON_PAGE * playerLastCOCPage [ playerid ] ) - MAX_ITEMS_ON_PAGE ) ;
 
-    strcat(string, "Cell ID \t Cell Name\n");
+    strcat(string, "Hücre ID \t Hücre Adý\n");
 
     for ( new i = resultcount; i < sizeof ( CenterCoordinates ); i ++ ) {
 
@@ -221,13 +221,13 @@ DisplayCOCDialogs(playerid) {
     }
 
     if ( nextpage ) {
-    	strcat(string, "Next Page >>" ) ;
+    	strcat(string, "Sonraki Sayfa >>" ) ;
     }
 
 	task_yield ( 1 ) ;
 
 	new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
-	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Center on Cells: Page %d of %d", playerLastCOCPage [ playerid ], pages), string, "Teleport", "Close" );
+	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Hücreleri Mer(ker)ez Al: Sayfa %d/%d", playerLastCOCPage [ playerid ], pages), string, "Iþýnlan", "Kapat" );
 
 	if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) return true ;
 
@@ -246,10 +246,8 @@ DisplayCOCDialogs(playerid) {
 			PlayerPlaySound ( playerid, 1085, 0.0, 0.0, 0.0 ) ;
 			BlackScreen ( playerid ) ;
 
-			SendServerMessage ( playerid, sprintf("Teleported to cell (%d) %s.", selection, CenterCoordinates [ selection ] [ coc_name ] ), MSG_TYPE_INFO ) ;
+			SendServerMessage ( playerid, sprintf("(%d) %s hücresine ýþýnlandýnýz.", selection, CenterCoordinates [ selection ] [ coc_name ] ), MSG_TYPE_INFO ) ;
 			ac_SetPlayerPos ( playerid, CenterCoordinates [ selection ] [ coc_x ], CenterCoordinates [ selection ] [ coc_y ], CenterCoordinates [ selection ] [ coc_z ] ) ;
-
-			//FadeIn ( playerid ) ;
 
 			SetPlayerVirtualWorld ( playerid, 0 ) ;
 			SetPlayerInterior ( playerid, 0 ) ;

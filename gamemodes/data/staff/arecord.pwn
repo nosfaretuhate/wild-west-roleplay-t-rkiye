@@ -27,7 +27,7 @@ SetAdminRecord ( accountid, adminid, type, reason[], time, date[] ) {
 new PlayerLastARecPage [ MAX_PLAYERS ] ;
 CMD:adminrecord(playerid ) {
 
-	SendServerMessage ( playerid, "Loading admin record, one moment...", MSG_TYPE_WARN ); 
+	SendServerMessage ( playerid, "Admin kaydý yükleniyor, bir an lütfen...", MSG_TYPE_WARN ); 
 
 	Init_AdminRecord ( playerid ) ;
 
@@ -65,7 +65,7 @@ ShowAdminRecord ( playerid ) {
     new pages = floatround ( GetPlayerPenaltyCount(playerid) / MAX_ITEMS_ON_PAGE, floatround_floor ) + 1, 
     	resultcount = ( ( MAX_ITEMS_ON_PAGE * PlayerLastARecPage [ playerid ] ) - MAX_ITEMS_ON_PAGE ) ;
 
-    strcat(string, "Record ID \t Record Type\t Record Date\t Record Reason\n");
+    strcat(string, "Kayýt ID \t Kayýt Türü\t Kayýt Tarihi\t Kayýt Sebebi\n");
 
     for ( new i = resultcount; i < GetPlayerPenaltyCount(playerid); i ++ ) {
 
@@ -76,20 +76,20 @@ ShowAdminRecord ( playerid ) {
 
 	        	switch ( AdminRecord [ playerid ] [ i ] [ record_type ] ) {
 
-	        		case ARECORD_TYPE_KICK : 	strcopy ( reason, "Kick" ) ;
-					case ARECORD_TYPE_AJAIL : 	strcopy ( reason, "Admin-jail" ) ;
-					case ARECORD_TYPE_BAN : 	strcopy ( reason, "Account Ban" ) ;
+	        		case ARECORD_TYPE_KICK : 	strcopy ( reason, "Çýkarma" ) ;
+					case ARECORD_TYPE_AJAIL : 	strcopy ( reason, "Ceza Hapishanesi" ) ;
+					case ARECORD_TYPE_BAN : 	strcopy ( reason, "Hesap Yasaðý" ) ;
 	        	}
 
 
-	        	format ( temp, sizeof ( temp ), "[Reason: %s]", AdminRecord [ playerid ] [ i ] [ record_reason ] ) ;
+	        	format ( temp, sizeof ( temp ), "[Sebep: %s]", AdminRecord [ playerid ] [ i ] [ record_reason ] ) ;
 
 	        	if ( strlen ( AdminRecord [ playerid ] [ i ] [ record_reason ] ) > 12  ) {
 
-	        		format ( temp, sizeof ( temp ), "[Reason: %.12s...]", AdminRecord [ playerid ] [ i ] [ record_reason ] ) ;
+	        		format ( temp, sizeof ( temp ), "[Sebep: %.12s...]", AdminRecord [ playerid ] [ i ] [ record_reason ] ) ;
 	        	}
 
-	           	format ( string, sizeof ( string ), "%s[ID %d]\t[Type: %s]\t[Date: %s]\t%s\n", string, AdminRecord [ playerid ] [ i ] [ record_id ], reason, AdminRecord [ playerid ] [ i ] [ record_date ], temp ) ;
+	           	format ( string, sizeof ( string ), "%s[ID %d]\t[Tür: %s]\t[Tarih: %s]\t%s\n", string, AdminRecord [ playerid ] [ i ] [ record_id ], reason, AdminRecord [ playerid ] [ i ] [ record_date ], temp ) ;
 	
 	        }
 
@@ -104,13 +104,13 @@ ShowAdminRecord ( playerid ) {
     }
 
     if ( nextpage ) {
-    	strcat(string, "Next Page >>" ) ;
+    	strcat(string, "Sonraki Sayfa >>" ) ;
     }
 
 	task_yield ( 1 ) ;
 
 	new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
-	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Admin Record: Page %d of %d", playerLastCOCPage [ playerid ], pages), string, "View", "Close" );
+	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Admin Kaydý: Sayfa %d/%d", PlayerLastARecPage [ playerid ], pages), string, "Görüntüle", "Kapat" );
 
 	if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) return true ;
 
@@ -128,14 +128,14 @@ ShowAdminRecord ( playerid ) {
 
 			PlayerPlaySound ( playerid, 1085, 0.0, 0.0, 0.0 ) ;
 
-			SendClientMessage(playerid, ADMIN_BLUE, "[ADMIN RECORD PARSE DATA]");
+			SendClientMessage(playerid, ADMIN_BLUE, "[ADMIN KAYDI VERÝSÝ AYRIÞTIRILMASI]");
 
-			format ( string, sizeof ( string ), "[ID %d]\t[Type: %s]\t[Date: %s]\t[Admin ID: %d]\n", 
+			format ( string, sizeof ( string ), "[ID %d]\t[Tür: %s]\t[Tarih: %s]\t[Admin ID: %d]\n", 
 				AdminRecord [ playerid ] [ selection ] [ record_id ], reason, AdminRecord [ playerid ] [ selection ] [ record_date ], AdminRecord [ playerid ] [ selection ] [ record_admin ] ) ;
 
 			SendClientMessage(playerid, ADMIN_BLUE, string ) ;
 
-			format ( string, sizeof ( string ), "[Reason: %s]\n", AdminRecord [ playerid ] [ selection ] [ record_reason ]  ) ;
+			format ( string, sizeof ( string ), "[Sebep: %s]\n", AdminRecord [ playerid ] [ selection ] [ record_reason ]  ) ;
 
 			SendClientMessage(playerid, ADMIN_BLUE, string ) ;
 		}
@@ -163,7 +163,7 @@ public LoadAdminRecord ( playerid ) {
 
 	if ( ! rows ) {
 
-		return SendServerMessage ( playerid, "You don't have any records to your account.", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Hesabýnýza ait kayýt yok.", MSG_TYPE_INFO ) ;
 	}
 
     else if ( rows ) {
