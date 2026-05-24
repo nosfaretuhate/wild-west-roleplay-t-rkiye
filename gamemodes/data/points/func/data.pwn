@@ -61,24 +61,23 @@ enum {
 
 CreatePoint ( playerid, type, Float: ext_x, Float: ext_y, Float: ext_z ) {
 
-	new slot = FindEmptyPointSlot () + 1, name [ 32 ] ;
+    new slot = FindEmptyPointSlot () + 1, name [ 32 ] ;
 
-	new query [ 512 ] ;
+    new query [ 512 ] ;
 
-	mysql_format ( mysql, query, sizeof ( query ), 
-		"INSERT INTO points (point_name, point_type, point_ext_x, point_ext_y, point_ext_z, point_vw, point_int, point_price, point_int_x, point_int_y, point_int_z, point_int_vw, point_int_int) VALUES ('%s', %d, '%f', '%f', '%f', %d, %d, '500', '1142.8990', '-1810.0664', '33.2668', %d, '0')",
-		name, type, ext_x, ext_y, ext_z, GetPlayerVirtualWorld ( playerid ), GetPlayerInterior ( playerid ), slot ) ;
+    mysql_format ( mysql, query, sizeof ( query ), 
+        "INSERT INTO points (point_name, point_type, point_ext_x, point_ext_y, point_ext_z, point_vw, point_int, point_price, point_int_x, point_int_y, point_int_z, point_int_vw, point_int_int) VALUES ('%s', %d, '%f', '%f', '%f', %d, %d, '500', '1142.8990', '-1810.0664', '33.2668', %d, '0')",
+        name, type, ext_x, ext_y, ext_z, GetPlayerVirtualWorld ( playerid ), GetPlayerInterior ( playerid ), slot ) ;
 
-	mysql_tquery ( mysql, query ) ;
+    mysql_tquery ( mysql, query ) ;
 
-	SendModeratorWarning ( sprintf("[STAFF] %s (%d) has created a point with ID %d and type %d.", ReturnUserName ( playerid, true, false ), playerid, slot, type ), MOD_WARNING_LOW ) ;
-	WriteLog ( playerid, "mod/points", sprintf(" %s (%d) has created a point with ID %d and type %d.", ReturnUserName ( playerid, true, false ), playerid, slot, type )) ;
+    SendModeratorWarning ( sprintf("[YETKÝLÝ] %s (%d) adlý oyuncu, %d ID'li ve %d tipinde bir nokta oluþturdu.", ReturnUserName ( playerid, true, false ), playerid, slot, type ), MOD_WARNING_LOW ) ;
+    WriteLog ( playerid, "mod/points", sprintf("%s (%d) adlý oyuncu, %d ID'li ve %d tipinde bir nokta oluþturdu.", ReturnUserName ( playerid, true, false ), playerid, slot, type )) ;
 
-	Init_Points ( ) ;
+    Init_Points ( ) ;
 
-	return true ;
-} 
-
+    return true ;
+}
 
 FindEmptyPointSlot() {
 
@@ -170,125 +169,121 @@ Init_Points ( id = -1 ) {
 		}
 	}
 } 
-
 forward LoadPoints ( ) ;
 public LoadPoints ( ) {
 
-	new rows ;
-	cache_get_row_count ( rows ) ;
+    new rows ;
+    cache_get_row_count ( rows ) ;
 
-	if ( rows ) {
+    if ( rows ) {
 
-		print("\n * [PROPERTY] Loading property parse data...") ;
+        print("\n * [PROPERTY] Mülk verileri yükleniyor...") ;
 
-		for ( new i; i < rows; i ++ ) {
+        for ( new i; i < rows; i ++ ) {
 
-			cache_get_value_name_int(i, "point_id",				Point [ i ] [ point_id ] ) ;
-			cache_get_value_name_int(i, "point_type",			Point [ i ] [ point_type ] ) ;
-			cache_get_value_name_int(i, "point_fee",			Point [ i ] [ point_fee] ) ;
-			cache_get_value_name_int(i, "point_rentable",		Point [ i ] [ point_rentable ]);
-			cache_get_value_name_int(i, "point_rent_price",		Point [ i ] [ point_rent_price ]);
-			cache_get_value_name_int(i, "point_rent_change",	Point [ i ] [ point_rent_change ]);
-			cache_get_value_name_int(i, "point_till",			Point [ i ] [ point_till] ) ;
-			cache_get_value_name_int(i, "point_till_change",	Point [ i ] [ point_till_change]);
-			cache_get_value_name_int(i, "point_locked",			Point [ i ] [ point_locked] ) ;
-
-
-			cache_get_value_name_int(i, "point_weapon1",		Point [ i ] [ point_weapon1] ) ;
-			cache_get_value_name_int(i, "point_weapon1ammo",	Point [ i ] [ point_weapon1ammo] ) ;
-			cache_get_value_name_int(i, "point_weapon2",		Point [ i ] [ point_weapon2] ) ;
-			cache_get_value_name_int(i, "point_weapon2ammo",	Point [ i ] [ point_weapon2ammo] ) ;
-
-			cache_get_value_name ( i, "point_name",				Point [ i ] [ point_name ], 32 ) ;
-
-			cache_get_value_name_int (i, "point_owner",			Point [ i ] [ point_owner ] ) ;
-			cache_get_value_name_int (i, "point_price",			Point [ i ] [ point_price ] ) ;
-			cache_get_value_name_int (i, "point_biztype",		Point [ i ] [ point_biztype ] ) ;
-
-			cache_get_value_name_float (i, "point_ext_x", 		Point [ i ] [ point_ext_x ] ) ;
-			cache_get_value_name_float (i, "point_ext_y", 		Point [ i ] [ point_ext_y ] ) ;
-			cache_get_value_name_float (i, "point_ext_z", 		Point [ i ] [ point_ext_z ] ) ;
+            cache_get_value_name_int(i, "point_id",           Point [ i ] [ point_id ] ) ;
+            cache_get_value_name_int(i, "point_type",         Point [ i ] [ point_type ] ) ;
+            cache_get_value_name_int(i, "point_fee",          Point [ i ] [ point_fee] ) ;
+            cache_get_value_name_int(i, "point_rentable",     Point [ i ] [ point_rentable ]);
+            cache_get_value_name_int(i, "point_rent_price",   Point [ i ] [ point_rent_price ]);
+            cache_get_value_name_int(i, "point_rent_change",  Point [ i ] [ point_rent_change ]);
+            cache_get_value_name_int(i, "point_till",         Point [ i ] [ point_till] ) ;
+            cache_get_value_name_int(i, "point_till_change",  Point [ i ] [ point_till_change]);
+            cache_get_value_name_int(i, "point_locked",       Point [ i ] [ point_locked] ) ;
 
 
-			cache_get_value_name_int(i, "point_vw",				Point [ i ] [ point_vw] ) ;
-			cache_get_value_name_int(i, "point_int",			Point [ i ] [ point_int] ) ;
+            cache_get_value_name_int(i, "point_weapon1",      Point [ i ] [ point_weapon1] ) ;
+            cache_get_value_name_int(i, "point_weapon1ammo",  Point [ i ] [ point_weapon1ammo] ) ;
+            cache_get_value_name_int(i, "point_weapon2",      Point [ i ] [ point_weapon2] ) ;
+            cache_get_value_name_int(i, "point_weapon2ammo",  Point [ i ] [ point_weapon2ammo] ) ;
+
+            cache_get_value_name ( i, "point_name",           Point [ i ] [ point_name ], 32 ) ;
+
+            cache_get_value_name_int (i, "point_owner",       Point [ i ] [ point_owner ] ) ;
+            cache_get_value_name_int (i, "point_price",       Point [ i ] [ point_price ] ) ;
+            cache_get_value_name_int (i, "point_biztype",     Point [ i ] [ point_biztype ] ) ;
+
+            cache_get_value_name_float (i, "point_ext_x",     Point [ i ] [ point_ext_x ] ) ;
+            cache_get_value_name_float (i, "point_ext_y",     Point [ i ] [ point_ext_y ] ) ;
+            cache_get_value_name_float (i, "point_ext_z",     Point [ i ] [ point_ext_z ] ) ;
 
 
-			cache_get_value_name_float (i, "point_int_x", 		Point [ i ] [ point_int_x ] ) ;
-			cache_get_value_name_float (i, "point_int_y", 		Point [ i ] [ point_int_y ] ) ;
-			cache_get_value_name_float (i, "point_int_z", 		Point [ i ] [ point_int_z ] ) ;
+            cache_get_value_name_int(i, "point_vw",           Point [ i ] [ point_vw] ) ;
+            cache_get_value_name_int(i, "point_int",          Point [ i ] [ point_int] ) ;
 
 
-			cache_get_value_name_int(i, "point_int_vw",			Point [ i ] [ point_int_vw] ) ;
-			cache_get_value_name_int(i, "point_int_int",		Point [ i ] [ point_int_int] ) ;
+            cache_get_value_name_float (i, "point_int_x",     Point [ i ] [ point_int_x ] ) ;
+            cache_get_value_name_float (i, "point_int_y",     Point [ i ] [ point_int_y ] ) ;
+            cache_get_value_name_float (i, "point_int_z",     Point [ i ] [ point_int_z ] ) ;
 
-			switch ( Point [ i ] [ point_type ] ) {
 
-				case POINT_TYPE_HOUSE: {
+            cache_get_value_name_int(i, "point_int_vw",       Point [ i ] [ point_int_vw] ) ;
+            cache_get_value_name_int(i, "point_int_int",      Point [ i ] [ point_int_int] ) ;
 
-					if ( Point [ i ] [ point_owner ] != -1 ) {
+            switch ( Point [ i ] [ point_type ] ) {
 
-						if( ! Point [ i ] [ point_rentable ] ) {
+                case POINT_TYPE_HOUSE: {
 
-							Point [ i ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s", i, Point [ i ] [ point_name ]), COLOR_DEFAULT, 
-								Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 
-								25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
-						}
-						else {
+                    if ( Point [ i ] [ point_owner ] != -1 ) {
 
-							Point [ i ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nRent Price: $%02d.%02d", i, Point [ i ] [ point_name ],Point[i][point_rent_price],Point[i][point_rent_change]), COLOR_DEFAULT, 
-								Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 
-								25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
-						}
-					}
+                        if( ! Point [ i ] [ point_rentable ] ) {
 
-					else if ( Point [ i ] [ point_owner ] == -1 ) {
-						Point [ i ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nFor sale: $%s", i, Point [ i ] [ point_name ], IntegerWithDelimiter ( Point [ i ] [ point_price ] ) ), COLOR_DEFAULT, 
-							Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 
-							25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
-					}
+                            Point [ i ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s", i, Point [ i ] [ point_name ]), COLOR_DEFAULT, 
+                                Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 
+                                25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
+                        }
+                        else {
 
-					Point [ i ] [ point_pickup ] = CreateDynamicPickup ( 1272, 1, 
-						Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
-				}
+                            Point [ i ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nKira Bedeli: $%02d.%02d", i, Point [ i ] [ point_name ],Point[i][point_rent_price],Point[i][point_rent_change]), COLOR_DEFAULT, 
+                                Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 
+                                25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
+                        }
+                    }
 
-				case POINT_TYPE_BIZ: {
-					if ( Point [ i ] [ point_owner ] != -1 ) {
-						Point [ i ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nEntrance fee: $0.%d", i, Point [ i ] [ point_name ], Point [ i ] [ point_fee ] ), COLOR_DEFAULT, 
-							Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 
-							25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
-					}
+                    else if ( Point [ i ] [ point_owner ] == -1 ) {
+                        Point [ i ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nSatýlýk: $%s", i, Point [ i ] [ point_name ], IntegerWithDelimiter ( Point [ i ] [ point_price ] ) ), COLOR_DEFAULT, 
+                            Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 
+                            25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
+                    }
 
-					else if ( Point [ i ] [ point_owner ] == -1 ) {
-						Point [ i ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nFor sale: $%s", i, Point [ i ] [ point_name ], IntegerWithDelimiter ( Point [ i ] [ point_price ] ) ), COLOR_DEFAULT, 
-							Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 
-							25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
-					}
+                    Point [ i ] [ point_pickup ] = CreateDynamicPickup ( 1272, 1, 
+                        Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
+                }
 
-					Point [ i ] [ point_pickup ] = CreateDynamicPickup ( 1274, 1, 
-						Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
+                case POINT_TYPE_BIZ: {
+                    if ( Point [ i ] [ point_owner ] != -1 ) {
+                        Point [ i ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nGiriþ Ücreti: $0.%d", i, Point [ i ] [ point_name ], Point [ i ] [ point_fee ] ), COLOR_DEFAULT, 
+                            Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 
+                            25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
+                    }
 
-					Point [ i ] [ point_mapicon ]  = CreateDynamicMapIcon ( Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 56, -1 ) ;
-					//SetupMapIconForProp ( i ) ;
-				}
+                    else if ( Point [ i ] [ point_owner ] == -1 ) {
+                        Point [ i ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nSatýlýk: $%s", i, Point [ i ] [ point_name ], IntegerWithDelimiter ( Point [ i ] [ point_price ] ) ), COLOR_DEFAULT, 
+                            Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 
+                            25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
+                    }
 
-				default: {
-					Point [ i ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nPress ~k~~GROUP_CONTROL_BWD~ to pass", i, Point [ i ] [ point_name ]), COLOR_DEFAULT, 
-						Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 
-						25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
+                    Point [ i ] [ point_pickup ] = CreateDynamicPickup ( 1274, 1, 
+                        Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
 
-					Point [ i ] [ point_pickup ] = CreateDynamicPickup ( 1239, 1, 
-						Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], Point [ i ] [ point_vw], Point [ i ] [ point_int], 0x0997DEFF ) ;
-				}				
-			}
+                    Point [ i ] [ point_mapicon ]  = CreateDynamicMapIcon ( Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 56, -1 ) ;
+                }
 
-			//printf(" [POINT] Loaded %d, %s", Point [ i ] [ point_id ], Point [ i ] [ point_name ] ) ;
-		}
+                default: {
+                    Point [ i ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nGirmek için ~k~~GROUP_CONTROL_BWD~ tuþuna bas", i, Point [ i ] [ point_name ]), COLOR_DEFAULT, 
+                        Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], 
+                        25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ i ] [ point_vw], Point [ i ] [ point_int], -1 ) ;
 
-		printf(" * [PROPERTY] Loaded %d properties\n", rows ) ;
-	}
+                    Point [ i ] [ point_pickup ] = CreateDynamicPickup ( 1239, 1, 
+                        Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ], Point [ i ] [ point_vw], Point [ i ] [ point_int], 0x0997DEFF ) ;
+                }              
+            }
+        }
 
-	return true ;
+        printf(" * [PROPERTY] %d adet mülk yüklendi\n", rows ) ;
+    }
+
+    return true ;
 }
 
 forward LoadSinglePoint ( id, enumid ) ;
@@ -340,72 +335,69 @@ public LoadSinglePoint ( id, enumid ) {
 		cache_get_value_name_int(0, "point_int_vw",			Point [ enumid ] [ point_int_vw] ) ;
 		cache_get_value_name_int(0, "point_int_int",		Point [ enumid ] [ point_int_int] ) ;
 
-		switch ( Point [ enumid ] [ point_type ] ) {
+         switch ( Point [ enumid ] [ point_type ] ) {
 
-			case POINT_TYPE_HOUSE: {
+            case POINT_TYPE_HOUSE: {
 
-				if ( Point [ enumid ] [ point_owner ] != -1 ) {
+                if ( Point [ enumid ] [ point_owner ] != -1 ) {
 
-					if( ! Point [ enumid ] [ point_rentable ] ) {
+                    if( ! Point [ enumid ] [ point_rentable ] ) {
 
-						Point [ enumid ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s", enumid, Point [ enumid ] [ point_name ]), COLOR_DEFAULT, 
-							Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 
-							25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
-					}
-					else {
+                        Point [ enumid ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s", enumid, Point [ enumid ] [ point_name ]), COLOR_DEFAULT, 
+                            Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 
+                            25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
+                    }
+                    else {
 
-						Point [ enumid ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nRent Price: $%02d.%02d", enumid, Point [ enumid ] [ point_name ],Point[enumid][point_rent_price],Point[enumid][point_rent_change]), COLOR_DEFAULT, 
-							Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 
-							25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
-					}
-				}
+                        Point [ enumid ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nKira Ucreti: $%02d.%02d", enumid, Point [ enumid ] [ point_name ],Point[enumid][point_rent_price],Point[enumid][point_rent_change]), COLOR_DEFAULT, 
+                            Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 
+                            25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
+                    }
+                }
 
-				else if ( Point [ enumid ] [ point_owner ] == -1 ) {
-					Point [ enumid ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nFor sale: $%s", enumid, Point [ enumid ] [ point_name ], IntegerWithDelimiter ( Point [ enumid ] [ point_price ] ) ), COLOR_DEFAULT, 
-						Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 
-						25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
-				}
+                else if ( Point [ enumid ] [ point_owner ] == -1 ) {
+                    Point [ enumid ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nSatilik: $%s", enumid, Point [ enumid ] [ point_name ], IntegerWithDelimiter ( Point [ enumid ] [ point_price ] ) ), COLOR_DEFAULT, 
+                        Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 
+                        25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
+                }
 
-				Point [ enumid ] [ point_pickup ] = CreateDynamicPickup ( 1272, 1, 
-					Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
-			}
+                Point [ enumid ] [ point_pickup ] = CreateDynamicPickup ( 1272, 1, 
+                    Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
+            }
 
-			case POINT_TYPE_BIZ: {
-				if ( Point [ enumid ] [ point_owner ] != -1 ) {
-					Point [ enumid ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nEntrance fee: $0.%d", enumid, Point [ enumid ] [ point_name ], Point [ enumid ] [ point_fee ] ), COLOR_DEFAULT, 
-						Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 
-						25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
-				}
+            case POINT_TYPE_BIZ: {
+                if ( Point [ enumid ] [ point_owner ] != -1 ) {
+                    Point [ enumid ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nGiris Ucreti: $0.%d", enumid, Point [ enumid ] [ point_name ], Point [ enumid ] [ point_fee ] ), COLOR_DEFAULT, 
+                        Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 
+                        25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
+                }
 
-				else if ( Point [ enumid ] [ point_owner ] == -1 ) {
-					Point [ enumid ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nFor sale: $%s", enumid, Point [ enumid ] [ point_name ], IntegerWithDelimiter ( Point [ enumid ] [ point_price ] ) ), COLOR_DEFAULT, 
-						Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 
-						25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
-				}
+                else if ( Point [ enumid ] [ point_owner ] == -1 ) {
+                    Point [ enumid ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nSatilik: $%s", enumid, Point [ enumid ] [ point_name ], IntegerWithDelimiter ( Point [ enumid ] [ point_price ] ) ), COLOR_DEFAULT, 
+                        Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 
+                        25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
+                }
 
-				Point [ enumid ] [ point_pickup ] = CreateDynamicPickup ( 1274, 1, 
-					Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
+                Point [ enumid ] [ point_pickup ] = CreateDynamicPickup ( 1274, 1, 
+                    Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
 
-				Point [ enumid ] [ point_mapicon ]  = CreateDynamicMapIcon ( Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 56, -1 ) ;
-					//SetupMapIconForProp ( i ) ;
-			}
+                Point [ enumid ] [ point_mapicon ]  = CreateDynamicMapIcon ( Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 56, -1 ) ;
+            }
 
-			default: {
-				Point [ enumid ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nPress ~k~~GROUP_CONTROL_BWD~ to pass", enumid, Point [ enumid ] [ point_name ]), COLOR_DEFAULT, 
-					Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 
-					25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
+            default: {
+                Point [ enumid ] [ point_3dtext ] = CreateDynamic3DTextLabel(sprintf("(%d) %s\nGirmek icin ~k~~GROUP_CONTROL_BWD~ tusuna bas", enumid, Point [ enumid ] [ point_name ]), COLOR_DEFAULT, 
+                    Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], 
+                    25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], -1 ) ;
 
-				Point [ enumid ] [ point_pickup ] = CreateDynamicPickup ( 1239, 1, 
-					Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], 0x0997DEFF ) ;
-			}				
+                Point [ enumid ] [ point_pickup ] = CreateDynamicPickup ( 1239, 1, 
+                    Point [ enumid ] [ point_ext_x ], Point [ enumid ] [ point_ext_y ], Point [ enumid ] [ point_ext_z ], Point [ enumid ] [ point_vw], Point [ enumid ] [ point_int], 0x0997DEFF ) ;
+            }              
+        }
 
-			//printf(" [POINT] Loaded %d, %s", Point [ id ] [ point_id ], Point [ id ] [ point_name ] ) ;
-		}
+        printf(" * [PROPERTY] %d numarali emlak yuklendi.", enumid ) ;
+    }
 
-		printf(" * [PROPERTY] Loaded %d property\n", enumid ) ;
-	}
-
-	return true ;
+    return true ;
 }
 
 // SetupMapIconForProp ( pointid) {

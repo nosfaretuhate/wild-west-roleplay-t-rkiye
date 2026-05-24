@@ -7,7 +7,7 @@ CMD:point ( playerid, const params [] ) {
 
 	if ( sscanf ( params, "s[16]S()[16]I(0)", option, soption, amount ) ) {
 
-		return SendServerMessage ( playerid, "/point [buy, sell, lock, furni(ture), fee, collect, store, take, storage, sleep]", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "/point [buy(satýnal), sell(sat), lock(kilit), furni(ture)(mobilya), fee(giriþ ücreti), collect(topla), store(depola), take(al), storag(depolama), sleep(uyu)]", MSG_TYPE_INFO ) ;
 	}
 
 	if ( ! strcmp ( option, "buy" ) ) {
@@ -18,7 +18,7 @@ CMD:point ( playerid, const params [] ) {
 
 					if ( Point [ i ] [ point_owner ] > 0) {
 
-						return SendServerMessage ( playerid, "This entrance has already been purchased.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "Zaten bu mülkün sahibi var?", MSG_TYPE_ERROR ) ;
 					}
 
 					new total ;
@@ -27,7 +27,7 @@ CMD:point ( playerid, const params [] ) {
 					
 						case POINT_TYPE_PASS: {
 
-							return SendServerMessage ( playerid, "You can't purchase this point.", MSG_TYPE_ERROR ) ;
+							return SendServerMessage ( playerid, "Bu mülkü satýn alamazsýn.", MSG_TYPE_ERROR ) ;
 						}
 
 						case POINT_TYPE_HOUSE: {
@@ -38,7 +38,7 @@ CMD:point ( playerid, const params [] ) {
 
 							if ( Character [ playerid ] [ character_level ] < total*10 ) {
 
-								return SendServerMessage ( playerid, sprintf("You can't purchase another house until level %i0.", total ), MSG_TYPE_ERROR ) ;
+								return SendServerMessage ( playerid, sprintf("Bir evi almak için %i0 seviye gerekmekte.", total ), MSG_TYPE_ERROR ) ;
 							}
 						}
 
@@ -50,7 +50,7 @@ CMD:point ( playerid, const params [] ) {
 
 							if ( Character [ playerid ] [ character_level ] < total*10 ) {
 
-								return SendServerMessage ( playerid, sprintf("You can't purchase another business until level %i0.", total ), MSG_TYPE_ERROR ) ;
+								return SendServerMessage ( playerid, sprintf("Yeni iþyeri almak için %i0 seviye olman gerek!", total ), MSG_TYPE_ERROR ) ;
 							}
 						}
 
@@ -60,11 +60,11 @@ CMD:point ( playerid, const params [] ) {
 
 					if ( buyprice > Character [ playerid ] [ character_handmoney ] ) {
 
-						return SendServerMessage ( playerid, "You don't have enough money to purchase this point.", MSG_TYPE_ERROR );
+						return SendServerMessage ( playerid, "Burayý satýn almak için yeterli paran yok.", MSG_TYPE_ERROR );
 					}
 
 					TakeCharacterMoney ( playerid, buyprice, MONEY_SLOT_HAND ) ;
-					SendServerMessage ( playerid, sprintf("You've bought point (%d) %s for $%s",Point [ i ] [ point_id], Point [ i ] [ point_name ] , IntegerWithDelimiter ( Point [ i ] [ point_price ] )), MSG_TYPE_INFO ) ;
+					SendServerMessage ( playerid, sprintf("Bu mülkü satýn aldýn. (%d) %s $%s ödedin!",Point [ i ] [ point_id], Point [ i ] [ point_name ] , IntegerWithDelimiter ( Point [ i ] [ point_price ] )), MSG_TYPE_INFO ) ;
 
 					GivePlayerExperience ( playerid, 3 ) ;
 
@@ -86,12 +86,12 @@ CMD:point ( playerid, const params [] ) {
 
 					if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
 
-						return SendServerMessage ( playerid, "You don't own this property.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
 					}
 
 					buyprice = Point [ i ] [ point_price ] / 2 ;
 
-					SendServerMessage ( playerid, sprintf("You've been given back $%s for selling the property.", IntegerWithDelimiter ( buyprice ) ), MSG_TYPE_INFO ) ;
+					SendServerMessage ( playerid, sprintf("Ýþyerini sattýn ve $%s geri aldýn.", IntegerWithDelimiter ( buyprice ) ), MSG_TYPE_INFO ) ;
 					GiveCharacterMoney ( playerid, buyprice, MONEY_SLOT_HAND ) ;
 
 					mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_owner = '-1', point_till = '0', point_till_change = '0', point_weapon1 = '0', point_weapon1ammo = '0', point_weapon2 = '0', point_weapon2ammo = '0' WHERE point_id = '%d'", Point [ i ] [ point_id ] ) ;
@@ -115,21 +115,21 @@ CMD:point ( playerid, const params [] ) {
 
 					if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
 
-						return SendServerMessage ( playerid, "You don't own this property.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "Bu mülkün sahibi deðilsin.", MSG_TYPE_ERROR ) ;
 					}
 
 					if ( ! Point [ i ] [ point_locked ] ) {
 
 						Point [ i ] [ point_locked ] = true ;
 
-						SendServerMessage ( playerid, "You've locked the door of your entrance.", MSG_TYPE_INFO ) ;
+						SendServerMessage ( playerid, "Ýþyerini kilitledin.", MSG_TYPE_INFO ) ;
 					}
 
 					else if ( Point [ i ] [ point_locked ] ) { 
 
 						Point [ i ] [ point_locked ] = false ;
 
-						SendServerMessage ( playerid, "You've unlocked the door of your entrance.", MSG_TYPE_INFO ) ;
+						SendServerMessage ( playerid, "Ýþyerinin kilidini açtýn..", MSG_TYPE_INFO ) ;
 					}
 
 					mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_locked = '%d' WHERE point_id = '%d'", Point [ i ] [ point_locked ], Point [ i ] [ point_id ] ) ;
@@ -147,11 +147,11 @@ CMD:point ( playerid, const params [] ) {
 
 			if(DoesPlayerOwnPoint(playerid,GetCharacterPointID(playerid))) {
 
-				if ( GetPointType ( GetCharacterPointID ( playerid ) ) != 1 ) { return SendServerMessage(playerid,"You can only add furniture to houses.",MSG_TYPE_ERROR); }
+				if ( GetPointType ( GetCharacterPointID ( playerid ) ) != 1 ) { return SendServerMessage(playerid,"Sadece evlere mobilya ekleyebilirsin.",MSG_TYPE_ERROR); }
 				if(GetFurnitureBuilderMode(playerid) != -1) { ResetFurnitureBuilderData(playerid); }
 				task_yield(1);
 				new dialog_response[e_DIALOG_RESPONSE_INFO];
-				await_arr(dialog_response) ShowPlayerAsyncDialog(playerid,DIALOG_STYLE_LIST,"Furniture Menu","Add Furniture\nEdit Furniture\nRemove Furniture","Select","Exit");
+				await_arr(dialog_response) ShowPlayerAsyncDialog(playerid,DIALOG_STYLE_LIST,"Mobilya Menüsü","Mobilya Ekle\nMobilya Düzenle\nMobilya Sil","Seç","Çýk");
 				if(!dialog_response[E_DIALOG_RESPONSE_Response]) { return 1; }
 
 				switch(dialog_response[E_DIALOG_RESPONSE_Listitem])
@@ -170,57 +170,57 @@ CMD:point ( playerid, const params [] ) {
 					}
 				}
 			}
-			else return SendServerMessage(playerid,"You don't own this property.",MSG_TYPE_ERROR);
+			else return SendServerMessage(playerid,"Bu mülkün sahibi sen deðilsin.",MSG_TYPE_ERROR);
 		}
-		else return SendServerMessage(playerid,"You need to be inside a point.",MSG_TYPE_ERROR);
+		else return SendServerMessage(playerid,"Mülkün içerisinde olmalýsýn.",MSG_TYPE_ERROR);
 	}
 
-	else if ( ! strcmp ( option, "fee" ) ) {
-		for ( new i; i < MAX_POINTS; i ++ ) {
-			if ( Point [ i ] [ point_id ] != -1 ) {
-				
-				if ( 
-					IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_ext_x ],  Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int ] ||
-					IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
+else if ( ! strcmp ( option, "fee" ) ) {
+        for ( new i; i < MAX_POINTS; i ++ ) {
+            if ( Point [ i ] [ point_id ] != -1 ) {
+                
+                if ( 
+                    IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_ext_x ],  Point [ i ] [ point_ext_y ], Point [ i ] [ point_ext_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int ] ||
+                    IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
 
-					if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
+                    if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
 
-						return SendServerMessage ( playerid, "You don't own this property.", MSG_TYPE_ERROR ) ;
-					}
+                        return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
+                    }
 
-					if ( Point [ i ] [ point_type ] != POINT_TYPE_BIZ ) {
+                    if ( Point [ i ] [ point_type ] != POINT_TYPE_BIZ ) {
 
-						return SendServerMessage ( playerid, "This point isn't a business.", MSG_TYPE_ERROR ) ;
-					}
+                        return SendServerMessage ( playerid, "Bu mülk iþyeri deðil.", MSG_TYPE_ERROR ) ;
+                    }
 
-					task_yield ( 1 ) ;
+                    task_yield ( 1 ) ;
 
-					new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
-					await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_INPUT, "Fee setup", "Enter the amount you want to charge. (0-99 cents)", "Continue", "Exit" );
+                    new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
+                    await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_INPUT, "Ücret Ayarý", "Giriþ ücreti olarak belirlemek istediðin tutarý gir (0-99 cent).", "Devam", "Çýkýþ" );
 
-					if(dialog_response[ E_DIALOG_RESPONSE_Response ]) {
+                    if(dialog_response[ E_DIALOG_RESPONSE_Response ]) {
 
-						if ( strval ( dialog_response [ E_DIALOG_RESPONSE_InputText ] ) < 0 || strval ( dialog_response [ E_DIALOG_RESPONSE_InputText ] ) > 99 ) {
+                        if ( strval ( dialog_response [ E_DIALOG_RESPONSE_InputText ] ) < 0 || strval ( dialog_response [ E_DIALOG_RESPONSE_InputText ] ) > 99 ) {
 
-							return SendServerMessage ( playerid, "Entrance fee can't be less than 0 cents or more than 99 cents.", MSG_TYPE_ERROR ) ;
-						}
+                            return SendServerMessage ( playerid, "Giriþ ücreti 0 centten az veya 99 centten fazla olamaz.", MSG_TYPE_ERROR ) ;
+                        }
 
-						mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_fee = '%d' WHERE point_id = '%d'", strval ( dialog_response [ E_DIALOG_RESPONSE_InputText ] ), Point [ i ] [ point_id ] ) ;
-						mysql_tquery ( mysql, query ) ;
+                        mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_fee = '%d' WHERE point_id = '%d'", strval ( dialog_response [ E_DIALOG_RESPONSE_InputText ] ), Point [ i ] [ point_id ] ) ;
+                        mysql_tquery ( mysql, query ) ;
 
-						if(strval(dialog_response[E_DIALOG_RESPONSE_InputText]) >= 1) { SendServerMessage(playerid,sprintf("You've set this point's entrance fee to %d %s.",strval(dialog_response [E_DIALOG_RESPONSE_InputText]), (strval(dialog_response[E_DIALOG_RESPONSE_InputText]) == 1) ? ("cent") : ("cents")),MSG_TYPE_INFO); }
-						else if(!strval(dialog_response[E_DIALOG_RESPONSE_InputText])) { SendServerMessage(playerid,"You've removed this point's entrance fee.",MSG_TYPE_INFO); }
+                        if(strval(dialog_response[E_DIALOG_RESPONSE_InputText]) >= 1) { SendServerMessage(playerid,sprintf("Bu noktanýn giriþ ücretini %d cent olarak ayarladýn.",strval(dialog_response [E_DIALOG_RESPONSE_InputText])),MSG_TYPE_INFO); }
+                        else if(!strval(dialog_response[E_DIALOG_RESPONSE_InputText])) { SendServerMessage(playerid,"Bu noktanýn giriþ ücretini kaldýrdýn.",MSG_TYPE_INFO); }
 
-						Init_Points ( Point [ i ] [ point_id ] ) ;
-					}
+                        Init_Points ( Point [ i ] [ point_id ] ) ;
+                    }
 
-					return true ;
-				}
+                    return true ;
+                }
 
-				else continue ;
-			}
-		}
-	}
+                else continue ;
+            }
+        }
+    }
 	/*
 	else if(!strcmp(option,"rentable",true)) {
 
@@ -229,7 +229,7 @@ CMD:point ( playerid, const params [] ) {
 		new id = GetCharacterPointID(playerid);
 		if(Point[id][point_type] == POINT_TYPE_HOUSE) {
 
-			if(Point[id][point_owner] != Character[playerid][character_id]) { return SendServerMessage(playerid,"You don't own this property.",MSG_TYPE_ERROR); }
+			if(Point[id][point_owner] != Character[playerid][character_id]) { return SendServerMessage(playerid,"Bu mülkün sahibi sen deðilsin.",MSG_TYPE_ERROR); }
 			if(!Point[id][point_rentable]) {
 
 				Point[id][point_rentable] = 1;
@@ -254,7 +254,7 @@ CMD:point ( playerid, const params [] ) {
 		new id = GetCharacterPointID(playerid);
 		if(Point[id][point_type] == POINT_TYPE_HOUSE) {
 
-			if(Point[id][point_owner] != Character[playerid][character_id]) { return SendServerMessage(playerid,"You don't own this property.",MSG_TYPE_ERROR); }
+			if(Point[id][point_owner] != Character[playerid][character_id]) { return SendServerMessage(playerid,"Bu mülkün sahibi sen deðilsin.",MSG_TYPE_ERROR); }
 
 			new dollars,cents;
 			if(sscanf(params,"dD(0)",dollars,cents)) { return SendServerMessage(playerid,"/point rent [dollars] [optional:cents]",MSG_TYPE_ERROR); }
@@ -300,94 +300,233 @@ CMD:point ( playerid, const params [] ) {
 
 	}
 	*/
-	else if ( ! strcmp ( option, "collect" ) ) {
-		for ( new i; i < MAX_POINTS; i ++ ) {
-			if ( Point [ i ] [ point_id ] != -1 ) {
+else if ( ! strcmp ( option, "collect" ) ) {
+        for ( new i; i < MAX_POINTS; i ++ ) {
+            if ( Point [ i ] [ point_id ] != -1 ) {
 
-				if ( Point [ i ] [ point_type ] != POINT_TYPE_BIZ ) {
+                if ( Point [ i ] [ point_type ] != POINT_TYPE_BIZ ) {
 
-					return SendServerMessage ( playerid, "This point isn't a business.", MSG_TYPE_ERROR ) ;
-				}
+                    return SendServerMessage ( playerid, "Bu nokta bir iþyeri deðil.", MSG_TYPE_ERROR ) ;
+                }
 
-				
-				if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
+                if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
 
-					if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
+                    if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
 
-						return SendServerMessage ( playerid, "You don't own this property.", MSG_TYPE_ERROR ) ;
-					}
+                        return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
+                    }
 
-					SendServerMessage ( playerid, sprintf("You've recieved %s.%02d from your business till. It's been deposited in your bank.",IntegerWithDelimiter( Point [ i ] [ point_till ]),Point[i][point_till_change]), MSG_TYPE_INFO ) ;
-					GiveCharacterMoney ( playerid, Point [ i ] [ point_till  ], MONEY_SLOT_BANK ) ;
-					GiveCharacterChange(playerid,Point[i][point_till_change],MONEY_SLOT_BANK);
+                    SendServerMessage ( playerid, sprintf("Ýþyeri kasanýzdan %s.%02d tutarýnda para çektiniz. Paranýz banka hesabýnýza yatýrýldý.", IntegerWithDelimiter( Point [ i ] [ point_till ]), Point[i][point_till_change]), MSG_TYPE_INFO ) ;
+                    GiveCharacterMoney ( playerid, Point [ i ] [ point_till ], MONEY_SLOT_BANK ) ;
+                    GiveCharacterChange(playerid, Point[i][point_till_change], MONEY_SLOT_BANK);
 
-					mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_till = '0',point_till_change = '0' WHERE point_id = '%d'", Point [ i ] [ point_id ] ) ;
-					mysql_tquery ( mysql, query ) ;
+                    mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_till = '0', point_till_change = '0' WHERE point_id = '%d'", Point [ i ] [ point_id ] ) ;
+                    mysql_tquery ( mysql, query ) ;
 
-					Init_Points ( Point [ i ] [ point_id ] ) ;
-				}
+                    Init_Points ( Point [ i ] [ point_id ] ) ;
+                }
 
-				else continue ;
-			}
-		}
-	}
+                else continue ;
+            }
+        }
+    }
 
-	else if ( ! strcmp ( option, "store" ) ) {
+    else if ( ! strcmp ( option, "store" ) ) {
 
-		if ( isnull ( soption ) ) {
+        if ( isnull ( soption ) ) {
 
-			return SendServerMessage ( playerid, "/point store [money/weapon]", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "/point store [money/weapon]", MSG_TYPE_ERROR ) ;
+        }
 
-		if ( ! strcmp ( soption, "money" ) ) { 
+        if ( ! strcmp ( soption, "money" ) ) { 
 
-			if ( amount < 1 ) {
+            if ( amount < 1 ) {
 
-				return SendServerMessage ( playerid, "/point store money [amount] - amount can't be less than 1.", MSG_TYPE_ERROR ) ;
-			}
+                return SendServerMessage ( playerid, "/point store money [miktar] - miktar 1'den az olamaz.", MSG_TYPE_ERROR ) ;
+            }
 
-			for ( new i; i < MAX_POINTS; i ++ ) {
+            for ( new i; i < MAX_POINTS; i ++ ) {
 
-				if ( Point [ i ] [ point_id ] != -1 ) {
+                if ( Point [ i ] [ point_id ] != -1 ) {
 
-					if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
+                    if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
 
-						if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
+                        if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
 
-							return SendServerMessage ( playerid, "You don't own this property.", MSG_TYPE_ERROR ) ;
-						}
+                            return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
+                        }
 
-						if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
+                        if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
 
-							return SendServerMessage ( playerid, "This point isn't a house.", MSG_TYPE_ERROR ) ;
-						}
+                            return SendServerMessage ( playerid, "Bu nokta bir ev deðil.", MSG_TYPE_ERROR ) ;
+                        }
 
-						if ( Character [ playerid ] [ character_handmoney ] < amount ) {
+                        if ( Character [ playerid ] [ character_handmoney ] < amount ) {
 
-							return SendServerMessage ( playerid, sprintf("You don't have $%i to store in your house.", amount ), MSG_TYPE_ERROR ) ;
-						}
+                            return SendServerMessage ( playerid, sprintf("Evine koymak için yeterli paran ( $%i ) yok.", amount ), MSG_TYPE_ERROR ) ;
+                        }
 
-						Point [ i ] [ point_till ] += amount ;
-						TakeCharacterMoney ( playerid, amount, MONEY_SLOT_HAND ) ;
+                        Point [ i ] [ point_till ] += amount ;
+                        TakeCharacterMoney ( playerid, amount, MONEY_SLOT_HAND ) ;
 
-						WriteLog ( playerid, "point/store", sprintf ( "%s has stored $%s (%d) in their house. (point: %d, enumid: %d)", ReturnUserName ( playerid, false ), IntegerWithDelimiter ( amount ), amount, Point [ i ] [ point_id ], i )) ;
+                        WriteLog ( playerid, "point/store", sprintf ( "%s evine $%s (%d) koydu. (point: %d, enumid: %d)", ReturnUserName ( playerid, false ), IntegerWithDelimiter ( amount ), amount, Point [ i ] [ point_id ], i )) ;
 
-						mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_till = %d WHERE point_id = %d", Point [ i ] [ point_till ], Point [ i ] [ point_id ] ) ;
-						mysql_tquery ( mysql, query ) ;
+                        mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_till = %d WHERE point_id = %d", Point [ i ] [ point_till ], Point [ i ] [ point_id ] ) ;
+                        mysql_tquery ( mysql, query ) ;
 
-						Init_Points ( Point [ i ] [ point_id ] ) ;
+                        Init_Points ( Point [ i ] [ point_id ] ) ;
 
-						return SendServerMessage ( playerid, sprintf("You've stored $%s in your house storage.", IntegerWithDelimiter ( amount )), MSG_TYPE_ERROR ) ;
-					}
+                        return SendServerMessage ( playerid, sprintf("Evindeki depoya $%s koydun.", IntegerWithDelimiter ( amount )), MSG_TYPE_INFO ) ;
+                    }
 
-					else continue ;
-				}
+                    else continue ;
+                }
 
-				else continue ;
-			}
+                else continue ;
+            }
 
-			return SendServerMessage ( playerid, "You're not near a point you own.", MSG_TYPE_ERROR ) ;
-		}
+            return SendServerMessage ( playerid, "Sahibi olduðun bir noktanýn yakýnýnda deðilsin.", MSG_TYPE_ERROR ) ;
+        }
+
+        else if ( ! strcmp ( soption, "weapon" ) ) {
+
+            for ( new i; i < MAX_POINTS; i ++ ) {
+
+                if ( Point [ i ] [ point_id ] != -1 ) {
+
+                    if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
+
+                        if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
+
+                            return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
+                        }
+
+                        if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
+
+                            return SendServerMessage ( playerid, "Bu nokta bir ev deðil.", MSG_TYPE_ERROR ) ;
+                        }
+
+                        if ( amount < 1 || amount > 2) {
+
+                            return SendServerMessage ( playerid, "/point store weapon [slot] - slot 1 ile 2 arasýnda olmalýdýr.", MSG_TYPE_ERROR ) ;
+                        }
+
+                        if ( amount == 1 ) {
+
+                            if ( Point [ i ] [ point_weapon1 ] ) {
+
+                                return SendServerMessage ( playerid, "Bu slotta zaten bir silah saklý.", MSG_TYPE_ERROR ) ;
+                            }
+
+                            if ( ! Character [ playerid ] [ character_handweapon ] ) {
+
+                                return SendServerMessage ( playerid, "Üzerinde saklanabilir bir silah yok.", MSG_TYPE_ERROR ) ;
+                            }
+
+                            mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_weapon1 = %d, point_weapon1ammo = %d WHERE point_id = %d", 
+                                Character [ playerid ] [ character_handweapon ], Character [ playerid ] [ character_handammo ], Point [ i ] [ point_id ] ) ;
+
+                            mysql_tquery ( mysql, query ) ;
+
+                            Point [ i ] [ point_weapon1 ]       = Character [ playerid ] [ character_handweapon ] ;
+                            Point [ i ] [ point_weapon1ammo ]   = Character [ playerid ] [ character_handammo ] ;
+
+                            RemovePlayerWeapon ( playerid ) ;
+                            Init_Points ( Point [ i ] [ point_id ] ) ;
+
+                            return true ;
+                        }
+
+                        else if ( amount == 2 ) {
+                            if ( Point [ i ] [ point_weapon2 ] ) {
+
+                                return SendServerMessage ( playerid, "Bu slotta zaten bir silah saklý.", MSG_TYPE_ERROR ) ;
+                            }
+
+                            if ( ! Character [ playerid ] [ character_handweapon ] ) {
+
+                                return SendServerMessage ( playerid, "Üzerinde saklanabilir bir silah yok.", MSG_TYPE_ERROR ) ;
+                            }
+
+                            mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_weapon2 = %d, point_weapon2ammo = %d WHERE point_id = %d", 
+                                Character [ playerid ] [ character_handweapon ], Character [ playerid ] [ character_handammo ], Point [ i ] [ point_id ] ) ;
+
+                            mysql_tquery ( mysql, query ) ;
+
+                            Point [ i ] [ point_weapon2 ]       = Character [ playerid ] [ character_handweapon ] ;
+                            Point [ i ] [ point_weapon2ammo ]   = Character [ playerid ] [ character_handammo ] ;
+
+                            RemovePlayerWeapon ( playerid ) ;
+                            Init_Points ( Point [ i ] [ point_id ] ) ;
+
+                            return true ;
+                        }
+                        continue ;
+                    }
+                    else continue ;
+                }
+                else continue ;
+            }
+            return SendServerMessage ( playerid, "Sahibi olduðun bir noktanýn yakýnýnda deðilsin.", MSG_TYPE_ERROR ) ;
+        }
+        else return SendServerMessage ( playerid, "/point store [money/weapon] [miktar/slot]", MSG_TYPE_ERROR ) ;
+    }   
+
+    else if ( ! strcmp ( option, "take" ) ) {
+
+        if ( isnull ( soption ) ) {
+
+            return SendServerMessage ( playerid, "/point take [money/weapon]", MSG_TYPE_ERROR ) ;
+        }
+
+        if ( ! strcmp ( soption, "money" ) ) { 
+
+            if ( amount < 1 ) {
+
+                return SendServerMessage ( playerid, "/point take money [miktar] - miktar 1'den az olamaz.", MSG_TYPE_ERROR ) ;
+            }
+
+            for ( new i; i < MAX_POINTS; i ++ ) {
+
+                if ( Point [ i ] [ point_id ] != -1 ) {
+
+                    if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
+
+                        if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
+
+                            return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
+                        }
+
+                        if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
+
+                            return SendServerMessage ( playerid, "Bu nokta bir ev deðil.", MSG_TYPE_ERROR ) ;
+                        }
+
+                        if ( Point [ i ] [ point_till ] < amount ) {
+
+                            return SendServerMessage ( playerid, sprintf("Evindeki depoda $%i bulunmuyor.", amount ), MSG_TYPE_ERROR ) ;
+                        }
+
+                        Point [ i ] [ point_till ] -= amount ;
+                        GiveCharacterMoney ( playerid, amount, MONEY_SLOT_HAND ) ;
+
+                        WriteLog ( playerid, "point/store", sprintf ( "%s evinden $%s (%d) çekti. (point: %d, enumid: %d)", ReturnUserName ( playerid, false ), IntegerWithDelimiter ( amount ), amount, Point [ i ] [ point_id ], i )) ;
+
+                        mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_till = %d WHERE point_id = %d", Point [ i ] [ point_till ], Point [ i ] [ point_id ] ) ;
+                        mysql_tquery ( mysql, query ) ;
+
+                        Init_Points ( Point [ i ] [ point_id ] ) ;
+
+                        return SendServerMessage ( playerid, sprintf("Evindeki depodan $%s çektin.", IntegerWithDelimiter ( amount )), MSG_TYPE_INFO ) ;
+                    }
+
+                    else continue ;
+                }
+
+                else continue ;
+            }
+            return SendServerMessage ( playerid, "Sahibi olduðun bir noktanýn yakýnýnda deðilsin.", MSG_TYPE_ERROR ) ;
+        }
 
 		else if ( ! strcmp ( soption, "weapon" ) ) {
 
@@ -399,155 +538,7 @@ CMD:point ( playerid, const params [] ) {
 
 						if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
 
-							return SendServerMessage ( playerid, "You don't own this property.", MSG_TYPE_ERROR ) ;
-						}
-
-						if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
-
-							return SendServerMessage ( playerid, "This point isn't a house.", MSG_TYPE_ERROR ) ;
-						}
-
-						if ( amount < 1 || amount > 2) {
-
-							return SendServerMessage ( playerid, "/point store weapon [slot] - slot can't be less than 1 or more than 2.", MSG_TYPE_ERROR ) ;
-						}
-
-						if ( amount == 1 ) {
-
-							if ( Point [ i ] [ point_weapon1] ) {
-
-								return SendServerMessage ( playerid, "This slot already has a weapon stored.", MSG_TYPE_ERROR ) ;
-							}
-
-							if ( ! Character [ playerid ] [ character_handweapon ] ) {
-
-								return SendServerMessage ( playerid, "You're not wearing a weapon which can be stored.", MSG_TYPE_ERROR ) ;
-							}
-
-							mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_weapon1 = %d, point_weapon1ammo = %d WHERE point_id = %d", 
-								Character [ playerid ] [ character_handweapon ], Character [ playerid ] [ character_handammo ], Point [ i ] [ point_id ] ) ;
-
-							mysql_tquery ( mysql, query ) ;
-
-							Point [ i ] [ point_weapon1 ] 		= Character [ playerid ] [ character_handweapon ] ;
-							Point [ i ] [ point_weapon1ammo ] 	= Character [ playerid ] [ character_handammo ] ;
-
-							RemovePlayerWeapon ( playerid ) ;
-
-							Init_Points ( Point [ i ] [ point_id ] ) ;
-
-							return true ;
-						}
-
-						else if ( amount == 2 ) {
-							if ( Point [ i ] [ point_weapon2] ) {
-
-								return SendServerMessage ( playerid, "This slot already has a weapon stored.", MSG_TYPE_ERROR ) ;
-							}
-
-							if ( ! Character [ playerid ] [ character_handweapon ] ) {
-
-								return SendServerMessage ( playerid, "You're not wearing a weapon which can be stored.", MSG_TYPE_ERROR ) ;
-							}
-
-							mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_weapon2 = %d, point_weapon2ammo = %d WHERE point_id = %d", 
-								Character [ playerid ] [ character_handweapon ], Character [ playerid ] [ character_handammo ], Point [ i ] [ point_id ] ) ;
-
-							mysql_tquery ( mysql, query ) ;
-
-							Point [ i ] [ point_weapon2 ] 		= Character [ playerid ] [ character_handweapon ] ;
-							Point [ i ] [ point_weapon2ammo ] 	= Character [ playerid ] [ character_handammo ] ;
-
-							RemovePlayerWeapon ( playerid ) ;
-
-							Init_Points ( Point [ i ] [ point_id ] ) ;
-
-							return true ;
-						}
-			
-						continue ;
-					}
-
-					else continue ;
-				}
-
-				else continue ;
-			}
-
-			return SendServerMessage ( playerid, "You're not near a point you own.", MSG_TYPE_ERROR ) ;
-		}
-
-		else return SendServerMessage ( playerid, "/point store [money/weapons] [amount]", MSG_TYPE_ERROR ) ;
-	}	
-
-	else if ( ! strcmp ( option, "take" ) ) {
-
-		if ( isnull ( soption ) ) {
-
-			return SendServerMessage ( playerid, "/point take [money/weapon]", MSG_TYPE_ERROR ) ;
-		}
-
-		if ( ! strcmp ( soption, "money" ) ) { 
-
-			if ( amount < 1 ) {
-
-				return SendServerMessage ( playerid, "/point take money [amount] - amount can't be less than 1.", MSG_TYPE_ERROR ) ;
-			}
-
-			for ( new i; i < MAX_POINTS; i ++ ) {
-
-				if ( Point [ i ] [ point_id ] != -1 ) {
-
-					if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
-
-						if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
-
-							return SendServerMessage ( playerid, "You don't own this property.", MSG_TYPE_ERROR ) ;
-						}
-
-						if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
-
-							return SendServerMessage ( playerid, "This point isn't a house.", MSG_TYPE_ERROR ) ;
-						}
-
-						if ( Point [ i ] [ point_till ] < amount ) {
-
-							return SendServerMessage ( playerid, sprintf("You don't have $%i stored in your house.", amount ), MSG_TYPE_ERROR ) ;
-						}
-
-						Point [ i ] [ point_till ] -= amount ;
-						GiveCharacterMoney ( playerid, amount, MONEY_SLOT_HAND ) ;
-
-						WriteLog ( playerid, "point/store", sprintf ( "%s has taken $%s (%d) from their house. (point: %d, enumid: %d)", ReturnUserName ( playerid, false ), IntegerWithDelimiter ( amount ), amount, Point [ i ] [ point_id ], i )) ;
-
-						mysql_format ( mysql, query, sizeof ( query ), "UPDATE points SET point_till = %d WHERE point_id = %d", Point [ i ] [ point_till ], Point [ i ] [ point_id ] ) ;
-						mysql_tquery ( mysql, query ) ;
-
-						Init_Points ( Point [ i ] [ point_id ] ) ;
-
-						return SendServerMessage ( playerid, sprintf("You've withdrew $%s from your house storage.", IntegerWithDelimiter ( amount )), MSG_TYPE_ERROR ) ;
-					}
-
-					else continue ;
-				}
-
-				else continue ;
-			}
-
-			return SendServerMessage ( playerid, "You're not near a point you own.", MSG_TYPE_ERROR ) ;
-		}
-
-		else if ( ! strcmp ( soption, "weapon" ) ) {
-
-			for ( new i; i < MAX_POINTS; i ++ ) {
-
-				if ( Point [ i ] [ point_id ] != -1 ) {
-
-					if ( IsPlayerInRangeOfPoint(playerid, 2.5, Point [ i ] [ point_int_x ],  Point [ i ] [ point_int_y ], Point [ i ] [ point_int_z ] ) && GetPlayerVirtualWorld ( playerid ) == Point [ i ] [ point_int_vw ] && GetPlayerInterior ( playerid ) == Point [ i ] [ point_int_int ]) {
-
-						if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
-
-							return SendServerMessage ( playerid, "You don't own this property.", MSG_TYPE_ERROR ) ;
+							return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
 						}
 
 						if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
@@ -641,7 +632,7 @@ CMD:point ( playerid, const params [] ) {
 
 						if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
 
-							return SendServerMessage ( playerid, "You don't own this property.", MSG_TYPE_ERROR ) ;
+							return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
 						}
 
 						if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
@@ -671,7 +662,7 @@ CMD:point ( playerid, const params [] ) {
 
 						if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
 
-							return SendServerMessage ( playerid, "You don't own this property.", MSG_TYPE_ERROR ) ;
+							return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
 						}
 
 						if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {
@@ -706,7 +697,7 @@ CMD:point ( playerid, const params [] ) {
 
 					if ( Point [ i ] [ point_owner ] != Character [ playerid ] [ character_id ] ) {
 
-						return SendServerMessage ( playerid, "You don't own this property.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "Bu mülkün sahibi sen deðilsin.", MSG_TYPE_ERROR ) ;
 					}
 
 					if ( Point [ i ] [ point_type ] != POINT_TYPE_HOUSE ) {

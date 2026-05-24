@@ -64,3 +64,4 @@
 [24.05.2026 21:45:48] [plugins/mysql] error #1146 while executing query "SELECT * FROM charges WHERE charge_holder = 'Baba_Siken'": Table 'omp_wwrp.charges' doesn't exist
 [24.05.2026 21:45:48] [plugins/mysql] error #1146 while executing query "SELECT * FROM telegrams WHERE telegram_reciever = 0 ORDER BY telegram_id DESC": Table 'omp_wwrp.telegrams' doesn't exist
 [24.05.2026 21:45:48] [plugins/mysql] cache_get_value_name_int: field 'JOB_blacksmith' not found
+[24.05.2026 22:30:47] [plugins/mysql] error #1054 while executing query "UPDATE characters SET character_handmoney = '0', character_handchange = '0', character_bankmoney = '0', character_bankchange = '0', character_paycheck = '6', character_paychange = '50' WHERE character_id = '3'": Unknown column 'character_handchange' in 'field list'
