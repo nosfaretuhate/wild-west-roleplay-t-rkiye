@@ -1,0 +1,68 @@
+[24.05.2026 20:24:58] [INFO] changed log level from 'warning, error' to 'debug, info, warning, error'
+[24.05.2026 20:24:58] [WARNING] mysql_connect: no password specified
+[24.05.2026 20:25:10] [ERROR] cache_get_value_name_int: field 'posse_bank' not found
+[24.05.2026 20:25:10] [ERROR] cache_get_value_name_int: field 'posse_bank_decimal' not found
+[24.05.2026 20:25:27] [ERROR] cache_get_value_name_int: value '' is not a number
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_spawnmotel' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_sb_gun0' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_sb_gun1' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_sb_ammo0' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_sb_ammo1' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_handchange' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_bankchange' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_paychange' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_prison' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_prison_pos_x' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_prison_pos_y' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_prison_pos_z' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_prison_interior' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_prison_vw' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_prison_bail' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_prison_bail_cents' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_bounty_id' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_telegram_id' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_jobactionsleft' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_woodactionsleft' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_fishactionsleft' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_mineactionsleft' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_woodcd' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_fishcd' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_minecd' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_mask_offsetx' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_mask_offsety' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_mask_offsetz' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_mask_rotx' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_mask_roty' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_mask_rotz' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_mask_scalex' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_mask_scaley' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_mask_scalez' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_trousergun_offsetx' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_trousergun_offsety' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_trousergun_offsetz' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_trousergun_rotx' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_trousergun_roty' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_trousergun_rotz' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_trousergun_scalex' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_trousergun_scaley' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_trousergun_scalez' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_backgun_offsetx' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_backgun_offsety' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_backgun_offsetz' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_backgun_rotx' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_backgun_roty' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_backgun_rotz' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_backgun_scalex' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_backgun_scaley' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_backgun_scalez' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_pos_x' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_pos_y' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_float: field 'character_pos_z' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_pos_interior' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_pos_vw' not found
+[24.05.2026 20:25:48] [ERROR] cache_get_value_name_int: field 'character_crashed' not found
+[24.05.2026 20:25:48] [ERROR] error #1146 while executing query "SELECT * FROM attachments WHERE attach_character_id = 3": Table 'omp_wwrp.attachments' doesn't exist
+[24.05.2026 20:25:49] [ERROR] error #1146 while executing query "SELECT * FROM attachments WHERE attach_character_id = 3": Table 'omp_wwrp.attachments' doesn't exist
+[24.05.2026 20:25:49] [ERROR] error #1146 while executing query "SELECT * FROM charges WHERE charge_holder = 'Baba_Siken'": Table 'omp_wwrp.charges' doesn't exist
+[24.05.2026 20:25:49] [ERROR] error #1146 while executing query "SELECT * FROM telegrams WHERE telegram_reciever = 0 ORDER BY telegram_id DESC": Table 'omp_wwrp.telegrams' doesn't exist
+[24.05.2026 20:25:49] [ERROR] cache_get_value_name_int: field 'JOB_blacksmith' not found

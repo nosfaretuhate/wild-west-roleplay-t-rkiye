@@ -198,18 +198,18 @@ Account_Register ( playerid ) {
 
 	format ( registerstring, sizeof ( registerstring ), 
 
-		"{DEDEDE}Welcome to {6B5538}Wild West Roleplay{DEDEDE}!\n\
+		"{6B5538}Wild West Roleplay Türkiye{DEDEDE} - Kayýt \n\
 		\n\
-		The name {6B5538}%s{DEDEDE} is currently not registered.\n\
+		{6B5538}%s{DEDEDE} Kullanýcý adý kayýtlý deðil.\n\
 		\n\
-		Please enter your desired password below.", 
+		Þifreni girerek kayýt olabilirsiniz.", 
 
 	ReturnUserName ( playerid, true )) ;
 
 	task_yield ( 1 ) ;
 
 	new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
-	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_PASSWORD, "{6B5538}Welcome to Wild West Roleplay{DEDEDE}", registerstring, "Register", "Exit" );
+	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_PASSWORD, "{6B5538}Wild West Roleplay Türkiye{DEDEDE}", registerstring, "Kayýt ol", "Çýk" );
 
 	if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
@@ -225,14 +225,14 @@ Account_Register ( playerid ) {
 			IsPlayerLogged [ playerid ] = false ;
 			SetTimerEx("ReInit_AuthPanel", 1000, false, "i", playerid);
 
-			return SendServerMessage ( playerid, "Your password can't have more than 65 characters.", MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, "Þifren 65 karakteri geçemez.", MSG_TYPE_ERROR ) ;
 		} 
 
 		if ( strlen ( dialog_response [ E_DIALOG_RESPONSE_InputText ] ) < 4 ) {
 			IsPlayerLogged [ playerid ] = false ;
 			SetTimerEx("ReInit_AuthPanel", 1000, false, "i", playerid);
 
-			return SendServerMessage ( playerid, "Your password can't have less than 4 characters.", MSG_TYPE_ERROR ) ;				
+			return SendServerMessage ( playerid, "Þifren 4 karakterden az olamaz.", MSG_TYPE_ERROR ) ;				
 		}
 
 		bcrypt_hash ( playerid, "OnPasswordHash", dialog_response [ E_DIALOG_RESPONSE_InputText ], BCRYPT_COST ) ;
@@ -247,7 +247,7 @@ Account_Authenticate ( playerid ) {
 
 		KickPlayer ( playerid ) ;
 
-		return SendServerMessage ( playerid, "You've been kicked for entering the incorrect password too often.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Çok kez þifreni yanlýþ girdiðin için atýldýn.", MSG_TYPE_ERROR ) ;
 	}
 	
 	new loginstring [ 512 ] ;
@@ -257,11 +257,11 @@ Account_Authenticate ( playerid ) {
 		case false: {
 			format ( loginstring, sizeof ( loginstring ),
 
-				"{DEDEDE}Welcome to {6B5538}Wild West Roleplay{DEDEDE}!\n\
+				"{6B5538}Wild West Roleplay Türkiye{DEDEDE} - Giriþ\n\
 				\n\
-				Account Name: \t {6B5538}%s{DEDEDE}\n\
+				Hesap adý: \t {6B5538}%s{DEDEDE}\n\
 				\n\
-				Please enter your password below.", 
+				Þifreni girerek giriþ yapabilirsin.", 
 
 			ReturnUserName ( playerid, true ) ) ;
 		}
@@ -269,13 +269,13 @@ Account_Authenticate ( playerid ) {
 		case true: {
 			format ( loginstring,  sizeof ( loginstring ),
 
-				"{DEDEDE}Welcome to {6B5538}Wild West Roleplay{DEDEDE}!\n\
+				"{6B5538}Wild West Roleplay Türkiye{DEDEDE} - Giriþ\n\
 				\n\
-				Account Name: \t {6B5538}%s{DEDEDE}\n\
+				Hesap adý: \t {6B5538}%s{DEDEDE}\n\
 				\n\
-				Please enter your password below.\n\
+				Þifreni girerek giriþ yapabilirsin.\n\
 				\n\
-				Incorrect password! Login attempts: {6B5538}%d/3{DEDEDE}\n", 
+				Yanlýþ þifre, kalan deneme hakký: {6B5538}%d/3{DEDEDE}\n", 
 
 			ReturnUserName ( playerid, true ), login_state_ext [ playerid ] ) ;
 		}
@@ -284,7 +284,7 @@ Account_Authenticate ( playerid ) {
 	task_yield ( 1 ) ;
 
 	new dialog_response [ e_DIALOG_RESPONSE_INFO ] ;
-	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_PASSWORD, "{6B5538}Welcome to Wild West Roleplay{DEDEDE}", loginstring, "Login", "Exit" );
+	await_arr ( dialog_response ) ShowPlayerAsyncDialog ( playerid, DIALOG_STYLE_PASSWORD, "{6B5538}Wild West Roleplay Türkiye{DEDEDE}", loginstring, "Giriþ yap", "Çýk" );
 
 	HasPlayerSeenLoginDialog [ playerid ] = true ;
 
@@ -305,7 +305,7 @@ Account_Authenticate ( playerid ) {
 			login_state [ playerid ] = true ;
 			login_state_ext [ playerid ] ++ ;
 
-			return SendServerMessage ( playerid, "Your password can't have more than 65 characters.", MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, "Þifren 65 karakteri geçemez.", MSG_TYPE_ERROR ) ;
 		} 
 
 		if ( strlen ( dialog_response [ E_DIALOG_RESPONSE_InputText ] ) < 4 ) {
@@ -315,7 +315,7 @@ Account_Authenticate ( playerid ) {
 			login_state [ playerid ] = true ;
 			login_state_ext [ playerid ] ++ ;
 
-			return SendServerMessage ( playerid, "Your password can't have less than 4 characters.", MSG_TYPE_ERROR ) ;			
+			return SendServerMessage ( playerid, "Þifren 4 karakterden az olamaz.", MSG_TYPE_ERROR ) ;			
 		}
 
 		bcrypt_verify ( playerid, "OnPasswordVerify", dialog_response [ E_DIALOG_RESPONSE_InputText ], Account [ playerid ] [ account_pass ] ) ;
@@ -386,7 +386,7 @@ public OnPasswordVerify(playerid, bool:success) {
 				mysql_format ( mysql, query, sizeof ( query ), "UPDATE master_accounts SET account_donatorlevel = 0, account_donatorexpire = 0 WHERE account_id = %d", Account [ playerid ] [ account_id ] ) ;
 				mysql_tquery ( mysql, query ) ;
 
-				SendServerMessage ( playerid, "Your donator level has expired.", MSG_TYPE_WARN ) ;
+				SendServerMessage ( playerid, "Baðýþçý seviyenin süresi doldu.", MSG_TYPE_WARN ) ;
 			}
 		}
 
