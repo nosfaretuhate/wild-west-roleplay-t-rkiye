@@ -99,38 +99,40 @@ GetRockItemID ( rockid ) {
 	return -1 ;
 }
 
+
 GetRockType( rockid ) {
 
-	new string[64];
-	switch( Rock[rockid][mineType] ) {
+    new string[64];
+    switch( Rock[rockid][mineType] ) {
 
-	    case 0: string = "Sýradan taþ"; 
-	    case 1: string = "{964B4B}Altýn Minerali{FFFFFF}";
-	    case 2: string = "{FFB66C}Copper Mineral{FFFFFF}";
-	    case 3: string = "{C9C9C9}Tin Mineral{FFFFFF}";
-	    case 4: string = "{373737}Coal{FFFFFF}"; 
-	    case 5: string = "{E2B603}Gold Mineral{FFFFFF}";
-	    default: string = "Error"; 
-	}
+        case 0: string = "Siradan Tas"; 
+        case 1: string = "{964B4B}Demir Minerali{FFFFFF}"; // Iron
+        case 2: string = "{FFB66C}Bakir Minerali{FFFFFF}"; // Copper
+        case 3: string = "{C9C9C9}Kalay Minerali{FFFFFF}"; // Tin
+        case 4: string = "{373737}Komur{FFFFFF}";          // Coal
+        case 5: string = "{E2B603}Altin Minerali{FFFFFF}"; // Gold
+        default: string = "Hata"; 
+    }
 
-	return string;
+    return string;
 }
+
 GetRockTypeEx( rockid ) {
 
-	new string[64];
-	switch( Rock[rockid][mineType] ) {
+    new string[64];
+    switch( Rock[rockid][mineType] ) {
 
-	    case 0: string = "Normal Rock"; 
-	    case 1: string = "Iron Mineral";
-	    case 2: string = "Copper Mineral";
-	    case 3: string = "Tin Mineral";
-	    case 4: string = "Coal"; 
-	    case 5: string = "Gold Mineral";
+        case 0: string = "Normal Rock"; 
+        case 1: string = "Iron Mineral";
+        case 2: string = "Copper Mineral";
+        case 3: string = "Tin Mineral";
+        case 4: string = "Coal"; 
+        case 5: string = "Gold Mineral";
 
-	    default: string = "Error"; 
-	}
+        default: string = "Error"; 
+    }
 
-	return string;
+    return string;
 }
 
 CreateStaticRock ( ) {
@@ -193,7 +195,7 @@ CreateStaticRock ( ) {
     		default: { Rock[id][mineObjectID] = 3929; }
     	}
 		Rock[id][mineObject] = CreateDynamicObject( Rock[id][mineObjectID], Rock[id][minePos][0], Rock[id][minePos][1], Rock[id][minePos][2] - 0.25, 0.0, 0.0, 0.0 ); //mapandreasfindz is with 3dtryg, colandreas find z function wouldn't work, mapandreas isn't being used
-		format( string, sizeof( string ), "%s\nHealth: %i", GetRockType( id ), floatround( Rock[id][mineHealth] ) );
+		format( string, sizeof( string ), "%s\nCan: %i", GetRockType( id ), floatround( Rock[id][mineHealth] ) );
 		Rock[id][mineLabel] = CreateDynamic3DTextLabel( string, -1, Rock[id][minePos][0], Rock[id][minePos][1], Rock[id][minePos][2] + 0.5, 7.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1 );
 
 		//SetRockColor( id );
@@ -272,7 +274,7 @@ CreateRock (Float: pos_x, Float: pos_y, Float: pos_z ) {
 	//CA_FindZ_For2DCoord(Rock[id][minePos][0], Rock[id][minePos][1], Rock[id][minePos][2]) ;
 	Rock[id][mineObject] = CreateDynamicObject( Rock[id][mineObjectID], Rock[id][minePos][0], Rock[id][minePos][1], Rock[id][minePos][2], 0.0, 0.0, 0.0, -1, -1, -1, 150, 150) ; //mapandreasfindz is with 3dtryg, colandreas find z function wouldn't work, mapandreas isn't being used
 
-	Rock[id][mineLabel] = CreateDynamic3DTextLabel( sprintf("%s\nHealth: %i", GetRockType( id ), floatround( Rock[id][mineHealth] )), -1, Rock[id][minePos][0], Rock[id][minePos][1], Rock[id][minePos][2]+0.5, 7.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1 );
+	Rock[id][mineLabel] = CreateDynamic3DTextLabel( sprintf("%s\nCan: %i", GetRockType( id ), floatround( Rock[id][mineHealth] )), -1, Rock[id][minePos][0], Rock[id][minePos][1], Rock[id][minePos][2]+0.5, 7.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1 );
 
 	//SetRockColor( id );
 	Iter_Add( ValidRocks, id );
@@ -315,7 +317,7 @@ DecreaseRockHealth( rockid )
 
 	if(Rock[rockid][mineHealth] <= 0) { Rock[rockid][mineHealth] = 0 ; }
 
-	UpdateDynamic3DTextLabelText( Rock[rockid][mineLabel], -1, sprintf("%s\nHealth: %i", GetRockType( rockid ), floatround( Rock[rockid][mineHealth] )) );
+	UpdateDynamic3DTextLabelText( Rock[rockid][mineLabel], -1, sprintf("%s\nCan: %i", GetRockType( rockid ), floatround( Rock[rockid][mineHealth] )) );
 
 	return 1;
 }
@@ -326,7 +328,7 @@ OnPlayerMineOre ( playerid, oreid ) {
 
 	if ( GetRockItemID ( oreid ) == -1 ) {
 
-		return SendServerMessage ( playerid, sprintf("Error processing ore. Send this to a dev: [TYPE %d], [ID %d]", Rock [ oreid ] [ mineType ], oreid ), MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, sprintf("hata developer ile görüþün ve bunu ss atýn [TYPE %d], [ID %d]", Rock [ oreid ] [ mineType ], oreid ), MSG_TYPE_ERROR ) ;
 	}
 
 	new amount ;
@@ -346,7 +348,7 @@ OnPlayerMineOre ( playerid, oreid ) {
 		return printf("Player %d: %s looted rock %d", GetRockItemID ( oreid ) ) ;
 	}
 
-	else return SendServerMessage ( playerid, "Error processing GivePlayerItemByParam for ore. Tell a dev to look at the drop for YOUR ID.", MSG_TYPE_ERROR ) ;
+     else return SendServerMessage ( playerid, "Maden toplama iþlemi sýrasýnda bir hata oluþtu. Geliþtiriciye KENDÝ ID'nizi vererek durumu bildirin.", MSG_TYPE_ERROR ) ;
 }
 
 CMD:gotorock ( playerid, params [] ) {
@@ -359,7 +361,7 @@ CMD:gotorock ( playerid, params [] ) {
 
 	if ( Rock [ id ] [ mineID] == -1 ) {
 
-		return SendClientMessage(playerid, -1, "Invalid rock ID." ) ;
+		return SendClientMessage(playerid, -1, "Geçersiz ID" ) ;
 	}
 
 	new Float: x, Float: y, Float: z;
@@ -374,8 +376,8 @@ MineRock ( playerid, rockid ) {
 	ApplyAnimation( playerid, "CHAINSAW", "WEAPON_csawlo", 4.1, false, true, true, true, 1, SYNC_ALL );
 	TogglePlayerControllable( playerid, true );	
 
-	SendServerMessage( playerid, sprintf("You have mined some %s (id %d).", GetRockType( rockid ), rockid ), MSG_TYPE_INFO );
-	UpdateDynamic3DTextLabelText( Rock[rockid][mineLabel], -1, sprintf("%s\nHealth: %i", GetRockType( rockid ), floatround( Rock[rockid][mineHealth] )) );
+	SendServerMessage( playerid, sprintf("Bir miktar %s kazdýn. (id %d).", GetRockType( rockid ), rockid ), MSG_TYPE_INFO );
+	UpdateDynamic3DTextLabelText( Rock[rockid][mineLabel], -1, sprintf("%s\nCan: %i", GetRockType( rockid ), floatround( Rock[rockid][mineHealth] )) );
 
   	MiningProgress[playerid] = 0;
    	IsMining[playerid] = false;
@@ -392,7 +394,7 @@ MineRock ( playerid, rockid ) {
 
 
 
-	ActionPanel_ChangeGUI ( playerid, sprintf("| You've mined a %s.~n~~n~~w~ + %d exp for Mining Level!", GetRockTypeEx ( rockid ), xp ), 3929, false) ;
+	ActionPanel_ChangeGUI ( playerid, sprintf("| %s KAZDIN~n~~n~~w~ + %d TECRUBE", GetRockTypeEx ( rockid ), xp ), 3929, false) ;
 
 	/*
 	PlayerTextDrawHide ( playerid, actionGUI_PreviewBoxModel ) ;
@@ -431,7 +433,7 @@ MineRock ( playerid, rockid ) {
 			Character [ playerid ] [ character_jobactionsleft ], Character [ playerid ] [ character_minecd ], Character [ playerid ] [ character_id ] ) ;
 		mysql_tquery ( mysql, query ) ;
 
-		SendServerMessage ( playerid, "You feel tired of mining, so you've decided to stop.", MSG_TYPE_WARN ) ;
+		SendServerMessage ( playerid, "Madencilik yapmaktan yoruldu ve býraktýn.", MSG_TYPE_WARN ) ;
 
 		return cmd_fixjob ( playerid ) ;
 	}
@@ -500,7 +502,7 @@ public RespawnRock(oreid) {
 		Rock[oreid][mineValid] = 1;
 
 		SetRockColor( oreid );
-		UpdateDynamic3DTextLabelText( Rock[oreid][mineLabel], -1, sprintf("%s\nHealth: %i", GetRockType( oreid ), floatround( Rock[oreid][mineHealth] )) ) ;
+		UpdateDynamic3DTextLabelText( Rock[oreid][mineLabel], -1, sprintf("%s\nCan: %i", GetRockType( oreid ), floatround( Rock[oreid][mineHealth] )) ) ;
 	}
 
 	return 1;
@@ -510,12 +512,12 @@ CMD:forcerespawnore ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be a moderator in order to be able to do this!", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapmak için moderatör veya daha yüksek yetkiye sahip olmalýsýn.", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( GetStaffGroup ( playerid ) < GENERAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You must be at least a general moderator in order to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bunu yapabilmek için genel moderatör olmalýsýn", MSG_TYPE_ERROR ) ;
 	}
 
 	new oreid;
@@ -529,7 +531,7 @@ CMD:forcerespawnore ( playerid, params [] ) {
 
 	RespawnRock ( oreid ) ;
 
-	SendServerMessage ( playerid, sprintf("You've respawned oreid %i.", oreid ), MSG_TYPE_INFO ) ;
+	SendServerMessage ( playerid, sprintf(" %i spawnlandý.", oreid ), MSG_TYPE_INFO ) ;
 
 	return true ;
 }
