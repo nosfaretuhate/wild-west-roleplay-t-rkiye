@@ -46,7 +46,7 @@ Init_Temperature() {
 	ResetZoneTemperatures();
 	for(new i; i < sizeof(Zones); i++) {
 
-		if(!strcmp(Zones[i][zone_name],"Refugee Camp") || !strcmp(Zones[i][zone_name],"Staff Island")) { continue; }
+		if(!strcmp(Zones[i][zone_name],"Refugee Camp") || !strcmp(Zones[i][zone_name],"Admin Bölgesi")) { continue; }
 		new Float:center_x,Float:center_y,tempamount;
 		GetGangZoneCenter(Zones[i][zone_minx],Zones[i][zone_miny],Zones[i][zone_maxx],Zones[i][zone_maxy],center_x,center_y);
 		switch(GetTemperatureZone(center_x,center_y)) {
@@ -57,8 +57,8 @@ Init_Temperature() {
 			case 5: { tempamount = randomEx(85,120); }
 			default: { tempamount = INVALID_TEMPERATURE; }
 		}
-		ZoneTemperature[i] = tempamount;
-		printf("[TEMPERATURE]: Zone ID %d temperature is %d FÂ°",i,ZoneTemperature[i]);
+        ZoneTemperature[i] = tempamount;
+        printf("[SICAKLIK]: Bölge ID %d sýcaklýðý %d FÂ°",i,ZoneTemperature[i]);
 	}
 	return true;
 }
@@ -68,7 +68,7 @@ task AutoTempCalculation[3600000]() {
 	new oldtemp[sizeof(Zones)];
 	for(new i; i < sizeof(Zones); i++) {
 
-		if(!strcmp(Zones[i][zone_name],"Refugee Camp") || !strcmp(Zones[i][zone_name],"Staff Island")) { continue; }
+		if(!strcmp(Zones[i][zone_name],"Refugee Camp") || !strcmp(Zones[i][zone_name],"Admin Bölgesi")) { continue; }
 		oldtemp[i] = ZoneTemperature[i];
 		new Float:center_x,Float:center_y,tempchange,tempmodifier;
 		new divider = 6;
@@ -103,7 +103,7 @@ task AutoTempCalculation[3600000]() {
 		}
 
 		ZoneTemperature[i] = tempchange;
-		printf("[TEMPERATURE]: Zone ID %d temperature change from %d FÂ° to %d FÂ°",i,oldtemp[i],ZoneTemperature[i]);
+		printf("[SICAKLIK]: Bölge ID %d sýcaklýðý %d FÂ° deðerinden %d FÂ° deðerine deðiþti",i,oldtemp[i],ZoneTemperature[i]);
 	}
 	return true;
 }
