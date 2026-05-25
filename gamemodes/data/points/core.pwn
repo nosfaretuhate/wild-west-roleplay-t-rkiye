@@ -232,12 +232,10 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 		}
 
 		new query [ 256 ] ; 
+         if ( GetPlayerInterior ( playerid ) == 0 || GetPlayerVirtualWorld(playerid) == 0 ) {
 
-		if ( GetPlayerInterior ( playerid == 0 ) || GetPlayerVirtualWorld(playerid) == 0 ) {
-
-			ResetCharacterPointID(playerid);
-		}
-
+            ResetCharacterPointID(playerid);
+        }
 		if(GetCharacterPointID(playerid) == -1) {
 
 			for ( new i; i < MAX_POINTS; i ++ ) {

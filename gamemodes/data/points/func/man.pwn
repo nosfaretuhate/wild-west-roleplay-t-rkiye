@@ -704,7 +704,7 @@ else if ( ! strcmp ( soption, "weapon" ) ) {
 	return true ;
 }
 
-CCMD:apoint ( playerid, params [] ) {
+CMD:apoint ( playerid, params [] ) {
 
     new option [ 32 ], setting, extra [ 32 ] ;
 
