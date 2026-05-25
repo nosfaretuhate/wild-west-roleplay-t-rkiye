@@ -27,116 +27,116 @@ SetupDynamiteData () {
 
 CMD:dynamite ( playerid, params [] ) {
 
-	if ( EquippedItem [ playerid ] != DYNAMITE ) {
+    if ( EquippedItem [ playerid ] != DYNAMITE ) {
 
-		return SendServerMessage ( playerid, "You need to have your dynamite equipped before you can do this.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Bunu yapabilmek için dinamitinizi kuþanmýþ olmanýz gerekiyor.", MSG_TYPE_ERROR ) ;
+    }
 
-	new value ;
+    new value ;
 
-	if ( sscanf ( params, "i", value ) ) {
+    if ( sscanf ( params, "i", value ) ) {
 
-		return SendServerMessage ( playerid, "/dynamite [time]", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/dynamite [süre]", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( value < 5 || value > 30 ) {
+    if ( value < 5 || value > 30 ) {
 
-		return SendServerMessage ( playerid, "Dynamite timer can't be lower than 5 seconds or higher than 30.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Dinamit süresi 5 saniyeden az veya 30 saniyeden fazla olamaz.", MSG_TYPE_ERROR ) ;
+    }
 
-	new Float: player_x,  Float: player_y,  Float: player_z ;
+    new Float: player_x,  Float: player_y,  Float: player_z ;
 
-	GetPlayerPos ( playerid, player_x, player_y, player_z  ) ;
-	GetXYInFrontOfPlayer ( playerid, player_x, player_y, 2.0 ) ;
+    GetPlayerPos ( playerid, player_x, player_y, player_z  ) ;
+    GetXYInFrontOfPlayer ( playerid, player_x, player_y, 2.0 ) ;
 
-	new d_id = GetFreeDynamiteSlot ( ) ;
+    new d_id = GetFreeDynamiteSlot ( ) ;
 
-	if ( d_id == -1 ) {
+    if ( d_id == -1 ) {
 
-		return SendServerMessage ( playerid, "Failed to plant dynamite. Tell an admin to do /refreshdynamite.", MSG_TYPE_ERROR ) ;
-	} 
+        return SendServerMessage ( playerid, "Dinamit yerleþtirilemedi. Bir yöneticiye /refreshdynamite yapmasýný söyleyin.", MSG_TYPE_ERROR ) ;
+    } 
 
-	DynamiteTimer [ d_id ] = value ;
+    DynamiteTimer [ d_id ] = value ;
 
-	ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 4.1, false, false, false, false, 0, SYNC_ALL);
-	Dynamite [ d_id ] = CreateDynamicObject(1654, player_x, player_y, player_z - 0.80, 0.0, 0.0, 0.0, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid) ) ;
-	DynamiteInfo [ d_id ] = CreateDynamic3DTextLabel(sprintf("[DYNAMITE: %d]\n{DEDEDE}%d seconds left\nuntil explosion.", d_id, DynamiteTimer [d_id ] ), 0xDB3232FF, player_x, player_y, player_z - 0.80, 20.0, 
-		INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid) ) ;
+    ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 4.1, false, false, false, false, 0, SYNC_ALL);
+    Dynamite [ d_id ] = CreateDynamicObject(1654, player_x, player_y, player_z - 0.80, 0.0, 0.0, 0.0, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid) ) ;
+    DynamiteInfo [ d_id ] = CreateDynamic3DTextLabel(sprintf("[DÝNAMÝT: %d]\n{DEDEDE}Patlamaya %d saniye\nkaldý.", d_id, DynamiteTimer [d_id ] ), 0xDB3232FF, player_x, player_y, player_z - 0.80, 20.0, 
+        INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid) ) ;
 
-	SendServerMessage ( playerid, sprintf("Your dynamite has been set. It will explode in %d seconds.", value ), MSG_TYPE_INFO) ;
-	SendClientMessage(playerid, COLOR_ACTION, sprintf("* %s has planted a set of dynamite.", ReturnUserName ( playerid, false )) ) ;
+    SendServerMessage ( playerid, sprintf("Dinamitiniz kuruldu. %d saniye içinde patlayacak.", value ), MSG_TYPE_INFO) ;
+    SendClientMessage(playerid, COLOR_ACTION, sprintf("* %s bir dinamit yerleþtirdi.", ReturnUserName ( playerid, false )) ) ;
  
-	SetTimerEx("Dynamite_Explode", 1000, false, "i", d_id ) ;
+    SetTimerEx("Dynamite_Explode", 1000, false, "i", d_id ) ;
 
-	////////////////////////////////////////
-	///// Cleaning up for inventory script:
-	////////////////////////////////////////
+    ////////////////////////////////////////
+    ///// Cleaning up for inventory script:
+    ////////////////////////////////////////
 
-	RemovePlayerAttachedObject(playerid, 6 ) ;
-	EquippedItem [ playerid ] = -1 ;
-	
-	new tileid = EquippedItemTile [ playerid ] ;
+    RemovePlayerAttachedObject(playerid, 6 ) ;
+    EquippedItem [ playerid ] = -1 ;
+    
+    new tileid = EquippedItemTile [ playerid ] ;
 
-	if ( tileid != -1 && -- PlayerItem [ playerid ] [ tileid ] [ player_item_amount ] <= 0 ) {
+    if ( tileid != -1 && -- PlayerItem [ playerid ] [ tileid ] [ player_item_amount ] <= 0 ) {
 
-		DiscardItem ( playerid, tileid ) ;
+        DiscardItem ( playerid, tileid ) ;
 
-		SendServerMessage ( playerid, "You've used your last set of dynamite.", MSG_TYPE_WARN ) ;
-	}
+        SendServerMessage ( playerid, "Son dinamitinizi kullandýnýz.", MSG_TYPE_WARN ) ;
+    }
 
-	new query [ 256 ] ;
+    new query [ 256 ] ;
 
-	mysql_format ( mysql, query, sizeof ( query ), "UPDATE items_player SET player_item_amount = '%d' WHERE player_table_id = %d AND player_database_id = '%d'", 
-		PlayerItem [ playerid ] [ tileid ] [ player_item_amount ], PlayerItem [ playerid ] [ tileid ] [ player_table_id ], Character [ playerid ] [ character_id ] ) ; 
-	mysql_tquery ( mysql, query ) ;
+    mysql_format ( mysql, query, sizeof ( query ), "UPDATE items_player SET player_item_amount = '%d' WHERE player_table_id = %d AND player_database_id = '%d'", 
+        PlayerItem [ playerid ] [ tileid ] [ player_item_amount ], PlayerItem [ playerid ] [ tileid ] [ player_table_id ], Character [ playerid ] [ character_id ] ) ; 
+    mysql_tquery ( mysql, query ) ;
 
-	HideInventoryExamineGUI ( playerid ) ;
-	ToggleInventory ( playerid, INV_MAX_TILES, false ) ;
-	UpdateWeaponGUI ( playerid ) ;
+    HideInventoryExamineGUI ( playerid ) ;
+    ToggleInventory ( playerid, INV_MAX_TILES, false ) ;
+    UpdateWeaponGUI ( playerid ) ;
 
-	EquippedItemTile [ playerid ] = -1 ;
+    EquippedItemTile [ playerid ] = -1 ;
 
-	return true ;
+    return true ;
 }
 
 forward Dynamite_Explode(d_id);
 public Dynamite_Explode(d_id) {
 
-////	print("Dynamite_Explode timer called (dynamite.pwn)");
+////    print("Dynamite_Explode timer called (dynamite.pwn)");
 
-	if ( DynamiteTimer [d_id ] <= 0 ) {
+    if ( DynamiteTimer [d_id ] <= 0 ) {
 
-		return false ;
-	}
+        return false ;
+    }
 
-	if ( -- DynamiteTimer [d_id ] == 0 ) {
+    if ( -- DynamiteTimer [d_id ] == 0 ) {
 
-		new Float: dyn_x, Float: dyn_y, Float: dyn_z ;
-		GetDynamicObjectPos(Dynamite [ d_id ], dyn_x, dyn_y, dyn_z ) ;
+        new Float: dyn_x, Float: dyn_y, Float: dyn_z ;
+        GetDynamicObjectPos(Dynamite [ d_id ], dyn_x, dyn_y, dyn_z ) ;
 
-		CreateExplosion(dyn_x, dyn_y, dyn_z, 2, 25.0 ) ;
+        CreateExplosion(dyn_x, dyn_y, dyn_z, 2, 25.0 ) ;
 
-		foreach ( new playerid : Player ) {
+        foreach ( new playerid : Player ) {
 
-			if ( ! IsPlayerInRangeOfPoint ( playerid, 25.0, dyn_x, dyn_y, dyn_z ) ) continue;
+            if ( ! IsPlayerInRangeOfPoint ( playerid, 25.0, dyn_x, dyn_y, dyn_z ) ) continue;
 
-			HandleExplosion ( playerid, dyn_x, dyn_y, dyn_z ) ;
-		}
+            HandleExplosion ( playerid, dyn_x, dyn_y, dyn_z ) ;
+        }
 
-		if ( IsValidDynamicObject ( Dynamite [ d_id ] ) ) {
-			DestroyDynamicObject(Dynamite [ d_id ]) ;
-		}
+        if ( IsValidDynamicObject ( Dynamite [ d_id ] ) ) {
+            DestroyDynamicObject(Dynamite [ d_id ]) ;
+        }
 
-		if ( IsValidDynamic3DTextLabel(DynamiteInfo [d_id])) {
-			DestroyDynamic3DTextLabel(DynamiteInfo [d_id]) ;
-		}
+        if ( IsValidDynamic3DTextLabel(DynamiteInfo [d_id])) {
+            DestroyDynamic3DTextLabel(DynamiteInfo [d_id]) ;
+        }
 
-		Dynamite [ d_id ] = -1 ;
+        Dynamite [ d_id ] = -1 ;
 
-	}
+    }
 
-	UpdateDynamic3DTextLabelText(DynamiteInfo [d_id], 0xDB3232FF, sprintf("[DYNAMITE: %d]\n{DEDEDE}%d seconds left\nuntil explosion.", d_id, DynamiteTimer [d_id ] ) ) ;
+    UpdateDynamic3DTextLabelText(DynamiteInfo [d_id], 0xDB3232FF, sprintf("[DÝNAMÝT: %d]\n{DEDEDE}Patlamaya %d saniye\nkaldý.", d_id, DynamiteTimer [d_id ] ) ) ;
 
-	SetTimerEx("Dynamite_Explode", 1000, false, "i", d_id) ;
-	return true ;
+    SetTimerEx("Dynamite_Explode", 1000, false, "i", d_id) ;
+    return true ;
 }
