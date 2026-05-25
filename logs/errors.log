@@ -1,13 +1,58 @@
-[25.05.2026 13:28:42] [plugins/mysql] cache_get_value_name_int: field 'posse_bank' not found
-[25.05.2026 13:28:42] [plugins/mysql] cache_get_value_name_int: field 'posse_bank_decimal' not found
-[25.05.2026 13:29:24] [plugins/mysql] error #1054 while executing query "INSERT INTO attachments (attach_character_id, attach_character_index, attach_character_array, attach_character_attach_id) VALUES (3, 0, -1, 0)": Unknown column 'attach_character_index' in 'field list'
-[25.05.2026 13:29:24] [plugins/mysql] error #1054 while executing query "INSERT INTO attachments (attach_character_id, attach_character_index, attach_character_array, attach_character_attach_id) VALUES (3, 1, -1, 1)": Unknown column 'attach_character_index' in 'field list'
-[25.05.2026 13:29:24] [plugins/mysql] error #1054 while executing query "INSERT INTO attachments (attach_character_id, attach_character_index, attach_character_array, attach_character_attach_id) VALUES (3, 2, -1, 2)": Unknown column 'attach_character_index' in 'field list'
-[25.05.2026 13:29:24] [plugins/mysql] error #1054 while executing query "INSERT INTO attachments (attach_character_id, attach_character_index, attach_character_array, attach_character_attach_id) VALUES (3, 3, -1, 3)": Unknown column 'attach_character_index' in 'field list'
-[25.05.2026 13:29:24] [plugins/mysql] error #1054 while executing query "INSERT INTO attachments (attach_character_id, attach_character_index, attach_character_array, attach_character_attach_id) VALUES (3, 4, -1, 4)": Unknown column 'attach_character_index' in 'field list'
-[25.05.2026 13:29:25] [plugins/mysql] error #1054 while executing query "INSERT INTO attachments (attach_character_id, attach_character_index, attach_character_array, attach_character_attach_id) VALUES (3, 0, -1, 0)": Unknown column 'attach_character_index' in 'field list'
-[25.05.2026 13:29:25] [plugins/mysql] cache_get_value_name_int: field 'JOB_blacksmith' not found
-[25.05.2026 13:29:25] [plugins/mysql] error #1054 while executing query "INSERT INTO attachments (attach_character_id, attach_character_index, attach_character_array, attach_character_attach_id) VALUES (3, 1, -1, 1)": Unknown column 'attach_character_index' in 'field list'
-[25.05.2026 13:29:25] [plugins/mysql] error #1054 while executing query "INSERT INTO attachments (attach_character_id, attach_character_index, attach_character_array, attach_character_attach_id) VALUES (3, 2, -1, 2)": Unknown column 'attach_character_index' in 'field list'
-[25.05.2026 13:29:25] [plugins/mysql] error #1054 while executing query "INSERT INTO attachments (attach_character_id, attach_character_index, attach_character_array, attach_character_attach_id) VALUES (3, 3, -1, 3)": Unknown column 'attach_character_index' in 'field list'
-[25.05.2026 13:29:25] [plugins/mysql] error #1054 while executing query "INSERT INTO attachments (attach_character_id, attach_character_index, attach_character_array, attach_character_attach_id) VALUES (3, 4, -1, 4)": Unknown column 'attach_character_index' in 'field list'
+[25.05.2026 13:44:57] [plugins/mysql] cache_get_value_name_int: field 'posse_bank' not found
+[25.05.2026 13:44:57] [plugins/mysql] cache_get_value_name_int: field 'posse_bank_decimal' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_int: field 'attach_character_bone' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsetx' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsety' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsetz' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_rotx' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_roty' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_rotz' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scalex' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scaley' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scalez' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_int: field 'attach_character_visible' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_int: field 'attach_character_bone' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsetx' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsety' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsetz' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_rotx' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_roty' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_rotz' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scalex' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scaley' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scalez' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_int: field 'attach_character_visible' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_int: field 'attach_character_bone' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsetx' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsety' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsetz' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_rotx' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_roty' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_rotz' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scalex' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scaley' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scalez' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_int: field 'attach_character_visible' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_int: field 'attach_character_bone' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsetx' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsety' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsetz' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_rotx' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_roty' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_rotz' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scalex' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scaley' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scalez' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_int: field 'attach_character_visible' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_int: field 'attach_character_bone' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsetx' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsety' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_offsetz' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_rotx' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_roty' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_rotz' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scalex' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scaley' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_float: field 'attach_character_scalez' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_int: field 'attach_character_visible' not found
+[25.05.2026 13:45:22] [plugins/mysql] cache_get_value_name_int: field 'JOB_blacksmith' not found

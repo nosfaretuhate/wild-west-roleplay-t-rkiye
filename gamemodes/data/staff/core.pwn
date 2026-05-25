@@ -33,7 +33,7 @@ GetStaffGroupName ( grouplevel ) {
 		case 1: { staffgroupname = "Aday Moderatör"; }
 		case 2: { staffgroupname = "Temel Moderatör"; }
 		case 3: { staffgroupname = "Genel Moderatör"; }
-		case 4: { staffgroupname = "Ýleri Moderatör"; }
+		case 4: { staffgroupname = "Son Seviye Moderatör"; }
 		default: { staffgroupname = "N/A"; }
 	}
 	return staffgroupname;
