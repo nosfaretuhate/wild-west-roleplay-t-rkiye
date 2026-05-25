@@ -87,17 +87,17 @@ FindFreeTreeID() {
 
 GetTreeType ( treeid ) {
 
-	new string [ 64 ] ;
+    new string [ 64 ] ;
 
-	switch ( Tree [ treeid ] [ treeType ] ) {
+    switch ( Tree [ treeid ] [ treeType ] ) {
 
-	    case 0: string = "{C9C9C9}Birch Tree{FFFFFF}" ;
-	    case 1: string = "{BA9F7B}Oak Tree{FFFFFF}" ;
-	    case 2: string = "{96744D}Yew Tree{FFFFFF}" ;
-	    default: string = "Error" ;
-	}
+        case 0: string = "{C9C9C9}Hus Agaci{FFFFFF}" ;
+        case 1: string = "{BA9F7B}Mese Agaci{FFFFFF}" ;
+        case 2: string = "{96744D}Porsuk Agaci{FFFFFF}" ;
+        default: string = "Hata" ;
+    }
 
-	return string;
+    return string;
 }
 
 GetTreeTypeEx ( treeid ) {
@@ -106,10 +106,10 @@ GetTreeTypeEx ( treeid ) {
 
 	switch ( Tree [ treeid ] [ treeType ] ) {
 
-	    case 0: string = "Birch Tree" ;
-	    case 1: string = "Oak Tree" ;
-	    case 2: string = "Yew Tree" ;
-	    default: string = "Error" ;
+	    case 0: string = "Hus Agaci" ;
+	    case 1: string = "Mese Agaci" ;
+	    case 2: string = "Porsuk Agaci" ;
+	    default: string = "Hata" ;
 	}
 
 	return string;
@@ -139,7 +139,7 @@ CreateTree ( Float: x, Float: y, Float: z ) {
 		Tree[ id ] [ treePos ] [ 0 ], Tree[ id ] [ treePos ] [ 1 ], Tree[ id ] [ treePos ] [ 2 ],
 		 0.0, 0.0, 0.0, -1, -1, -1, 150, 150) ; //1000
 
-	Tree[ id ] [ treeLabel ]  		= CreateDynamic3DTextLabel ( sprintf ( "%s\nHealth: %i", GetTreeType ( id ), floatround ( Tree[ id ] [ treeHealth ] ) ), 
+	Tree[ id ] [ treeLabel ]  		= CreateDynamic3DTextLabel ( sprintf ( "%s\nCan: %i", GetTreeType ( id ), floatround ( Tree[ id ] [ treeHealth ] ) ), 
 		-1, Tree[ id ] [ treePos ] [ 0 ] , Tree[ id ] [ treePos ] [ 1 ] , Tree[ id ] [ treePos ] [ 2 ] + 0.5, 7.0 ) ;
 
 	SetTreeColor ( id ) ;
@@ -199,7 +199,7 @@ DecreaseTreeHealth(treeid) {
 	    case 2: Tree [ treeid ] [ treeHealth ] -= 20.0 ; //yew
 	}
 
-	UpdateDynamic3DTextLabelText ( Tree [ treeid ] [ treeLabel ], -1, sprintf ( "%s\nHealth: %i", GetTreeType ( treeid ), floatround ( Tree [ treeid ] [ treeHealth ] ) ) ) ;
+	UpdateDynamic3DTextLabelText ( Tree [ treeid ] [ treeLabel ], -1, sprintf ( "%s\nCan: %i", GetTreeType ( treeid ), floatround ( Tree [ treeid ] [ treeHealth ] ) ) ) ;
 
 	return 1;
 }
@@ -228,7 +228,7 @@ public RespawnTree(treeid) { // 15 min respawn time
 		Tree [ treeid ] [ treeObject ] = CreateDynamicObject ( Tree [ treeid ] [ treeObjectID ], 
 		Tree [ treeid]  [ treePos ] [ 0 ], Tree[treeid][treePos][1], Tree[treeid][treePos][2], 0.0, 0.0, 0.0 ) ;
 	
-		Tree [ treeid ] [ treeLabel ] = CreateDynamic3DTextLabel ( sprintf ( "%s\nHealth: %i", GetTreeType ( treeid ), floatround ( Tree [ treeid ] [ treeHealth ] ) ), 
+		Tree [ treeid ] [ treeLabel ] = CreateDynamic3DTextLabel ( sprintf ( "%s\nCan: %i", GetTreeType ( treeid ), floatround ( Tree [ treeid ] [ treeHealth ] ) ), 
 			-1, Tree [ treeid ] [ treePos ] [ 0 ], Tree [ treeid ] [ treePos ] [ 1 ], Tree [ treeid ] [ treePos ] [ 2 ] + 0.5, 7.0 ) ;
 	
 		SetTreeColor ( treeid ) ;
@@ -239,8 +239,8 @@ public RespawnTree(treeid) { // 15 min respawn time
 
 CutTree ( playerid, treeid ) {
 
-	SendClientMessage ( playerid, -1, sprintf("You have chopped down a %s (id %d)", GetTreeType ( treeid ), treeid ) ) ;
-	UpdateDynamic3DTextLabelText ( Tree [ treeid ] [ treeLabel ], -1, sprintf ( "%s\nHealth: %i", GetTreeType ( treeid ), floatround ( Tree [ treeid ] [ treeHealth ] ) ) ) ;
+	SendClientMessage ( playerid, -1, sprintf("Bir %s kestin (id %d)", GetTreeType ( treeid ), treeid ) ) ;
+	UpdateDynamic3DTextLabelText ( Tree [ treeid ] [ treeLabel ], -1, sprintf ( "%s\nCan: %i", GetTreeType ( treeid ), floatround ( Tree [ treeid ] [ treeHealth ] ) ) ) ;
 
 	ApplyAnimation ( playerid, "RIOT", "RIOT_ANGRY_B", 4.1, false, true, true, true, 1, SYNC_ALL ) ;
 	DecreaseTreeHealth ( treeid ) ;
@@ -261,9 +261,7 @@ CutTree ( playerid, treeid ) {
 	PlayerTextDrawHide ( playerid, actionGUI_PreviewBoxModel ) ;
 	PlayerTextDrawShow ( playerid, actionGUI_PreviewBoxModel ) ;
 	HidePlayerProgressBar ( playerid, actionGUI_bar  ) ;*/
-
-	ActionPanel_ChangeGUI ( playerid, sprintf("| You've mined a %s.~n~~n~~w~ + %d exp for Woodcut Level!", GetTreeTypeEx ( treeid ), xp ), 19632, false ) ;
-
+    ActionPanel_ChangeGUI ( playerid, sprintf("| %s kestin.~n~~n~~w~ + Toplam %d tecrube kazandin", GetTreeTypeEx ( treeid ), xp ), 19632, false ) ;
 
 	// END CODE ACTION GUI
 
@@ -292,7 +290,7 @@ CutTree ( playerid, treeid ) {
 	    Tree [ treeid ] [ treeObject]  = CreateDynamicObject( Tree [ treeid ] [ treeObjectID ], 
 	    	Tree [ treeid ] [ treePos ] [ 0 ], Tree [ treeid ] [ treePos ] [ 1 ] , Tree[treeid][treePos][2], 0.0, 0.0, 0.0)  ;
 	
-		Tree [ treeid ] [ treeLabel ] = CreateDynamic3DTextLabel ( sprintf ( "%s Stump", GetTreeType ( treeid ) ), -1, Tree [ treeid ] [ treePos ] [ 0 ], Tree [ treeid ] [ treePos ] [ 1 ], Tree [ treeid ] [ treePos ] [ 2 ] + 0.5, 7.0 ) ;
+		Tree [ treeid ] [ treeLabel ] = CreateDynamic3DTextLabel ( sprintf ( "%s Kütüðü", GetTreeType ( treeid ) ), -1, Tree [ treeid ] [ treePos ] [ 0 ], Tree [ treeid ] [ treePos ] [ 1 ], Tree [ treeid ] [ treePos ] [ 2 ] + 0.5, 7.0 ) ;
 
 	    SetTreeColor ( treeid ) ;
 		SetTimerEx("RespawnTree", 900000, false, "i", treeid) ;
@@ -304,73 +302,71 @@ CutTree ( playerid, treeid ) {
 
 OnPlayerCutTree ( playerid, treeid ) {
 
-	// GivePlayerItemByParam ( playerid, item, param, amount, itemparam, param1, param2 ) 
+    if ( GetTreeItemID ( treeid ) == -1 ) {
 
-	if ( GetTreeItemID ( treeid ) == -1 ) {
+        return SendServerMessage ( playerid, sprintf("HATA DEVELOPER ILE KONTAKT KURUN. [TYPE %d], [ID %d]",  Tree [ treeid ] [ treeType ], treeid ), MSG_TYPE_ERROR ) ;
+    }
 
-		return SendServerMessage ( playerid, sprintf("Error processing tree. Send this to a dev: [TYPE %d], [ID %d]",  Tree [ treeid ] [ treeType ], treeid ), MSG_TYPE_ERROR ) ;
-	}
+    new amount ;
 
-	new amount ;
+    switch ( Tree [ treeid ] [ treeType ] ) {
 
-	switch ( Tree [ treeid ] [ treeType ] ) {
+        case 0: amount = 25 + random ( 25 ) ;
+        case 1: amount = 45 + random ( 45 ) ;
+        case 2: amount = 75 + random ( 75 ) ;
+    }
 
-		case 0: amount = 25 + random ( 25 ) ;
-		case 1: amount = 45 + random ( 45 ) ;
-		case 2:	amount = 75 + random ( 75 ) ;
-	}
+    if ( GivePlayerItemByParam ( playerid, PARAM_LUMBER, GetTreeItemID ( treeid ), 1, amount, 0, 0 ) ) {
 
-	if ( GivePlayerItemByParam ( playerid, PARAM_LUMBER, GetTreeItemID ( treeid ), 1, amount, 0, 0 ) ) {
+        new query [ 128 ] ;
 
-		new query [ 128 ] ;
+        Character [ playerid ] [ character_woodactionsleft ] ++;
+        if ( Character [ playerid ] [ character_woodactionsleft] >= 10 ) {
 
-		Character [ playerid ] [ character_woodactionsleft ] ++;
-		if ( Character [ playerid ] [ character_woodactionsleft] >= 10 ) {
+            Character [ playerid ] [ character_woodactionsleft ] = 0 ;
 
-			Character [ playerid ] [ character_woodactionsleft ] = 0 ;
+            switch ( PlayerSkill [ playerid ] [ JOB_lumber ] ) {
 
-			switch ( PlayerSkill [ playerid ] [ JOB_lumber ] ) {
+                case 0,1: {
+                    Character [ playerid ] [ character_woodcd ] = gettime() + LVL1COOLDOWN;
+                }
+                case 2: {
+                    Character [ playerid ] [ character_woodcd ] = gettime() + LVL2COOLDOWN;
+                }
+                case 3: {
+                    Character [ playerid ] [ character_woodcd ] = gettime() + LVL3COOLDOWN;
+                }
+            }
 
-				case 0,1: {
+            mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_woodactionsleft = %d, character_woodcd = %d WHERE character_id = %d", 
+                Character [ playerid ] [ character_jobactionsleft ], Character [ playerid ] [ character_woodcd ], Character [ playerid ] [ character_id ] ) ;
+            mysql_tquery ( mysql, query ) ;
 
-					Character [ playerid ] [ character_woodcd ] = gettime() + LVL1COOLDOWN;
-				}
-				case 2: {
+            SendServerMessage ( playerid, "Aðaçlarý kesmekten yoruldun, bu yüzden durdun.", MSG_TYPE_WARN ) ;
 
-					Character [ playerid ] [ character_woodcd ] = gettime() + LVL2COOLDOWN;
-				}
-				case 3: {
+            return cmd_fixjob ( playerid ) ;
+        }
+        
+        else {
 
-					Character [ playerid ] [ character_woodcd ] = gettime() + LVL3COOLDOWN;
-				}
-			}
+            mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_woodactionsleft = %d WHERE character_id = %d", 
+                    Character [ playerid ] [ character_jobactionsleft ], Character [ playerid ] [ character_id ] ) ;
+            mysql_tquery ( mysql, query ) ;
+        }
 
-			mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_woodactionsleft = %d, character_woodcd = %d WHERE character_id = %d", 
-				Character [ playerid ] [ character_jobactionsleft ], Character [ playerid ] [ character_woodcd ], Character [ playerid ] [ character_id ] ) ;
-			mysql_tquery ( mysql, query ) ;
+        if ( DoingTask [ playerid ] == 2 ) {
 
-			SendServerMessage ( playerid, "You feel tired of cutting trees, so you've decided to stop.", MSG_TYPE_WARN ) ;
+            ProcessTask ( playerid, DoingTask [ playerid ] ) ;
+        }
 
+        // HATA DÜZELTÝLDÝ: printf için eksik olan "playerid" parametresi eklendi.
+        return printf("Player %d: %s looted tree %d", playerid, ReturnUserName(playerid), GetTreeItemID(treeid));
+    }
 
-			return cmd_fixjob ( playerid ) ;
-		}
-		
-		else {
-
-			mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_woodactionsleft = %d WHERE character_id = %d", 
-					Character [ playerid ] [ character_jobactionsleft ], Character [ playerid ] [ character_id ] ) ;
-			mysql_tquery ( mysql, query ) ;
-		}
-
-		if ( DoingTask [ playerid ] == 2 ) {
-
-			ProcessTask ( playerid, DoingTask [ playerid ] ) ;
-		}
-
-		return printf("Player %d: %s looted tree %d", GetTreeItemID ( treeid ) ) ;
-	}
-
-	else return SendServerMessage ( playerid, "Error processing give_item for tree. Tell a dev to look at the drop for YOUR ID.", MSG_TYPE_ERROR ) ;
+    else {
+        // HATA DÜZELTÝLDÝ: Fazla parantez kaldýrýldý.
+        return SendServerMessage ( playerid, sprintf("HATA DEVELOPER ILE KONTAKT KURUN. [TYPE %d], [ID %d]", Tree [ treeid ] [ treeType ], treeid ), MSG_TYPE_ERROR ) ;
+    }
 }
 
 GetTreeItemID ( treeid ) {

@@ -1,32 +1,27 @@
+
 /*
 
+Herhangi bir su kenarýnda /fish komutunu kullanabilirsin, suyun yerini tespit etmek için ColAndreas kullanýyoruz.
+Suya yakýnsan, karakterin rastgele bir þekilde oltasýný suya fýrlatacaktýr.
 
-you can /fish at any water, we use colandreas to find it
-if you're near water, your character wil lrandomly throw the bobber into the water
+Bu durum tamamen rastgeledir;d
+oltayý suya 10 metreye da fýrlatabilirsin, 12 metreye de.
 
-its randomised
-so you can throw it 10 yards into the water
-or 12 yards
+Oltayý ne kadar derine atarsan,
+iyi balýk tutma þansýn o kadar artar.
+Balýk oltaya vurduðunda,
+bir ilerleme çubuðu dolana kadar "Y" tuþuna spam yapman gerekir.
+Sonrasýnda balýk bilgilerini içeren yaban hayatý (wildlife) arayüzü açýlýr.
 
+Balýk tutmak için öncelikle kendi oltaný üretmen ve madencilikten elde ettiðin mineralleri kullanarak onu geliþtirmen gerekiyor. Ayrýca 1-3 farklý türde yem elde etmek için tarým sistemini kullanmalýsýn. Þu an itibarýyla, yaklaþýk 150 TP (XP) kazanman gerekiyor ve seviye atladýðýnda bu miktar ikiye katlanýyor.
 
-depending on how deep you throw it
-the more chance you have to get good fish
-when you get a bite
-you gotta spam "Y" until a progress bar is full
-then you get the wildlife gui with fish info
+TP puanlarý þu þekilde hesaplanýr: uzunluk + aðýrlýk / 2. Bu sayede her zaman 5 ile 20 arasýnda TP kazanmýþ olursun.
 
-
-Well, to fish you'll need to craft your own rod and upgrade it as you go on using 
-the minerals you mined. then you use the farming system to get 1-3 different types 
-of bait. And as of now, you will need to get like 150 xp and then once you level up, it's duplicated.
-
-The exp points are calculated this way: length + weight / 2. So you'll always have between 5 and 20 xp.
-
--> https://github.com/Southclaws/Line/blob/master/README.md
+->https://github.com/Southclaws/Line/blob/master/README.md
 */
 
 enum FishData {
-	fish_name [ 16 ] ,
+	fish_name [ 32 ] ,
 	fish_model ,
 
 	Float: fish_weigh_incr,
@@ -38,14 +33,13 @@ enum FishData {
 } ;
 
 new Fish [] [ FishData ] = {
-	{ "Brown Trout", 		19630, 	0.5, 	10, 	30, FISHING_BIGFISH } ,
-	{ "Shark", 				1608,	5.2, 	610, 	4300, FISHING_SHARK } ,
-	{ "Salmon", 			1599, 	3.3, 	47, 	150,  FISHING_YELLOW} ,
-	{ "Yellowfin Tuna", 	1600, 	1.2, 	200,	240,  FISHING_BLUE_1} ,
-	{ "Pacific Cod", 		1604, 	4.6, 	23,		120, FISHING_BLUE_2 } ,
-	{ "Smelly boot",		11735,	0.2,	5,		10,	FISHING_BOOT }
-} ;	
-
+    { "Kahverengi Alabalik", 19630, 0.5, 10, 30, FISHING_BIGFISH } ,
+    { "Kopekbaligi",          1608,  5.2, 610, 4300, FISHING_SHARK } ,
+    { "Somon",                1599,  3.3, 47, 150, FISHING_YELLOW} ,
+    { "Sariyuzgec Orkinos",   1600,  1.2, 200, 240, FISHING_BLUE_1} ,
+    { "Pasifik Morinasi",     1604,  4.6, 23, 120, FISHING_BLUE_2 } ,
+    { "Kokmus bot",           11735, 0.2, 5, 10, FISHING_BOOT }
+} ;
 #define         MAX_Z_FISH_THRESHOLD            4.0
 #define         WATER_CHECK_RADIUS              5.0
 
@@ -96,7 +90,7 @@ OnPlayerFish ( playerid ) {
 
 	new FISHING_TICK = 1250 + random (5750 ) ;
 
-	GameTextForPlayer(playerid, "~w~Fishing..", FISHING_TICK - 250, 4 ) ;
+	GameTextForPlayer(playerid, "~w~BALIK TUTULUYOR..", FISHING_TICK - 250, 4 ) ;
 	SetTimerEx("FishingTick", FISHING_TICK, false, "i", playerid) ;
 
 	return true ;
@@ -158,7 +152,7 @@ OnPlayerCatchFish ( playerid, fishid, weight ) {
 				Character [ playerid ] [ character_fishactionsleft ], Character [ playerid ] [ character_fishcd ], Character [ playerid ] [ character_id ] ) ;
 			mysql_tquery ( mysql, query ) ;
 
-			SendServerMessage ( playerid, "You feel tired of fishing, so you've decided to stop.", MSG_TYPE_WARN ) ;
+			SendServerMessage ( playerid, "Balýk tutmaktan yoruldun ve býraktýn.", MSG_TYPE_WARN ) ;
 	
 
 			return cmd_fixjob ( playerid ) ;
@@ -179,7 +173,7 @@ OnPlayerCatchFish ( playerid, fishid, weight ) {
 		return printf("Player %d: %s looted fish id %d", playerid, ReturnUserName ( playerid, true ), Fish [ fishid ] [ fish_item_id ] ) ;
 	}
 
-	else return SendServerMessage ( playerid, "Error processing catch.", MSG_TYPE_ERROR ) ;
+	else return SendServerMessage ( playerid, "Balýk tutamadýn.", MSG_TYPE_ERROR ) ;
 }
 
 CalculateCatch ( playerid ) {
