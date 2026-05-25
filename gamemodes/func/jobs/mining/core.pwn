@@ -104,8 +104,8 @@ GetRockType( rockid ) {
 	new string[64];
 	switch( Rock[rockid][mineType] ) {
 
-	    case 0: string = "Normal Rock"; 
-	    case 1: string = "{964B4B}Iron Mineral{FFFFFF}";
+	    case 0: string = "Sýradan taþ"; 
+	    case 1: string = "{964B4B}Altýn Minerali{FFFFFF}";
 	    case 2: string = "{FFB66C}Copper Mineral{FFFFFF}";
 	    case 3: string = "{C9C9C9}Tin Mineral{FFFFFF}";
 	    case 4: string = "{373737}Coal{FFFFFF}"; 

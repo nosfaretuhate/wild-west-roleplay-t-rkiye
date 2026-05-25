@@ -91,9 +91,9 @@ GetTreeType ( treeid ) {
 
     switch ( Tree [ treeid ] [ treeType ] ) {
 
-        case 0: string = "{C9C9C9}Hus Agaci{FFFFFF}" ;
-        case 1: string = "{BA9F7B}Mese Agaci{FFFFFF}" ;
-        case 2: string = "{96744D}Porsuk Agaci{FFFFFF}" ;
+        case 0: string = "{C9C9C9}Huþ Aðacý{FFFFFF}" ;
+        case 1: string = "{BA9F7B}Mese aðacý{FFFFFF}" ;
+        case 2: string = "{96744D}Porsuk aðacý{FFFFFF}" ;
         default: string = "Hata" ;
     }
 
@@ -106,9 +106,9 @@ GetTreeTypeEx ( treeid ) {
 
 	switch ( Tree [ treeid ] [ treeType ] ) {
 
-	    case 0: string = "Hus Agaci" ;
-	    case 1: string = "Mese Agaci" ;
-	    case 2: string = "Porsuk Agaci" ;
+	    case 0: string = "Hus aðacý" ;
+	    case 1: string = "Mese aðacý" ;
+	    case 2: string = "Porsuk aðacý" ;
 	    default: string = "Hata" ;
 	}
 
