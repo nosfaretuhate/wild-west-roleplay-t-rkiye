@@ -93,13 +93,13 @@ SetHorseHealth ( playerid, issuerid, Float: horsehealth ) {
 		}
 
 		if ( IsPlayerConnected ( issuerid ) ) {
-			SendServerMessage ( playerid, sprintf("Your horse has been killed by (%s) %s. It will respawn soon.", issuerid, ReturnUserName ( issuerid, true )), MSG_TYPE_ERROR ) ;
+			SendServerMessage ( playerid, sprintf("Atýn (%s) %s Tarafýndan öldürüldü yakýnda tekrar spawn olacak.", issuerid, ReturnUserName ( issuerid, true )), MSG_TYPE_ERROR ) ;
 			//OldLog ( playerid, "horse/death", sprintf("(%d) %s's horse has been killed by (%d) %s.", playerid, ReturnUserName ( playerid, true ), issuerid, ReturnUserName ( issuerid, true ))) ;
 		}
 
 		else {
 
-			SendServerMessage ( playerid, sprintf("Your horse has been killed. It will respawn soon.", issuerid, ReturnUserName ( issuerid, true )), MSG_TYPE_ERROR ) ;
+			SendServerMessage ( playerid, sprintf("Atýn öldü, yakýnda tekrar spawn olacak.", issuerid, ReturnUserName ( issuerid, true )), MSG_TYPE_ERROR ) ;
 			//OldLog ( playerid, "horse/death", sprintf("(%d) %s's horse has been killed by INVALID_PLAYER_ID. (usually self inflicted)", playerid, ReturnUserName ( playerid, true ))) ;
 		}
 

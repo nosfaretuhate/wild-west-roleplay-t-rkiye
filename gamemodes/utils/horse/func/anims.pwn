@@ -43,7 +43,7 @@ public EnableHorseAnimation(playerid) {
 
 		if (PlayerSpawnedHorse [ playerid ] == INVALID_HORSE_ID ) {
 
-			return SendServerMessage ( playerid, "Error fetching horse model. Animations cancelled. Try remounting.", MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, "At modeli deðiþtirilir iken hata oluþtu.", MSG_TYPE_ERROR ) ;
 		}
 
 	 	new KEY: k, ud, lr ;
