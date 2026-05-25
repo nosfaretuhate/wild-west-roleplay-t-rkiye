@@ -12,8 +12,8 @@
 	#define LOG_NEEDED:%9\32;%0\10;%1 { new LOG_NEEDED; print("LOG_NEEDED: \"%0\""); }
 #endif
 
-new PLAYER_MOTD [ 256 ] = "Welcome to Wild West Role Play - the reopening!";
-new STAFF_MOTD [ 256 ] = "You can now use {D9AF79}/asoil{DEDEDE} and {D9AF79}/atrap{DEDEDE} to easily moderate the new farming and trap systems." ;
+new PLAYER_MOTD [ 256 ] = "Wild West Roleplay Türkiye'ye hoþ geldin!";
+new STAFF_MOTD [ 256 ] = "Artýk {D9AF79}/asoil{DEDEDE} ve {D9AF79}/atrap{DEDEDE} komudu ile çiftlik ve tuzak sistemini deneyebilirsin." ;
 
 #define MIXED_SPELLINGS
 #define MAX_PLAYERS 100
@@ -110,9 +110,9 @@ new STAFF_MOTD [ 256 ] = "You can now use {D9AF79}/asoil{DEDEDE} and {D9AF79}/at
 #define SERVER_SPAWN_A      	(51.7536)
 
 #if defined OPEN_BETA_TEST
-	#define SERVER_HOSTNAME			"Wild West Roleplay - Open Beta [ENG]"
+	#define SERVER_HOSTNAME			"Wild West Roleplay Turkiye - Open Beta Test"
 #else
-	#define SERVER_HOSTNAME   		"[0.3.DL] Wild West Roleplay"
+	#define SERVER_HOSTNAME   		"[open.mp] Wild West Roleplay Turkiye"
 #endif
 
 #define SERVER_MODE       		"WW-RP v0.2.9b"
@@ -429,7 +429,7 @@ main () {
 	SendASCIILogo () ; // always be last
 
 	// Tutorial label:
-	CreateDynamic3DTextLabel("[0] [{DEDEDE}Fishing Rod{A3A3A3}]{DEDEDE}\nPress ~k~~SNEAK_ABOUT~ to pick up.", 0xA3A3A3FF, -1998.5022, -1483.7417, 84.1043, 5.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0 ) ;
+	CreateDynamic3DTextLabel("[0] [{DEDEDE}Balýkçýlýk oltasý{A3A3A3}]{DEDEDE}\n~k~~SNEAK_ABOUT~ Tuþu ile alabilirsin.", 0xA3A3A3FF, -1998.5022, -1483.7417, 84.1043, 5.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0 ) ;
 	//CreateDynamic3DTextLabel("[Prison Processing Area]\n{DEDEDE}Use /prison to arrest someone.", COLOR_BLUE, -777.8737,769.9468,21.0923, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0 ) ;
 
 	// Bayside fixes to prevent unsolid ground
@@ -467,12 +467,12 @@ main () {
 
 	ShowBETAMessage(playerid) { 
 
-		ZMsg_SendClientMessage(playerid,-1,"--------------------{FF6347}OPEN BETA MESSAGE{FFFFFF}--------------------");
-		ZMsg_SendClientMessage(playerid,-1,"You are currently participating in the open beta for Wild West Roleplay.  Please understand that there may be bugs that you experience during your time here and that we'd greatly appreciate it if you report any bugs you find during the beta.");
-		ZMsg_SendClientMessage(playerid,-1,"This is not a final representation of the server and that any and all features/systems that make up the server are subject to change.  Rules still apply during this open beta and ignorance of that fact will result in punishment.");
-		ZMsg_SendClientMessage(playerid,-1,"We hope that you have a wonderful experience during the open beta and hope to see you for when the server officially launches.");
-		ZMsg_SendClientMessage(playerid,-1,"Sincerly:");
-		ZMsg_SendClientMessage(playerid,-1,"Wild West Roleplay Staff Team");
+		ZMsg_SendClientMessage(playerid,-1,"--------------------{FF6347}AÇIK BETA MESAJI{FFFFFF}--------------------");
+        ZMsg_SendClientMessage(playerid,-1,"Þu anda Wild West Roleplay Türkiye'nin açýk betasýna katýlýyorsunuz. Lütfen burada geçirdiðiniz süre boyunca bazý hatalarla karþýlaþabileceðinizi unutmayýn; beta sürecinde bulduðunuz hatalarý bildirirseniz çok memnun oluruz.");
+        ZMsg_SendClientMessage(playerid,-1,"Bu, sunucunun nihai hali deðildir ve sunucuyu oluþturan tüm özellikler/sistemler deðiþikliðe tabidir. Kurallar bu açýk beta sürecinde de geçerlidir ve bu durumun göz ardý edilmesi cezalandýrýlmayla sonuçlanacaktýr.");
+        ZMsg_SendClientMessage(playerid,-1,"Açýk beta sürecinde harika bir deneyim yaþamanýzý diler, sunucu resmi olarak açýldýðýnda da sizi aramýzda görmeyi umarýz.");
+        ZMsg_SendClientMessage(playerid,-1,"Saygýlarýmýzla:");
+        ZMsg_SendClientMessage(playerid,-1,"Wild West Roleplay Türkiye Yetkili Ekibi");
 		ZMsg_SendClientMessage(playerid,-1,"--------------------{FF6347}OPEN BETA MESSAGE{FFFFFF}--------------------");
 	}
 
@@ -576,18 +576,17 @@ ptask PingWarningClear[120000](playerid) {
 
 ptask CheckPacketLoss[300000](playerid) {
 
-////	print("CheckPacketLoss timer called (main.pwn)");
+////    print("CheckPacketLoss timer called (main.pwn)");
 
-	if ( playerid != INVALID_PLAYER_ID && NetStats_PacketLossPercent(playerid) > 10.0 ) {
+    if ( playerid != INVALID_PLAYER_ID && NetStats_PacketLossPercent(playerid) > 10.0 ) {
 
-		SendClientMessage ( playerid, COLOR_RED, sprintf("You're desynced! Packets lost: %.2f percent.", NetStats_PacketLossPercent ( playerid ) ) ) ;
+        SendClientMessage ( playerid, COLOR_RED, sprintf("Senkronizasyonunuz bozuldu! Paket kaybý: %.2f yüzde.", NetStats_PacketLossPercent ( playerid ) ) ) ;
 
-		SendModeratorWarning ( sprintf("[DESYNC] (%d) %s IS DESYNCED. Packets lost: %.2f percent. !!! MAKE THEM RELOG !!!", 
-			playerid, ReturnUserName ( playerid, true ), NetStats_PacketLossPercent ( playerid ) ), MOD_WARNING_MED ) ;
-	}
+        SendModeratorWarning ( sprintf("[DESYNC] (%d) %s DESYNC OLDU. Paket kaybý: %.2f yüzde. !!! RELOG ATTIRIN !!!", 
+            playerid, ReturnUserName ( playerid, true ), NetStats_PacketLossPercent ( playerid ) ), MOD_WARNING_MED ) ;
+    }
 
 }
-
 ptask CheckDonatorStatus[1800000](playerid) {
 
 	if ( Account [ playerid ] [ account_donatorlevel ] ) {
@@ -602,7 +601,7 @@ ptask CheckDonatorStatus[1800000](playerid) {
 			mysql_format ( mysql, query, sizeof ( query ), "UPDATE master_accounts SET account_donatorlevel = 0, account_donatorexpire = 0 WHERE account_id = %d", Account [ playerid ] [ account_id ] ) ;
 			mysql_tquery ( mysql, query ) ;
 
-			SendServerMessage ( playerid, "Your donator level has expired.", MSG_TYPE_WARN ) ;
+			SendServerMessage ( playerid, "Baðýþçý seviyen doldu.", MSG_TYPE_WARN ) ;
 		}
 	}
 }
@@ -645,7 +644,7 @@ CMD:logout( playerid, params [] ) {
 
 	if ( ! LogoutPermission [ playerid ] ) {
 
-		return SendServerMessage ( playerid, "You don't have permission to use this command.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu komutu kullanmak yetkin yok.", MSG_TYPE_ERROR ) ;
 	}
 
 	SetCharacterLoggedPosition ( playerid ) ;
@@ -688,16 +687,16 @@ CMD:clearchat(playerid, params [] ) {
 
 CMD:safezone ( playerid, params [] ) {
 
-	if ( IsPlayerInRangeOfPoint(playerid, 50, -828.4460, 1087.0280, 38.9719) ) {
+     if ( IsPlayerInRangeOfPoint(playerid, 50, -828.4460, 1087.0280, 38.9719) ) {
 
-		SendServerMessage ( playerid, "You're in a safezone near the spawn, but only until you leave this area.", MSG_TYPE_WARN ) ;
-		return SendServerMessage ( playerid, "If you return after, you won't be safe anymore for the safezone rule.", MSG_TYPE_WARN ) ;
-	}
+        SendServerMessage ( playerid, "Baþlangýç noktasýnýn yakýnýndaki bir güvenli bölgedesiniz, ancak bu sadece bu bölgeden ayrýlana kadar geçerlidir.", MSG_TYPE_WARN ) ;
+        return SendServerMessage ( playerid, "Sonrasýnda geri dönerseniz, güvenli bölge kuralý uyarýnca artýk güvende olmayacaksýnýz.", MSG_TYPE_WARN ) ;
+    }
 
 	if ( GetPlayerVirtualWorld(playerid) == 0 ) {
 		if ( IsZoneSafeZone ( GetPlayerZone ( playerid ) ) ) {
 
-			return SendServerMessage ( playerid, "You're in a safezone.", MSG_TYPE_INFO ) ;
+			return SendServerMessage ( playerid, "Güvenli bölgedesin.", MSG_TYPE_INFO ) ;
 		}
 	}
 
@@ -711,7 +710,7 @@ CMD:safezone ( playerid, params [] ) {
 
 					if ( IsZoneSafeZone ( GetZone ( Point [ i ] [ point_ext_x ], Point [ i ] [ point_ext_y ] ))) {
 
-						return SendServerMessage ( playerid, "You're in a safezone.", MSG_TYPE_INFO ) ;
+						return SendServerMessage ( playerid, "Güvenli bölgedesin.", MSG_TYPE_INFO ) ;
 					}
 
 					else continue ;
@@ -724,156 +723,156 @@ CMD:safezone ( playerid, params [] ) {
 		}
 	}
 
-	return SendServerMessage ( playerid, "You're not in a safezone.", MSG_TYPE_ERROR ) ;
+	return SendServerMessage ( playerid, "Güvenli bölgede deðilsin.", MSG_TYPE_ERROR ) ;
 }
 
 CMD:servertime ( playerid, params [] ) {
 
-	SendServerMessage ( playerid, sprintf("{DEDEDE}The current OOC [[VPS/SERVER HOST]] date/time is %s(GMT +1)", ReturnDateTime () ), MSG_TYPE_INFO) ;
+	SendServerMessage ( playerid, sprintf("{DEDEDE}OOC SAAT [[VPS/SERVER HOST]] saat/tarih %s(GMT +1)", ReturnDateTime () ), MSG_TYPE_INFO) ;
 
 	return true ;
 }
 
 CMD:help ( playerid, params [] ) { 
 
-	task_yield(1);
+    task_yield(1);
 
-	new dialog_response[e_DIALOG_RESPONSE_INFO];
-	await_arr(dialog_response) ShowPlayerAsyncDialog(playerid,DIALOG_STYLE_LIST,"Help - Select a Catagory","Commands\nFrequently Asked Questions","Select","Exit");
-	
-	if(dialog_response[E_DIALOG_RESPONSE_Response]) {
+    new dialog_response[e_DIALOG_RESPONSE_INFO];
+    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid,DIALOG_STYLE_LIST,"Yardým - Bir Kategori Seçin","Komutlar\nSýkça Sorulan Sorular","Seç","Çýkýþ");
+    
+    if(dialog_response[E_DIALOG_RESPONSE_Response]) {
 
-		if(dialog_response[E_DIALOG_RESPONSE_Listitem] == 0) {
+        if(dialog_response[E_DIALOG_RESPONSE_Listitem] == 0) {
 
-			SendClientMessage(playerid, COLOR_TAB0, "|________________________| List of commands available to you |________________________|" ) ;
-			SendClientMessage(playerid, COLOR_TAB1, "[GENERAL]:{DEDEDE} /spawn, /report, /ask, /id, /staff, /afklist, /animlist, /resyncambient, /safezone, /badge, /editmask" ) ;
-			SendClientMessage(playerid, COLOR_TAB2, "[GENERAL]:{DEDEDE} /accept, /shakehand, /clearchat, /accent, /coin, /checktime, /roll, /frisk, /pay, /bank, /paycheck" ) ;
-			SendClientMessage(playerid, COLOR_TAB1, "[GENERAL]:{DEDEDE} /ad(vertise), /setchat, /attributes, /examine, /charity, /servertime, /showinjuries, /namechange, /blockpm" ) ;
-			SendClientMessage(playerid, COLOR_TAB2, "[GENERAL]:{DEDEDE} /checkjobcooldown (/cooldown), /resyncmask, /resynchorse, /nohorsesound, /gunpos, /licenses, /drink" ) ;
-			SendClientMessage(playerid, COLOR_TAB2, "[GENERAL]:{DEDEDE} /prisontimeleft, /bail, /fixjob, /helpup, /transport, /reloadattachments" ) ;
-			SendClientMessage(playerid, COLOR_TAB2, "[GENERAL]:{DEDEDE} /mypoints, /rentroom, /adminrecord, /streamdis, /attachments, /createdynamiclabel" ) ;
-			SendClientMessage(playerid, COLOR_TAB1, "[MISC]:{DEDEDE} /ac, /accentlist, /acchelp, /bountyhelp, /chathelp, /gunhelp, /horsehelp, /point, /samphelp, /possehelp, /possechat" ) ;
+            SendClientMessage(playerid, COLOR_TAB0, "|________________________| Kullanabileceðiniz komutlarýn listesi |________________________|" ) ;
+            SendClientMessage(playerid, COLOR_TAB1, "[GENEL]:{DEDEDE} /spawn, /report, /ask, /id, /staff, /afklist, /animlist, /resyncambient, /safezone, /badge, /editmask" ) ;
+            SendClientMessage(playerid, COLOR_TAB2, "[GENEL]:{DEDEDE} /accept, /shakehand, /clearchat, /accent, /coin, /checktime, /roll, /frisk, /pay, /bank, /paycheck" ) ;
+            SendClientMessage(playerid, COLOR_TAB1, "[GENEL]:{DEDEDE} /ad(vertise), /setchat, /attributes, /examine, /charity, /servertime, /showinjuries, /namechange, /blockpm" ) ;
+            SendClientMessage(playerid, COLOR_TAB2, "[GENEL]:{DEDEDE} /checkjobcooldown (/cooldown), /resyncmask, /resynchorse, /nohorsesound, /gunpos, /licenses, /drink" ) ;
+            SendClientMessage(playerid, COLOR_TAB2, "[GENEL]:{DEDEDE} /prisontimeleft, /bail, /fixjob, /helpup, /transport, /reloadattachments" ) ;
+            SendClientMessage(playerid, COLOR_TAB2, "[GENEL]:{DEDEDE} /mypoints, /rentroom, /adminrecord, /streamdis, /attachments, /createdynamiclabel" ) ;
+            SendClientMessage(playerid, COLOR_TAB1, "[DÝÐER]:{DEDEDE} /ac, /accentlist, /acchelp, /bountyhelp, /chathelp, /gunhelp, /horsehelp, /point, /samphelp, /possehelp, /possechat" ) ;
 
-			if ( IsPlayerStaff ( playerid ) ) {
+            if ( IsPlayerStaff ( playerid ) ) {
 
-				SendClientMessage(playerid, COLOR_STAFF, "[STAFF]:{DEDEDE} /staffhelp") ;
-			}
-		}
-		else if(dialog_response[E_DIALOG_RESPONSE_Listitem] == 1) {
+                SendClientMessage(playerid, COLOR_STAFF, "[YETKÝLÝ]:{DEDEDE} /staffhelp") ;
+            }
+        }
+        else if(dialog_response[E_DIALOG_RESPONSE_Listitem] == 1) {
 
-			SendSplitMessage(playerid, COLOR_TAB0, "|________________________| Frequently Asked Questions (FAQ) |________________________|" ) ;
-			SendSplitMessage(playerid, COLOR_TAB1, "1.{DEDEDE} Where do I start?" ) ;
-			SendSplitMessage(playerid, COLOR_TAB2, "- We recommend starting by buying a fishing pole from a hunting store and finding any body of water to fish.  Once you decide to sell your fish, go to a hunting store to sell what you've caught." ) ;
-			SendSplitMessage(playerid, COLOR_TAB1, "2.{DEDEDE} How do I get a horse?");
-			SendSplitMessage(playerid, COLOR_TAB2, "- Go to a stablemaster either in Longcreek or Fremont, then type /buy.");
-			SendSplitMessage(playerid, COLOR_TAB1, "3.{DEDEDE} How do I level up a skill?");
-			SendSplitMessage(playerid, COLOR_TAB2, "- /levelup [skill name]");
-			SendSplitMessage(playerid, COLOR_TAB1, "4.{DEDEDE} How do I enter a building?");
-			SendSplitMessage(playerid, COLOR_TAB2, "- Press H (or to whichever key you've bound to \"Group Control Backwards\").");
-			SendSplitMessage(playerid, COLOR_TAB0, "");
-			SendSplitMessage(playerid, 0xDEDEDEFF, "If you have any questions that aren't here, feel free to use /ask or check on the forums for guides to refer to!");
-		}
-	}
+            SendSplitMessage(playerid, COLOR_TAB0, "|________________________| Sýkça Sorulan Sorular (SSS) |________________________|" ) ;
+            SendSplitMessage(playerid, COLOR_TAB1, "1.{DEDEDE} Nereden baþlamalýyým?" ) ;
+            SendSplitMessage(playerid, COLOR_TAB2, "- Bir avcýlýk maðazasýndan olta satýn alarak baþlamanýzý ve balýk tutmak için herhangi bir su kütlesi bulmanýzý öneririz. Balýklarýnýzý satmaya karar verdiðinizde, yakaladýklarýnýzý satmak için bir avcýlýk maðazasýna gidin." ) ;
+            SendSplitMessage(playerid, COLOR_TAB1, "2.{DEDEDE} Nasýl at alabilirim?");
+            SendSplitMessage(playerid, COLOR_TAB2, "- Longcreek veya Fremont'taki bir seyise gidin, ardýndan /buy yazýn.");
+            SendSplitMessage(playerid, COLOR_TAB1, "3.{DEDEDE} Bir yeteneðin seviyesini nasýl yükseltirim?");
+            SendSplitMessage(playerid, COLOR_TAB2, "- /levelup [yetenek adý]");
+            SendSplitMessage(playerid, COLOR_TAB1, "4.{DEDEDE} Bir binaya nasýl girerim?");
+            SendSplitMessage(playerid, COLOR_TAB2, "- H tuþuna basýn (veya \"Grup Kontrolü Geriye\" iþlevi için hangi tuþu atadýysanýz o tuþa basýn).");
+            SendSplitMessage(playerid, COLOR_TAB0, "");
+            SendSplitMessage(playerid, 0xDEDEDEFF, "Burada olmayan herhangi bir sorunuz varsa, /ask komutunu kullanmaktan veya rehberlere göz atmak için forumlarý kontrol etmekten çekinmeyin!");
+        }
+    }
 
-	return true ;
+    return true ;
 }
 
 CMD:rules(playerid) {
 
-	new rules[2048];
-	strcat(rules,"1. You must roleplay at all times unless given an OOC tag.\n");
-	strcat(rules,"2. No advertisment of other SA-MP communties.\n");
-	strcat(rules,"3. No 3rd party mods that could give you or a group an advantage over others.\n");
-	strcat(rules,"4. No metagaming, powergaming, deathmatching and revenge killing.\n");
-	strcat(rules,"5. Do not abuse any server bugs or client exploits.\n");
-	strcat(rules,"6. You cannot commit crimes in safezones unless certain conditions are met. (see forums)\n");
-	strcat(rules,"7. Sexual or otherwise explicit roleplay shouldn't be done in public and requires permission from both parties.\n");
-	strcat(rules,"8. You cannot rob more than $60 off of someone or scam $1,500 out of someone.  Both parties involved must be level 5+.\n");
-	strcat(rules,"9. When roleplaying your character, you must roleplay in line with the time period (see forums).\n\n");
-	strcat(rules,"For more detail and understanding of the rules, please view them on the forums.");
+    new rules[2048];
+    strcat(rules,"1. OOC iþareti verilmediði sürece her zaman rol yapmak zorundasýnýz.\n");
+    strcat(rules,"2. Diðer SA-MP topluluklarýnýn reklamýný yapmak yasaktýr.\n");
+    strcat(rules,"3. Size veya bir gruba diðerlerine karþý avantaj saðlayabilecek 3. parti modlar yasaktýr.\n");
+    strcat(rules,"4. Metagaming, powergaming, deathmatching ve revenge killing yasaktýr.\n");
+    strcat(rules,"5. Sunucu hatalarýný veya oyun açýklarýný kötüye kullanmayýn.\n");
+    strcat(rules,"6. Belirli þartlar karþýlanmadýðý sürece güvenli bölgelerde suç iþleyemezsiniz. (foruma bakýn)\n");
+    strcat(rules,"7. Cinsel veya açýk içerikli roller halka açýk alanlarda yapýlmamalýdýr ve her iki tarafýn da iznini gerektirir.\n");
+    strcat(rules,"8. Birinden 60 dolardan fazla soyamaz veya birini 1.500 dolardan fazla dolandýramazsýnýz. Sürece dahil olan her iki tarafýn da en az 5 seviye olmasý gerekir.\n");
+    strcat(rules,"9. Karakterinizi canlandýrýrken, dönemin zaman dilimine uygun þekilde rol yapmalýsýnýz (foruma bakýn).\n\n");
+    strcat(rules,"Kurallarýn daha fazla detayý ve anlaþýlmasý için lütfen onlara forumdan göz atýn.");
 
-	ShowPlayerDialog(playerid,9999,DIALOG_STYLE_MSGBOX,"Wild West Roleplay - Rules",rules,"Exit","");
-	return true;
+    ShowPlayerDialog(playerid,9999,DIALOG_STYLE_MSGBOX,"Wild West Roleplay Türkiye - Kurallar",rules,"Çýkýþ","");
+    return true;
 }
 
 CMD:horsehelp ( playerid, params [] ) {
 
-	SendClientMessage(playerid, COLOR_TAB0, "|________________________| Horse Help |________________________|") ;
+    SendClientMessage(playerid, COLOR_TAB0, "|________________________| At Yardýmý |________________________|") ;
 
-	SendClientMessage(playerid, COLOR_TAB1, "/respawnhorse:{DEDEDE} Erases your horse data so you can use /spawnhorse again.") ;
-	SendClientMessage(playerid, COLOR_TAB2, "/spawnhorse:{DEDEDE} Spawns your horse near you, given it's not dead or disabled.") ;
-	SendClientMessage(playerid, COLOR_TAB1, "/revivehorse:{DEDEDE} Revives your killed horse for a small fee at the stablemaster.") ;
-	SendClientMessage(playerid, COLOR_TAB2, "/toghorsetds:{DEDEDE} Toggles the horse textdraws, useful for screenshots.") ;
-	SendClientMessage(playerid, COLOR_TAB2, "/resynchorse{DEDEDE} Resyncs horse animation." ) ;
-	SendClientMessage(playerid, COLOR_TAB2, "/nohorsesound{DEDEDE} Toggles the horse sounds on/off" ) ;
+    SendClientMessage(playerid, COLOR_TAB1, "/respawnhorse:{DEDEDE} Tekrar /spawnhorse kullanabilmeniz için at verilerinizi siler.") ;
+    SendClientMessage(playerid, COLOR_TAB2, "/spawnhorse:{DEDEDE} Ölü veya iþlevsiz olmadýðý sürece atýnýzý yanýnýzda canlandýrýr.") ;
+    SendClientMessage(playerid, COLOR_TAB1, "/revivehorse:{DEDEDE} Öldürülen atýnýzý seyiste küçük bir ücret karþýlýðýnda canlandýrýr.") ;
+    SendClientMessage(playerid, COLOR_TAB2, "/toghorsetds:{DEDEDE} At textdraw'larýný açar/kapatýr, ekran görüntüleri için kullanýþlýdýr.") ;
+    SendClientMessage(playerid, COLOR_TAB2, "/resynchorse{DEDEDE} At animasyonunu senkronize eder." ) ;
+    SendClientMessage(playerid, COLOR_TAB2, "/nohorsesound{DEDEDE} At seslerini açar/kapatýr." ) ;
 
-	return true ;
+    return true ;
 }
 
 CMD:gunhelp ( playerid, params [] ) {
 
-	SendClientMessage(playerid, COLOR_TAB0, "|________________________| Weapon Help |________________________|") ;
+    SendClientMessage(playerid, COLOR_TAB0, "|________________________| Silah Yardýmý |________________________|") ;
 
-	SendClientMessage(playerid, COLOR_TAB1, "(/guns): /holstered:{DEDEDE} Displays all your weapons, their slot, and their ammo.") ;
-	SendClientMessage(playerid, COLOR_TAB2, "(/gh, /guh): /holster, /unholster:{DEDEDE} (Un)Holsters your weapon in the specified slot") ; 
-	SendClientMessage(playerid, COLOR_TAB1, "(/sgun): /switchgun:{DEDEDE} Switches your equipped weapon with a holstered one.") ; 
-	SendClientMessage(playerid, COLOR_TAB2, "(/dgun, /pgun): /dropgun, /pickupgun:{DEDEDE} Drops or picks up a dropped weapon") ; 
-	SendClientMessage(playerid, COLOR_TAB2, "/ammocrate:{DEDEDE} Use a ammo crate to refill your equipped weapon with ammo.") ; 
-	SendClientMessage(playerid, COLOR_TAB2, "/passgun:{DEDEDE} Passes your gun to someone else.") ; 
-	SendClientMessage(playerid, COLOR_TAB2, "/gunpos:{DEDEDE} Alter your holster positions [doesn't save].") ; 
+    SendClientMessage(playerid, COLOR_TAB1, "(/guns): /holstered:{DEDEDE} Tüm silahlarýnýzý, slotlarýný ve mermilerini görüntüler.") ;
+    SendClientMessage(playerid, COLOR_TAB2, "(/gh, /guh): /holster, /unholster:{DEDEDE} Belirtilen slottaki silahýnýzý kýlýfa koyar/kýlýftan çýkarýr.") ; 
+    SendClientMessage(playerid, COLOR_TAB1, "(/sgun): /switchgun:{DEDEDE} Kuþandýðýnýz silahý kýlýftaki bir silahla deðiþtirir.") ; 
+    SendClientMessage(playerid, COLOR_TAB2, "(/dgun, /pgun): /dropgun, /pickupgun:{DEDEDE} Silahý yere býrakýr veya yerdeki silahý alýr.") ; 
+    SendClientMessage(playerid, COLOR_TAB2, "/ammocrate:{DEDEDE} Kuþandýðýnýz silahýn mermisini doldurmak için bir mühimmat sandýðý kullanýn.") ; 
+    SendClientMessage(playerid, COLOR_TAB2, "/passgun:{DEDEDE} Silahýnýzý baþka birine teslim eder.") ; 
+    SendClientMessage(playerid, COLOR_TAB2, "/gunpos:{DEDEDE} Kýlýf pozisyonlarýnýzý deðiþtirir [kaydedilmez].") ; 
 
-	return true ;
+    return true ;
 }
 
 CMD:samphelp ( playerid, params [] ) {
-	SendClientMessage(playerid, COLOR_TAB0, "|________________________| SA-MP Command Help |________________________|") ;
+    SendClientMessage(playerid, COLOR_TAB0, "|________________________| SA-MP Komut Yardýmý |________________________|") ;
 
-	SendClientMessage(playerid, COLOR_TAB1, "Note: there are more commands, this list just shows commands useful to you. For a full list go to {DEDEDE}http://wiki.sa-mp.com/wiki/Client_Commands") ;
-	SendClientMessage(playerid, COLOR_TAB2,"/timestamp:{DEDEDE} Shows a HH/MM/SS timestamp infront of every client message" ) ;
-	SendClientMessage(playerid, COLOR_TAB1,"/headmove:{DEDEDE} Disables head movement for every player (useful for screenshots)" ) ;
-	SendClientMessage(playerid, COLOR_TAB2,"/pagesize:{DEDEDE} Increases the displayed server messages (useful for high resolutions) " ) ;
-	SendClientMessage(playerid, COLOR_TAB1,"/fpslimit:{DEDEDE} Limits your FPS. Should be kept at 60 for best stability and performance." ) ;
-	SendClientMessage(playerid, COLOR_TAB2,"/audiomsg:{DEDEDE} Disables the green audio messages whenever the server plays a sound file." ) ;
-	SendClientMessage(playerid, COLOR_TAB1,"/fontsize:{DEDEDE} Increases the font size of server messages (useful for high resolutions)" ) ;
+    SendClientMessage(playerid, COLOR_TAB1, "Not: Daha fazla komut vardýr, bu liste sadece sizin için yararlý olan komutlarý gösterir. Tam liste için {DEDEDE}http://wiki.sa-mp.com/wiki/Client_Commands adresine gidin.") ;
+    SendClientMessage(playerid, COLOR_TAB2,"/timestamp:{DEDEDE} Her sohbet mesajýnýn önünde SA/DA/SN þeklinde zaman damgasý gösterir." ) ;
+    SendClientMessage(playerid, COLOR_TAB1,"/headmove:{DEDEDE} Tüm oyuncular için kafa hareketini devre dýþý býrakýr (ekran görüntüleri için kullanýþlýdýr)." ) ;
+    SendClientMessage(playerid, COLOR_TAB2,"/pagesize:{DEDEDE} Görüntülenen sunucu mesajý satýr sayýsýný artýrýr (yüksek çözünürlükler için kullanýþlýdýr)." ) ;
+    SendClientMessage(playerid, COLOR_TAB1,"/fpslimit:{DEDEDE} FPS deðerinizi sýnýrlar. En iyi kararlýlýk ve performans için 60'ta tutulmalýdýr." ) ;
+    SendClientMessage(playerid, COLOR_TAB2,"/audiomsg:{DEDEDE} Sunucu bir ses dosyasý oynattýðýnda çýkan yeþil ses mesajlarýný devre dýþý býrakýr." ) ;
+    SendClientMessage(playerid, COLOR_TAB1,"/fontsize:{DEDEDE} Sunucu mesajlarýnýn yazý tipi boyutunu artýrýr (yüksek çözünürlükler için kullanýþlýdýr)." ) ;
 
-	return true ;
+    return true ;
 }
 
 CMD:acchelp ( playerid, params [] ) {
 
-	SendClientMessage(playerid, COLOR_TAB0, "|________________________| Account Help |________________________|") ;
+    SendClientMessage(playerid, COLOR_TAB0, "|________________________| Hesap Yardýmý |________________________|") ;
 
-	SendClientMessage(playerid, COLOR_TAB1, "/selectcharacter:{DEDEDE} allows you to select a character in the selection menu.") ;
-	SendClientMessage(playerid, COLOR_TAB1, "/logout:{DEDEDE} allows you to go to the login screen, after permission is given.");
-	SendClientMessage(playerid, COLOR_TAB2, "/relog:{DEDEDE} usable at the login screen or character selection to fix issues.");
-	SendClientMessage(playerid, COLOR_TAB1, "/statistics, /stats:{DEDEDE} displays your spawned character's statistics.");
+    SendClientMessage(playerid, COLOR_TAB1, "/selectcharacter:{DEDEDE} Seçim menüsünden bir karakter seçmenize olanak tanýr.") ;
+    SendClientMessage(playerid, COLOR_TAB1, "/logout:{DEDEDE} Ýzin verildikten sonra giriþ ekranýna gitmenize olanak tanýr.");
+    SendClientMessage(playerid, COLOR_TAB2, "/relog:{DEDEDE} Sorunlarý düzeltmek için giriþ ekranýnda veya karakter seçiminde kullanýlabilir.");
+    SendClientMessage(playerid, COLOR_TAB1, "/statistics, /stats:{DEDEDE} Oyuna giriþ yapmýþ karakterinizin istatistiklerini görüntüler.");
 
-	return true ;
+    return true ;
 }
 
 CMD:chathelp ( playerid, params [] ) {
 
-	SendClientMessage(playerid, COLOR_TAB0, "|________________________| Chat Help |________________________|") ;
+    SendClientMessage(playerid, COLOR_TAB0, "|________________________| Sohbet Yardýmý |________________________|") ;
 
-	SendClientMessage(playerid, COLOR_TAB1, "/me(low), /my(low), /do(low):{DEDEDE} allows your character to perform a roleplaying action") ;
-	SendClientMessage(playerid, COLOR_TAB2, "/s(hout), /low:{DEDEDE} allows your character to say something specifically") ;
-	SendClientMessage(playerid, COLOR_TAB2, "/w(hisper):{DEDEDE} allows you to communicate privately to someone ICly") ;
-	SendClientMessage(playerid, COLOR_TAB2, "/b, /o(oc), /pm:{DEDEDE} allows you to communicate Out of Characterly") ;
-	SendClientMessage(playerid, COLOR_TAB1, "/ame, /ado:{DEDEDE} allows your character to perform a roleplaying action, but doesn't send a local message.") ;
-	SendClientMessage(playerid, COLOR_TAB2, "** /ame or /ado does not send a local message, but instead show the action above your character's head.") ;
-	
-	return true ;
+    SendClientMessage(playerid, COLOR_TAB1, "/me(low), /my(low), /do(low):{DEDEDE} Karakterinizin bir rol eylemi gerçekleþtirmesini saðlar.") ;
+    SendClientMessage(playerid, COLOR_TAB2, "/s(hout), /low:{DEDEDE} Karakterinizin belirli bir þekilde bir þey söylemesini saðlar.") ;
+    SendClientMessage(playerid, COLOR_TAB2, "/w(hisper):{DEDEDE} Biriyle IC olarak özelden iletiþim kurmanýzý saðlar.") ;
+    SendClientMessage(playerid, COLOR_TAB2, "/b, /o(oc), /pm:{DEDEDE} OOC (Karakter Dýþý) olarak iletiþim kurmanýzý saðlar.") ;
+    SendClientMessage(playerid, COLOR_TAB1, "/ame, /ado:{DEDEDE} Karakterinizin bir rol eylemi gerçekleþtirmesini saðlar ancak yerel sohbete mesaj göndermez.") ;
+    SendClientMessage(playerid, COLOR_TAB2, "** /ame veya /ado yerel sohbete mesaj göndermez, bunun yerine eylemi karakterinizin baþýnýn üzerinde gösterir.") ;
+    
+    return true ;
 }
 
 CMD:bountyhelp ( playerid, params [] ) {
 
-	SendClientMessage(playerid, COLOR_TAB0, "|________________________| Bounty Help |________________________|") ;
+    SendClientMessage(playerid, COLOR_TAB0, "|________________________| Ödül Avcýlýðý Yardýmý |________________________|") ;
 
-	SendClientMessage(playerid, COLOR_TAB1, "/takebounty:{DEDEDE} allows you to take a bounty if you're near a poster.  Use optional parameter to specify the poster id.") ;
-	SendClientMessage(playerid, COLOR_TAB2, "/abandonbounty:{DEDEDE} allows you to abandon your current bounty.") ;
-	SendClientMessage(playerid, COLOR_TAB1, "/pickbounty:{DEDEDE} allows you to pick up a bounty you killed.") ;
-	SendClientMessage(playerid, COLOR_TAB2, "/claimbounty:{DEDEDE} allows you to claim your reward for the bounty.") ;
-	return true ;
+    SendClientMessage(playerid, COLOR_TAB1, "/takebounty:{DEDEDE} Bir afiþin yakýnýndaysanýz ödül avý görevini almanýzý saðlar. Afiþ ID'sini belirtmek için isteðe baðlý parametreyi kullanýn.") ;
+    SendClientMessage(playerid, COLOR_TAB2, "/abandonbounty:{DEDEDE} Mevcut ödül avý görevinizi býrakmanýzý saðlar.") ;
+    SendClientMessage(playerid, COLOR_TAB1, "/pickbounty:{DEDEDE} Öldürdüðünüz ödül hedefini yerden almanýzý saðlar.") ;
+    SendClientMessage(playerid, COLOR_TAB2, "/claimbounty:{DEDEDE} Ödül avý için ödülünüzü talep etmenizi saðlar.") ;
+    return true ;
 }
 
 CMD:licenses ( playerid, params [] ) {
@@ -882,12 +881,12 @@ CMD:licenses ( playerid, params [] ) {
 
 	if ( sscanf ( params, "u", target ) ) {
 
-		return SendServerMessage ( playerid, "/licenses [player]", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "/licenses [oyuncuid]", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsPlayerConnected(target )) {
 
-		return SendServerMessage ( playerid, "Target doesn't seem to be connected.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Böyle bir oyuncu bulunamadý.", MSG_TYPE_ERROR ) ;
 	}
 
 	new Float: x, Float: y, Float: z;
@@ -897,34 +896,34 @@ CMD:licenses ( playerid, params [] ) {
 
 	if ( yds > 10.0 ) {
 
-		return SendServerMessage ( playerid, "You're not close enough to your target.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Hedefe yeterince yakýn deðilsin.", MSG_TYPE_ERROR ) ;
 	}
 
-	SendClientMessage(target, COLOR_TAB0, sprintf("Licenses of (%d) %s", playerid, ReturnUserName ( playerid, true, true ) ) ) ;
+	SendClientMessage(target, COLOR_TAB0, sprintf("(%d) %s Adlý oyuncunun lisanslarý.", playerid, ReturnUserName ( playerid, true, true ) ) ) ;
 
 	new hasitem [ 16 ] ;
 
 	if ( DoesPlayerHaveItem ( playerid, CARD_PASSPORT) != -1 ) {
 
-		hasitem = "{406E3B}yes" ;
+		hasitem = "{406E3B}evet" ;
 	}
 
-	else hasitem = "{A12F2F}no" ;
+	else hasitem = "{A12F2F}hayýr" ;
 
-	SendClientMessage(target, COLOR_TAB1, sprintf("[Passport]: %s", hasitem ) ) ;
+	SendClientMessage(target, COLOR_TAB1, sprintf("[Pasaport]: %s", hasitem ) ) ;
 
 
 	if ( DoesPlayerHaveItem ( playerid, CARD_GUNPERMIT) != -1 ) {
 
-		hasitem = "{406E3B}yes" ;
+		hasitem = "{406E3B}evet" ;
 	}
 
-	else hasitem = "{A12F2F}no" ;
+	else hasitem = "{A12F2F}hayýr" ;
 
-	SendClientMessage(target, COLOR_TAB2, sprintf("[Gun Permit]: %s", hasitem ) ) ;
+	SendClientMessage(target, COLOR_TAB2, sprintf("[Silah Lisansý]: %s", hasitem ) ) ;
 
-	SendServerMessage ( playerid, sprintf("You've shown your licenses to (%d) %s.", target, ReturnUserName ( target, true, true )), MSG_TYPE_ERROR ) ;
-	ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "* %s shows his licenses to %s", ReturnUserName ( playerid, true, true ), ReturnUserName ( target, true, true ) ) )   ;
+	SendServerMessage ( playerid, sprintf("Lisanslarýný (%d) %s adlý oyuncuya gösterdin.", target, ReturnUserName ( target, true, true )), MSG_TYPE_ERROR ) ;
+	ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "* %s lisanslarýný %s adlý kiþiye gösterir.", ReturnUserName ( playerid, true, true ), ReturnUserName ( target, true, true ) ) )   ;
 
 	return true ;
 }
@@ -935,10 +934,10 @@ CMD:id ( playerid, params [] ) {
 
     	if ( ! IsPlayerConnected ( strval ( params ) ) ) {
 
-    		return SendClientMessage(playerid, COLOR_TAB2, "Player doesn't seem to exist.");
+    		return SendClientMessage(playerid, COLOR_TAB2, "Oyuncu bulunamadý.");
     	}
 
-	    SendClientMessage(playerid, COLOR_TAB0, sprintf("[Search results for '%s']", params ));
+	    SendClientMessage(playerid, COLOR_TAB0, sprintf("[arama sonuçlarý '%s']", params ));
 		SendClientMessage(playerid, COLOR_TAB1, sprintf("%s (ID:%i)",  ReturnUserName ( strval ( params ), false, false), strval ( params )  ) );
     }
 
@@ -946,12 +945,12 @@ CMD:id ( playerid, params [] ) {
 
 		if ( strlen( params ) < 3 ) {
 
-	       	return SendServerMessage ( playerid, "/id [name] - enter at least 3 characters", MSG_TYPE_ERROR ) ;
+	       	return SendServerMessage ( playerid, "/id [isim] - en az 3 karakter girin", MSG_TYPE_ERROR ) ;
 	    }
 
 	    new count ;
 
-	    SendClientMessage(playerid, COLOR_TAB0, sprintf("[Search results for '%s']", params));
+	    SendClientMessage(playerid, COLOR_TAB0, sprintf("[arama sonuçlarý '%s']", params));
 
 	    foreach(new i: Player ) {
 	        new rname [ MAX_PLAYER_NAME ];
@@ -966,7 +965,7 @@ CMD:id ( playerid, params [] ) {
 
 	    if ( count == 0 ) {
 
-	    	return SendClientMessage(playerid, COLOR_TAB2, "Player doesn't seem to exist.");
+	    	return SendClientMessage(playerid, COLOR_TAB2, "Oyuncu bulunamadý.");
 	    }
 	}
 
@@ -1039,7 +1038,7 @@ public OnPlayerDisconnect(playerid, reason) {
         "Kick/Ban"
     };
 
-    ProxDetector(playerid, 15.0 , COLOR_CLIENT, sprintf("[DISCONNECT] (%d) %s has disconnected from the server. Reason: %s", 
+    ProxDetector(playerid, 15.0 , COLOR_CLIENT, sprintf("[AYRILDI] (%d) %s adlý oyuncu %s sebebi ile sunucudan ayrýldý.", 
         playerid, ReturnUserName ( playerid ), dc_reason [ reason ] ));
 
 	//SendModeratorWarning ( sprintf("[DISCONNECT] (%d) %s has just left the server, reason: %s", playerid, ReturnUserName ( playerid, true ), dc_reasons [ reason ] ), MOD_WARNING_LOW);
@@ -1074,7 +1073,7 @@ CMD:reloadattachments ( playerid, params [] ) {
 	Init_LoadPlayerAttachments ( playerid ) ;
 	SetupPlayerGunAttachments ( playerid ) ;
 
-	return SendServerMessage ( playerid, "Reloaded gun and player attachments.", MSG_TYPE_WARN ) ;
+	return SendServerMessage ( playerid, "Silah ve oyuncu aksesuarlarý yeniden yüklendi.", MSG_TYPE_WARN ) ;
 }
 
 ReloadPlayerAttachments ( playerid ) {
@@ -1097,7 +1096,7 @@ public OnPlayerClickPlayer(playerid, clickedplayerid, CLICK_SOURCE:source){
 	    new stats[ 512 ];
 
 	    GetPlayerNetworkStats ( clickedplayerid, stats, sizeof ( stats ) ) ; // get your own networkstats
-	    ShowPlayerDialog ( playerid, 0, DIALOG_STYLE_MSGBOX, "Player Network Information", stats, "Okay", "" ) ;
+	    ShowPlayerDialog ( playerid, 0, DIALOG_STYLE_MSGBOX, "Oyuncu Ýnternet Ýstatistikleri", stats, "Tamam", "" ) ;
 
  		ShowPlayerStatistics ( playerid, clickedplayerid ) ;
 	}
@@ -1129,7 +1128,7 @@ public OnPlayerWeaponShot(playerid, WEAPON:weaponid, BULLET_HIT_TYPE:hittype, hi
 
 	if ( Character [ playerid ] [ character_handweapon ] != GetPlayerWeapon ( playerid) ) {
 
-		SendModeratorWarning (sprintf("(%d) %s might be using a concealed weapon cheat. Spectate them immediately!", playerid, ReturnUserName ( playerid )), MOD_WARNING_HIGH ) ;
+		SendModeratorWarning (sprintf("(%d) %s silah hilesi kullanýyor olmalý.", playerid, ReturnUserName ( playerid )), MOD_WARNING_HIGH ) ;
 		ResetPlayerWeapons ( playerid ) ;
 		return false ;
 	}
@@ -1140,7 +1139,7 @@ public OnPlayerWeaponShot(playerid, WEAPON:weaponid, BULLET_HIT_TYPE:hittype, hi
  		SetPlayerAttachedObject(playerid, ATTACH_SLOT_HANDS, ReturnWeaponObject ( playerid ), 6, 0.004, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0 );
 		ResetPlayerWeaponsEx ( playerid ) ;
 
-		SendServerMessage ( playerid, "Your weapon has ran out of ammo. If your screen is still shaking, use /fa (/fixaim).", MSG_TYPE_ERROR ) ;
+		SendServerMessage ( playerid, "Silahýnýn mermisi bitti eðer halen ekranýn sallanýyorsa: /fa (/fixaim).", MSG_TYPE_ERROR ) ;
 
 		SetPlayerDrunkLevel(playerid, 1) ;
 		//OldLog ( playerid, "guns/ammo", sprintf ( "%s has ran out of ammo.", ReturnUserName ( playerid, false ) )) ;
@@ -1171,110 +1170,109 @@ public OnPlayerStreamIn(playerid) {
 
 public OnPlayerSelectDynamicObject(playerid, STREAMER_TAG_OBJECT:objectid, modelid, Float:x, Float:y, Float:z) {
 
-	if(FurnitureBuilder[playerid][furn_builder_mode] != -1) {
+    if(FurnitureBuilder[playerid][furn_builder_mode] != -1) {
 
-		if(FurnitureBuilder[playerid][furn_builder_mode] == FURNI_EDIT) {
+        if(FurnitureBuilder[playerid][furn_builder_mode] == FURNI_EDIT) {
 
-			for(new i=0; i<MAX_FURNITURE_LIMIT; i++) {
-				
-				if(FurnitureObject[GetCharacterPointID(playerid)][furn_object_handler][i] == objectid) {
-				
-					FurnitureBuilder[playerid][furn_builder_edit_obj_handler] = objectid;
-					FurnitureBuilder[playerid][furn_builder_edit_obj_db_id] = FurnitureObject[GetCharacterPointID(playerid)][furn_object_db_id][i];
-					ResetFurnitureViewerInfo(playerid);
-					EditDynamicObject(playerid, FurnitureBuilder[playerid][furn_builder_edit_obj_handler]);
-					return SendServerMessage(playerid,"Move the furniture object and click the \"Save\" icon to save its placement.",MSG_TYPE_INFO);
-				}
-				continue;
-			}
-			//ResetFurnitureViewerInfo(playerid);
-			//FurnitureBuilder[playerid][furn_builder_mode] = -1;
-			SendServerMessage(playerid,"Something went wrong, try to click on the object you wish to move again.",MSG_TYPE_ERROR);
-			SendServerMessage(playerid,"If this doesn't work, use /editfurni(ture)object.",MSG_TYPE_ERROR);
-		}
+            for(new i=0; i<MAX_FURNITURE_LIMIT; i++) {
+                
+                if(FurnitureObject[GetCharacterPointID(playerid)][furn_object_handler][i] == objectid) {
+                
+                    FurnitureBuilder[playerid][furn_builder_edit_obj_handler] = objectid;
+                    FurnitureBuilder[playerid][furn_builder_edit_obj_db_id] = FurnitureObject[GetCharacterPointID(playerid)][furn_object_db_id][i];
+                    ResetFurnitureViewerInfo(playerid);
+                    EditDynamicObject(playerid, FurnitureBuilder[playerid][furn_builder_edit_obj_handler]);
+                    return SendServerMessage(playerid,"Mobilyayý hareket ettirin ve yerleþimini kaydetmek için \"Kaydet\" ikonuna týklayýn.",MSG_TYPE_INFO);
+                }
+                continue;
+            }
+            //ResetFurnitureViewerInfo(playerid);
+            //FurnitureBuilder[playerid][furn_builder_mode] = -1;
+            SendServerMessage(playerid,"Bir þeyler ters gitti, taþýmak istediðiniz nesneye tekrar týklamayý deneyin.",MSG_TYPE_ERROR);
+            SendServerMessage(playerid,"Eðer bu iþe yaramazsa, /editfurni(ture)object komutunu kullanýn.",MSG_TYPE_ERROR);
+        }
 
-		else if(FurnitureBuilder[playerid][furn_builder_mode] == FURNI_EDIT_TEXTURE) {
+        else if(FurnitureBuilder[playerid][furn_builder_mode] == FURNI_EDIT_TEXTURE) {
 
-			for(new i=0; i<MAX_FURNITURE_LIMIT; i++) {
-				
-				if(FurnitureObject[GetCharacterPointID(playerid)][furn_object_handler][i] == objectid) {
+            for(new i=0; i<MAX_FURNITURE_LIMIT; i++) {
+                
+                if(FurnitureObject[GetCharacterPointID(playerid)][furn_object_handler][i] == objectid) {
 
-					new string[512];
-					ResetFurnitureViewerInfo(playerid);
-					CancelEdit(playerid);
+                    new string[512];
+                    ResetFurnitureViewerInfo(playerid);
+                    CancelEdit(playerid);
 
-					for(new j=0; j<15; j++) {
+                    for(new j=0; j<15; j++) {
 
-						format(string,sizeof(string),"%sMaterial Index %d\n",string,j);
-					}
+                        format(string,sizeof(string),"%sMateryal Endeksi %d\n",string,j);
+                    }
 
-					task_yield(1);
+                    task_yield(1);
 
-					new dialog_response[e_DIALOG_RESPONSE_INFO];
-					await_arr(dialog_response) ShowPlayerAsyncDialog(playerid,DIALOG_STYLE_LIST,"Furniture Edit - Material Indexes",string,"Select","Exit");
+                    new dialog_response[e_DIALOG_RESPONSE_INFO];
+                    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid,DIALOG_STYLE_LIST,"Mobilya Düzenleme - Materyal Endeksleri",string,"Seç","Çýkýþ");
 
-					if(!dialog_response[E_DIALOG_RESPONSE_Response]) {
+                    if(!dialog_response[E_DIALOG_RESPONSE_Response]) {
 
-						FurnitureBuilder[playerid][furn_builder_mode] = -1;
-						return cmd_point(playerid,"furni");
-					}
+                        FurnitureBuilder[playerid][furn_builder_mode] = -1;
+                        return cmd_point(playerid,"furni");
+                    }
 
-					FurnitureBuilder[playerid][furn_builder_edit_mat_index] = dialog_response[E_DIALOG_RESPONSE_Listitem];
-					FurnitureBuilder[playerid][furn_builder_edit_td_count] = 0;
-					FurnitureBuilder[playerid][furn_builder_edit_obj_handler] = objectid;
-					FurnitureBuilder[playerid][furn_builder_edit_obj_db_id] = FurnitureObject[GetCharacterPointID(playerid)][furn_object_db_id][i];
-					SetDynamicObjectMaterial(FurnitureBuilder[playerid][furn_builder_edit_obj_handler],FurnitureBuilder[playerid][furn_builder_edit_mat_index],FurnitureMaterialInfo[0][furniture_texture_modelid],FurnitureMaterialInfo[0][furniture_texture_txd_name],FurnitureMaterialInfo[0][furniture_texture_texture_name]);
-					ShowTextureEditTD(playerid);
-					SelectTextDraw(playerid,0xFFFFFF55);
-					return 1;
-				}
-			}
-			SendServerMessage(playerid,"Something went wrong, try to click on the object you wish to remove again.",MSG_TYPE_ERROR);
-			SendServerMessage(playerid,"If this doesn't work, use /removefurni(ture)object.",MSG_TYPE_ERROR);
-		}
-		else if(FurnitureBuilder[playerid][furn_builder_mode] == FURNI_DELETE) {
+                    FurnitureBuilder[playerid][furn_builder_edit_mat_index] = dialog_response[E_DIALOG_RESPONSE_Listitem];
+                    FurnitureBuilder[playerid][furn_builder_edit_td_count] = 0;
+                    FurnitureBuilder[playerid][furn_builder_edit_obj_handler] = objectid;
+                    FurnitureBuilder[playerid][furn_builder_edit_obj_db_id] = FurnitureObject[GetCharacterPointID(playerid)][furn_object_db_id][i];
+                    SetDynamicObjectMaterial(FurnitureBuilder[playerid][furn_builder_edit_obj_handler],FurnitureBuilder[playerid][furn_builder_edit_mat_index],FurnitureMaterialInfo[0][furniture_texture_modelid],FurnitureMaterialInfo[0][furniture_texture_txd_name],FurnitureMaterialInfo[0][furniture_texture_texture_name]);
+                    ShowTextureEditTD(playerid);
+                    SelectTextDraw(playerid,0xFFFFFF55);
+                    return 1;
+                }
+            }
+            SendServerMessage(playerid,"Bir þeyler ters gitti, kaldýrmak istediðiniz nesneye tekrar týklamayý deneyin.",MSG_TYPE_ERROR);
+            SendServerMessage(playerid,"Eðer bu iþe yaramazsa, /removefurni(ture)object komutunu kullanýn.",MSG_TYPE_ERROR);
+        }
+        else if(FurnitureBuilder[playerid][furn_builder_mode] == FURNI_DELETE) {
 
-			for(new i=0; i<MAX_FURNITURE_LIMIT; i++) {
-				
-				if(FurnitureObject[GetCharacterPointID(playerid)][furn_object_handler][i] == objectid) {
-					
-					ResetFurnitureViewerInfo(playerid);
-					CancelEdit(playerid);
+            for(new i=0; i<MAX_FURNITURE_LIMIT; i++) {
+                
+                if(FurnitureObject[GetCharacterPointID(playerid)][furn_object_handler][i] == objectid) {
+                    
+                    ResetFurnitureViewerInfo(playerid);
+                    CancelEdit(playerid);
 
-					task_yield(1);
+                    task_yield(1);
 
-					new dialog_response[e_DIALOG_RESPONSE_INFO];
-					await_arr(dialog_response) ShowPlayerAsyncDialog(playerid,DIALOG_STYLE_MSGBOX,"Furniture Deletion","WARNING: You've selected a furniture object to delete.\nThis dialog is to prevent accidental deletion of a furniture object.\nIf you're sure about your decision, click \"Confirm\".", "Confirm", "Cancel");
+                    new dialog_response[e_DIALOG_RESPONSE_INFO];
+                    await_arr(dialog_response) ShowPlayerAsyncDialog(playerid,DIALOG_STYLE_MSGBOX,"Mobilya Silme","UYARI: Silmek için bir mobilya nesnesi seçtiniz.\nBu diyalog, mobilya nesnesinin yanlýþlýkla silinmesini önlemek içindir.\nKararýnýzdan eminseniz \"Onayla\" butonuna týklayýn.", "Onayla", "Ýptal");
 
-					if(!dialog_response[E_DIALOG_RESPONSE_Response]) {
+                    if(!dialog_response[E_DIALOG_RESPONSE_Response]) {
 
-						FurnitureBuilder[playerid][furn_builder_mode] = -1;
-						SendServerMessage(playerid,"You've cancelled removing a furniture object.",MSG_TYPE_WARN);
-						return cmd_point(playerid,"furni");
-					}
+                        FurnitureBuilder[playerid][furn_builder_mode] = -1;
+                        SendServerMessage(playerid,"Mobilya nesnesini kaldýrmayý iptal ettiniz.",MSG_TYPE_WARN);
+                        return cmd_point(playerid,"furni");
+                    }
 
-					new query[128];
+                    new query[128];
 
-					mysql_format(mysql,query,sizeof(query),"DELETE FROM furniture WHERE furniture_id = %d",FurnitureObject[GetCharacterPointID(playerid)][furn_object_db_id][i]);
-					mysql_tquery(mysql,query);
-					mysql_format(mysql,query,sizeof(query),"DELETE FROM furniture_extra WHERE furniture_ex_id = %d",FurnitureObject[GetCharacterPointID(playerid)][furn_object_db_id][i]);
-					mysql_tquery(mysql,query);
+                    mysql_format(mysql,query,sizeof(query),"DELETE FROM furniture WHERE furniture_id = %d",FurnitureObject[GetCharacterPointID(playerid)][furn_object_db_id][i]);
+                    mysql_tquery(mysql,query);
+                    mysql_format(mysql,query,sizeof(query),"DELETE FROM furniture_extra WHERE furniture_ex_id = %d",FurnitureObject[GetCharacterPointID(playerid)][furn_object_db_id][i]);
+                    mysql_tquery(mysql,query);
 
-					FurnitureBuilder[playerid][furn_builder_mode] = -1;
-					DestroyDynamicObject(objectid);
-					Init_Furniture(Point[GetCharacterPointID(playerid)][point_id]);
-					SendServerMessage(playerid,"You've successfully deleted a furniture object.",MSG_TYPE_INFO);
+                    FurnitureBuilder[playerid][furn_builder_mode] = -1;
+                    DestroyDynamicObject(objectid);
+                    Init_Furniture(Point[GetCharacterPointID(playerid)][point_id]);
+                    SendServerMessage(playerid,"Mobilya nesnesini baþarýyla sildiniz.",MSG_TYPE_INFO);
 
-					return 1;
-				}
-			}
-			SendServerMessage(playerid,"Something went wrong, try to click on the object you wish to remove again.",MSG_TYPE_ERROR);
-			SendServerMessage(playerid,"If this doesn't work, use /removefurni(ture)object.",MSG_TYPE_ERROR);
-		}
-	}
-	return true;
+                    return 1;
+                }
+            }
+            SendServerMessage(playerid,"Bir þeyler ters gitti, kaldýrmak istediðiniz nesneye tekrar týklamayý deneyin.",MSG_TYPE_ERROR);
+            SendServerMessage(playerid,"Eðer bu iþe yaramazsa, /removefurni(ture)object komutunu kullanýn.",MSG_TYPE_ERROR);
+        }
+    }
+    return true;
 }
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1364,7 +1362,7 @@ ReturnWeaponName ( WEAPON: weaponid ) {
 	switch ( weaponid ) {
 		case WEAPON_FIST .. WEAPON_MOLTOV,  WEAPON_COLT45 .. WEAPON_CAMERA, WEAPON_THERMAL_GOGGLES, WEAPON_PARACHUTE : GetWeaponName ( weaponid, gunname, sizeof ( gunname ) ) ;
 		case WEAPON_NIGHT_VISION_GOGGLES:	strcat ( gunname, "Night Vis Goggles");
-		default:							strcat ( gunname, "Invalid Weapon Id");
+		default:							strcat ( gunname, "Geçersiz silah ID");
 	}
 
 	return gunname;
@@ -1442,17 +1440,17 @@ GetDuration(time) {
 
     if (time < 0 || time == gettime()) { 
 
-        strcat(str, "Never"); 
+        strcat(str, "Yok"); 
         return str; 
     } 
 
-    else if (time < 60) format(str, sizeof(str), "%d seconds", time); 
-    else if (time >= 0 && time < 60) format(str, sizeof(str), "%d seconds", time); 
-    else if (time >= 60 && time < 3600) format(str, sizeof(str), (time >= 120) ? ("%d minutes") : ("%d minute"), time / 60); 
-    else if (time >= 3600 && time < 86400) format(str, sizeof(str), (time >= 7200) ? ("%d hours") : ("%d hour"), time / 3600); 
-    else if (time >= 86400 && time < 2592000) format(str, sizeof(str), (time >= 172800) ? ("%d days") : ("%d day"), time / 86400); 
-    else if (time >= 2592000 && time < 31536000) format(str, sizeof(str), (time >= 5184000) ? ("%d months") : ("%d month"), time / 2592000); 
-    else if (time >= 31536000) format(str, sizeof(str), (time >= 63072000) ? ("%d years") : ("%d year"), time / 31536000); 
+    else if (time < 60) format(str, sizeof(str), "%d saniye", time); 
+    else if (time >= 0 && time < 60) format(str, sizeof(str), "%d saniye", time); 
+    else if (time >= 60 && time < 3600) format(str, sizeof(str), (time >= 120) ? ("%d dakika") : ("%d dakika"), time / 60); 
+    else if (time >= 3600 && time < 86400) format(str, sizeof(str), (time >= 7200) ? ("%d saat") : ("%d saat"), time / 3600); 
+    else if (time >= 86400 && time < 2592000) format(str, sizeof(str), (time >= 172800) ? ("%d gün") : ("%d gün"), time / 86400); 
+    else if (time >= 2592000 && time < 31536000) format(str, sizeof(str), (time >= 5184000) ? ("%d ay") : ("%d ay"), time / 2592000); 
+    else if (time >= 31536000) format(str, sizeof(str), (time >= 63072000) ? ("%d yýl") : ("%d yýl"), time / 31536000); 
 
     strcat(str, " ago"); 
 
@@ -1594,7 +1592,7 @@ SendASCIILogo () {
 	print ( "RRRRRR  OO   OO LL      EEEEE      PPPPPP  LL      AA   AA  YYYYY" ) ;
 	print ( "RR  RR  OO   OO LL      EE         PP      LL      AAAAAAA   YYY" ) ;
 	print ( "RR   RR  OOOO0  LLLLLLL EEEEEEE    PP      LLLLLLL AA   AA   YYY\n\n" ) ;
-	print ( "  Wild West Roleplay since September 2016. Made by Dignity and David.") ;
+	print ( "  Wild West Roleplay Turkiye - 2016 - 2026 by Y_Less, TommyB, DamianC, h.ted, Dignity, Reyo.." ) ;
 
 	return true ;
 }
