@@ -94,6 +94,7 @@ new STAFF_MOTD [ 256 ] = "Artýk {D9AF79}/asoil{DEDEDE} ve {D9AF79}/atrap{DEDEDE}
 #include <samp_bcrypt>
 
 // Custom ww includes
+#define OnGameModeInit() OnGameModeInit(); public OnGameModeExit()
 #include <ww_mysql>
 #include <strlib> // sprintf and strtrim
 #include <ww_angles>
@@ -118,6 +119,7 @@ new STAFF_MOTD [ 256 ] = "Artýk {D9AF79}/asoil{DEDEDE} ve {D9AF79}/atrap{DEDEDE}
 #define SERVER_MODE       		"WW-RP v0.2.9b"
 #define SERVER_MAP		    	"Tumbleweed v1.1"
 #define SERVER_WEBSITE	    	"forum.wildwest-roleplay.com"
+
 
 #define COLOR_DEFAULT     		(0xDEDEDEFF)
 #define COLOR_CLIENT      		(0xAAC4E5FF)
