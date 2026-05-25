@@ -619,346 +619,258 @@ case LUMBER_HATCHET: {
 }
 
 //LoadStaticGUITextDraw ( ) {
+
+
 GUI_LoadStaticPlayerDraws() {
 
-	gui_td_hudbox [ 0 ] = TextDrawCreate(615.666870, 23.485183, "hp_outline_outer");
-	TextDrawLetterSize(gui_td_hudbox [ 0 ], 0.000000, 8.740530);
-	TextDrawTextSize(gui_td_hudbox [ 0 ], 490.333312, 0.000000);
-	TextDrawBackgroundColor(gui_td_hudbox  [ 0 ], 0x00000000 ) ;
-	TextDrawUseBox(gui_td_hudbox [ 0 ], true);
-	TextDrawBoxColor(gui_td_hudbox [ 0 ], 286331391);
+    gui_td_hudbox [ 0 ] = TextDrawCreate(615.666870, 23.485183, "hp_outline_outer");
+    TextDrawLetterSize(gui_td_hudbox [ 0 ], 0.000000, 8.740530);
+    TextDrawTextSize(gui_td_hudbox [ 0 ], 490.333312, 0.000000);
+    TextDrawBackgroundColor(gui_td_hudbox  [ 0 ], 0x00000000 ) ;
+    TextDrawUseBox(gui_td_hudbox [ 0 ], true);
+    TextDrawBoxColor(gui_td_hudbox [ 0 ], 286331391);
 
-	gui_td_hudbox [ 1 ] = TextDrawCreate(614.000061, 25.559255, "hp_outline_inner");
-	TextDrawLetterSize(gui_td_hudbox [ 1 ], 0.000000, 8.291562);
-	TextDrawTextSize(gui_td_hudbox [ 1 ], 492.333343, 0.000000);
-	TextDrawBackgroundColor(gui_td_hudbox  [ 1 ], 0x00000000 ) ;
-	TextDrawUseBox(gui_td_hudbox [ 1 ], true);
-	TextDrawBoxColor(gui_td_hudbox [ 1 ], BORDER_COLOUR);
+    gui_td_hudbox [ 1 ] = TextDrawCreate(614.000061, 25.559255, "hp_outline_inner");
+    TextDrawLetterSize(gui_td_hudbox [ 1 ], 0.000000, 8.291562);
+    TextDrawTextSize(gui_td_hudbox [ 1 ], 492.333343, 0.000000);
+    TextDrawBackgroundColor(gui_td_hudbox  [ 1 ], 0x00000000 ) ;
+    TextDrawUseBox(gui_td_hudbox [ 1 ], true);
+    TextDrawBoxColor(gui_td_hudbox [ 1 ], BORDER_COLOUR);
 
-	gui_td_hudbox [ 2 ] = TextDrawCreate(613.333374, 26.388889, "hp_innerbox");
-	TextDrawLetterSize(gui_td_hudbox [ 2 ], 0.000000, 8.117897);
-	TextDrawTextSize(gui_td_hudbox [ 2 ], 493.000000, 0.000000);
-	TextDrawBackgroundColor(gui_td_hudbox  [ 2 ], 0x00000000 ) ;
-	TextDrawUseBox(gui_td_hudbox [ 2 ], true);
-	TextDrawBoxColor(gui_td_hudbox [ 2 ], 286331391);
+    gui_td_hudbox [ 2 ] = TextDrawCreate(613.333374, 26.388889, "hp_innerbox");
+    TextDrawLetterSize(gui_td_hudbox [ 2 ], 0.000000, 8.117897);
+    TextDrawTextSize(gui_td_hudbox [ 2 ], 493.000000, 0.000000);
+    TextDrawBackgroundColor(gui_td_hudbox  [ 2 ], 0x00000000 ) ;
+    TextDrawUseBox(gui_td_hudbox [ 2 ], true);
+    TextDrawBoxColor(gui_td_hudbox [ 2 ], 286331391);
 
-	gui_td_hudbox_divider = TextDrawCreate(601, 78, "hp_outline_inner");
-	TextDrawLetterSize(gui_td_hudbox_divider, 0.000000, -0.278394);
-	TextDrawTextSize(gui_td_hudbox_divider, 550, 0.000000);
-	TextDrawBackgroundColor(gui_td_hudbox_divider, 0x00000000 ) ;
-	TextDrawUseBox(gui_td_hudbox_divider, true);
-	TextDrawBoxColor(gui_td_hudbox_divider, BORDER_COLOUR);
+    gui_td_hudbox_divider = TextDrawCreate(601, 78, "hp_outline_inner");
+    TextDrawLetterSize(gui_td_hudbox_divider, 0.000000, -0.278394);
+    TextDrawTextSize(gui_td_hudbox_divider, 550, 0.000000);
+    TextDrawBackgroundColor(gui_td_hudbox_divider, 0x00000000 ) ;
+    TextDrawUseBox(gui_td_hudbox_divider, true);
+    TextDrawBoxColor(gui_td_hudbox_divider, BORDER_COLOUR);
 
-	gui_td_hudbox_date = TextDrawCreate(552, 80.5, " ");
-	TextDrawLetterSize( gui_td_hudbox_date, 0.12, 0.7);
-	TextDrawBackgroundColor( gui_td_hudbox_date, 51);
-	TextDrawColor ( gui_td_hudbox_date, BORDER_COLOUR ) ;
-	TextDrawFont( gui_td_hudbox_date, TEXT_DRAW_FONT_2);
-	
-	/*
-	gui_td_infobox [ 0 ] = TextDrawCreate(636.333190, 280.255798 - GUI_VERTICAL_ADJUST, "cust_outeroutline");
-	TextDrawLetterSize(gui_td_infobox [ 0 ], 0.000000, 17.963575 + 0.4);
-	TextDrawTextSize(gui_td_infobox [ 0 ], 579.333129, 0.000000);
-	TextDrawBackgroundColor(gui_td_infobox [ 0 ], 0x00000000 ) ;
-	TextDrawUseBox(gui_td_infobox [ 0 ], true);
-	TextDrawBoxColor(gui_td_infobox [ 0 ], 286331391);
+    gui_td_hudbox_date = TextDrawCreate(552, 80.5, " ");
+    TextDrawLetterSize( gui_td_hudbox_date, 0.12, 0.7);
+    TextDrawBackgroundColor( gui_td_hudbox_date, 51);
+    TextDrawColor ( gui_td_hudbox_date, BORDER_COLOUR ) ;
+    TextDrawFont( gui_td_hudbox_date, TEXT_DRAW_FONT_2);
 
-	gui_td_infobox [ 1 ] = TextDrawCreate(634.333496, 282.744415 - GUI_VERTICAL_ADJUST, "cust_outlineinner");
-	TextDrawLetterSize(gui_td_infobox [ 1 ], 0.000000, 17.364404 + 0.4);
-	TextDrawTextSize(gui_td_infobox [ 1 ], 581.333374, 0.000000);
-	TextDrawBackgroundColor(gui_td_infobox [ 1 ], 0x00000000 ) ;
-	TextDrawUseBox(gui_td_infobox [ 1 ], true);
-	TextDrawBoxColor(gui_td_infobox [ 1 ], BORDER_COLOUR);
+    guiTD[0] = TextDrawCreate(630.0000, 249.5000, "_");
+    TextDrawLetterSize(guiTD[0], 0.0000, 18.3999);
+    TextDrawColor(guiTD[0], -1);
+    TextDrawSetShadow(guiTD[0], 0);
+    TextDrawSetOutline(guiTD[0], 0);
+    TextDrawBackgroundColor(guiTD[0], 255);
+    TextDrawUseBox(guiTD[0], true);
+    TextDrawBoxColor(guiTD[0], 286331391);
+    TextDrawTextSize(guiTD[0], 590.0000, 0.0000);
 
-	gui_td_infobox [ 2 ] = TextDrawCreate(633.666687, 283.574066 - GUI_VERTICAL_ADJUST, "cust_innerbox");
-	TextDrawLetterSize(gui_td_infobox [ 2 ], 0.000000, 17.159463 + 0.4);
-	TextDrawTextSize(gui_td_infobox [ 2 ], 582.000000, 0.000000);
-	TextDrawBackgroundColor(gui_td_infobox [ 2 ], 0x00000000 ) ;
-	TextDrawUseBox(gui_td_infobox [ 2 ], true);
-	TextDrawBoxColor(gui_td_infobox [ 2 ], 286331391);
+    guiTD[1] = TextDrawCreate(629.0000, 251.0000, "_");
+    TextDrawLetterSize(guiTD[1], 0.0000, 18.1000);
+    TextDrawColor(guiTD[1], -1);
+    TextDrawSetShadow(guiTD[1], 0);
+    TextDrawSetOutline(guiTD[1], 0);
+    TextDrawBackgroundColor(guiTD[1], 255);
+    TextDrawUseBox(guiTD[1], true);
+    TextDrawBoxColor(guiTD[1], -780181846);
+    TextDrawTextSize(guiTD[1], 591.0000, 0.0000);
 
-	gui_td_infobox_icons [ 0 ] = TextDrawCreate(599.5, 285.807250 - GUI_VERTICAL_ADJUST, "hud:radar_hostpital");
-	TextDrawLetterSize(gui_td_infobox_icons [ 0 ], 0.473666, 1.828148);
-	TextDrawTextSize(gui_td_infobox_icons [ 0 ], 17.999994, 18.251842);
-	TextDrawFont(gui_td_infobox_icons [ 0 ], 4);
-	
-	gui_td_infobox_icons [ 1 ] = TextDrawCreate(599.5, 285.807250 - GUI_VERTICAL_ADJUST + GUI_VERTICAL_JUMP, "hud:radar_burgerShot");
-	TextDrawLetterSize(gui_td_infobox_icons [ 1 ], 0.473666, 1.828148);
-	TextDrawTextSize(gui_td_infobox_icons [ 1 ], 17.999994, 18.251842);
-	TextDrawFont(gui_td_infobox_icons [ 1 ], 4);
+    guiTD[2] = TextDrawCreate(628.0000, 252.5000, "_");
+    TextDrawLetterSize(guiTD[2], 0.0000, 17.7500);
+    TextDrawColor(guiTD[2], -1);
+    TextDrawSetShadow(guiTD[2], 0);
+    TextDrawSetOutline(guiTD[2], 0);
+    TextDrawBackgroundColor(guiTD[2], 255);
+    TextDrawUseBox(guiTD[2], true);
+    TextDrawBoxColor(guiTD[2], 286331391);
+    TextDrawTextSize(guiTD[2], 592.0000, 0.0000);
 
-	gui_td_infobox_icons [ 2 ] = TextDrawCreate(599.5, 285.807250 - GUI_VERTICAL_ADJUST + GUI_VERTICAL_JUMP * 2, "hud:radar_dateDrink");
-	TextDrawLetterSize(gui_td_infobox_icons [ 2 ], 0.473666, 1.828148);
-	TextDrawTextSize(gui_td_infobox_icons [ 2 ], 17.999994, 18.251842);
-	TextDrawFont(gui_td_infobox_icons [ 2 ], 4);
+    guiTD[3] = TextDrawCreate(625.0000, 291.5000, "_");
+    TextDrawLetterSize(guiTD[3], 0.0000, -0.2500);
+    TextDrawColor(guiTD[3], -1);
+    TextDrawSetShadow(guiTD[3], 0);
+    TextDrawSetOutline(guiTD[3], 0);
+    TextDrawBackgroundColor(guiTD[3], 255);
+    TextDrawUseBox(guiTD[3], true);
+    TextDrawBoxColor(guiTD[3], -780181761);
+    TextDrawTextSize(guiTD[3], 595.0000, 0.0000);
 
-	gui_td_infobox_text [ 0 ] = TextDrawCreate(585.999938, 306.963012 - GUI_VERTICAL_ADJUST, "HEALTH");
-	TextDrawLetterSize(gui_td_infobox_text [ 0 ], 0.268333, 1.114666);
-	TextDrawBackgroundColor(gui_td_infobox_text [ 0 ], 51);
-	TextDrawColor ( gui_td_infobox_text [ 0 ], BORDER_COLOUR ) ;
-	TextDrawFont(gui_td_infobox_text [ 0 ], 2);
+    guiTD[4] = TextDrawCreate(602.0000, 255.5000, "hud:radar_LocoSyndicate");
+    TextDrawFont(guiTD[4], TEXT_DRAW_FONT_SPRITE_DRAW);
+    TextDrawLetterSize(guiTD[4], 0.5000, 1.0000);
+    TextDrawColor(guiTD[4], -1);
+    TextDrawSetShadow(guiTD[4], 0);
+    TextDrawSetOutline(guiTD[4], 0);
+    TextDrawBackgroundColor(guiTD[4], 255);
+    TextDrawTextSize(guiTD[4], 15.0000, 15.0000);
 
-	gui_td_infobox_text [ 1 ] = TextDrawCreate(585.999938, 306.963012 - GUI_VERTICAL_ADJUST + GUI_VERTICAL_JUMP, "HUNGER");
-	TextDrawLetterSize(gui_td_infobox_text [ 1 ], 0.268333, 1.114666);
-	TextDrawBackgroundColor(gui_td_infobox_text [ 1 ], 51);
-	TextDrawColor ( gui_td_infobox_text [ 1 ], BORDER_COLOUR ) ;
-	TextDrawFont(gui_td_infobox_text [ 1 ], 2);
+    guiTD[5] = TextDrawCreate(613.0000, 271.0000, "SICAKLIK");
+    TextDrawLetterSize(guiTD[5], 0.2500, 1.0000);
+    TextDrawAlignment(guiTD[5], TEXT_DRAW_ALIGN_CENTER);
+    TextDrawColor(guiTD[5], -780181761);
+    TextDrawSetShadow(guiTD[5], 0);
+    TextDrawSetOutline(guiTD[5], 0);
+    TextDrawBackgroundColor(guiTD[5], 255);
+    TextDrawTextSize(guiTD[5], 15.0000, 15.0000);
 
-	gui_td_infobox_text [ 2 ] = TextDrawCreate(589, 306.963012 - GUI_VERTICAL_ADJUST + GUI_VERTICAL_JUMP * 2, "THIRST");
-	TextDrawLetterSize(gui_td_infobox_text [ 2 ], 0.268333, 1.114666);
-	TextDrawBackgroundColor(gui_td_infobox_text [ 2 ], 51) ;
-	TextDrawColor ( gui_td_infobox_text [ 2 ], BORDER_COLOUR ) ;
-	TextDrawFont(gui_td_infobox_text [ 2 ], 2);
+    guiTD[6] = TextDrawCreate(625.0000, 279.5000, "o");
+    TextDrawFont(guiTD[6], TEXT_DRAW_FONT_2);
+    TextDrawLetterSize(guiTD[6], 0.1000, 0.6999);
+    TextDrawAlignment(guiTD[6], TEXT_DRAW_ALIGN_CENTER);
+    TextDrawColor(guiTD[6], -555819350);
+    TextDrawSetShadow(guiTD[6], 0);
+    TextDrawSetOutline(guiTD[6], 0);
+    TextDrawBackgroundColor(guiTD[6], 255);
+    TextDrawTextSize(guiTD[6], 10.0000, 10.0000);
 
-	gui_td_infobox_dividers [ 0 ] = TextDrawCreate(630.999816, 335.425903 - GUI_VERTICAL_ADJUST, "divider");
-	TextDrawLetterSize(gui_td_infobox_dividers [ 0 ], 0.000000, -0.278394);
-	TextDrawTextSize(gui_td_infobox_dividers [ 0 ], 584.000183, 0.000000);
-	TextDrawUseBox(gui_td_infobox_dividers [ 0 ], true);
-	TextDrawBoxColor(gui_td_infobox_dividers [ 0 ], BORDER_COLOUR);
+    guiTD[7] = TextDrawCreate(602.0000, 295.5000, "hud:radar_girlfriend");
+    TextDrawFont(guiTD[7], TEXT_DRAW_FONT_SPRITE_DRAW);
+    TextDrawLetterSize(guiTD[7], 0.5000, 1.0000);
+    TextDrawColor(guiTD[7], -1);
+    TextDrawSetShadow(guiTD[7], 0);
+    TextDrawSetOutline(guiTD[7], 0);
+    TextDrawBackgroundColor(guiTD[7], 255);
+    TextDrawTextSize(guiTD[7], 15.0000, 15.0000);
 
-	gui_td_infobox_dividers [ 1 ] = TextDrawCreate(630.999816, 335.425903 - GUI_VERTICAL_ADJUST + GUI_VERTICAL_JUMP, "divider");
-	TextDrawLetterSize(gui_td_infobox_dividers [ 1 ], 0.000000, -0.278394);
-	TextDrawTextSize(gui_td_infobox_dividers [ 1 ], 584.000183, 0.000000);
-	TextDrawUseBox(gui_td_infobox_dividers [ 1 ], true);
-	TextDrawBoxColor(gui_td_infobox_dividers [ 1 ], BORDER_COLOUR);
-	*/
+    guiTD[8] = TextDrawCreate(613.0000, 311.0000, "SAGLIK");
+    TextDrawLetterSize(guiTD[8], 0.2500, 1.0000);
+    TextDrawAlignment(guiTD[8], TEXT_DRAW_ALIGN_CENTER);
+    TextDrawColor(guiTD[8], -780181761);
+    TextDrawSetShadow(guiTD[8], 0);
+    TextDrawSetOutline(guiTD[8], 0);
+    TextDrawBackgroundColor(guiTD[8], 255);
+    TextDrawTextSize(guiTD[8], 15.0000, 15.0000);
 
-	guiTD[0] = TextDrawCreate(630.0000, 249.5000, "_");
-	TextDrawLetterSize(guiTD[0], 0.0000, 18.3999);
-	TextDrawColor(guiTD[0], -1);
-	TextDrawSetShadow(guiTD[0], 0);
-	TextDrawSetOutline(guiTD[0], 0);
-	TextDrawBackgroundColor(guiTD[0], 255);
-	TextDrawUseBox(guiTD[0], true);
-	TextDrawBoxColor(guiTD[0], 286331391);
-	TextDrawTextSize(guiTD[0], 590.0000, 0.0000);
+    guiTD[9] = TextDrawCreate(625.0000, 333.0000, "_");
+    TextDrawLetterSize(guiTD[9], 0.0000, -0.2500);
+    TextDrawColor(guiTD[9], -1);
+    TextDrawSetShadow(guiTD[9], 0);
+    TextDrawSetOutline(guiTD[9], 0);
+    TextDrawBackgroundColor(guiTD[9], 255);
+    TextDrawUseBox(guiTD[9], true);
+    TextDrawBoxColor(guiTD[9], -780181761);
+    TextDrawTextSize(guiTD[9], 595.0000, 0.0000);
 
-	guiTD[1] = TextDrawCreate(629.0000, 251.0000, "_");
-	TextDrawLetterSize(guiTD[1], 0.0000, 18.1000);
-	TextDrawColor(guiTD[1], -1);
-	TextDrawSetShadow(guiTD[1], 0);
-	TextDrawSetOutline(guiTD[1], 0);
-	TextDrawBackgroundColor(guiTD[1], 255);
-	TextDrawUseBox(guiTD[1], true);
-	TextDrawBoxColor(guiTD[1], -780181846);
-	TextDrawTextSize(guiTD[1], 591.0000, 0.0000);
+    guiTD[10] = TextDrawCreate(602.0000, 337.0000, "hud:radar_burgerShot");
+    TextDrawFont(guiTD[10], TEXT_DRAW_FONT_SPRITE_DRAW);
+    TextDrawLetterSize(guiTD[10], 0.5000, 1.0000);
+    TextDrawColor(guiTD[10], -1);
+    TextDrawSetShadow(guiTD[10], 0);
+    TextDrawSetOutline(guiTD[10], 0);
+    TextDrawBackgroundColor(guiTD[10], 255);
+    TextDrawTextSize(guiTD[10], 15.0000, 15.0000);
 
-	guiTD[2] = TextDrawCreate(628.0000, 252.5000, "_");
-	TextDrawLetterSize(guiTD[2], 0.0000, 17.7500);
-	TextDrawColor(guiTD[2], -1);
-	TextDrawSetShadow(guiTD[2], 0);
-	TextDrawSetOutline(guiTD[2], 0);
-	TextDrawBackgroundColor(guiTD[2], 255);
-	TextDrawUseBox(guiTD[2], true);
-	TextDrawBoxColor(guiTD[2], 286331391);
-	TextDrawTextSize(guiTD[2], 592.0000, 0.0000);
+    guiTD[11] = TextDrawCreate(613.0000, 352.5000, "ACLIK");
+    TextDrawLetterSize(guiTD[11], 0.2249, 1.0000);
+    TextDrawAlignment(guiTD[11], TEXT_DRAW_ALIGN_CENTER);
+    TextDrawColor(guiTD[11], -780181761);
+    TextDrawSetShadow(guiTD[11], 0);
+    TextDrawSetOutline(guiTD[11], 0);
+    TextDrawBackgroundColor(guiTD[11], 255);
+    TextDrawTextSize(guiTD[11], 15.0000, 15.0000);
 
-	guiTD[3] = TextDrawCreate(625.0000, 291.5000, "_");
-	TextDrawLetterSize(guiTD[3], 0.0000, -0.2500);
-	TextDrawColor(guiTD[3], -1);
-	TextDrawSetShadow(guiTD[3], 0);
-	TextDrawSetOutline(guiTD[3], 0);
-	TextDrawBackgroundColor(guiTD[3], 255);
-	TextDrawUseBox(guiTD[3], true);
-	TextDrawBoxColor(guiTD[3], -780181761);
-	TextDrawTextSize(guiTD[3], 595.0000, 0.0000);
+    guiTD[12] = TextDrawCreate(625.0000, 374.0000, "_");
+    TextDrawLetterSize(guiTD[12], 0.0000, -0.2500);
+    TextDrawColor(guiTD[12], -1);
+    TextDrawSetShadow(guiTD[12], 0);
+    TextDrawSetOutline(guiTD[12], 0);
+    TextDrawBackgroundColor(guiTD[12], 255);
+    TextDrawUseBox(guiTD[12], true);
+    TextDrawBoxColor(guiTD[12], -780181761);
+    TextDrawTextSize(guiTD[12], 595.0000, 0.0000);
 
-	guiTD[4] = TextDrawCreate(602.0000, 255.5000, "hud:radar_LocoSyndicate");
-	TextDrawFont(guiTD[4], TEXT_DRAW_FONT_SPRITE_DRAW);
-	TextDrawLetterSize(guiTD[4], 0.5000, 1.0000);
-	TextDrawColor(guiTD[4], -1);
-	TextDrawSetShadow(guiTD[4], 0);
-	TextDrawSetOutline(guiTD[4], 0);
-	TextDrawBackgroundColor(guiTD[4], 255);
-	TextDrawTextSize(guiTD[4], 15.0000, 15.0000);
+    guiTD[13] = TextDrawCreate(602.5000, 377.0000, "hud:radar_dateDrink");
+    TextDrawFont(guiTD[13], TEXT_DRAW_FONT_SPRITE_DRAW);
+    TextDrawLetterSize(guiTD[13], 0.5000, 1.0000);
+    TextDrawColor(guiTD[13], -1);
+    TextDrawSetShadow(guiTD[13], 0);
+    TextDrawSetOutline(guiTD[13], 0);
+    TextDrawBackgroundColor(guiTD[13], 255);
+    TextDrawTextSize(guiTD[13], 15.0000, 15.0000);
 
-	guiTD[5] = TextDrawCreate(619.5000, 271.0000, "SICAKLIK");
-	TextDrawLetterSize(guiTD[5], 0.2500, 1.0000);
-	TextDrawAlignment(guiTD[5], TEXT_DRAW_ALIGN_RIGHT);
-	TextDrawColor(guiTD[5], -780181761);
-	TextDrawSetShadow(guiTD[5], 0);
-	TextDrawSetOutline(guiTD[5], 0);
-	TextDrawBackgroundColor(guiTD[5], 255);
-	TextDrawTextSize(guiTD[5], 15.0000, 15.0000);
+    guiTD[14] = TextDrawCreate(613.0000, 392.5000, "SUSUZLUK");
+    TextDrawLetterSize(guiTD[14], 0.2500, 1.0000);
+    TextDrawAlignment(guiTD[14], TEXT_DRAW_ALIGN_CENTER);
+    TextDrawColor(guiTD[14], -780181761);
+    TextDrawSetShadow(guiTD[14], 0);
+    TextDrawSetOutline(guiTD[14], 0);
+    TextDrawBackgroundColor(guiTD[14], 255);
+    TextDrawTextSize(guiTD[14], 15.0000, 15.0000);
 
-	guiTD[6] = TextDrawCreate(622.5000, 279.5000, "o");
-	TextDrawFont(guiTD[6], TEXT_DRAW_FONT_2);
-	TextDrawLetterSize(guiTD[6], 0.1000, 0.6999);
-	TextDrawAlignment(guiTD[6], TEXT_DRAW_ALIGN_RIGHT);
-	TextDrawColor(guiTD[6], -555819350);
-	TextDrawSetShadow(guiTD[6], 0);
-	TextDrawSetOutline(guiTD[6], 0);
-	TextDrawBackgroundColor(guiTD[6], 255);
-	TextDrawTextSize(guiTD[6], 10.0000, 10.0000);
+    guiTD[15] = TextDrawCreate(613.0000, 238.0000, "OYUNCU");
+    TextDrawLetterSize(guiTD[15], 0.2500, 1.0000);
+    TextDrawAlignment(guiTD[15], TEXT_DRAW_ALIGN_CENTER);
+    TextDrawColor(guiTD[15], -780181761);
+    TextDrawSetShadow(guiTD[15], 1);
+    TextDrawSetOutline(guiTD[15], 0);
+    TextDrawBackgroundColor(guiTD[15], 255);
+    TextDrawTextSize(guiTD[15], 0.0000, 0.0000);
 
-	guiTD[7] = TextDrawCreate(602.0000, 295.5000, "hud:radar_girlfriend");
-	TextDrawFont(guiTD[7], TEXT_DRAW_FONT_SPRITE_DRAW);
-	TextDrawLetterSize(guiTD[7], 0.5000, 1.0000);
-	TextDrawColor(guiTD[7], -1);
-	TextDrawSetShadow(guiTD[7], 0);
-	TextDrawSetOutline(guiTD[7], 0);
-	TextDrawBackgroundColor(guiTD[7], 255);
-	TextDrawTextSize(guiTD[7], 15.0000, 15.0000);
+    guiTD[16] = TextDrawCreate(634.5000, 434.5000, "/hud ile hudu kapatip acabilirsin.");
+    TextDrawLetterSize(guiTD[16], 0.2500, 1.0000);
+    TextDrawAlignment(guiTD[16], TEXT_DRAW_ALIGN_RIGHT);
+    TextDrawColor(guiTD[16], -780181761);
+    TextDrawSetShadow(guiTD[16], 1);
+    TextDrawSetOutline(guiTD[16], 0);
+    TextDrawBackgroundColor(guiTD[16], 255);
+    TextDrawTextSize(guiTD[16], 0.0000, 0.0000);
 
-	guiTD[8] = TextDrawCreate(624.0000, 311.0000, "SAGLIK");
-	TextDrawLetterSize(guiTD[8], 0.2500, 1.0000);
-	TextDrawAlignment(guiTD[8], TEXT_DRAW_ALIGN_RIGHT);
-	TextDrawColor(guiTD[8], -780181761);
-	TextDrawSetShadow(guiTD[8], 0);
-	TextDrawSetOutline(guiTD[8], 0);
-	TextDrawBackgroundColor(guiTD[8], 255);
-	TextDrawTextSize(guiTD[8], 15.0000, 15.0000);
-
-	guiTD[9] = TextDrawCreate(625.0000, 333.0000, "_");
-	TextDrawLetterSize(guiTD[9], 0.0000, -0.2500);
-	TextDrawColor(guiTD[9], -1);
-	TextDrawSetShadow(guiTD[9], 0);
-	TextDrawSetOutline(guiTD[9], 0);
-	TextDrawBackgroundColor(guiTD[9], 255);
-	TextDrawUseBox(guiTD[9], true);
-	TextDrawBoxColor(guiTD[9], -780181761);
-	TextDrawTextSize(guiTD[9], 595.0000, 0.0000);
-
-	guiTD[10] = TextDrawCreate(602.0000, 337.0000, "hud:radar_burgerShot");
-	TextDrawFont(guiTD[10], TEXT_DRAW_FONT_SPRITE_DRAW);
-	TextDrawLetterSize(guiTD[10], 0.5000, 1.0000);
-	TextDrawColor(guiTD[10], -1);
-	TextDrawSetShadow(guiTD[10], 0);
-	TextDrawSetOutline(guiTD[10], 0);
-	TextDrawBackgroundColor(guiTD[10], 255);
-	TextDrawTextSize(guiTD[10], 15.0000, 15.0000);
-
-	guiTD[11] = TextDrawCreate(624.0000, 352.5000, "ACLIK");
-	TextDrawLetterSize(guiTD[11], 0.2249, 1.0000);
-	TextDrawAlignment(guiTD[11], TEXT_DRAW_ALIGN_RIGHT);
-	TextDrawColor(guiTD[11], -780181761);
-	TextDrawSetShadow(guiTD[11], 0);
-	TextDrawSetOutline(guiTD[11], 0);
-	TextDrawBackgroundColor(guiTD[11], 255);
-	TextDrawTextSize(guiTD[11], 15.0000, 15.0000);
-
-	guiTD[12] = TextDrawCreate(625.0000, 374.0000, "_");
-	TextDrawLetterSize(guiTD[12], 0.0000, -0.2500);
-	TextDrawColor(guiTD[12], -1);
-	TextDrawSetShadow(guiTD[12], 0);
-	TextDrawSetOutline(guiTD[12], 0);
-	TextDrawBackgroundColor(guiTD[12], 255);
-	TextDrawUseBox(guiTD[12], true);
-	TextDrawBoxColor(guiTD[12], -780181761);
-	TextDrawTextSize(guiTD[12], 595.0000, 0.0000);
-
-	guiTD[13] = TextDrawCreate(602.5000, 377.0000, "hud:radar_dateDrink");
-	TextDrawFont(guiTD[13], TEXT_DRAW_FONT_SPRITE_DRAW);
-	TextDrawLetterSize(guiTD[13], 0.5000, 1.0000);
-	TextDrawColor(guiTD[13], -1);
-	TextDrawSetShadow(guiTD[13], 0);
-	TextDrawSetOutline(guiTD[13], 0);
-	TextDrawBackgroundColor(guiTD[13], 255);
-	TextDrawTextSize(guiTD[13], 15.0000, 15.0000);
-
-	guiTD[14] = TextDrawCreate(623.5000, 392.5000, "SUSUZLUK");
-	TextDrawLetterSize(guiTD[14], 0.2500, 1.0000);
-	TextDrawAlignment(guiTD[14], TEXT_DRAW_ALIGN_RIGHT);
-	TextDrawColor(guiTD[14], -780181761);
-	TextDrawSetShadow(guiTD[14], 0);
-	TextDrawSetOutline(guiTD[14], 0);
-	TextDrawBackgroundColor(guiTD[14], 255);
-	TextDrawTextSize(guiTD[14], 15.0000, 15.0000);
-
-	guiTD[15] = TextDrawCreate(623.5000, 238.0000, "OYUNCU");
-	TextDrawLetterSize(guiTD[15], 0.2500, 1.0000);
-	TextDrawAlignment(guiTD[15], TEXT_DRAW_ALIGN_RIGHT);
-	TextDrawColor(guiTD[15], -780181761);
-	TextDrawSetShadow(guiTD[15], 1);
-	TextDrawSetOutline(guiTD[15], 0);
-	TextDrawBackgroundColor(guiTD[15], 255);
-	TextDrawTextSize(guiTD[15], 0.0000, 0.0000);
-
-	guiTD[16] = TextDrawCreate(634.5000, 434.5000, "/hud ile hudu kapatip acabilirsin.");
-	TextDrawLetterSize(guiTD[16], 0.2500, 1.0000);
-	TextDrawAlignment(guiTD[16], TEXT_DRAW_ALIGN_RIGHT);
-	TextDrawColor(guiTD[16], -780181761);
-	TextDrawSetShadow(guiTD[16], 1);
-	TextDrawSetOutline(guiTD[16], 0);
-	TextDrawBackgroundColor(guiTD[16], 255);
-	TextDrawTextSize(guiTD[16], 0.0000, 0.0000);
-
-	return true ;
+    return true ;
 }
 
 
-//LoadGUITextDraws ( playerid ) {
 GUI_LoadPlayerPlayerDraws(playerid) {
 
-	gui_td_hudbox_cash  = CreatePlayerTextDraw(playerid, 500, 85, " ");
-	PlayerTextDrawLetterSize(playerid, gui_td_hudbox_cash  , 0.2, 0.9);
-	PlayerTextDrawBackgroundColor(playerid, gui_td_hudbox_cash  , 51);
-	PlayerTextDrawColor (playerid, gui_td_hudbox_cash  , MONEY_COLOUR ) ;
-	PlayerTextDrawFont (playerid, gui_td_hudbox_cash  , TEXT_DRAW_FONT_2);
+    gui_td_hudbox_cash  = CreatePlayerTextDraw(playerid, 500, 85, " ");
+    PlayerTextDrawLetterSize(playerid, gui_td_hudbox_cash  , 0.2, 0.9);
+    PlayerTextDrawBackgroundColor(playerid, gui_td_hudbox_cash  , 51);
+    PlayerTextDrawColor (playerid, gui_td_hudbox_cash  , MONEY_COLOUR ) ;
+    PlayerTextDrawFont (playerid, gui_td_hudbox_cash  , TEXT_DRAW_FONT_2);
 
-	/*
-	gui_td_playerHealth   = CreatePlayerTextDraw(playerid, 585.999938, 315.259185 - GUI_VERTICAL_ADJUST, "100%");
-	PlayerTextDrawLetterSize(playerid, gui_td_playerHealth , 0.445666, 1.587555);
-	PlayerTextDrawBackgroundColor(playerid, gui_td_playerHealth , 51);
-	PlayerTextDrawColor ( playerid, gui_td_playerHealth , BORDER_COLOUR ) ;
-	PlayerTextDrawFont(playerid, gui_td_playerHealth , 1);
+    guiPTD[0] = CreatePlayerTextDraw(playerid, 613.0000, 279.0000, "150F"); //temp
+    PlayerTextDrawFont(playerid, guiPTD[0], TEXT_DRAW_FONT_2);
+    PlayerTextDrawLetterSize(playerid, guiPTD[0], 0.2500, 1.0000);
+    PlayerTextDrawAlignment(playerid, guiPTD[0], TEXT_DRAW_ALIGN_CENTER);
+    PlayerTextDrawColor(playerid, guiPTD[0], -555819350);
+    PlayerTextDrawSetShadow(playerid, guiPTD[0], 0);
+    PlayerTextDrawSetOutline(playerid, guiPTD[0], 0);
+    PlayerTextDrawBackgroundColor(playerid, guiPTD[0], 255);
+    PlayerTextDrawTextSize(playerid, guiPTD[0], 10.0000, 10.0000);
 
-	gui_td_playerHunger  = CreatePlayerTextDraw(playerid, 585.999938, 315.259185 - GUI_VERTICAL_ADJUST + GUI_VERTICAL_JUMP, "100%");
-	PlayerTextDrawLetterSize(playerid, gui_td_playerHunger , 0.445666, 1.587555);
-	PlayerTextDrawBackgroundColor(playerid, gui_td_playerHunger , 51);
-	PlayerTextDrawColor ( playerid, gui_td_playerHunger , BORDER_COLOUR ) ;
-	PlayerTextDrawFont(playerid, gui_td_playerHunger , 1);
+    guiPTD[1] = CreatePlayerTextDraw(playerid, 613.0000, 320.5000, "100"); //hp
+    PlayerTextDrawFont(playerid, guiPTD[1], TEXT_DRAW_FONT_2);
+    PlayerTextDrawLetterSize(playerid, guiPTD[1], 0.2500, 1.0000);
+    PlayerTextDrawAlignment(playerid, guiPTD[1], TEXT_DRAW_ALIGN_CENTER);
+    PlayerTextDrawColor(playerid, guiPTD[1], -555819350);
+    PlayerTextDrawSetShadow(playerid, guiPTD[1], 0);
+    PlayerTextDrawSetOutline(playerid, guiPTD[1], 0);
+    PlayerTextDrawBackgroundColor(playerid, guiPTD[1], 255);
+    PlayerTextDrawTextSize(playerid, guiPTD[1], 10.0000, 10.0000);
 
-	gui_td_playerThirst  = CreatePlayerTextDraw(playerid, 586.5, 315.259185 - GUI_VERTICAL_ADJUST + GUI_VERTICAL_JUMP * 2, "100%");
-	PlayerTextDrawLetterSize(playerid, gui_td_playerThirst , 0.445666, 1.587555);
-	PlayerTextDrawBackgroundColor(playerid, gui_td_playerThirst , 51);
-	PlayerTextDrawColor ( playerid, gui_td_playerThirst , BORDER_COLOUR ) ;
-	PlayerTextDrawFont(playerid, gui_td_playerThirst , 1);
-	*/
+    guiPTD[2] = CreatePlayerTextDraw(playerid, 613.0000, 361.5000, "100"); //hunger
+    PlayerTextDrawFont(playerid, guiPTD[2], TEXT_DRAW_FONT_2);
+    PlayerTextDrawLetterSize(playerid, guiPTD[2], 0.2500, 1.0000);
+    PlayerTextDrawAlignment(playerid, guiPTD[2], TEXT_DRAW_ALIGN_CENTER);
+    PlayerTextDrawColor(playerid, guiPTD[2], -555819350);
+    PlayerTextDrawSetShadow(playerid, guiPTD[2], 0);
+    PlayerTextDrawSetOutline(playerid, guiPTD[2], 0);
+    PlayerTextDrawBackgroundColor(playerid, guiPTD[2], 255);
+    PlayerTextDrawTextSize(playerid, guiPTD[2], 10.0000, 10.0000);
 
-	guiPTD[0] = CreatePlayerTextDraw(playerid, 619.5000, 279.0000, "150F"); //temp
-	PlayerTextDrawFont(playerid, guiPTD[0], TEXT_DRAW_FONT_2);
-	PlayerTextDrawLetterSize(playerid, guiPTD[0], 0.2500, 1.0000);
-	PlayerTextDrawAlignment(playerid, guiPTD[0], TEXT_DRAW_ALIGN_RIGHT);
-	PlayerTextDrawColor(playerid, guiPTD[0], -555819350);
-	PlayerTextDrawSetShadow(playerid, guiPTD[0], 0);
-	PlayerTextDrawSetOutline(playerid, guiPTD[0], 0);
-	PlayerTextDrawBackgroundColor(playerid, guiPTD[0], 255);
-	PlayerTextDrawTextSize(playerid, guiPTD[0], 10.0000, 10.0000);
+    guiPTD[3] = CreatePlayerTextDraw(playerid, 613.0000, 401.0000, "100"); //thirst
+    PlayerTextDrawFont(playerid, guiPTD[3], TEXT_DRAW_FONT_2);
+    PlayerTextDrawLetterSize(playerid, guiPTD[3], 0.2500, 1.0000);
+    PlayerTextDrawAlignment(playerid, guiPTD[3], TEXT_DRAW_ALIGN_CENTER);
+    PlayerTextDrawColor(playerid, guiPTD[3], -555819350);
+    PlayerTextDrawSetShadow(playerid, guiPTD[3], 0);
+    PlayerTextDrawSetOutline(playerid, guiPTD[3], 0);
+    PlayerTextDrawBackgroundColor(playerid, guiPTD[3], 255);
+    PlayerTextDrawTextSize(playerid, guiPTD[3], 10.0000, 10.0000);  
 
-	guiPTD[1] = CreatePlayerTextDraw(playerid, 618.5000, 320.5000, "100"); //hp
-	PlayerTextDrawFont(playerid, guiPTD[1], TEXT_DRAW_FONT_2);
-	PlayerTextDrawLetterSize(playerid, guiPTD[1], 0.2500, 1.0000);
-	PlayerTextDrawAlignment(playerid, guiPTD[1], TEXT_DRAW_ALIGN_RIGHT);
-	PlayerTextDrawColor(playerid, guiPTD[1], -555819350);
-	PlayerTextDrawSetShadow(playerid, guiPTD[1], 0);
-	PlayerTextDrawSetOutline(playerid, guiPTD[1], 0);
-	PlayerTextDrawBackgroundColor(playerid, guiPTD[1], 255);
-	PlayerTextDrawTextSize(playerid, guiPTD[1], 10.0000, 10.0000);
-
-	guiPTD[2] = CreatePlayerTextDraw(playerid, 618.5000, 361.5000, "100"); //hunger
-	PlayerTextDrawFont(playerid, guiPTD[2], TEXT_DRAW_FONT_2);
-	PlayerTextDrawLetterSize(playerid, guiPTD[2], 0.2500, 1.0000);
-	PlayerTextDrawAlignment(playerid, guiPTD[2], TEXT_DRAW_ALIGN_RIGHT);
-	PlayerTextDrawColor(playerid, guiPTD[2], -555819350);
-	PlayerTextDrawSetShadow(playerid, guiPTD[2], 0);
-	PlayerTextDrawSetOutline(playerid, guiPTD[2], 0);
-	PlayerTextDrawBackgroundColor(playerid, guiPTD[2], 255);
-	PlayerTextDrawTextSize(playerid, guiPTD[2], 10.0000, 10.0000);
-
-	guiPTD[3] = CreatePlayerTextDraw(playerid, 618.5000, 401.0000, "100"); //thirst
-	PlayerTextDrawFont(playerid, guiPTD[3], TEXT_DRAW_FONT_2);
-	PlayerTextDrawLetterSize(playerid, guiPTD[3], 0.2500, 1.0000);
-	PlayerTextDrawAlignment(playerid, guiPTD[3], TEXT_DRAW_ALIGN_RIGHT);
-	PlayerTextDrawColor(playerid, guiPTD[3], -555819350);
-	PlayerTextDrawSetShadow(playerid, guiPTD[3], 0);
-	PlayerTextDrawSetOutline(playerid, guiPTD[3], 0);
-	PlayerTextDrawBackgroundColor(playerid, guiPTD[3], 255);
-	PlayerTextDrawTextSize(playerid, guiPTD[3], 10.0000, 10.0000);	
-
-	LoadWeaponGUI ( playerid ) ;
+    LoadWeaponGUI ( playerid ) ;
 }
-
 DestroyGUITextDraws ( playerid ) {
 
 	HideGUITextDraws ( playerid ) ;
