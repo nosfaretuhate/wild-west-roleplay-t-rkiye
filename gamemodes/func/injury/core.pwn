@@ -52,58 +52,55 @@ public OnPlayerSpawn ( playerid ) {
 
 CMD:helpup ( playerid, params [] ) {
 
-	if ( PlayerHelpUpCooldown [ playerid ]  >= gettime ()) {
+    if ( PlayerHelpUpCooldown [ playerid ] >= gettime ()) {
+        return SendServerMessage ( playerid, sprintf("Birini yerden kaldýrmak için %d saniye daha beklemelisin.", PlayerHelpUpCooldown[playerid] - gettime ()), MSG_TYPE_WARN ) ;
+    }
 
-		return SendServerMessage ( playerid, sprintf("You need to wait %d seconds before helping someone else up.", PlayerHelpUpCooldown[playerid] - gettime ()), MSG_TYPE_WARN ) ;
-	}
+    foreach ( new i: Player ) {
 
-	foreach ( new i: Player ) {
+        if ( ! IsPlayerNearPlayer ( playerid, i, 3 ) || i == playerid ) {
+            continue ;
+        } 
 
-		if ( ! IsPlayerNearPlayer ( playerid, i, 3 ) || i == playerid ) {
+        if ( Character [ i ] [ character_dmgmode ] != 1 ) {
+            continue ;
+        }
 
-			continue ;
-		} 
+        else if ( Character [ i ] [ character_dmgmode ] ) {
 
-		if ( Character [ i ] [ character_dmgmode ] != 1 ) {
+            if(HasPlayerBeenShotInBodyPart(i,BODY_PART_HEAD)) { return SendServerMessage(playerid,"Kafasýndan vurulmuþ birini yerden kaldýramazsýn.",MSG_TYPE_ERROR); }
 
-			continue ;
-		}
+            TogglePlayerControllable ( i, true ) ;
 
-		else if ( Character [ i ] [ character_dmgmode ] ) {
+            Character [ i ] [ character_health ] = 35 ;
+            SetCharacterHealth ( i, Character [ i ] [ character_health ] ) ;
 
-			if(HasPlayerBeenShotInBodyPart(i,BODY_PART_HEAD)) { return SendServerMessage(playerid,"You cannot help up someone who's been shot in the head.",MSG_TYPE_ERROR); }
+            Character [ i ] [ character_dmgmode ] = 0 ;
+            PlayerInjuredCooldown [ i ] = 0 ;
 
-			TogglePlayerControllable ( i, true ) ;
+            ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "** %s, %s adlý kiþiyi yerden kaldýrýr.", ReturnUserName ( playerid, true, true ), ReturnUserName ( i, true, true ) ) ) ;
+                        
+            TogglePlayerControllable ( i, true ) ;
 
-			Character [ i ] [ character_health ] = 35 ;
-			SetCharacterHealth ( i, Character [ i ] [ character_health ] ) ;
+            PlayerHelpUpCooldown [ playerid ] = gettime () + 300 ;
+            PlayerRecentlyRevived [ i ] = true ;
 
-			Character [ i ] [ character_dmgmode ] = 0 ;
-			PlayerInjuredCooldown [ i ] = 0 ;
+            if ( ! IsPlayerPaused ( i ) ) {
+                SetName ( i, sprintf("(%d) %s", i, ReturnUserName ( i, false, true ) ), 0xCFCFCFFF ) ;
+            }       
+            else {
+                SetName ( i, sprintf("[AFK (/afklist)]{DEDEDE}\n(%d) %s", i, ReturnUserName ( i, false )  ), COLOR_RED ) ;
+            }
 
-			Character [ i ] [ character_dmgmode ] = 0 ;
-			//SendServerMessage ( i, sprintf("You've been helped up by (%d) %s.", playerid, ReturnUserName ( playerid )), MSG_TYPE_INFO ) ;
+            return SendServerMessage ( i, sprintf("(%d) %s tarafýndan yerden kaldýrýldýn.", playerid, ReturnUserName ( playerid, true, true ) ), MSG_TYPE_INFO ) ;
+        }
+    }
 
-
-			ProxDetector ( playerid, 20, COLOR_ACTION, sprintf( "** %s has helped up %s.", ReturnUserName ( playerid, true, true ), ReturnUserName ( i, true, true ) ) ) ;
-						
-
-			TogglePlayerControllable ( i, true ) ;
-
-			PlayerHelpUpCooldown [ playerid ] = gettime () + 300 ;
-			PlayerRecentlyRevived [ i ] = true ;
-
-			if ( ! IsPlayerPaused ( i ) ) {
-				SetName ( i, sprintf("(%d) %s", i, ReturnUserName ( i, false, true ) ), 0xCFCFCFFF ) ;
-			}		
-
-			else SetName ( i, sprintf("[PAUSED (/afklist)]{DEDEDE}\n(%d) %s", i, ReturnUserName ( i, false )  ), COLOR_RED ) ;
-
-			return SendServerMessage ( i, sprintf("You have been helped up by (%d) %s. ", playerid, ReturnUserName ( playerid, true, true ) ), MSG_TYPE_INFO ) ;
-		}
-	}
-
-	return SendServerMessage ( playerid, "You're not near anyone who's injured.", MSG_TYPE_ERROR ) ;
+    return SendServerMessage ( playerid, "Yakýnýnda yardýma ihtiyacý olan yaralý birisi yok.", MSG_TYPE_ERROR ) ;
+}
+CMD:yardimet(playerid, params[]) 
+{
+    return cmd_helpup(playerid, params);
 }
 
 new BandageTimeTick [ MAX_PLAYERS ] ;
@@ -114,7 +111,7 @@ public OnPlayerBandage(playerid, itemid, tileid) {
 
 	if ( IsPlayerBandaging [ playerid ] ) {
 		if ( ++ BandageTimeTick [ playerid ] < 15 ) {
-			GameTextForPlayer(playerid, sprintf("~w~Bandaging time left: ~b~%d", 15 - BandageTimeTick [ playerid ]), 950, 3);
+			GameTextForPlayer(playerid, sprintf("~w~KALAN BANDAJ SURESI: ~b~%d", 15 - BandageTimeTick [ playerid ]), 950, 3);
 
 			SetTimerEx( "OnPlayerBandage", 1000, false, "iii", playerid, itemid, tileid ) ;
 		}
@@ -134,8 +131,8 @@ public OnPlayerBandage(playerid, itemid, tileid) {
 			DecreaseItem ( playerid, tileid, 1 ) ;
 
 
-			ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("** %s has just bandaged their wounds.", ReturnUserName ( playerid, false ))) ;
-			return SendServerMessage ( playerid, "You've bandaged your wounds. You are no longer bleeding and your legs feel much better.", MSG_TYPE_INFO ) ;
+			ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("** %s yaralarýna bandaj sarar.", ReturnUserName ( playerid, false ))) ;
+			return SendServerMessage ( playerid, "Yaralarýna bandaj sardýn, artýk kanaman yok. Daha iyi hissediyorsun.", MSG_TYPE_INFO ) ;
 		}
 	}
 

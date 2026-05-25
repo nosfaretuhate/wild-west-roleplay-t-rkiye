@@ -21,31 +21,31 @@ DoesPlayerOwnCampfire(playerid,campfireid) { return (campfireid == playerid) ? (
 
 GetCampfireStage(playerid) {
 
-	new stage[64];
-	stage = "N/A";
-	if(!DoesPlayerHaveCampfire[playerid]) { return stage; }
-	switch(PlayerCampfireTimeLeft[playerid]) {
+    new stage[64];
+    stage = "N/A";
+    if(!DoesPlayerHaveCampfire[playerid]) { return stage; }
+    switch(PlayerCampfireTimeLeft[playerid]) {
 
-		case 1..5: {
+        case 1..5: {
 
-			stage = "Close to going out."; //stage 1
-		}
-		case 6..10: {
+            stage = "Sönmek üzere."; // Aþama 1
+        }
+        case 6..10: {
 
-			stage = "Small but steady."; //stage 2
-		}
-		case 11..15: {
+            stage = "Küçük ama sabit yanýyor."; // Aþama 2
+        }
+        case 11..15: {
 
-			stage = "A stable campfire."; //stage 3
-		}
-		case 16..20: {
+            stage = "Dengeli bir kamp ateþi."; // Aþama 3
+        }
+        case 16..20: {
 
-			stage = "The campfire is roaring pretty loudly."; //stage 4
-		}
-		default: {
+            stage = "Ateþ oldukça gür yanýyor."; // Aþama 4
+        }
+        default: {
 
-			stage = "A massive campfire."; //stage 5+
-		}
-	}
-	return stage;
+            stage = "Devasa bir kamp ateþi."; // Aþama 5+
+        }
+    }
+    return stage;
 }
