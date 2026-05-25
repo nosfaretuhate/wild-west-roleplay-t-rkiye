@@ -2,12 +2,12 @@ ShowPlayerMOTD ( playerid ) {
 
 	new string[300];
 	SendClientMessage(playerid, -1, " ") ;
-	format(string,sizeof(string),"[Player MOTD]:{DEDEDE} %s",PLAYER_MOTD);
+	format(string,sizeof(string),"[Duyuru]:{DEDEDE} %s",PLAYER_MOTD);
 	SendSplitMessage(playerid, COLOR_TAB0,string);
 
 	if(IsPlayerModerator(playerid)) {
 
-		format(string,sizeof(string),"[Staff MOTD]:{DEDEDE} %s",STAFF_MOTD);
+		format(string,sizeof(string),"[Admin Duyurusu]:{DEDEDE} %s",STAFF_MOTD);
 		SendSplitMessage(playerid,COLOR_TAB1,string);
 	}
 

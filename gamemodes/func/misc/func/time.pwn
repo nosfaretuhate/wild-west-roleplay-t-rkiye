@@ -18,20 +18,19 @@ enum monthData {
 } ;
 
 new monthArray [] [monthData] = {
-	{ "January", 31 } ,
-	{ "February", 28 } ,
-	{ "March", 31 } ,
-	{ "April", 30 } ,
-	{ "May", 31 } ,
-	{ "June", 30 } ,
-	{ "July", 31 } ,
-	{ "August", 31 } ,
-	{ "September", 30 } ,
-	{ "October", 31 } ,
-	{ "November", 30 } ,
-	{ "December", 31 }
+    { "Ocak", 31 } ,
+    { "Þubat", 28 } ,
+    { "Mart", 31 } ,
+    { "Nisan", 30 } ,
+    { "Mayýs", 31 } ,
+    { "Haziran", 30 } ,
+    { "Temmuz", 31 } ,
+    { "Aðustos", 31 } ,
+    { "Eylül", 30 } ,
+    { "Ekim", 31 } ,
+    { "Kasým", 30 } ,
+    { "Aralýk", 31 }
 } ;
-
 enum {
 	MONTH_JANUARY, MONTH_FEBRUARY, MONTH_MARCH,
 	MONTH_APRIL, MONTH_MAY, MONTH_JUNE, MONTH_JULY,
@@ -79,55 +78,54 @@ date_getSeasonID ( monthid ) {
 #define MAX_SEASON_NAME     ( 7 )
 date_getSeason ( monthid ) {
 
-	new seasonid = date_getSeasonID ( monthid ) ,
-	seasonName [ MAX_SEASON_NAME ];
+    new seasonid = date_getSeasonID ( monthid ) ,
+    seasonName [ MAX_SEASON_NAME ];
 
-	switch ( seasonid ) {
-	    case SEASON_SPRING: {
-			format ( seasonName, MAX_SEASON_NAME, "Spring" ) ;
-	    }
-	    
-	    case SEASON_SUMMER: {
-			format ( seasonName, MAX_SEASON_NAME, "Summer" ) ;
-	    }
-	    
-	    case SEASON_AUTUMN: {
-			format ( seasonName, MAX_SEASON_NAME, "Autumn" ) ;
-	    }
-	    
-	    case SEASON_WINTER: {
-			format ( seasonName, MAX_SEASON_NAME, "Winter" ) ;
-	    }
-	}
+    switch ( seasonid ) {
+        case SEASON_SPRING: {
+            format ( seasonName, MAX_SEASON_NAME, "Ýlkbahar" ) ;
+        }
+        
+        case SEASON_SUMMER: {
+            format ( seasonName, MAX_SEASON_NAME, "Yaz" ) ;
+        }
+        
+        case SEASON_AUTUMN: {
+            format ( seasonName, MAX_SEASON_NAME, "Sonbahar" ) ;
+        }
+        
+        case SEASON_WINTER: {
+            format ( seasonName, MAX_SEASON_NAME, "Kýþ" ) ;
+        }
+    }
 
-	return seasonName ;
+    return seasonName ;
 }
 
 date_dayName ( day, month, year ) {
-	new weekday_str[10], j, e;
+    new weekday_str[10], j, e;
 
-	j = year % 100;
-	e = year / 100;
+    j = year % 100;
+    e = year / 100;
 
-	switch ((day + (month+1)*26/10 + j + j/4 + e/4 - 2*e) % 7) {
-		case 0: weekday_str = "Saturday";
-		case 1: weekday_str = "Sunday";
-		case 2: weekday_str = "Monday";
-		case 3: weekday_str = "Tuesday";
-		case 4: weekday_str = "Wednesday";
-		case 5: weekday_str = "Thursday";
-		case 6: weekday_str = "Friday";
-	}
-	
-	return weekday_str;
+    switch ((day + (month+1)*26/10 + j + j/4 + e/4 - 2*e) % 7) {
+        case 0: weekday_str = "Cumartesi";
+        case 1: weekday_str = "Pazar";
+        case 2: weekday_str = "Pazartesi";
+        case 3: weekday_str = "Salý";
+        case 4: weekday_str = "Çarþamba";
+        case 5: weekday_str = "Perþembe";
+        case 6: weekday_str = "Cuma";
+    }
+    
+    return weekday_str;
 }
 
 date_dayOrdinal ( number ) {
-	number = number < 0 ? -number : number;
-	new _ordinal[][] = { "th", "st", "nd", "rd" };
-	return _ordinal[(3 < number % 100 < 21)?(0):((number % 10 > 3)?(0):(number % 10))];
+    number = number < 0 ? -number : number;
+    new _ordinal[][] = { ".", ".", ".", "." };
+    return _ordinal[(3 < number % 100 < 21)?(0):((number % 10 > 3)?(0):(number % 10))];
 }
-
 ReturnServerTime () {
 
 	new string [ 64 ] ;
@@ -147,7 +145,7 @@ task AdvanceTime[SERVER_TIME_INCREMENT]() {
 
 	new query [ 256 ] ;
 
-	printf("%s, %d%s of %s, %d, %d:%d [%s]",
+	printf("%s, %d%s %s, %d, %d:%d [%s]",
 	date_dayName ( serverDay, serverMonth, serverYear ), serverDay, date_dayOrdinal ( serverDay ),
 	date_getMonth ( serverMonth ), serverYear, serverHour, serverMin, date_getSeason ( serverMonth ) ) ;
 	

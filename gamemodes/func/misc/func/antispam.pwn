@@ -32,13 +32,13 @@ public OnPlayerCommandReceived(playerid, cmdtext[]) {
 			if(IsPlayerCreatingCharacter[playerid]) { return true; }
 			else { 
 
-				SendServerMessage(playerid,"You need to be in character creation to use this command.",MSG_TYPE_ERROR);
+				SendServerMessage(playerid,"Bu komutu oluþturmak için karakter seçim ekranýnda olmalýsýn.",MSG_TYPE_ERROR);
 				return false;
 			}
 		}
 		else {
 
-			SendServerMessage ( playerid, "You need to spawn properly before you can use a command!", MSG_TYPE_ERROR ) ;
+			SendServerMessage ( playerid, "SPAWN olmadan komut kullanamazsýn.", MSG_TYPE_ERROR ) ;
 			return false ;
 		}
 	}
@@ -47,7 +47,7 @@ public OnPlayerCommandReceived(playerid, cmdtext[]) {
 
 			if ( strcmp ( cmdtext, "/point sleep" ) ) {
 				
-				SendServerMessage ( playerid, "You can't use any commands while using /point sleep.", MSG_TYPE_ERROR ) ;
+				SendServerMessage ( playerid, "/point sleep durumunda iken baþka bir komut kullanýlamaz.", MSG_TYPE_ERROR ) ;
 				return false ;
 			}
 		}
@@ -60,7 +60,7 @@ public OnPlayerCommandReceived(playerid, cmdtext[]) {
 	
 	if(temp_tickDiff < MIN_CMD_GAP_INTERVAL) {
 	
-	    SendServerMessage ( playerid, sprintf("You must wait %0.2f seconds to use any command.", float(MIN_CMD_GAP_INTERVAL - temp_tickDiff) / 1000.0), MSG_TYPE_WARN );
+	    SendServerMessage ( playerid, sprintf("%0.2f saniye sonra tekrar komut kullanabilirsin.", float(MIN_CMD_GAP_INTERVAL - temp_tickDiff) / 1000.0), MSG_TYPE_WARN );
 
 	    return false ;
 	}
@@ -69,7 +69,7 @@ public OnPlayerCommandReceived(playerid, cmdtext[]) {
 
 		if ( IsPlayerSpectating [ i ] == playerid ) {
 
-			SendClientMessage(i, 0xDEDEDEFF, sprintf("[SPEC]: (%d) %s tried command (received): %s", playerid, ReturnUserName ( playerid, true, false ), cmdtext ) ) ;
+			SendClientMessage(i, 0xDEDEDEFF, sprintf("[SPEC]: (%d) %s komut denedi (alýndý): %s", playerid, ReturnUserName ( playerid, true, false ), cmdtext ) ) ;
 			continue ;
 		}
 
@@ -106,13 +106,13 @@ public OnPlayerCommandPerformed(playerid, cmdtext[], success) {
 				if(IsPlayerCreatingCharacter[playerid]) { return true; }
 				else { 
 
-					SendServerMessage(playerid,"You need to be in character creation to use this command.",MSG_TYPE_ERROR);
+					SendServerMessage(playerid,"Bunu yapmak için karakter seçim ekranýnda olmalýsýn.",MSG_TYPE_ERROR);
 					return false;
 				}
 			}
 			else {
 
-				SendServerMessage ( playerid, "You need to spawn properly before you can use a command!", MSG_TYPE_ERROR ) ;
+				SendServerMessage ( playerid, "SPAWN olmadan komut kullanýlamaz.", MSG_TYPE_ERROR ) ;
 				return false ;
 			}
 		}
@@ -121,7 +121,7 @@ public OnPlayerCommandPerformed(playerid, cmdtext[], success) {
 
 			if ( strcmp ( cmdtext, "/point sleep" ) ) {
 
-				SendServerMessage ( playerid, "You can't use any commands while using /point sleep.", MSG_TYPE_ERROR ) ;
+				SendServerMessage ( playerid, "/point sleep durumunda iken herhangi bir komut kullanamazsýn.", MSG_TYPE_ERROR ) ;
 				return false ;
 			}
 		}
@@ -131,7 +131,7 @@ public OnPlayerCommandPerformed(playerid, cmdtext[], success) {
 
 			if ( IsPlayerSpectating [ i ] == playerid ) {
 
-				SendClientMessage(i, 0xDEDEDEFF, sprintf("[SPEC]: (%d) %s tried command (performed): %s", playerid, ReturnUserName ( playerid, true, false ), cmdtext ) ) ;
+				SendClientMessage(i, 0xDEDEDEFF, sprintf("[SPEC]: (%d) %s komut denedi (gerçekleþtirdi): %s", playerid, ReturnUserName ( playerid, true, false ), cmdtext ) ) ;
 				continue ;
 			}
 
@@ -142,7 +142,7 @@ public OnPlayerCommandPerformed(playerid, cmdtext[], success) {
 	    
 	else if ( ! success ) {
 
-		return SendServerMessage ( playerid, "This command doesn't exist. To view a list of all available commands, use /help", MSG_TYPE_INFO ) ;
+		return SendServerMessage ( playerid, "Böyle bir komut bulunamadý, /help ile komut listesini görebilirsin.", MSG_TYPE_INFO ) ;
 	}
 
 	
