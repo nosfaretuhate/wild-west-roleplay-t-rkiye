@@ -152,7 +152,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 					if ( ReturnPlayerItemCount [ playerid ] >= GetPlayerBackpackSize ( playerid ) ) {
 
-						return SendServerMessage ( playerid, "You don't have enough backpack size to fish more. Go sell your fish or get a bigger backpack.", MSG_TYPE_ERROR ) ;
+						return SendServerMessage ( playerid, "Daha fazla balýk tutmak için çantan yok, yeni bir çanta al.", MSG_TYPE_ERROR ) ;
 					}
 
 					if ( IsPlayerDoingJob ( playerid ) ) {
@@ -165,7 +165,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 						if ( Character [ playerid ] [ character_fishcd ] ) {
 
 							cmd_fixjob ( playerid ) ;
-							return SendServerMessage ( playerid, "You cannot fish right now - you are on a cooldown.", MSG_TYPE_ERROR ) ;
+							return SendServerMessage ( playerid, "Þuanda balýk tutamazsýn.", MSG_TYPE_ERROR ) ;
 						}
 
 						new Float: x, Float: y, Float: z, Float:xy_x, Float: xy_y, Float: xy_z, distance = 1 + random ( 12 ) ;
@@ -175,7 +175,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 						GetXYInFrontOfPlayer ( playerid, xy_x, xy_y, distance ) ;
 						CA_FindZ_For2DCoord(xy_x, xy_y, xy_z ) ;
 
-						SendServerMessage ( playerid,"You've thrown your bobber into the water.", MSG_TYPE_INFO ) ;
+						SendServerMessage ( playerid,"Oltaný suya attýn.", MSG_TYPE_INFO ) ;
 
 						player_DobberPoint [ playerid ] = distance ;
 						ApplyAnimation(playerid,"SWORD","sword_block",50.0,false,true,false,true,1);
@@ -207,7 +207,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 				if ( ReturnPlayerItemCount [ playerid ] >= GetPlayerBackpackSize ( playerid ) ) {
 
-					return SendServerMessage ( playerid, "You don't have enough backpack size to mine more. Go sell your rocks or get a bigger backpack.", MSG_TYPE_ERROR ) ;
+					return SendServerMessage ( playerid, "Daha fazla kazý yapmak için çantan yetersiz.", MSG_TYPE_ERROR ) ;
 				}
 
 		 		if( IsPlayerDoingJob ( playerid ) ) {
@@ -217,7 +217,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 			    if ( Character [ playerid ] [ character_minecd ] ) {
 
 			    	cmd_fixjob ( playerid ) ;
-					return SendServerMessage ( playerid, "You cannot mine right now - you are on a cooldown.", MSG_TYPE_ERROR ) ;
+					return SendServerMessage ( playerid, "Þuanda kazý yapamazsýn.", MSG_TYPE_ERROR ) ;
 				}
 
 			    new id = IsPlayerInRangeOfRock( playerid, 1.5 );
@@ -228,7 +228,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 			    if ( Rock[id ][mineHealth ] < 1 ) {
 
-			    	return SendServerMessage ( playerid, "This rock has no ore left! Come back later.", MSG_TYPE_ERROR ) ;
+			    	return SendServerMessage ( playerid, "Bu madende hiç cevher kalmamýþ.", MSG_TYPE_ERROR ) ;
 			    }
 
 			    switch ( GetRockItemID ( id ) ) {
@@ -237,7 +237,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 			    		if ( PlayerSkill [ playerid ] [ JOB_mining ] < 2 ) {
 			    			
-			    			return SendServerMessage ( playerid, "You need to have your Mining skill at level 2 to mine this ore.", MSG_TYPE_ERROR ) ;
+			    			return SendServerMessage ( playerid, "Bu cevheri kazmak için madencilik yeteneðinin 2 olmasý gerek.", MSG_TYPE_ERROR ) ;
 			    		}
 			    	}
 
@@ -245,7 +245,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 			    		if ( PlayerSkill [ playerid ] [ JOB_mining ] < 3 ) {
 
-			    			return SendServerMessage ( playerid, "You need to have your Mining skill at level 3 to mine this ore.", MSG_TYPE_ERROR ) ;
+			    			return SendServerMessage ( playerid, "Bu cevheri kazmak için madencilik yeteneðinin 3 olmasý gerek.", MSG_TYPE_ERROR ) ;
 			    		}
 			    	}
 			    }
@@ -273,7 +273,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 				if ( ReturnPlayerItemCount [ playerid ] >= GetPlayerBackpackSize ( playerid ) ) {
 
-					return SendServerMessage ( playerid, "You don't have enough backpack size to cut more wood. Go sell your logs or get a bigger backpack.", MSG_TYPE_ERROR ) ;
+					return SendServerMessage ( playerid, "Daha fazla aðaç kesemessin, yeni bir çanta alman gerek.", MSG_TYPE_ERROR ) ;
 				}
 
 		    	if ( IsPlayerDoingJob ( playerid ) ) {
@@ -284,7 +284,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 			    if ( Character [ playerid ] [ character_woodcd ] ) {
 
 					cmd_fixjob ( playerid ) ;
-					return SendServerMessage ( playerid, "You cannot cut trees right now - you are on a cooldown.", MSG_TYPE_ERROR ) ;
+					return SendServerMessage ( playerid, "Þuanda aðaç kesemessin.", MSG_TYPE_ERROR ) ;
 				}
 
 			    new id = IsPlayerInRangeOfTree(playerid, 2.5);
@@ -294,7 +294,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 			    }
 
 			    if(Tree[id][treeHealth] <= 0) {
-			    	return SendServerMessage ( playerid, "The tree you're trying to cut has already been chopped down.", MSG_TYPE_ERROR ) ;
+			    	return SendServerMessage ( playerid, "Aðaç zaten kesilmiþ.", MSG_TYPE_ERROR ) ;
 			    }
 
 			    switch ( Tree [ id ] [ treeType ] ) {
@@ -303,7 +303,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 			    		if ( PlayerSkill [ playerid ] [ JOB_lumber ] < 2 ) {
 
-			    			return SendServerMessage ( playerid, "You need to have your Woodcutting skill at level 2 to cut down this tree.", MSG_TYPE_ERROR ) ;
+			    			return SendServerMessage ( playerid, "Bu aðacý kesebilmek için odunculuk seviyenin 2 olmasý gerek.", MSG_TYPE_ERROR ) ;
 			    		}
 			    	}
 
@@ -311,7 +311,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 			    		if ( PlayerSkill [ playerid ] [ JOB_lumber ] < 3 ) {
 
-			    			return SendServerMessage ( playerid, "You need to have your Woodcutting skill at level 3 to cut down this tree.", MSG_TYPE_ERROR ) ;
+			    			return SendServerMessage ( playerid, "Bu aðacý kesebilmek için odunculuk seviyenin 3 olmasý gerek.", MSG_TYPE_ERROR ) ;
 			    		}
 			    	}
 			    }
@@ -348,7 +348,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 						if ( Wildlife [ wildlife ] [ wildlife_state ] == WILDLIFE_STATE_INACTIVE ) {
 
-							return SendServerMessage ( playerid, "You can't harvest this animal. It might have already been harvested.", MSG_TYPE_ERROR ) ;
+							return SendServerMessage ( playerid, "Bu hayvaný hasat edemezsin, zaten edilmiþ olabilir.", MSG_TYPE_ERROR ) ;
 						}
 
 						else if ( Wildlife [ wildlife ] [ wildlife_state ] == WILDLIFE_STATE_DEAD ) {
@@ -384,7 +384,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 								model = WILDLIFE_OBJ_COW ;
 							}
 
-							format(string,sizeof(string),"Press ~k~~SNEAK_ABOUT~ to start skinning this %s.",(model == WILDLIFE_OBJ_DEER) ? ("deer") : ("cow"));
+							format(string,sizeof(string),"~k~~SNEAK_ABOUT~ TUSU ILE %s ADLI HAYVANIN DERISINI YUZEBILIRSIN",(model == WILDLIFE_OBJ_DEER) ? ("geyik") : ("inek"));
 
 							ActionPanel_ChangeGUI ( playerid, string, model );
 
@@ -397,7 +397,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 				}
 
 				if ( ! pos_check ) {
-					return SendServerMessage ( playerid, "You don't seem to be near a dead animal.", MSG_TYPE_ERROR ) ;
+					return SendServerMessage ( playerid, "Yakýnýnda hayvan leþi yok.", MSG_TYPE_ERROR ) ;
 				}
 			}
 		}
@@ -419,8 +419,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 				new exp = 1 + random ( 2 ) ;
 				GivePlayerExperience ( playerid, exp ) ;
 
-				ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("** %s has caught a %s, which weighs %0.2f.", ReturnUserName ( playerid, false ), Fish [ caught_fish ] [ fish_name ], ReturnFishWeight ( caught_fish ) )) ;
-
+               ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("** %s, %0.2f aðýrlýðýnda bir %s yakaladý.", ReturnUserName ( playerid, false ), ReturnFishWeight ( caught_fish ), Fish [ caught_fish ] [ fish_name ] )) ;
 /*
 				PlayerTextDrawSetString(playerid, actionGUI_infoText, 
 					sprintf("| Managed to catch a %s~n~| Weight: %0.2f~n~~n~~w~ + %d exp for Hunting Level!", Fish [ caught_fish ] [ fish_name ], ReturnFishWeight ( caught_fish ), exp  )) ;		
@@ -432,9 +431,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys) {
 
 				HidePlayerProgressBar ( playerid, actionGUI_bar  ) ;
 */
-				ActionPanel_ChangeGUI ( playerid, sprintf("| Managed to catch a %s~n~| Weight: %0.2f~n~~n~~w~ + %d exp for Hunting Level!", Fish [ caught_fish ] [ fish_name ], ReturnFishWeight ( caught_fish ), exp  ), modelid, false ) ;
-
-
+               ActionPanel_ChangeGUI ( playerid, sprintf("| Bir %s yakaladin~n~| Agirlik: %0.2f~n~~n~~w~ + %d Avcilik Seviyesi icin tecrube!", Fish [ caught_fish ] [ fish_name ], ReturnFishWeight ( caught_fish ), exp ), modelid, false ) ;
 
 				if ( IsValidDynamicObject(player_RopeLine [ playerid ])) {
 					DestroyDynamicObject(player_RopeLine [ playerid ] ) ;
@@ -653,7 +650,7 @@ ptask PlayerJobCooldownTimer[30000](playerid) {
 
 			Character [ playerid ] [ character_woodcd ] = 0;
 
-			SendServerMessage ( playerid, "You can now cut trees again.", MSG_TYPE_INFO ) ;
+			SendServerMessage ( playerid, "Tekrardan aðaç kesebilirsin.", MSG_TYPE_INFO ) ;
 
 			mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_woodcd = %d WHERE character_id = %d", Character [ playerid ] [ character_woodcd ], Character [ playerid ] [ character_id ] ) ;
 			mysql_tquery ( mysql, query ) ;
@@ -666,7 +663,7 @@ ptask PlayerJobCooldownTimer[30000](playerid) {
 
 			Character [ playerid ] [ character_fishcd ] = 0;
 
-			SendServerMessage ( playerid, "You can now fish again.", MSG_TYPE_INFO ) ;
+			SendServerMessage ( playerid, "Tekrardan balýk tutabilirsin.", MSG_TYPE_INFO ) ;
 
 			mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_fishcd = %d WHERE character_id = %d", Character [ playerid ] [ character_fishcd ], Character [ playerid ] [ character_id ] ) ;
 			mysql_tquery ( mysql, query ) ;
@@ -679,7 +676,7 @@ ptask PlayerJobCooldownTimer[30000](playerid) {
 
 			Character [ playerid ] [ character_minecd ] = 0;
 
-			SendServerMessage ( playerid, "You can now mine again.", MSG_TYPE_INFO ) ;
+			SendServerMessage ( playerid, "Tekrardan kazý yapabilirsin.", MSG_TYPE_INFO ) ;
 
 			mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_minecd = %d WHERE character_id = %d", Character [ playerid ] [ character_minecd ], Character [ playerid ] [ character_id ] ) ;
 			mysql_tquery ( mysql, query ) ;
@@ -699,21 +696,21 @@ CMD:checkjobcooldown ( playerid, params [] ) {
 
 	count = 0;
 
-	SendServerMessage ( playerid, "..:: Job Cooldowns ::..", MSG_TYPE_WARN ) ;
+	SendServerMessage ( playerid, "..:: MESLEK SÜRELERÝ ::..", MSG_TYPE_WARN ) ;
 
 	if ( timeremain[0] ) {
 
 		if(timeremain[0] <= gettime()) {
 
 			Character [ playerid ] [ character_fishcd ] = 0;
-			SendServerMessage ( playerid, "You can now fish again.", MSG_TYPE_INFO ) ;
+			SendServerMessage ( playerid, "Tekrardan balýk tutabilirsin.", MSG_TYPE_INFO ) ;
 			mysql_format(mysql,query,sizeof(query),"UPDATE characters SET character_fishcd = %d WHERE character_id = %d",Character[playerid][character_fishcd],Character[playerid][character_id]);
 			mysql_tquery(mysql,query);
 		}
 
 		else if ( timeremain[0] > gettime() ) {
 
-			SendClientMessage ( playerid, COLOR_DEFAULT, sprintf("Fishing Cooldown Time Remaining: {FFFFFF} %.02f minutes", float ( ( timeremain[0] - gettime() ) / 60 ) ) ) ;
+			SendClientMessage ( playerid, COLOR_DEFAULT, sprintf("Tekrar balýk tutmak için{FFFFFF} %.02f saniye beklemen gerekmektedir.", float ( ( timeremain[0] - gettime() ) / 60 ) ) ) ;
 			count++;
 		}	
 	}
@@ -730,7 +727,7 @@ CMD:checkjobcooldown ( playerid, params [] ) {
 
 		else if ( timeremain[1] > gettime() ) {
 
-			SendClientMessage ( playerid, COLOR_DEFAULT, sprintf("Wood Cutting Cooldown Time Remaining: {FFFFFF} %.02f minutes", float ( ( timeremain[1] - gettime() ) / 60 ) ) ) ;
+			SendClientMessage ( playerid, COLOR_DEFAULT, sprintf("Tekrar aðaç kesmek için{FFFFFF} %.02f saniye beklemen gerekmektedir.", float ( ( timeremain[1] - gettime() ) / 60 ) ) ) ;
 			count++;
 		}
 	}
@@ -746,14 +743,14 @@ CMD:checkjobcooldown ( playerid, params [] ) {
 		}
 		else if ( timeremain[2] > gettime() ) {
 
-			SendClientMessage ( playerid, COLOR_DEFAULT, sprintf("Mining Chopping Cooldown Time Remaining: {FFFFFF} %.02f minutes", float ( ( timeremain[2] - gettime() ) / 60 ) ) ) ;
+			SendClientMessage ( playerid, COLOR_DEFAULT, sprintf("Tekrar kazý yapabilmek için{FFFFFF} %.02f saniye beklemelesin.", float ( ( timeremain[2] - gettime() ) / 60 ) ) ) ;
 			count++;
 		}
 	}
 	
 	if ( ! count ) {
 
-		SendClientMessage ( playerid, COLOR_DEFAULT, "You have no job cooldown timers." ) ;
+		SendClientMessage ( playerid, COLOR_DEFAULT, "Þuanda tüm meslekleri yapabilirsin." ) ;
 	}
 
 	return true ;
