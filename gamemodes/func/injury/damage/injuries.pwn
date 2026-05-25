@@ -17,9 +17,9 @@ DamageLegs ( playerid ) {
     if ( ! PlayerDamage [ playerid ] [ DAMAGE_LEGS ] ) {
 
         PlayerDamage [ playerid ] [ DAMAGE_LEGS ] = true ;
-        SendServerMessage ( playerid, "Your legs have been injured. You may experience trouble walking.", MSG_TYPE_INFO ) ;
+        SendServerMessage ( playerid, "Bacaðýndan vuruldun, yürümekte zorluk çekeceksin.", MSG_TYPE_INFO ) ;
 
-        SendModeratorWarning ( sprintf("[DMG] (%d) %s's legs have been injured.", playerid, ReturnUserName ( playerid, true ) ), MOD_WARNING_LOW ) ;
+        SendModeratorWarning ( sprintf("[hasar] (%d) %s adlý oyuncu bacaðýndan mermi yedi, artýk topallýyor.", playerid, ReturnUserName ( playerid, true ) ), MOD_WARNING_LOW ) ;
 
         SetTimerEx("LegDamageHandler", 1000, false, "i", playerid);
         return true ;

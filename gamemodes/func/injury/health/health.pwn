@@ -60,7 +60,7 @@ public OnPlayerUpdate(playerid)
             if(AC_AntiKnifeTrigger[playerid] >= 3) {
 
             	TogglePlayerControllable(playerid,false);
-            	SendServerMessage(playerid,"You're not allowed to perform stealth kills.",MSG_TYPE_ERROR);
+            	SendServerMessage(playerid,"Bunu yapamazsýn!",MSG_TYPE_ERROR);
             	AC_AntiKnifeTrigger[playerid] = 0;
 				SetTimerEx("AntiKnifeKillRelease", 1000, false, "i", playerid);
             }
@@ -121,7 +121,7 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, WEAPON:weaponid, bod
 
     if ( IsPlayerFalling ( playerid ) && amount > 5.0 && ! IsPlayerRidingHorse [ playerid ] ) {
 
-    	SendServerMessage ( playerid, "You have hurt your leg from falling. You will have trouble walking.", MSG_TYPE_WARN ) ;
+    	SendServerMessage ( playerid, "Yüksekten düþerek bacaðýný incittin, yürümekte zorluk çekeceksin.", MSG_TYPE_WARN ) ;
     	DamageLegs ( playerid ) ;
     }
 
@@ -150,40 +150,40 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, WEAPON:weaponid, bod
 		}
 		*/
 
-		SetPlayerHealth ( playerid, 1000 ) ;
+	      SetPlayerHealth ( playerid, 1000 ) ;
 
-		if ( Character [ issuerid ] [ character_level ] < 3 && weaponid != WEAPON_FIST ) {
+        if ( Character [ issuerid ] [ character_level ] < 3 && weaponid != WEAPON_FIST ) {
 
-			SendModeratorWarning ( sprintf("[HACKER] (%d) %s has used a weapon whilst being below lvl 3. (server: %d, client: %d) if server = 0 & client not, theyre hacking", issuerid, ReturnUserName ( issuerid, true ), Character [ issuerid ] [ character_handweapon], weaponid ), MOD_WARNING_HIGH );
+            SendModeratorWarning ( sprintf("[HÝLE] (%d) %s, 3. seviye altýndayken silah kullandý. (sunucu: %d, istemci: %d) Eðer sunucu 0, istemci farklýysa hile yapýyor olabilir.", issuerid, ReturnUserName ( issuerid, true ), Character [ issuerid ] [ character_handweapon], weaponid ), MOD_WARNING_HIGH );
 
-			SendClientMessage(issuerid, COLOR_RED, "You can't use a weapon whilst not being level 3. Your weapons been reset and damage mitigated. For a refund, post this on the forums:" ) ;
-			SendClientMessage(issuerid, COLOR_YELLOW, sprintf("[REFUND DATA]: gunid: %d (client: %d), ammo: %d (client: %d)", Character [ issuerid ] [ character_handweapon], GetPlayerWeapon ( issuerid ), Character [ issuerid ] [ character_handammo], GetPlayerAmmo ( issuerid ) ) ) ;
+            SendClientMessage(issuerid, COLOR_RED, "3. seviye olmadan silah kullanamazsýn. Silahlarýn sýfýrlandý ve hasarýn engellendi. Ýade için forumda konu açabilirsin:" ) ;
+            SendClientMessage(issuerid, COLOR_YELLOW, sprintf("[ÝADE VERÝSÝ]: silahID: %d (istemci: %d), mermi: %d (istemci: %d)", Character [ issuerid ] [ character_handweapon], GetPlayerWeapon ( issuerid ), Character [ issuerid ] [ character_handammo], GetPlayerAmmo ( issuerid ) ) ) ;
 
-			WriteLog (issuerid, "refunddata", sprintf ( "%s refund data: [REFUND DATA]: gunid: %d (client: %d), ammo: %d (client: %d)", ReturnUserName ( issuerid), Character [ issuerid ] [ character_handweapon], GetPlayerWeapon ( issuerid ), Character [ issuerid ] [ character_handammo], GetPlayerAmmo ( playerid ) ) );
+            WriteLog (issuerid, "refunddata", sprintf ( "%s iade verisi: [ÝADE VERÝSÝ]: silahID: %d (istemci: %d), mermi: %d (istemci: %d)", ReturnUserName ( issuerid), Character [ issuerid ] [ character_handweapon], GetPlayerWeapon ( issuerid ), Character [ issuerid ] [ character_handammo], GetPlayerAmmo ( playerid ) ) );
 
-			//ResetPlayerWeapons ( issuerid ) ;
-			RemovePlayerWeapon ( issuerid ) ;
+            //ResetPlayerWeapons ( issuerid ) ;
+            RemovePlayerWeapon ( issuerid ) ;
 
-			SetCharacterHealth ( playerid, Character [ playerid ] [ character_health ] ) ;
-			SetPlayerHealth ( playerid, 1000.0 ) ;
-		
+            SetCharacterHealth ( playerid, Character [ playerid ] [ character_health ] ) ;
+            SetPlayerHealth ( playerid, 1000.0 ) ;
+        
 
-			if ( ++ AC_LevelMitigation [ issuerid ] >= 3 ) {
+            if ( ++ AC_LevelMitigation [ issuerid ] >= 3 ) {
 
-				AC_LevelMitigation [ issuerid ] = 0 ;
+                AC_LevelMitigation [ issuerid ] = 0 ;
 
-				SendModeratorWarning ( sprintf("[HACKER] (%d) %s has been kicked for using a weapon whilst being lower than level 3 three times.", issuerid, ReturnUserName ( issuerid, true )), MOD_WARNING_HIGH );
+                SendModeratorWarning ( sprintf("[HÝLE] (%d) %s, 3. seviye altýndayken silah kullanmaktan üç kez yakalandýðý için sunucudan atýldý.", issuerid, ReturnUserName ( issuerid, true )), MOD_WARNING_HIGH );
 
-				SendClientMessage(issuerid, COLOR_RED, "You've been kicked for using a weapon whilst being below level three more than three times." ) ;
-				SendClientMessage(issuerid, COLOR_RED, "Your information (IP, location, guns) has been logged and the moderators are made aware." ) ;
+                SendClientMessage(issuerid, COLOR_RED, "3. seviye altýndayken üç defadan fazla silah kullandýðýn için sunucudan atýldýn." ) ;
+                SendClientMessage(issuerid, COLOR_RED, "Bilgilerin (IP, konum, silahlar) kaydedildi ve yetkililer bilgilendirildi." ) ;
 
-				WriteLog (issuerid, "anticheat", sprintf ( "%s has been kicked for using a weapon whilst being below level 3 three times.", ReturnUserName ( issuerid)) );
+                WriteLog (issuerid, "anticheat", sprintf ( "%s, 3. seviye altýndayken üç kez silah kullandýðý için sunucudan atýldý.", ReturnUserName ( issuerid)) );
 
-				return KickPlayer ( issuerid ) ;
-			}
-		
-			return true ;
-		}
+                return KickPlayer ( issuerid ) ;
+            }
+        
+            return true ;
+        }
 
 		/*
 		if(IsZoneSafeZone(GetPlayerZone(playerid)) && !IsZoneSafeZone(GetPlayerZone(issuerid))) {
@@ -544,9 +544,9 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, WEAPON:weaponid, bod
 
 			ToggleDeathMode ( playerid, issuerid ) ;
 
-			SendModeratorWarning ( sprintf("(%d) %s has injured (%d) %s with a (%d) %s (%d ammo)", issuerid, ReturnUserName ( issuerid, false ), playerid, ReturnUserName ( playerid, false ), weaponid, ReturnWeaponName ( weaponid ), Character [ issuerid ] [ character_handammo ] ), MOD_WARNING_MED ) ;
-			WriteLog ( issuerid, "dmg/injury", sprintf("(%d) %s has injured (%d) %s with a (%d) %s (%d ammo)", issuerid, ReturnUserName ( issuerid, false ), playerid, ReturnUserName ( playerid, false ), weaponid, ReturnWeaponName ( weaponid ), Character [ issuerid ] [ character_handammo ] ) ) ;		
-		}
+            SendModeratorWarning ( sprintf("(%d) %s adlý oyuncu, (%d) %s adlý oyuncuyu (%d) %s ile yaraladý (%d mermi)", issuerid, ReturnUserName ( issuerid, false ), playerid, ReturnUserName ( playerid, false ), weaponid, ReturnWeaponName ( weaponid ), Character [ issuerid ] [ character_handammo ] ), MOD_WARNING_MED ) ;
+            WriteLog ( issuerid, "dmg/injury", sprintf("(%d) %s adlý oyuncu, (%d) %s adlý oyuncuyu (%d) %s ile yaraladý (%d mermi)", issuerid, ReturnUserName ( issuerid, false ), playerid, ReturnUserName ( playerid, false ), weaponid, ReturnWeaponName ( weaponid ), Character [ issuerid ] [ character_handammo ] ) ) ;        
+        }
 
     }
 
@@ -577,7 +577,7 @@ public OnPlayerGiveDamage(playerid, damagedid, Float:amount, WEAPON:weaponid, bo
 
 				PlayerInjuredCooldown [ damagedid ] = gettime()-1 ;
 
-				SendServerMessage ( damagedid, "You got shot in the head whilst being critically injured and died.", MSG_TYPE_INFO ) ;
+				SendServerMessage ( damagedid, "Kafandan vuruldun, kritik yaralanýp yere düþtün.", MSG_TYPE_INFO ) ;
 				
 				SetPlayerHealth ( damagedid, 1000.0 ) ;
     		}
@@ -619,7 +619,7 @@ public InjuredModeTimer(playerid) {
 
 			new string [ 64 ] ; 
 
-			format ( string, sizeof ( string ), "~n~~n~~n~~n~~r~Injury time left: %d", PlayerInjuredCooldown [ playerid ] - gettime() ) ;
+			format ( string, sizeof ( string ), "~n~~n~~n~~n~~r~YARALI: %d", PlayerInjuredCooldown [ playerid ] - gettime() ) ;
 			GameTextForPlayer(playerid, string , 1000, 3);
 
 			ApplyAnimation(playerid, "CRACK", "crckidle2", 4.1, true, false, false, true, 0, SYNC_ALL);
@@ -641,7 +641,7 @@ public InjuredModeTimer(playerid) {
 			Character [ playerid ] [ character_dmgmode ] = 2 ;
 			TogglePlayerSpectating ( playerid, true ) ;
 
-			SendServerMessage ( playerid, "Your injured mode has expired. Nobody has helped you in time. You died.", MSG_TYPE_INFO ) ;
+			SendServerMessage ( playerid, "Yaralý süren doldu.. Kimse sana yardým etmedi. Hasteneye kaldýrýldýn.", MSG_TYPE_INFO ) ;
 			PlayerInjuredCooldown [ playerid ] = gettime () + 60 ;
 
 			if ( Character [ playerid ] [ character_dmgmode ] == 2 ) {
@@ -703,7 +703,7 @@ public DeadCooldown(playerid) {
 
 	if ( PlayerInjuredCooldown [ playerid ] >= gettime ()) {
 
-		GameTextForPlayer(playerid, sprintf("~n~~n~~n~~n~~r~Injury time left: %d", PlayerInjuredCooldown [ playerid ] - gettime()), 1000, 3);
+		GameTextForPlayer(playerid, sprintf("~n~~n~~n~~n~~r~YARALI: %d", PlayerInjuredCooldown [ playerid ] - gettime()), 1000, 3);
 
 		SetTimerEx("DeadCooldown", 1000, false, "i", playerid) ;
 	}
@@ -734,7 +734,7 @@ public DeadCooldown(playerid) {
 			SetName ( playerid, sprintf("(%d) %s", playerid, ReturnUserName ( playerid, false ) ), 0xCFCFCFFF ) ;
 		}
 
-		else SetName ( playerid, sprintf("[PAUSED (/afklist)]{DEDEDE}\n(%d) %s", playerid, ReturnUserName ( playerid, false )  ), COLOR_RED ) ;
+		else SetName ( playerid, sprintf("[AFK (/afklist)]{DEDEDE}\n(%d) %s", playerid, ReturnUserName ( playerid, false )  ), COLOR_RED ) ;
 
 		ResetPlayerTemperature(playerid);
 		ResetCharacterPointID(playerid);
@@ -783,7 +783,7 @@ ToggleDeathMode ( playerid, issuerid ) {
 
 	if ( CharSwitchTick [ playerid ] ) {
 
-    	return SetName ( playerid, sprintf("[PLAYER IS INJURED]{007FFF}[SWITCHING CHARACTERS]{DEDEDE}\n(%d) %s", playerid, ReturnUserName ( playerid, false )), COLOR_RED ) ;
+    	return SetName ( playerid, sprintf("[BU OYUNCU YARALI]{007FFF}[KARAKTER DEÐÝÞTÝRÝYOR]{DEDEDE}\n(%d) %s", playerid, ReturnUserName ( playerid, false )), COLOR_RED ) ;
 	}
 
 	else SetName ( playerid,  sprintf("(%d) %s", playerid, ReturnUserName ( playerid, false ) ), COLOR_RED ) ;
@@ -791,16 +791,16 @@ ToggleDeathMode ( playerid, issuerid ) {
 	KickPlayerFromTable(playerid);
 
 	SetTimerEx("InjuredModeTimer", 1000, false, "i", playerid) ;
-	SendServerMessage ( playerid, "You've been critically injured. You will have to wait until someone helps you.", MSG_TYPE_ERROR ) ;
-	ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s collapses after being critically injured.",ReturnUserName ( playerid, false ))) ;
+	SendServerMessage ( playerid, "Kritikal þekilde yaralandýn, birisinin sana yardým etmesini bekliyorsun.", MSG_TYPE_ERROR ) ;
+	ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s kritik yaralanýp yere düþer.",ReturnUserName ( playerid, false ))) ;
 
-	SendModeratorWarning ( sprintf("[DEATH] (%d) %s has been injured by (%d) %s.", playerid, ReturnUserName ( playerid ), issuerid, ReturnUserName ( issuerid ) ), MOD_WARNING_MED ) ;
+	SendModeratorWarning ( sprintf("[ölüm] (%d) %s adlý oyuncuyu (%d) %s yaraladý.", playerid, ReturnUserName ( playerid ), issuerid, ReturnUserName ( issuerid ) ), MOD_WARNING_MED ) ;
 
 	new id = GetPlayerZone ( playerid ) ;
 
 	if ( id != -1 && Zones [ id ] [ zone_safezone ] ) {
 
-		WriteLog ( playerid, "death", sprintf("[IN A SAFEZONE] (%d) %s has been injured by (%d) %s.", playerid, ReturnUserName ( playerid ), issuerid, ReturnUserName ( issuerid ) )) ;
+		WriteLog ( playerid, "death", sprintf("[GÜVENLÝ BÖLGE] (%d) %s adlý oyuncuyu (%d) %s yaraladý.", playerid, ReturnUserName ( playerid ), issuerid, ReturnUserName ( issuerid ) )) ;
 	} 
 
 	return true ;
