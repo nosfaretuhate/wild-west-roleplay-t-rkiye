@@ -1,4 +1,4 @@
-//#define OPEN_BETA_TEST
+#define OPEN_BETA_TEST
 #define UNLOCK_SERVER
 #define SERVER_DEV
 
