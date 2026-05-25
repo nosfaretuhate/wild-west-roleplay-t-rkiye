@@ -3,326 +3,321 @@
 
 public OnPlayerText( playerid, text []) {
 
-	if ( Character [ playerid ] [ character_dmgmode ] ) {
+    if ( Character [ playerid ] [ character_dmgmode ] ) {
 
-		SendServerMessage ( playerid, "You can't talk whilst in injury mode", MSG_TYPE_ERROR ) ;
-		return false ;
-	}
+        SendServerMessage ( playerid, "Yaralý iken konuþamazsýn.", MSG_TYPE_ERROR ) ;
+        return false ;
+    }
 
-	else {
+    else {
 
-		if ( IsPlayerSleepingInPoint [ playerid ] ) {
+        if ( IsPlayerSleepingInPoint [ playerid ] ) {
 
-			SendServerMessage ( playerid, "You can't talk while using /point sleep.", MSG_TYPE_ERROR ) ;
-			return false ;
-		}
+            SendServerMessage ( playerid, "Uyurken konuþamazsýn. /point sleep.", MSG_TYPE_ERROR ) ;
+            return false ;
+        }
 
-		new string[256];
-		
-		if ( strlen ( Character [ playerid ] [ character_accent ] ) < 3 ) {
+        new string[256];
+        
+        if ( strlen ( Character [ playerid ] [ character_accent ] ) < 3 ) {
 
-			format(string,sizeof(string),"%s says: %s",ReturnUserName(playerid,false),text);
-			ProxDetector(playerid,15.0,COLOR_DEFAULT,string); //25
-			SetPlayerChatBubble(playerid,string,COLOR_DEFAULT,15.0,10000);
-		}
+            format(string,sizeof(string),"%s: %s",ReturnUserName(playerid,false),text);
+            ProxDetector(playerid,15.0,COLOR_DEFAULT,string); //25
+            SetPlayerChatBubble(playerid,string,COLOR_DEFAULT,15.0,10000);
+        }
 
-		else if ( strlen ( Character [ playerid ] [ character_accent ] ) > 3 ) {
+        else if ( strlen ( Character [ playerid ] [ character_accent ] ) > 3 ) {
 
-			format(string,sizeof(string),"%s says [%s accent]: %s", ReturnUserName ( playerid, false ), Character [ playerid ] [ character_accent ], text );
-			ProxDetector ( playerid, 15.0, COLOR_DEFAULT, string) ;
-			SetPlayerChatBubble(playerid,string,COLOR_DEFAULT,15.0,10000);
-		}
+            format(string,sizeof(string),"%s: [%s aksaný]: %s", ReturnUserName ( playerid, false ), Character [ playerid ] [ character_accent ], text );
+            ProxDetector ( playerid, 15.0, COLOR_DEFAULT, string) ;
+            SetPlayerChatBubble(playerid,string,COLOR_DEFAULT,15.0,10000);
+        }
 
-	 	//SetPlayerChatBubble(playerid, sprintf ( "%s says: %s", ReturnUserName ( playerid, false ), text ), COLOR_DEFAULT, 30.0, 10000);
- 		//WriteLog ( playerid, "chat/local", sprintf("%s says: %s", ReturnUserName ( playerid, true ), text) ) ;
+        if ( ! IsPlayerRidingHorse [ playerid ] && ! gPlayerUsingLoopingAnim[playerid] && ! IsPlayerTrapped[ playerid ] && !IsPlayerPlayingPoker(playerid)) {
 
-	 	if ( ! IsPlayerRidingHorse [ playerid ] && ! gPlayerUsingLoopingAnim[playerid] && ! IsPlayerTrapped[ playerid ] && !IsPlayerPlayingPoker(playerid)) {
+            switch ( Character [ playerid ] [ character_chatstyle ] ) {
+                case 0: return false ;
+                case 1: ApplyAnimation(playerid, "PED", "IDLE_CHAT", 4.1, false, false, false, true, 1);
+                case 2: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkA", 4.1, false, false, false, true, 1);
+                case 3: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkB", 4.1, false, false, false, true, 1);
+                case 4: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkE", 4.1, false, false, false, true, 1);
+                case 5: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkF", 4.1, false, false, false, true, 1);
+                case 6: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkG", 4.1, false, false, false, true, 1);
+                case 7: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkH", 4.1, false, false, false, true, 1);
+            }
 
-			switch ( Character [ playerid ] [ character_chatstyle ] ) {
-				case 0: return false ;
-				case 1: ApplyAnimation(playerid, "PED", "IDLE_CHAT", 4.1, false, false, false, true, 1);
-				case 2: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkA", 4.1, false, false, false, true, 1);
-				case 3: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkB", 4.1, false, false, false, true, 1);
-				case 4: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkE", 4.1, false, false, false, true, 1);
-				case 5: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkF", 4.1, false, false, false, true, 1);
-				case 6: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkG", 4.1, false, false, false, true, 1);
-				case 7: ApplyAnimation(playerid, "GANGS", "prtial_gngtlkH", 4.1, false, false, false, true, 1);
-			}
+            SetTimerEx("ClearChatAnim", 1000, false, "i", playerid);
+        }
+    }
 
-			SetTimerEx("ClearChatAnim", 1000, false, "i", playerid);
-		}
-	}
-
-	#if defined chat_OnPlayerText
-		return chat_OnPlayerText(playerid, text);
-	#else
-		return false;
-	#endif
+    #if defined chat_OnPlayerText
+        return chat_OnPlayerText(playerid, text);
+    #else
+        return false;
+    #endif
 }
 #if defined _ALS_OnPlayerText
-	#undef OnPlayerText
+    #undef OnPlayerText
 #else
-	#define _ALS_OnPlayerText
+    #define _ALS_OnPlayerText
 #endif
 
 #define OnPlayerText chat_OnPlayerText
 #if defined chat_OnPlayerText
-	forward chat_OnPlayerText(playerid, text[]);
+    forward chat_OnPlayerText(playerid, text[]);
 #endif
 
 forward ClearChatAnim(playerid);
 public ClearChatAnim(playerid) {
 
-////	print("ClearChatAnim timer called (roleplay_chat.pwn)");
-
-	return ClearAnimations(playerid, SYNC_NONE);
+    return ClearAnimations(playerid, SYNC_NONE);
 }
 
 CMD:setchat(playerid, params[]) {
 
     new type;
 
-	if (sscanf(params, "d", type))
-	    return SendServerMessage(playerid, "/setchat [0-6]", MSG_TYPE_ERROR );
+    if (sscanf(params, "d", type))
+        return SendServerMessage(playerid, "/setchat [0-6]", MSG_TYPE_ERROR );
 
-	if (type < 0 || type > 7)
-	    return SendServerMessage(playerid, "Type can't be less than 0 or higher than 6.", MSG_TYPE_ERROR );
+    if (type < 0 || type > 7)
+        return SendServerMessage(playerid, "Tip 0dan az 6dan yüksek olamaz.", MSG_TYPE_ERROR );
 
-	Character [ playerid ] [ character_chatstyle ] = type ;
+    Character [ playerid ] [ character_chatstyle ] = type ;
 
-	new query [ 128 ] ; 
+    new query [ 128 ] ; 
 
-	mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_chatstyle = %d WHERE character_id = %d", Character [ playerid ] [ character_chatstyle ], Character [ playerid ] [ character_id ] ) ;
-	mysql_tquery ( mysql, query ) ;
+    mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_chatstyle = %d WHERE character_id = %d", Character [ playerid ] [ character_chatstyle ], Character [ playerid ] [ character_id ] ) ;
+    mysql_tquery ( mysql, query ) ;
 
-	
-	if ( type == 0 ) {
+    
+    if ( type == 0 ) {
 
-		return SendServerMessage ( playerid, "You have removed your chat animation.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "konuþma animasyonu devre dýþý býrakýldý.", MSG_TYPE_ERROR ) ;
+    }
 
-	SendServerMessage ( playerid, sprintf("You changed your chat animation style to %d. Next time talk you will play the animation.", type ), MSG_TYPE_INFO ) ;
+    SendServerMessage ( playerid, sprintf("konuþma stilini %d olarak ayarladýn.", type ), MSG_TYPE_INFO ) ;
 
-	return 1;
+    return 1;
 }
 
 CMD:accent ( playerid, params [] ) {
 
-	new accent ;
+    new accent ;
 
-	if ( sscanf ( params, "i", accent ) ) {
+    if ( sscanf ( params, "i", accent ) ) {
 
-		return SendServerMessage ( playerid, "/accent [accent] (/accentlist)", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/accent [aksan] (/accentlist)", MSG_TYPE_ERROR ) ;
+    }
 
-	new accentlist [ ] [ ] = {
-		{ "Baysidian"} , { "Fremont"} , { "Longcreek"} , 
-		{ "Whetstone"} , { "Minnesota"} , { "Nebraska"} , 
-		{ "Californian"}, { "Wisconsin"} , { "Kansas"} , 
-		
-		{ "Texas"} ,  { "Oklahoma" }, { "New Mexico"} , 
-		{ "Arizona"} , { "Lousiana"} , { "Mississipi"} , 
-		{ "Missouri"} , { "Arkansas"} , { "Louisiana" }, 
-		{ "Illinois"} , { "Wyoming"} , { "Nevada"} , 
-		{ "California" }, { "Irish"} , { "Scottish"} , 
-		{ "British"} , { "Native" }, { "Spanish"} , 
-		{ "French"} , { "Dutch"} , {"Foreign" }
-	}, query [ 128 ] ;
+    new accentlist [ ] [ ] = {
+        { "Baysidian"} , { "Fremont"} , { "Longcreek"} , 
+        { "Whetstone"} , { "Minnesota"} , { "Nebraska"} , 
+        { "Californian"}, { "Wisconsin"} , { "Kansas"} , 
+        
+        { "Texas"} ,  { "Oklahoma" }, { "New Mexico"} , 
+        { "Arizona"} , { "Lousiana"} , { "Mississipi"} , 
+        { "Missouri"} , { "Arkansas"} , { "Louisiana" }, 
+        { "Illinois"} , { "Wyoming"} , { "Nevada"} , 
+        { "California" }, { "Irish"} , { "Scottish"} , 
+        { "British"} , { "Native" }, { "Spanish"} , 
+        { "French"} , { "Dutch"} , {"Foreign" }
+    }, query [ 128 ] ;
 
-	if ( accent < 0 || accent > sizeof ( accentlist ) ) {
+    if ( accent < 0 || accent > sizeof ( accentlist ) ) {
 
-		return SendServerMessage ( playerid, "Invalid accent. Use /accentlist to get the ID.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Geçersiz aksan. ID almak için /accentlist komutunu kullan.", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( accent == sizeof ( accentlist ) ) {
-		Character [ playerid ] [ character_accent ] = EOS ;
+    if ( accent == sizeof ( accentlist ) ) {
+        Character [ playerid ] [ character_accent ] = EOS ;
 
-		mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_accent = '%s' WHERE character_id = %d", 
-			" ", Character [ playerid ] [ character_id ] ) ;
+        mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_accent = '%s' WHERE character_id = %d", 
+            " ", Character [ playerid ] [ character_id ] ) ;
 
-		mysql_tquery ( mysql, query ) ;
+        mysql_tquery ( mysql, query ) ;
 
-		SendServerMessage ( playerid, "You have removed your accent.", MSG_TYPE_INFO ) ;
-		return true ;
-	}
+        SendServerMessage ( playerid, "Aksanýný kaldýrdýn.", MSG_TYPE_INFO ) ;
+        return true ;
+    }
 
-	new pick [ 32 ] ;
-	format ( pick, sizeof ( pick ), "%s",  accentlist [ accent ] ) ;
+    new pick [ 32 ] ;
+    format ( pick, sizeof ( pick ), "%s",  accentlist [ accent ] ) ;
 
-	pick [ 0 ] = toupper(pick[0]) ;
-	Character [ playerid ] [ character_accent ] = pick ;
+    pick [ 0 ] = toupper(pick[0]) ;
+    Character [ playerid ] [ character_accent ] = pick ;
 
-	mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_accent = '%s' WHERE character_id = %d", 
-		pick, Character [ playerid ] [ character_id ] ) ;
+    mysql_format ( mysql, query, sizeof ( query ), "UPDATE characters SET character_accent = '%s' WHERE character_id = %d", 
+        pick, Character [ playerid ] [ character_id ] ) ;
 
-	mysql_tquery ( mysql, query ) ;	
+    mysql_tquery ( mysql, query ) ; 
 
-	return SendServerMessage ( playerid, sprintf("Your accent has been set to %s.", pick), MSG_TYPE_INFO ) ;	
+    return SendServerMessage ( playerid, sprintf("Aksanýn %s olarak ayarlandý.", pick), MSG_TYPE_INFO ) ;    
 }
 
 CMD:accentlist ( playerid, params [] ) {
 
-	SendClientMessage ( playerid, COLOR_TAB0, "|______________________| List of available accents |______________________|  " ) ;
-	SendClientMessage ( playerid, COLOR_TAB1, "0) Baysidian, 1) Fremont, 2) Longcreek, 3) Whetstone, 4) Minnesota, 5) Nebraska, 6) California" ) ;
-	SendClientMessage ( playerid, COLOR_TAB2, "7) Wisconsin, 8) Kansas, 9) Texas, 10) Oklahoma, 11) New Mexico, 12) Arizona, 13) Lousiana" ) ;
-	SendClientMessage ( playerid, COLOR_TAB1, "14) Mississipi, 15) Missouri, 16) Arkansas, 17) Louisiana, 18) Illinois, 19) Wyoming, 20) Nevada, 21) California" ) ;
-	SendClientMessage ( playerid, COLOR_TAB2, "22) Irish, 23) Scottish, 24) British, 25) Native, 26) Spanish, 27) French, 28) Dutch, 29) Foreign, 30) None" ) ;
+    SendClientMessage ( playerid, COLOR_TAB0, "|______________________| Kullanýlabilir Aksanlar Listesi |______________________|  " ) ;
+    SendClientMessage ( playerid, COLOR_TAB1, "0) Baysidian, 1) Fremont, 2) Longcreek, 3) Whetstone, 4) Minnesota, 5) Nebraska, 6) California" ) ;
+    SendClientMessage ( playerid, COLOR_TAB2, "7) Wisconsin, 8) Kansas, 9) Texas, 10) Oklahoma, 11) New Mexico, 12) Arizona, 13) Lousiana" ) ;
+    SendClientMessage ( playerid, COLOR_TAB1, "14) Mississipi, 15) Missouri, 16) Arkansas, 17) Louisiana, 18) Illinois, 19) Wyoming, 20) Nevada, 21) California" ) ;
+    SendClientMessage ( playerid, COLOR_TAB2, "22) Ýrlanda, 23) Ýskoç, 24) Ýngiliz, 25) Yerli, 26) Ýspanyol, 27) Fransýz, 28) Hollandalý, 29) Yabancý, 30) Yok" ) ;
 
 
-	return true ;
+    return true ;
 }
 
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
 CMD:o ( playerid, params [] ) {
-	new text [ 256 ], string[128] ;
+    new text [ 256 ], string[128] ;
 
-	if ( ! ToggleOOCChat ) {
+    if ( ! ToggleOOCChat ) {
 
-		return SendServerMessage ( playerid, "OOC Chat is disabled!", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "OOC Sohbet devre dýþý!", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( sscanf ( params, "s[128]", string ) ) {
+    if ( sscanf ( params, "s[128]", string ) ) {
 
-		return SendServerMessage ( playerid, "/o(oc) [text]", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/o(oc) [yazý]", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( strlen ( Account [ playerid ] [ account_staffname ] ) == 0 ) {
+    if ( strlen ( Account [ playerid ] [ account_staffname ] ) == 0 ) {
 
-		if ( IsPlayerOnAdminDuty [ playerid ] ) {
+        if ( IsPlayerOnAdminDuty [ playerid ] ) {
 
-			if ( Account [ playerid ] [ account_id ] == 1 || Account [ playerid ] [ account_id ] == 2 ) {
+            if ( Account [ playerid ] [ account_id ] == 1 || Account [ playerid ] [ account_id ] == 2 ) {
 
-				format(text,sizeof(text),"(( [OOC] {855A83}(%d) %s{AAC4E5}: %s ))", playerid, ReturnUserName ( playerid, false, false ), string);
-				SendOOCMessage ( COLOR_OOC, text) ;
-			}
+                format(text,sizeof(text),"(( [OOC] {855A83}(%d) %s{AAC4E5}: %s ))", playerid, ReturnUserName ( playerid, false, false ), string);
+                SendOOCMessage ( COLOR_OOC, text) ;
+            }
 
-			else {
+            else {
 
-				switch ( Account [ playerid ] [ account_stafflevel ] ) {
+                switch ( Account [ playerid ] [ account_stafflevel ] ) {
 
-					case STAFF_MANAGER: {
+                    case STAFF_MANAGER: {
 
-						format(text,sizeof(text),"(( [OOC] {AD2D2D}(%d) %s{AAC4E5}: %s ))", playerid, ReturnUserName ( playerid, false, false ), string) ;
-					}
+                        format(text,sizeof(text),"(( [OOC] {AD2D2D}(%d) %s{AAC4E5}: %s ))", playerid, ReturnUserName ( playerid, false, false ), string) ;
+                    }
 
-					default: format(text,sizeof(text),"(( [OOC] {449C44}(%d) %s{AAC4E5}: %s ))", playerid, ReturnUserName ( playerid, false, false ), string) ;
-				}
-			}
-			SendOOCMessage ( COLOR_OOC, text);
-		}
+                    default: format(text,sizeof(text),"(( [OOC] {449C44}(%d) %s{AAC4E5}: %s ))", playerid, ReturnUserName ( playerid, false, false ), string) ;
+                }
+            }
+            SendOOCMessage ( COLOR_OOC, text);
+        }
 
-		else {
+        else {
 
-			format(text,sizeof(text),"(( [OOC] (%d) %s: %s ))", playerid, ReturnUserName ( playerid, false ), string) ;
-			SendOOCMessage ( COLOR_OOC, text);
-		}
-	}
+            format(text,sizeof(text),"(( [OOC] (%d) %s: %s ))", playerid, ReturnUserName ( playerid, false ), string) ;
+            SendOOCMessage ( COLOR_OOC, text);
+        }
+    }
 
-	else {
+    else {
 
-		if ( IsPlayerOnAdminDuty [ playerid ] ) {
+        if ( IsPlayerOnAdminDuty [ playerid ] ) {
 
-			if ( Account [ playerid ] [ account_id ] == 1 || Account [ playerid ] [ account_id ] == 2 ) {
+            if ( Account [ playerid ] [ account_id ] == 1 || Account [ playerid ] [ account_id ] == 2 ) {
 
-				format(text,sizeof(text),"(( [OOC] {855A83}(%d) %s (%s){AAC4E5}: %s ))", playerid, ReturnUserName ( playerid, false, false ), Account [ playerid ] [ account_staffname ], string) ;
-				SendOOCMessage(COLOR_OOC,text);
-			}
+                format(text,sizeof(text),"(( [OOC] {855A83}(%d) %s (%s){AAC4E5}: %s ))", playerid, ReturnUserName ( playerid, false, false ), Account [ playerid ] [ account_staffname ], string) ;
+                SendOOCMessage(COLOR_OOC,text);
+            }
 
-			else {
+            else {
 
-				switch ( Account [ playerid ] [ account_stafflevel ] ) {
+                switch ( Account [ playerid ] [ account_stafflevel ] ) {
 
-					case STAFF_MANAGER: {
+                    case STAFF_MANAGER: {
 
-						format(text,sizeof(text),"(( [OOC] {AD2D2D}(%d) %s (%s){AAC4E5}: %s ))", playerid, ReturnUserName ( playerid, false, false ), Account [ playerid ] [ account_staffname ],string ) ;
-					}
+                        format(text,sizeof(text),"(( [OOC] {AD2D2D}(%d) %s (%s){AAC4E5}: %s ))", playerid, ReturnUserName ( playerid, false, false ), Account [ playerid ] [ account_staffname ],string ) ;
+                    }
 
-					default: format(text,sizeof(text),"(( [OOC] {449C44}(%d) %s (%s){AAC4E5}: %s ))", playerid, ReturnUserName ( playerid, false, false ), Account [ playerid ] [ account_staffname ],string ) ;
-				}
-				SendOOCMessage(COLOR_OOC,text);
-			}
-		}
+                    default: format(text,sizeof(text),"(( [OOC] {449C44}(%d) %s (%s){AAC4E5}: %s ))", playerid, ReturnUserName ( playerid, false, false ), Account [ playerid ] [ account_staffname ],string ) ;
+                }
+                SendOOCMessage(COLOR_OOC,text);
+            }
+        }
 
-		else {
+        else {
 
-			format(text,sizeof(text),"(( [OOC] (%d) %s (%s): %s ))", playerid, ReturnUserName ( playerid, false, false ), Account [ playerid ] [ account_staffname ], string) ;
-			SendOOCMessage(COLOR_OOC,text);
-		}
-	}
+            format(text,sizeof(text),"(( [OOC] (%d) %s (%s): %s ))", playerid, ReturnUserName ( playerid, false, false ), Account [ playerid ] [ account_staffname ], string) ;
+            SendOOCMessage(COLOR_OOC,text);
+        }
+    }
 
- 	WriteLog ( playerid, "chat/ooc", sprintf ( "[GLOBAL OOC] (( (%d) %s: %s ))", playerid, ReturnUserName ( playerid, false, false ), text) ) ;
+    WriteLog ( playerid, "chat/ooc", sprintf ( "[KÜRESEL OOC] (( (%d) %s: %s ))", playerid, ReturnUserName ( playerid, false, false ), text) ) ;
 
-	return true ;
+    return true ;
 }
 
 CMD:ooc ( playerid, params[] ) 
-	return cmd_o ( playerid, params);
+    return cmd_o ( playerid, params);
 
 CMD:noooc ( playerid, params [] ) {
 
-	if ( ! IsPlayerHidingOOC [ playerid ] ) {
+    if ( ! IsPlayerHidingOOC [ playerid ] ) {
 
-		IsPlayerHidingOOC [ playerid ] = true ;
+        IsPlayerHidingOOC [ playerid ] = true ;
 
-		SendServerMessage ( playerid, "You're disabled the OOC chat.", MSG_TYPE_INFO ) ;
-	}
+        SendServerMessage ( playerid, "OOC sohbeti kapattýn.", MSG_TYPE_INFO ) ;
+    }
 
-	else if ( IsPlayerHidingOOC [ playerid ] ) {
+    else if ( IsPlayerHidingOOC [ playerid ] ) {
 
-		IsPlayerHidingOOC [ playerid ] = false ;
-		SendServerMessage ( playerid, "You're enabled the OOC chat.", MSG_TYPE_INFO ) ;
-	}
+        IsPlayerHidingOOC [ playerid ] = false ;
+        SendServerMessage ( playerid, "OOC sohbeti açtýn.", MSG_TYPE_INFO ) ;
+    }
 
-	return true ;
+    return true ;
 }
 
 CMD:b ( playerid, params [] ) {
 
-	new text [ 144 ], string[256] ;
+    new text [ 144 ], string[256] ;
 
-	if ( sscanf ( params, "s[144]", text ) ) {
+    if ( sscanf ( params, "s[144]", text ) ) {
 
-		return SendServerMessage ( playerid, "/b [text]", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/b [yazý]", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( IsPlayerOnAdminDuty [ playerid ] ) {
+    if ( IsPlayerOnAdminDuty [ playerid ] ) {
 
-		if ( IsPlayerOnAdminDuty [ playerid ] ) {
+        if ( IsPlayerOnAdminDuty [ playerid ] ) {
 
-			if ( Account [ playerid ] [ account_id ] == 1 || Account [ playerid ] [ account_id ] == 2 ) {
+            if ( Account [ playerid ] [ account_id ] == 1 || Account [ playerid ] [ account_id ] == 2 ) {
 
-				format ( string, sizeof ( string ), "(( {855A83}(%d) %s{999999}: %s ))", playerid, ReturnUserName ( playerid, true, false ), text ) ; 
-				ProxDetector ( playerid, 15, COLOR_GREY, string ) ; //20
-			}
+                format ( string, sizeof ( string ), "(( {855A83}(%d) %s{999999}: %s ))", playerid, ReturnUserName ( playerid, true, false ), text ) ; 
+                ProxDetector ( playerid, 15, COLOR_GREY, string ) ; //20
+            }
 
-			else {
+            else {
 
-				switch ( Account [ playerid ] [ account_stafflevel ] ) {
+                switch ( Account [ playerid ] [ account_stafflevel ] ) {
 
-					case STAFF_MANAGER: {
-						format ( string, sizeof ( string ), "(( {AD2D2D}(%d) %s{999999}: %s ))", playerid, ReturnUserName ( playerid, true, false ), text ) ;
-						ProxDetector ( playerid, 15, COLOR_GREY,string ) ;
-					}
+                    case STAFF_MANAGER: {
+                        format ( string, sizeof ( string ), "(( {AD2D2D}(%d) %s{999999}: %s ))", playerid, ReturnUserName ( playerid, true, false ), text ) ;
+                        ProxDetector ( playerid, 15, COLOR_GREY,string ) ;
+                    }
 
-					default: {
-						format ( string, sizeof ( string ), "(( {449C44}(%d) %s{999999}: %s ))", playerid, ReturnUserName ( playerid, true, false ), text )  ;
-						ProxDetector ( playerid, 15, COLOR_GREY, string ) ;
-					}
-				}
-			}
-		}
-	}
+                    default: {
+                        format ( string, sizeof ( string ), "(( {449C44}(%d) %s{999999}: %s ))", playerid, ReturnUserName ( playerid, true, false ), text )  ;
+                        ProxDetector ( playerid, 15, COLOR_GREY, string ) ;
+                    }
+                }
+            }
+        }
+    }
 
-	else {
-		format ( string, sizeof ( string ), "(( (%d) %s: %s ))", playerid, ReturnUserName ( playerid, true, false ), text ) ;
-		ProxDetector ( playerid, 20, COLOR_GREY, string ) ;
-	}
+    else {
+        format ( string, sizeof ( string ), "(( (%d) %s: %s ))", playerid, ReturnUserName ( playerid, true, false ), text ) ;
+        ProxDetector ( playerid, 20, COLOR_GREY, string ) ;
+    }
 
-	WriteLog ( playerid, "chat/ooc", string ) ;
+    WriteLog ( playerid, "chat/ooc", string ) ;
 
-	return true;
+    return true;
 }
 
 //////////////////////////////////////////////////////////////
@@ -330,438 +325,436 @@ CMD:b ( playerid, params [] ) {
 
 CMD:melow ( playerid, params [] ) {
 
-	new string[256],text[128];
+    new string[256],text[128];
 
-	if(sscanf(params,"s[128]",text)) { return SendServerMessage(playerid,"/melow [text]",MSG_TYPE_ERROR); }
+    if(sscanf(params,"s[128]",text)) { return SendServerMessage(playerid,"/melow [yazý]",MSG_TYPE_ERROR); }
 
-	format(string,sizeof(string),"* %s %s",ReturnUserName(playerid,false),text);
-	ProxDetector(playerid,4.5,COLOR_ACTION,string); //10
+    format(string,sizeof(string),"* %s %s",ReturnUserName(playerid,false),text);
+    ProxDetector(playerid,4.5,COLOR_ACTION,string); //10
 
-	format(string,sizeof(string),"[MELOW] %s %s",ReturnUserName(playerid,true,false),text);
-	WriteLog(playerid,"chat/action",string);
+    format(string,sizeof(string),"[MELOW] %s %s",ReturnUserName(playerid,true,false),text);
+    WriteLog(playerid,"chat/action",string);
 
-	return true;
+    return true;
 }
 
 CMD:me ( playerid, params [] ) {
 
-	new string[256],text[128];
+    new string[256],text[128];
 
-	if(sscanf(params,"s[128]",text)) { return SendServerMessage(playerid,"/me(low) [text]",MSG_TYPE_ERROR); }
+    if(sscanf(params,"s[128]",text)) { return SendServerMessage(playerid,"/me(low) [yazý]",MSG_TYPE_ERROR); }
 
-	format(string,sizeof(string),"* %s %s",ReturnUserName(playerid,false),text);
-	ProxDetector(playerid,15.0,COLOR_ACTION,string); //30
+    format(string,sizeof(string),"* %s %s",ReturnUserName(playerid,false),text);
+    ProxDetector(playerid,15.0,COLOR_ACTION,string); //30
 
-	format(string,sizeof(string),"[ME] %s %s",ReturnUserName(playerid,true,false),text);
-	WriteLog(playerid,"chat/action",string);
+    format(string,sizeof(string),"[ME] %s %s",ReturnUserName(playerid,true,false),text);
+    WriteLog(playerid,"chat/action",string);
 
-	return true;
+    return true;
 }
 
 CMD:e(playerid, params[]){
-	return cmd_me(playerid, params);
+    return cmd_me(playerid, params);
 }
 
 CMD:mylow ( playerid, params [] ) {
 
-	new string[256],text[128];
+    new string[256],text[128];
 
-	if(sscanf(params,"s[128]",text)) { return SendServerMessage(playerid,"/mylow [text]",MSG_TYPE_ERROR); }
+    if(sscanf(params,"s[128]",text)) { return SendServerMessage(playerid,"/mylow [yazý]",MSG_TYPE_ERROR); }
 
-	format(string,sizeof(string),"* %s's %s",ReturnUserName(playerid,false),text);
-	ProxDetector(playerid,4.5,COLOR_ACTION,string);
+    format(string,sizeof(string),"* %s'in %s",ReturnUserName(playerid,false),text);
+    ProxDetector(playerid,4.5,COLOR_ACTION,string);
 
-	format(string,sizeof(string),"[MYLOW] %s's %s",ReturnUserName(playerid,true,false),text);
-	WriteLog(playerid,"chat/action",string);
+    format(string,sizeof(string),"[MYLOW] %s'in %s",ReturnUserName(playerid,true,false),text);
+    WriteLog(playerid,"chat/action",string);
 
-	return true ;
+    return true ;
 }
 
 CMD:my ( playerid, params [] ) {
 
-	new string[256],text[128];
+    new string[256],text[128];
 
-	if(sscanf(params,"s[128]",text)) { return SendServerMessage(playerid,"/my(low) [text]",MSG_TYPE_ERROR); }
+    if(sscanf(params,"s[128]",text)) { return SendServerMessage(playerid,"/my(low) [yazý]",MSG_TYPE_ERROR); }
 
-	format(string,sizeof(string),"* %s's %s",ReturnUserName(playerid,false),text);
-	ProxDetector(playerid,15.0,COLOR_ACTION,string);
+    format(string,sizeof(string),"* %s'in %s",ReturnUserName(playerid,false),text);
+    ProxDetector(playerid,15.0,COLOR_ACTION,string);
 
-	format(string,sizeof(string),"[MY] %s's %s",ReturnUserName(playerid,true,false),text);
-	WriteLog(playerid,"chat/action",string);
+    format(string,sizeof(string),"[MY] %s'in %s",ReturnUserName(playerid,true,false),text);
+    WriteLog(playerid,"chat/action",string);
 
-	return true ;
+    return true ;
 }
 
 CMD:ame ( playerid, params [] ) {
 
-	new text [ 144 ] ;
+    new text [ 144 ] ;
 
-	if ( sscanf ( params, "s[144]", text ) ) {
+    if ( sscanf ( params, "s[144]", text ) ) {
 
-		return SendServerMessage ( playerid, "/ame [text]", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/ame [yazý]", MSG_TYPE_ERROR ) ;
+    }
 
- 	SendClientMessage(playerid, COLOR_ACTION, sprintf("> %s %s",ReturnUserName ( playerid, false, true ), text) ) ;
- 	SetPlayerChatBubble(playerid, sprintf("* %s %s",ReturnUserName ( playerid, false, true ), text) , COLOR_ACTION, 30.0, 10000);
+    SendClientMessage(playerid, COLOR_ACTION, sprintf("> %s %s",ReturnUserName ( playerid, false, true ), text) ) ;
+    SetPlayerChatBubble(playerid, sprintf("* %s %s",ReturnUserName ( playerid, false, true ), text) , COLOR_ACTION, 30.0, 10000);
 
-	WriteLog ( playerid, "chat/action", sprintf("[AME] %s %s", ReturnUserName ( playerid, true ), text) ) ;
+    WriteLog ( playerid, "chat/action", sprintf("[AME] %s %s", ReturnUserName ( playerid, true ), text) ) ;
 
-	return true;
+    return true;
 }
 
 CMD:ado ( playerid, params [] ) {
 
-	new text [ 144 ] ;
+    new text [ 144 ] ;
 
-	if ( sscanf ( params, "s[144]", text ) ) {
-		return SendServerMessage ( playerid, "/ado [text]", MSG_TYPE_ERROR ) ;
-	}
+    if ( sscanf ( params, "s[144]", text ) ) {
+        return SendServerMessage ( playerid, "/ado [yazý]", MSG_TYPE_ERROR ) ;
+    }
 
- 	SetPlayerChatBubble(playerid, sprintf("%s (( %s ))", text, ReturnUserName ( playerid, false, true )), COLOR_ACTION, 30.0, 10000);
- 	SendClientMessage(playerid, COLOR_ACTION, sprintf("> %s (( %s ))", text, ReturnUserName ( playerid, false, true )) ) ;
+    SetPlayerChatBubble(playerid, sprintf("%s (( %s ))", text, ReturnUserName ( playerid, false, true )), COLOR_ACTION, 30.0, 10000);
+    SendClientMessage(playerid, COLOR_ACTION, sprintf("> %s (( %s ))", text, ReturnUserName ( playerid, false, true )) ) ;
 
-	WriteLog ( playerid, "chat/action", sprintf("[ADO] %s %s", ReturnUserName ( playerid, true ), text) ) ;
-	
-	return true;
+    WriteLog ( playerid, "chat/action", sprintf("[ADO] %s %s", ReturnUserName ( playerid, true ), text) ) ;
+    
+    return true;
 }
 
 CMD:dolow ( playerid, params [] ) {
 
-	new string[144],text[128];
+    new string[144],text[128];
 
-	if(sscanf(params,"s[128]",text)) { return SendServerMessage(playerid,"/dolow [text]",MSG_TYPE_ERROR); }
+    if(sscanf(params,"s[128]",text)) { return SendServerMessage(playerid,"/dolow [yazý]",MSG_TYPE_ERROR); }
 
-	format(string,sizeof(string),"* %s (( %s ))",text,ReturnUserName(playerid,false));
-	ProxDetector(playerid,4.5,COLOR_ACTION,string);
+    format(string,sizeof(string),"* %s (( %s ))",text,ReturnUserName(playerid,false));
+    ProxDetector(playerid,4.5,COLOR_ACTION,string);
 
-	format(string,sizeof(string),"[DOLOW] %s (( %s ))",text,ReturnUserName(playerid,true,false));
-	WriteLog(playerid,"chat/action",string);
-	
-	return true;
+    format(string,sizeof(string),"[DOLOW] %s (( %s ))",text,ReturnUserName(playerid,true,false));
+    WriteLog(playerid,"chat/action",string);
+    
+    return true;
 }
 
 CMD:do ( playerid, params [] ) {
 
-	new string[144],text[128];
+    new string[144],text[128];
 
-	if(sscanf(params,"s[128]",text)) { return SendServerMessage(playerid,"/do(low) [text]",MSG_TYPE_ERROR); }
+    if(sscanf(params,"s[128]",text)) { return SendServerMessage(playerid,"/do(low) [yazý]",MSG_TYPE_ERROR); }
 
-	format(string,sizeof(string),"* %s (( %s ))",text,ReturnUserName(playerid,false));
-	ProxDetector(playerid,15.0,COLOR_ACTION,string);
+    format(string,sizeof(string),"* %s (( %s ))",text,ReturnUserName(playerid,false));
+    ProxDetector(playerid,15.0,COLOR_ACTION,string);
 
-	format(string,sizeof(string),"[DO] %s (( %s ))",text,ReturnUserName(playerid,true,false));
-	WriteLog(playerid,"chat/action",string);
-	
-	return true;
+    format(string,sizeof(string),"[DO] %s (( %s ))",text,ReturnUserName(playerid,true,false));
+    WriteLog(playerid,"chat/action",string);
+    
+    return true;
 }
 
 CMD:low ( playerid, params [] ) {
 
-	new string[256],text[128];
+    new string[256],text[128];
 
-	if(sscanf(params,"s[128]",text)) { return SendServerMessage ( playerid, "/low [text]", MSG_TYPE_ERROR ) ; }
-		
-	if ( strlen ( Character [ playerid ] [ character_accent ] ) < 3 ) {
+    if(sscanf(params,"s[128]",text)) { return SendServerMessage ( playerid, "/low [yazý]", MSG_TYPE_ERROR ) ; }
+        
+    if ( strlen ( Character [ playerid ] [ character_accent ] ) < 3 ) {
 
-		format(string,sizeof(string),"%s says [low]: %s",ReturnUserName(playerid,false,true),text);
-		ProxDetector(playerid,4.5,COLOR_DEFAULT,string);
-	}
+        format(string,sizeof(string),"%s kýsýk sesle söyler: %s",ReturnUserName(playerid,false,true),text);
+        ProxDetector(playerid,4.5,COLOR_DEFAULT,string);
+    }
 
-	else if ( strlen ( Character [ playerid ] [ character_accent ] ) > 3 ) {
+    else if ( strlen ( Character [ playerid ] [ character_accent ] ) > 3 ) {
 
-		format(string,sizeof(string),"%s says [low] [%s accent]: %s",ReturnUserName(playerid,false,true),Character[playerid][character_accent],text);
-		ProxDetector(playerid,4.5,COLOR_DEFAULT,string);
-	}
+        format(string,sizeof(string),"%s kýsýk sesle söyler [%s aksaný]: %s",ReturnUserName(playerid,false,true),Character[playerid][character_accent],text);
+        ProxDetector(playerid,4.5,COLOR_DEFAULT,string);
+    }
 
-	format(string,sizeof(string),"%s says [low]: %s", ReturnUserName ( playerid, true, false ), text);
-	WriteLog ( playerid, "chat/local", string ) ;
+    format(string,sizeof(string),"%s kýsýk sesle söyler: %s", ReturnUserName ( playerid, true, false ), text);
+    WriteLog ( playerid, "chat/local", string ) ;
 
-	return true;
+    return true;
 }
 
 CMD:shout ( playerid, params [] ) {
 
-	if ( Character [ playerid ] [ character_dmgmode ] ) {
+    if ( Character [ playerid ] [ character_dmgmode ] ) {
 
-		SendServerMessage ( playerid, "You can't talk whilst in injury mode", MSG_TYPE_ERROR ) ;
-		return false ;
-	}
+        SendServerMessage ( playerid, "Yaralýyken konuþamazsýn.", MSG_TYPE_ERROR ) ;
+        return false ;
+    }
 
-	new string[256],text [ 128 ] ;
+    new string[256],text [ 128 ] ;
 
-	if ( sscanf ( params, "s[128]", text ) ) {
+    if ( sscanf ( params, "s[128]", text ) ) {
 
-		return SendServerMessage ( playerid, "/s(hout) [text]", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "/s(baðýr) [yazý]", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( strlen ( Character [ playerid ] [ character_accent ] ) < 3) {
+    if ( strlen ( Character [ playerid ] [ character_accent ] ) < 3) {
 
-		format(string,sizeof(string),"%s shouts: %s",ReturnUserName(playerid,false,true),text);
-		ProxDetector ( playerid, 30, -1, string ) ;
-	}
+        format(string,sizeof(string),"%s baðýrýr: %s",ReturnUserName(playerid,false,true),text);
+        ProxDetector ( playerid, 30, -1, string ) ;
+    }
 
-	else if ( strlen ( Character [ playerid ] [ character_accent ] ) > 3 ) {
+    else if ( strlen ( Character [ playerid ] [ character_accent ] ) > 3 ) {
 
-		format(string,sizeof(string),"%s shouts [%s accent]: %s", ReturnUserName ( playerid, false, true ), Character [ playerid ] [ character_accent ], text);
-		ProxDetector ( playerid, 30, -1, string ) ;
+        format(string,sizeof(string),"%s baðýrýr [%s aksaný]: %s", ReturnUserName ( playerid, false, true ), Character [ playerid ] [ character_accent ], text);
+        ProxDetector ( playerid, 30, -1, string ) ;
 
-	}
+    }
 
-	format(string,sizeof(string),"%s shouts: %s", ReturnUserName ( playerid, true, false ), text);
+    format(string,sizeof(string),"%s baðýrýr: %s", ReturnUserName ( playerid, true, false ), text);
 
-	WriteLog ( playerid, "chat/local", string) ;
+    WriteLog ( playerid, "chat/local", string) ;
 
-	return true;
+    return true;
 }
 
 CMD:s ( playerid, params [ ] )
-	return cmd_shout ( playerid, params );
+    return cmd_shout ( playerid, params );
 
 
 new IsPlayerBlockingPM [ MAX_PLAYERS ] ;
 
 CMD:blockpm ( playerid, params [] ) {
 
-	if ( ! IsPlayerBlockingPM [ playerid ] ) {
+    if ( ! IsPlayerBlockingPM [ playerid ] ) {
 
-		IsPlayerBlockingPM [ playerid ]  = true ;
+        IsPlayerBlockingPM [ playerid ]  = true ;
 
-		return SendServerMessage ( playerid, "You are now blocking your private messages!", MSG_TYPE_WARN ) ;
-	}
+        return SendServerMessage ( playerid, "Özel mesajlarýnýzý artýk engelliyorsunuz!", MSG_TYPE_WARN ) ;
+    }
 
-	else if ( IsPlayerBlockingPM [ playerid ] ) {
+    else if ( IsPlayerBlockingPM [ playerid ] ) {
 
-		IsPlayerBlockingPM [ playerid ]  = false ;
+        IsPlayerBlockingPM [ playerid ]  = false ;
 
-		return SendServerMessage ( playerid, "You have unblocked your private messages!", MSG_TYPE_WARN ) ;
-	}
+        return SendServerMessage ( playerid, "Özel mesajlarýnýzýn engelini kaldýrdýnýz!", MSG_TYPE_WARN ) ;
+    }
 
-	return true ;
+    return true ;
 }
 
 CMD:pm(playerid, params[]) {
 
-	new userid, text[144], string[256];
+    new userid, text[144], string[256];
 
-	if (sscanf(params, "k<u>s[144]", userid, text))
-		return SendServerMessage ( playerid, "/pm [id] [text]", MSG_TYPE_ERROR ) ;
+    if (sscanf(params, "k<u>s[144]", userid, text))
+        return SendServerMessage ( playerid, "/pm [id] [yazý]", MSG_TYPE_ERROR ) ;
 
-	if (!IsPlayerConnected(userid))
-		return SendServerMessage ( playerid, "Player isn't connected.", MSG_TYPE_ERROR ) ;
+    if (!IsPlayerConnected(userid))
+        return SendServerMessage ( playerid, "Oyuncu baðlý deðil.", MSG_TYPE_ERROR ) ;
 
-	if (userid == playerid)
-		return SendServerMessage ( playerid, "You can't PM yourself.", MSG_TYPE_ERROR ) ;
+    if (userid == playerid)
+        return SendServerMessage ( playerid, "Kendine PM gönderemezsin.", MSG_TYPE_ERROR ) ;
 
-	if ( IsPlayerPaused ( userid ) ) {
-		SendServerMessage ( playerid, "The player you are messaging is AFK. Use /afklist.", MSG_TYPE_WARN ) ;
-	}
+    if ( IsPlayerPaused ( userid ) ) {
+        SendServerMessage ( playerid, "Mesaj göndermeye çalýþtýðýn oyuncu AFK. /afklist komutunu kullan.", MSG_TYPE_WARN ) ;
+    }
 
-	if ( IsPlayerBlockingPM [ userid ] && ! IsPlayerModerator ( playerid ) ) {
+    if ( IsPlayerBlockingPM [ userid ] && ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "The person you are trying to message is blocking their private messages.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Mesaj göndermeye çalýþtýðýn kiþi özel mesajlarý engelliyor.", MSG_TYPE_ERROR ) ;
+    }
 
 
-	if ( Account [ userid ] [ account_stafflevel ] >= STAFF_MODERATOR && ! PlayerModPMWarning [ playerid ] ) {
+    if ( Account [ userid ] [ account_stafflevel ] >= STAFF_MODERATOR && ! PlayerModPMWarning [ playerid ] ) {
 
-		task_yield ( 1 ) ;
+        task_yield ( 1 ) ;
 
-	 	new dialog_response [ e_DIALOG_RESPONSE_INFO ], msg [ 280 ] = "{D63C3C}WARNING:{DEDEDE} You're sending a private message to a moderator.\n\n\
-			Please make sure your query isn't related to their tasks, since there is /report for that.\n\n\
-			If this moderator is helping you or you have something else to talk about, go ahead.\n\n\
-			Thanks for understanding." ;
+        new dialog_response [ e_DIALOG_RESPONSE_INFO ], msg [ 340 ] = "{D63C3C}UYARI:{DEDEDE} Bir moderatöre özel mesaj gönderiyorsunuz.\n\n\
+            Lütfen sorunuzun onlarýn yetkileriyle ilgili olmadýðýndan emin olun, çünkü bunun için /report komutu var.\n\n\
+            Eðer bu moderatör size yardýmcý oluyorsa veya konuþacak baþka bir konunuz varsa, devam edin.\n\n\
+            Anlayýþýnýz için teþekkürler." ;
 
-		await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, "{D63C3C}PRIVATE MESSAGE WARNING:{DEDEDE}", msg, "Proceed", "Cancel");
+        await_arr(dialog_response) ShowPlayerAsyncDialog(playerid, DIALOG_STYLE_MSGBOX, "{D63C3C}ÖZEL MESAJ UYARISI:{DEDEDE}", msg, "Devam Et", "Ýptal");
 
-		PlayerModPMWarning [ playerid ] = true ;
-		
-		if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+        PlayerModPMWarning [ playerid ] = true ;
+        
+        if ( dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
-			GameTextForPlayer(userid, "~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~~y~New message!", 3000, 3);
-			PlayerPlaySound(userid, 1085, 0.0, 0.0, 0.0);
+            GameTextForPlayer(userid, "~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~~y~Yeni mesaj!", 3000, 3);
+            PlayerPlaySound(userid, 1085, 0.0, 0.0, 0.0);
 
-			if ( IsPlayerOnAdminDuty [ playerid ] ) {
+            if ( IsPlayerOnAdminDuty [ playerid ] ) {
 
-				if ( IsPlayerOnAdminDuty [ playerid ] ) {
+                if ( IsPlayerOnAdminDuty [ playerid ] ) {
 
-					if ( Account [ playerid ] [ account_id ] == 1 || Account [ playerid ] [ account_id ] == 2 ) {
+                    if ( Account [ playerid ] [ account_id ] == 1 || Account [ playerid ] [ account_id ] == 2 ) {
 
-						format(string,sizeof(string),"(( PM from {855A83}%s (%d){FFCC22}: %s ))", ReturnUserName(playerid, false), playerid, text);
-						SendSplitMessage(userid, 0xFFCC2299,string);
-					}
+                        format(string,sizeof(string),"(( PM: {855A83}%s (%d){FFCC22}: %s ))", ReturnUserName(playerid, false), playerid, text);
+                        SendSplitMessage(userid, 0xFFCC2299,string);
+                    }
 
-					else {
+                    else {
 
-						switch ( Account [ playerid ] [ account_stafflevel ] ) {
+                        switch ( Account [ playerid ] [ account_stafflevel ] ) {
 
-							case STAFF_MANAGER: {
+                            case STAFF_MANAGER: {
 
-								format(string,sizeof(string),"(( PM from {AD2D2D}%s (%d){FFCC22}: %s ))", ReturnUserName(playerid, false), playerid, text);
-								SendSplitMessage(userid, 0xFFCC2299, string);
-							}
+                                format(string,sizeof(string),"(( PM: {AD2D2D}%s (%d){FFCC22}: %s ))", ReturnUserName(playerid, false), playerid, text);
+                                SendSplitMessage(userid, 0xFFCC2299, string);
+                            }
 
-							default: {
+                            default: {
 
-								format(string,sizeof(string),"(( PM from {449C44}%s (%d){FFCC22}: %s ))", ReturnUserName(playerid, false), playerid, text);
-								SendSplitMessage(userid, 0xFFCC2299, string);
-							}
-						}
-					}
-				}
-			}
+                                format(string,sizeof(string),"(( PM: {449C44}%s (%d){FFCC22}: %s ))", ReturnUserName(playerid, false), playerid, text);
+                                SendSplitMessage(userid, 0xFFCC2299, string);
+                            }
+                        }
+                    }
+                }
+            }
 
-			else {
+            else {
 
-				format(string,sizeof(string),"(( PM from %s (%d): %s ))", ReturnUserName(playerid, false), playerid, text);
-				SendSplitMessage(userid, 0xFFCC2299, string);
-			}
+                format(string,sizeof(string),"(( PM: %s (%d): %s ))", ReturnUserName(playerid, false), playerid, text);
+                SendSplitMessage(userid, 0xFFCC2299, string);
+            }
 
-			
-			if ( IsPlayerOnAdminDuty [ userid ] ) {
+            
+            if ( IsPlayerOnAdminDuty [ userid ] ) {
 
-				if ( Account [ userid ] [ account_id ] == 1 || Account [ userid ] [ account_id ] == 2 ) {
+                if ( Account [ userid ] [ account_id ] == 1 || Account [ userid ] [ account_id ] == 2 ) {
 
-					format(string,sizeof(string),"(( PM to {855A83}%s (%d){FFFF22}: %s ))", ReturnUserName(userid, false), userid, text);
-					SendSplitMessage(playerid, 0xFFFF22AA,string); 
-				}
+                    format(string,sizeof(string),"(( PM -> {855A83}%s (%d){FFFF22}: %s ))", ReturnUserName(userid, false), userid, text);
+                    SendSplitMessage(playerid, 0xFFFF22AA,string); 
+                }
 
-				else {
+                else {
 
-					switch ( Account [ userid ] [ account_stafflevel ] ) {
+                    switch ( Account [ userid ] [ account_stafflevel ] ) {
 
-						case STAFF_MANAGER: {
+                        case STAFF_MANAGER: {
 
-							format(string,sizeof(string),"(( PM to {AD2D2D}%s (%d){FFFF22}: %s ))", ReturnUserName(userid, false), userid, text);
-							SendSplitMessage(playerid, 0xFFFF22AA, string); 
-						}
+                            format(string,sizeof(string),"(( PM -> {AD2D2D}%s (%d){FFFF22}: %s ))", ReturnUserName(userid, false), userid, text);
+                            SendSplitMessage(playerid, 0xFFFF22AA, string); 
+                        }
 
-						default: {
+                        default: {
 
-							format(string,sizeof(string),"(( PM to {449C44}%s (%d){FFFF22}: %s ))", ReturnUserName(userid, false), userid, text);
-							SendSplitMessage(playerid, 0xFFFF22AA, string);
-						}
-					}
-				}
-			}
+                            format(string,sizeof(string),"(( PM -> {449C44}%s (%d){FFFF22}: %s ))", ReturnUserName(userid, false), userid, text);
+                            SendSplitMessage(playerid, 0xFFFF22AA, string);
+                        }
+                    }
+                }
+            }
 
-			else {
+            else {
 
-				format(string,sizeof(string),"(( PM to %s (%d): %s ))", ReturnUserName(userid, false), userid, text);
-				SendSplitMessage(playerid, 0xFFFF22AA, string); 
-			}
+                format(string,sizeof(string),"(( PM -> %s (%d): %s ))", ReturnUserName(userid, false), userid, text);
+                SendSplitMessage(playerid, 0xFFFF22AA, string); 
+            }
 
-			//OldLog ( playerid, "pms", sprintf ( "%s sends to %s: %s", ReturnUserName ( playerid, false ), ReturnUserName ( userid, false ), text) ) ;
-			WriteLog ( playerid, "chat", sprintf ( "[PM] %s sends to %s: %s", ReturnUserName ( playerid, false ), ReturnUserName ( userid, false ), text) ) ;
+            WriteLog ( playerid, "chat", sprintf ( "[PM] %s -> %s: %s", ReturnUserName ( playerid, false ), ReturnUserName ( userid, false ), text) ) ;
 
-		}
+        }
 
-		else if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
+        else if ( ! dialog_response [ E_DIALOG_RESPONSE_Response ] ) {
 
-			return false ;
-		}
+            return false ;
+        }
 
-    	return true ;
-	}
+        return true ;
+    }
 
-	else {
+    else {
 
-		GameTextForPlayer(userid, "~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~~y~New message!", 3000, 3);
-		PlayerPlaySound(userid, 1085, 0.0, 0.0, 0.0);
+        GameTextForPlayer(userid, "~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~~y~Yeni mesaj!", 3000, 3);
+        PlayerPlaySound(userid, 1085, 0.0, 0.0, 0.0);
 
-		if ( IsPlayerOnAdminDuty [ playerid ] ) {
+        if ( IsPlayerOnAdminDuty [ playerid ] ) {
 
-			if ( IsPlayerOnAdminDuty [ playerid ] ) {
+            if ( IsPlayerOnAdminDuty [ playerid ] ) {
 
-				if ( Account [ playerid ] [ account_id ] == 1 || Account [ playerid ] [ account_id ] == 2 ) {
+                if ( Account [ playerid ] [ account_id ] == 1 || Account [ playerid ] [ account_id ] == 2 ) {
 
-					SendSplitMessage(userid, 0xFFCC2299, sprintf("(( PM from {855A83}%s (%d){FFCC22}: %s ))", ReturnUserName(playerid, false), playerid, text));
-				}
+                    SendSplitMessage(userid, 0xFFCC2299, sprintf("(( PM: {855A83}%s (%d){FFCC22}: %s ))", ReturnUserName(playerid, false), playerid, text));
+                }
 
-				else {
+                else {
 
-					switch ( Account [ playerid ] [ account_stafflevel ] ) {
+                    switch ( Account [ playerid ] [ account_stafflevel ] ) {
 
-						case STAFF_MANAGER: {
+                        case STAFF_MANAGER: {
 
-							SendSplitMessage(userid, 0xFFCC2299, sprintf("(( PM from {AD2D2D}%s (%d){FFCC22}: %s ))", ReturnUserName(playerid, false), playerid, text));
-						}
+                            SendSplitMessage(userid, 0xFFCC2299, sprintf("(( PM: {AD2D2D}%s (%d){FFCC22}: %s ))", ReturnUserName(playerid, false), playerid, text));
+                        }
 
-						default: SendSplitMessage(userid, 0xFFCC2299, sprintf("(( PM from {449C44}%s (%d){FFCC22}: %s ))", ReturnUserName(playerid, false), playerid, text));
-					}
-				}
-			}
-		}
+                        default: SendSplitMessage(userid, 0xFFCC2299, sprintf("(( PM: {449C44}%s (%d){FFCC22}: %s ))", ReturnUserName(playerid, false), playerid, text));
+                    }
+                }
+            }
+        }
 
-		else SendSplitMessage(userid, 0xFFCC2299, sprintf("(( PM from %s (%d): %s ))", ReturnUserName(playerid, false), playerid, text));
+        else SendSplitMessage(userid, 0xFFCC2299, sprintf("(( PM: %s (%d): %s ))", ReturnUserName(playerid, false), playerid, text));
 
-		
-		if ( IsPlayerOnAdminDuty [ userid ] ) {
+        
+        if ( IsPlayerOnAdminDuty [ userid ] ) {
 
-			if ( Account [ userid ] [ account_id ] == 1 || Account [ userid ] [ account_id ] == 2 ) {
+            if ( Account [ userid ] [ account_id ] == 1 || Account [ userid ] [ account_id ] == 2 ) {
 
-				SendSplitMessage(playerid, 0xFFFF22AA, sprintf("(( PM to {855A83}%s (%d){FFFF22}: %s ))", ReturnUserName(userid, false), userid, text)); 
-			}
+                SendSplitMessage(playerid, 0xFFFF22AA, sprintf("(( PM -> {855A83}%s (%d){FFFF22}: %s ))", ReturnUserName(userid, false), userid, text)); 
+            }
 
-			else {
+            else {
 
-				switch ( Account [ userid ] [ account_stafflevel ] ) {
+                switch ( Account [ userid ] [ account_stafflevel ] ) {
 
-					case STAFF_MANAGER: {
+                    case STAFF_MANAGER: {
 
-						SendSplitMessage(playerid, 0xFFFF22AA, sprintf("(( PM to {AD2D2D}%s (%d){FFFF22}: %s ))", ReturnUserName(userid, false), userid, text)); 
-					}
+                        SendSplitMessage(playerid, 0xFFFF22AA, sprintf("(( PM -> {AD2D2D}%s (%d){FFFF22}: %s ))", ReturnUserName(userid, false), userid, text)); 
+                    }
 
-					default: SendSplitMessage(playerid, 0xFFFF22AA, sprintf("(( PM to {449C44}%s (%d){FFFF22}: %s ))", ReturnUserName(userid, false), userid, text)); 
-				}
-			}
-		}
+                    default: SendSplitMessage(playerid, 0xFFFF22AA, sprintf("(( PM -> {449C44}%s (%d){FFFF22}: %s ))", ReturnUserName(userid, false), userid, text)); 
+                }
+            }
+        }
 
-		else SendSplitMessage(playerid, 0xFFFF22AA, sprintf("(( PM to %s (%d): %s ))", ReturnUserName(userid, false), userid, text)); 
-				
+        else SendSplitMessage(playerid, 0xFFFF22AA, sprintf("(( PM -> %s (%d): %s ))", ReturnUserName(userid, false), userid, text)); 
+                
 
-	 	WriteLog ( playerid, "chat/pm", sprintf ( "[PM] %s sends to %s: %s", ReturnUserName ( playerid, false ), ReturnUserName ( userid, false ), text) ) ;
-	}
+        WriteLog ( playerid, "chat/pm", sprintf ( "[PM] %s -> %s: %s", ReturnUserName ( playerid, false ), ReturnUserName ( userid, false ), text) ) ;
+    }
 
-	return 1;
+    return 1;
 }
 
 CMD:whisper(playerid, params[]) {
 
-	new userid, text[144];
+    new userid, text[144];
 
-	if (sscanf(params, "k<u>s[128]", userid, text))
-		return SendServerMessage ( playerid, "/whisper [id] [text]", MSG_TYPE_ERROR ) ;
+    if (sscanf(params, "k<u>s[128]", userid, text))
+        return SendServerMessage ( playerid, "/whisper [id] [yazý]", MSG_TYPE_ERROR ) ;
 
-	if (!IsPlayerConnected(userid))
-		return SendServerMessage ( playerid, "Player isn't connected.", MSG_TYPE_ERROR ) ;
+    if (!IsPlayerConnected(userid))
+        return SendServerMessage ( playerid, "Oyuncu baðlý deðil.", MSG_TYPE_ERROR ) ;
 
-	new Float: x, Float: y, Float: z ;
-	GetPlayerPos ( userid, x, y, z ) ;
+    new Float: x, Float: y, Float: z ;
+    GetPlayerPos ( userid, x, y, z ) ;
 
-	if ( ! IsPlayerInRangeOfPoint ( playerid, 2.5, x, y, z ) ) {
+    if ( ! IsPlayerInRangeOfPoint ( playerid, 2.5, x, y, z ) ) {
 
-		return SendServerMessage ( playerid, "You're not near the player you're trying to whisper!", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Fýsýldamaya çalýþtýðýn oyuncunun yakýnýnda deðilsin!", MSG_TYPE_ERROR ) ;
+    }
 
-	GameTextForPlayer(userid, "~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~~y~New message!", 3000, 3);
-	PlayerPlaySound(userid, 1085, 0.0, 0.0, 0.0);
+    GameTextForPlayer(userid, "~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~~y~Yeni mesaj!", 3000, 3);
+    PlayerPlaySound(userid, 1085, 0.0, 0.0, 0.0);
  
-	SendSplitMessage(playerid, 0xbf8a6399, sprintf("Whisper to %s: %s", ReturnUserName(userid, false, true), text)); 
-	SendSplitMessage(userid, 0x805637AA, sprintf("%s whispers: %s", ReturnUserName(playerid, false, true), text));
-	
-	ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s mutters something to %s.",ReturnUserName ( playerid, false, true ), ReturnUserName(userid, false, true)) ) ;
+    SendSplitMessage(playerid, 0xbf8a6399, sprintf("Fýsýlda -> %s: %s", ReturnUserName(userid, false, true), text)); 
+    SendSplitMessage(userid, 0x805637AA, sprintf("%s fýsýldar: %s", ReturnUserName(playerid, false, true), text));
+    
+    ProxDetector ( playerid, 20.0, COLOR_ACTION, sprintf("* %s, %s isimli oyuncuya bir þeyler fýsýldar.",ReturnUserName ( playerid, false, true ), ReturnUserName(userid, false, true)) ) ;
  
- 	//OldLog ( playerid, "whisper", sprintf ( "%s sends to %s: %s", ReturnUserName ( playerid, false ), ReturnUserName ( userid, false ), text) ) ;
- 	WriteLog ( playerid, "chat", sprintf ( "[WHISPER] %s sends to %s: %s", ReturnUserName ( playerid, false, false ), ReturnUserName ( userid, false, false ), text) ) ;
+    WriteLog ( playerid, "chat", sprintf ( "[FISILDA] %s -> %s: %s", ReturnUserName ( playerid, false, false ), ReturnUserName ( userid, false, false ), text) ) ;
 
- 	WriteLog ( playerid, "chat/whisper", sprintf ( "[WHISPER] %s sends to %s: %s", ReturnUserName ( playerid, false ), ReturnUserName ( userid, false ), text) ) ;
+    WriteLog ( playerid, "chat/whisper", sprintf ( "[FISILDA] %s -> %s: %s", ReturnUserName ( playerid, false ), ReturnUserName ( userid, false ), text) ) ;
 
 
-	return 1;
+    return 1;
 }
 
 CMD:w(playerid, params[]){
-	return cmd_whisper ( playerid, params ) ;
+    return cmd_whisper ( playerid, params ) ;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

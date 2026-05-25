@@ -74,12 +74,12 @@ CMD:gate ( playerid, params [] ) {
 
 	if ( g_id == -1 ) {
 
-		return SendServerMessage ( playerid, "You're not near any door.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Herhangi bir kapýya yakýn deðilsin.", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( ! IsLawEnforcementPosse ( Character [ playerid ] [ character_posse ] )) {
 
-		return SendServerMessage ( playerid, "You don't have the keys to this door.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Bu kapýnýn anahtarýna sahip deðilsin.", MSG_TYPE_ERROR ) ;
 	}
 
 /*
