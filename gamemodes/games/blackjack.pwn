@@ -152,144 +152,215 @@ public OnPlayerDisconnect(playerid, reason) {
 #if defined bj_OnPlayerDisconnect
 	forward bj_OnPlayerDisconnect(playerid, reason);
 #endif
-
 CMD:blackjack(playerid, params[])
 {
-	new option[20], id, amount;
-	new Float:X, Float:Y, Float:Z;
-	new starter_id;
+    new option[20], id, amount;
+    new Float:X, Float:Y, Float:Z;
+    new starter_id;
 
-	if(sscanf(params, "s[20]U(-1)D(-1)", option, id, amount)) {
+    if(sscanf(params, "s[20]U(-1)D(-1)", option, id, amount)) {
+        return SendServerMessage(playerid, "/blackjack [accept(kabul et)/refuse(reddet)] -- [call(kartçek)/stand(kal)] -- [play(oyna)/exit(çýk)]", MSG_TYPE_ERROR);
+    }
 
-		return SendServerMessage(playerid, "/blackjack [accept/refuse] -- [call/stand] -- [play/exit]", MSG_TYPE_ERROR);
-	}
+    if(!strcmp(option, "accept", true))
+    {
+        GetPlayerPos(PlayerBlackJack[playerid][pRequestBJ], X, Y, Z);
 
-	if(!strcmp(option, "accept", true))
-	{
-		GetPlayerPos(PlayerBlackJack[playerid][pRequestBJ], X, Y, Z);
+        if(!IsPlayerInRangeOfPoint(playerid, 2.0, X, Y, Z)) {
+            return SendServerMessage ( playerid, "Hedef oyuncu yakýnýnýzda deðil.", MSG_TYPE_ERROR);
+        }
 
-		if(!IsPlayerInRangeOfPoint(playerid, 2.0, X, Y, Z)) {
-			return SendServerMessage ( playerid, "Target isn't near you.", MSG_TYPE_ERROR);
-		}
+        if(PlayerBlackJack[playerid][pRequestBJ] == -1){
+            return SendServerMessage ( playerid, "Bekleyen bir oyun davetiniz yok.", MSG_TYPE_ERROR);
+        }
 
-		if(PlayerBlackJack[playerid][pRequestBJ] == -1){
-			return SendServerMessage ( playerid, "You don't have a pending game request.", MSG_TYPE_ERROR);
-		}
+        if(PlayerBlackJack[playerid][pInBJ]){
+            return SendServerMessage ( playerid, "Zaten blackjack oynuyorsunuz.", MSG_TYPE_ERROR);
+        }
 
-		if(PlayerBlackJack[playerid][pInBJ]){
-			return SendServerMessage ( playerid, "You're already playing blackjack.", MSG_TYPE_ERROR);
-		}
+        starter_id = PlayerBlackJack[playerid][pRequestBJ];
+        PlayerBlackJack[playerid][pStarterBJ] = starter_id;
+        PlayerBlackJack[playerid][pGuestBJ] = playerid;
+        PlayerBlackJack[starter_id][pStarterBJ] = starter_id;
+        PlayerBlackJack[starter_id][pGuestBJ] = playerid;
 
-		starter_id = PlayerBlackJack[playerid][pRequestBJ];
-		PlayerBlackJack[playerid][pStarterBJ] = starter_id;
-		PlayerBlackJack[playerid][pGuestBJ] = playerid;
-		PlayerBlackJack[starter_id][pStarterBJ] = starter_id;
-		PlayerBlackJack[starter_id][pGuestBJ] = playerid;
+        PlayerBlackJack[playerid][pInBJ] = 1;
+        PlayerBlackJack[starter_id][pInBJ] = 1;
 
-		PlayerBlackJack[playerid][pInBJ] = 1;
-		PlayerBlackJack[starter_id][pInBJ] = 1;
+        PlayerBlackJack[playerid][pTurnBJ] = playerid;
+        PlayerBlackJack[starter_id][pTurnBJ] = playerid;
 
-		//TogglePlayerControllable(playerid, false);
-		//PlayerBlackJack[playerid][pFreezed] = 1;
+        SendServerMessage(playerid, "Blackjack oynamayý kabul ettiniz, çýkmak için /blackjack exit yazýn!", MSG_TYPE_INFO);
+        SendServerMessage(playerid, "Senin sýran, kart çekmek için /blackjack call ve durmak için /blackjack stand komutlarýný kullan.", MSG_TYPE_INFO);
 
-		//TogglePlayerControllable(starter_id, false);
-		//PlayerBlackJack[starter_id][pFreezed] = 1;
+        SendServerMessage(starter_id, sprintf("%s oyunu oynamayý kabul etti. Ýlk olarak onun kart çekmesi gerekiyor.", ReturnUserName(playerid)), MSG_TYPE_INFO);
 
-		PlayerBlackJack[playerid][pTurnBJ] = playerid;
-		PlayerBlackJack[starter_id][pTurnBJ] = playerid;
+        BJ_ShowTDs(starter_id);
+        BJ_ShowTDs(playerid);
 
-		SendServerMessage(playerid, "You've agreed to play blackjack, to quit use /blackjack exit!", MSG_TYPE_INFO);
-		SendServerMessage(playerid, "It's your turn, use the commands /blackjack call and /blackjack stand to call a card or stand.", MSG_TYPE_INFO);
+        PlayerTextDrawSetString(starter_id, bj_gui_housedraws[5], sprintf("(%d) %s~n~~r~(Kasa):~w~ 0 toplam puan", starter_id, ReturnUserName(starter_id) ));
+        PlayerTextDrawSetString(playerid, bj_gui_housedraws[5], sprintf("(%d) %s~n~~r~(Kasa):~w~ 0 toplam puan", starter_id, ReturnUserName(starter_id) ));
 
-		SendServerMessage(starter_id, sprintf("%s agreed to play the game. He must call first.", ReturnUserName(playerid)), MSG_TYPE_INFO);
+        PlayerTextDrawSetString(starter_id, bj_gui_guestdraws[5], sprintf("(%d) %s~n~~r~(Rakip):~w~ 0 toplam puan", playerid, ReturnUserName(playerid) ));
+        PlayerTextDrawSetString(playerid, bj_gui_guestdraws[5], sprintf("(%d) %s~n~~r~(Rakip):~w~ 0 toplam puan", playerid, ReturnUserName(playerid) ));
 
-		BJ_ShowTDs(starter_id);
-		BJ_ShowTDs(playerid);
+        KillTimer(PlayerBlackJack[playerid][pAcceptTimerBJ]);
+        PlayerBlackJack[playerid][pRequestBJ] = -1; return 1;
+    }
+    else if(!strcmp(option, "refuse", true))
+    {
+        if(PlayerBlackJack[playerid][pRequestBJ] == -1){
+            return SendServerMessage(playerid, "Blackjack oynamak için bir davetiniz yok.", MSG_TYPE_ERROR);
+        }
 
-		PlayerTextDrawSetString(starter_id, bj_gui_housedraws[5], sprintf("(%d) %s~n~~r~(House):~w~ 0 points total", starter_id, ReturnUserName(starter_id) ));
-		PlayerTextDrawSetString(playerid, bj_gui_housedraws[5], sprintf("(%d) %s~n~~r~(House):~w~ 0 points total", starter_id, ReturnUserName(starter_id) ));
+        SendServerMessage(PlayerBlackJack[playerid][pStarterBJ], "Blackjack oynama davetiniz reddedildi.", MSG_TYPE_ERROR);
+        SendServerMessage(playerid, "Blackjack oynamayý reddettiniz.", MSG_TYPE_ERROR);
 
-		PlayerTextDrawSetString(starter_id, bj_gui_guestdraws[5], sprintf("(%d) %s~n~~r~(Guest):~w~ 0 points total", playerid, ReturnUserName(playerid) ));
-		PlayerTextDrawSetString(playerid, bj_gui_guestdraws[5], sprintf("(%d) %s~n~~r~(Guest):~w~ 0 points total", playerid, ReturnUserName(playerid) ));
+        starter_id = PlayerBlackJack[playerid][pRequestBJ];
+        SendServerMessage(playerid, "Blackjack oyununu reddettiniz.", MSG_TYPE_INFO);
+        SendServerMessage(starter_id, sprintf("%s blackjack oynamayý reddetti.", ReturnUserName(playerid)), MSG_TYPE_INFO);
+        BJ_Stop(playerid, starter_id);
+    }
+    else if(!strcmp(option, "play", true))
+    {
+        GetPlayerPos(id, X, Y, Z);
 
-		KillTimer(PlayerBlackJack[playerid][pAcceptTimerBJ]);
-		PlayerBlackJack[playerid][pRequestBJ] = -1; return 1;
-	}
-	else if(!strcmp(option, "refuse", true))
-	{
-		if(PlayerBlackJack[playerid][pRequestBJ] == -1){
-			return SendServerMessage(playerid, "You have no requests to play blackjack.", MSG_TYPE_ERROR);
-		}
+        if(PlayerBlackJack[playerid][pInBJ]){
+            return SendServerMessage(playerid, "Zaten blackjack oynuyorsunuz.", MSG_TYPE_ERROR);
+        }
 
-		SendServerMessage(PlayerBlackJack[playerid][pStarterBJ], "Your request to play blackjack has been refused.", MSG_TYPE_ERROR);
-		SendServerMessage(playerid, "You have refused to play blackjack.", MSG_TYPE_ERROR);
+        if(id == -1 || amount < 1 || amount > 10000){
+            return SendServerMessage(playerid, "/blackjack [play] [id/Oyuncu Adý] [bahis(1 - 10000)]", MSG_TYPE_ERROR);
+        }
 
-		starter_id = PlayerBlackJack[playerid][pRequestBJ];
-		SendServerMessage(playerid, "You refused the blackjack game.", MSG_TYPE_INFO);
-		SendServerMessage(starter_id, sprintf("%s refused to play blackjack.", ReturnUserName(playerid)), MSG_TYPE_INFO);
-		BJ_Stop(playerid, starter_id);
-	}
-	else if(!strcmp(option, "play", true))
-	{
-		GetPlayerPos(id, X, Y, Z);
+        if(!IsPlayerConnected(id) || !IsPlayerInRangeOfPoint(playerid, 2.0, X, Y, Z) || id == playerid){
+            return SendServerMessage(playerid, "Bu oyuncu baðlý deðil veya yakýnýnýzda deðil.", MSG_TYPE_ERROR);
+        }
 
-		if(PlayerBlackJack[playerid][pInBJ]){
-			return SendServerMessage(playerid, "You're already playing blackjack.", MSG_TYPE_ERROR);
-		}
+        if(PlayerBlackJack[id][pInBJ] || PlayerBlackJack[id][pTableID])return
+            SendServerMessage(playerid, "Oyuncu zaten bir blackjack oyunuyla meþgul.", MSG_TYPE_ERROR);
 
-		if(id == -1 || amount < 1 || amount > 10000){
-			return SendServerMessage(playerid, "/blackjack [play] [id/name] [bet(1 - 10000)]", MSG_TYPE_ERROR);
-		}
+        if(Character [ playerid ] [ character_handmoney ] < amount)return
+            SendServerMessage(playerid, sprintf("Yeterli paranýz yok. ($%d)", amount), MSG_TYPE_INFO);
 
-		if(!IsPlayerConnected(id) || !IsPlayerInRangeOfPoint(playerid, 2.0, X, Y, Z) || id == playerid){
-			return SendServerMessage(playerid, "This player is not connected or not near you.", MSG_TYPE_ERROR);
-		}
+        if(Character [ id ] [ character_handmoney ] < amount)return
+            SendServerMessage(playerid, sprintf("Oyuncunun yeterli parasý yok. ($%d)", amount), MSG_TYPE_INFO);
 
-		if(PlayerBlackJack[id][pInBJ] || PlayerBlackJack[id][pTableID])return
-			SendServerMessage(playerid, "The player is already engaged in a game of blackjack.", MSG_TYPE_ERROR);
+        PlayerBlackJack[id][pRequestBJ] = playerid;
 
-		if(Character [ playerid ] [ character_handmoney ] < amount)return
-			SendServerMessage(playerid, sprintf("You don't have enough money. ($%d)", amount), MSG_TYPE_INFO);
+        PlayerBlackJack[playerid][pBetBJ] = amount;
+        PlayerBlackJack[id][pBetBJ] = amount;
 
-		if(Character [ id ] [ character_handmoney ] < amount)return
-		    SendServerMessage(playerid, sprintf("The player does not have enough money. ($%d)", amount), MSG_TYPE_INFO);
+        SendServerMessage(playerid, sprintf("%s isimli oyuncuyu blackjack oynamaya davet ettiniz. (Bahis: %d $ | Potansiyel Kazanç: %d $)", ReturnUserName(id), amount, amount * 2), MSG_TYPE_INFO);
+        SendServerMessage(id, sprintf("%s (kasa) size blackjack daveti gönderdi. (Bahis: %d $ | Potansiyel Kazanç: %d $)", ReturnUserName(playerid), amount, amount * 2), MSG_TYPE_INFO);
 
-		PlayerBlackJack[id][pRequestBJ] = playerid;
+        SendServerMessage(id, "Davet 30 saniye içinde otomatik olarak iptal edilecek. (/blackjack accept - /blackjack refuse)", MSG_TYPE_INFO);
+        PlayerBlackJack[id][pAcceptTimerBJ] = SetTimerEx("BJ_DeleteRequest", 30000, false, "d", id);
+    }
+    else if(!strcmp(option, "call", false))
+    {
+        if(!PlayerBlackJack[playerid][pInBJ])return
+            SendServerMessage(playerid, "Blackjack oynamýyorsunuz.", MSG_TYPE_ERROR);
 
-		PlayerBlackJack[playerid][pBetBJ] = amount;
-		PlayerBlackJack[id][pBetBJ] = amount;
+        if(PlayerBlackJack[playerid][pTurnBJ] != playerid){
+            return SendServerMessage(playerid, "Sýra sizde deðil.", MSG_TYPE_ERROR);
+        }
 
-		SendServerMessage(playerid, sprintf("You have invited %s to play blackjack. (Bet: %d $ | Potential win:%d $)", ReturnUserName(id), amount, amount * 2), MSG_TYPE_INFO);
-		SendServerMessage(id, sprintf("%s (banker) sent you to play blackjack. (Stake: %d $ | Potential win: %d $)", ReturnUserName(playerid), amount, amount * 2), MSG_TYPE_INFO);
+        BJ_GiveCard(playerid);
+    }
+    else if(!strcmp(option, "stand", false))
+    {
+        if(!PlayerBlackJack[playerid][pInBJ]){
+            return SendServerMessage(playerid, "Blackjack oynamýyorsunuz.", MSG_TYPE_ERROR);
+        }
 
-		SendServerMessage(id, "The request will expire automatically in 30 seconds. (/ blackjack accept - / blackjack refuse)", MSG_TYPE_INFO);
-		PlayerBlackJack[id][pAcceptTimerBJ] = SetTimerEx("BJ_DeleteRequest", 30000, false, "d", id);
-	}
-	else if(!strcmp(option, "call", false))
-	{
-		if(!PlayerBlackJack[playerid][pInBJ])return
-			SendServerMessage(playerid, "You're not playing blackjack.", MSG_TYPE_ERROR);
+        if(PlayerBlackJack[playerid][pTurnBJ] != playerid){
+            return SendServerMessage(playerid, "Sýra sizde deðil.", MSG_TYPE_ERROR);
+        }
 
-		BJ_GiveCard(playerid);
-	}
-	else if(!strcmp(option, "stand", false))
-	{
-		if(!PlayerBlackJack[playerid][pInBJ]){
-			return SendServerMessage(playerid, "You're not playing blackjack.", MSG_TYPE_ERROR);
-		}
+        if(!PlayerBlackJack[playerid][pGuestStatusBJ]){
+            return SendServerMessage(playerid, "Hiç kart çekmeden duramazsýnýz.", MSG_TYPE_ERROR);
+        }
 
-		if(PlayerBlackJack[playerid][pTurnBJ] == playerid && PlayerBlackJack[playerid][pStarterBJ] == playerid){
-			return SendServerMessage(playerid, "You can't stand being on the tour.", MSG_TYPE_ERROR);
-		}
+        starter_id = PlayerBlackJack[playerid][pStarterBJ];
+        new guest_id = PlayerBlackJack[playerid][pGuestBJ];
+        new bet = PlayerBlackJack[playerid][pBetBJ];
 
-		if(!PlayerBlackJack[playerid][pGuestStatusBJ]){
-			return SendServerMessage(playerid, "You can not be if you have not called not even a card.", MSG_TYPE_ERROR);
-		}
+        if(playerid == guest_id)
+        {
+            PlayerBlackJack[starter_id][pTurnBJ] = starter_id;
+            PlayerBlackJack[guest_id][pTurnBJ] = starter_id;
 
+            SendServerMessage(guest_id, "Sýranýzý bitirdiniz (stand). Þimdi sýra rakibinizde.", MSG_TYPE_INFO);
+            SendServerMessage(starter_id, "Rakibiniz sýrasýný bitirdi (stand). Þimdi sýra sizde, /blackjack call veya /blackjack stand komutunu kullanýn.", MSG_TYPE_INFO);
+            return 1;
+        }
+        if(playerid == starter_id)
+        {
+            if(PlayerBlackJack[playerid][pStarterStatusBJ] == PlayerBlackJack[playerid][pGuestStatusBJ])
+            {
+                SendServerMessage(playerid, sprintf("Rakibinle ayný skoru yaptýn: %d.", PlayerBlackJack[playerid][pStarterStatusBJ]), MSG_TYPE_INFO);
+                SendServerMessage(guest_id, sprintf("Rakibin seninle ayný skoru yaptý: %d.", PlayerBlackJack[playerid][pGuestStatusBJ]), MSG_TYPE_INFO);
+
+                GiveCharacterMoney(playerid, bet / 2, MONEY_SLOT_HAND);
+                GiveCharacterMoney(guest_id, bet / 2, MONEY_SLOT_HAND);
+
+                return BJ_Stop(playerid, guest_id);
+            }
+            if(PlayerBlackJack[playerid][pStarterStatusBJ] > PlayerBlackJack[playerid][pGuestStatusBJ])
+            {
+                SendServerMessage(playerid, sprintf("Rakibinin skorunu geçtin (%d), kazandýn.", PlayerBlackJack[playerid][pGuestStatusBJ]), MSG_TYPE_INFO);
+                SendServerMessage(guest_id, sprintf("Rakibin senin skorunu geçti (%d), kaybettin.", PlayerBlackJack[playerid][pStarterStatusBJ]), MSG_TYPE_INFO);
+
+                GiveCharacterMoney(playerid, bet, MONEY_SLOT_HAND);
+                TakeCharacterMoney(guest_id, bet, MONEY_SLOT_HAND);
+
+                return BJ_Stop(playerid, guest_id);
+            }
+            else
+            {
+                SendServerMessage(playerid, sprintf("Rakibinin skorunu geçemedin (%d), kaybettin.", PlayerBlackJack[playerid][pGuestStatusBJ]), MSG_TYPE_INFO);
+                SendServerMessage(guest_id, sprintf("Rakibin senin skorunu geçemedi (%d), kazandýn.", PlayerBlackJack[playerid][pStarterStatusBJ]), MSG_TYPE_INFO);
+
+                TakeCharacterMoney(playerid, bet, MONEY_SLOT_HAND);
+                GiveCharacterMoney(guest_id, bet, MONEY_SLOT_HAND);
+
+                return BJ_Stop(playerid, guest_id);
+            }
+        }
+    }
+    else if(!strcmp(option, "exit", true))
+    {
+        if(!PlayerBlackJack[playerid][pInBJ]){
+            return SendServerMessage(playerid, "Blackjack oynamýyorsunuz.", MSG_TYPE_ERROR);
+        }
+
+        starter_id = PlayerBlackJack[playerid][pStarterBJ];
+        new guest_id = PlayerBlackJack[playerid][pGuestBJ];
+        new bet = PlayerBlackJack[playerid][pBetBJ];
+
+        if(playerid == starter_id)
+        {
+            SendServerMessage(starter_id, "Oyundan çýktýnýz, bahsi kaybettiniz.", MSG_TYPE_ERROR);
+            SendServerMessage(guest_id, "Rakibiniz oyundan çýktý, bahsi kazandýnýz.", MSG_TYPE_INFO);
+
+            TakeCharacterMoney(starter_id, bet, MONEY_SLOT_HAND);
+            GiveCharacterMoney(guest_id, bet, MONEY_SLOT_HAND);
+            BJ_Stop(starter_id, guest_id);
+        }
+        else
+        {
+            SendServerMessage(guest_id, "Oyundan çýktýnýz, bahsi kaybettiniz.", MSG_TYPE_ERROR);
+            SendServerMessage(starter_id, "Rakibiniz oyundan çýktý, bahsi kazandýnýz.", MSG_TYPE_INFO);
+
+            TakeCharacterMoney(guest_id, bet, MONEY_SLOT_HAND);
+            GiveCharacterMoney(starter_id, bet, MONEY_SLOT_HAND);
+            BJ_Stop(starter_id, guest_id);
+        }
 		if(PlayerBlackJack[playerid][pTurnBJ] == playerid && PlayerBlackJack[playerid][pGuestBJ] == playerid)
 		{
-			SendServerMessage(PlayerBlackJack[playerid][pStarterBJ], "Your opponent moved, your turn.", MSG_TYPE_ERROR);
-			SendServerMessage(playerid, "You moved, it's your opponent's turn.", MSG_TYPE_ERROR);
+			SendServerMessage(PlayerBlackJack[playerid][pStarterBJ], "Senin sýran.", MSG_TYPE_ERROR);
+			SendServerMessage(playerid, "Rakibin sýrasý.", MSG_TYPE_ERROR);
 			starter_id = PlayerBlackJack[playerid][pStarterBJ];
 			PlayerBlackJack[playerid][pTurnBJ] = starter_id;
 			PlayerBlackJack[starter_id][pTurnBJ] = starter_id;
@@ -299,15 +370,15 @@ CMD:blackjack(playerid, params[])
 	else if(!strcmp(option, "exit", false))
 	{
 		if(!PlayerBlackJack[playerid][pInBJ]){
-			return SendServerMessage(playerid, "You're not playing blackjack.", MSG_TYPE_ERROR);
+			return SendServerMessage(playerid, "Blackjack oynamýyorsun.", MSG_TYPE_ERROR);
 		}
 
 		new bet = (Character [ playerid ] [ character_handmoney ] < PlayerBlackJack[playerid][pBetBJ]) ? Character [ playerid ] [ character_handmoney ] : PlayerBlackJack[playerid][pBetBJ];
 
 		if(PlayerBlackJack[playerid][pStarterBJ] == playerid)
 		{
-			SendServerMessage(PlayerBlackJack[playerid][pGuestBJ], "Your opponent has abandoned the game, you won.", MSG_TYPE_INFO);
-			SendServerMessage(playerid, "You abandoned the game, thus you lost.", MSG_TYPE_INFO);
+			SendServerMessage(PlayerBlackJack[playerid][pGuestBJ], "Rakibin patladý sen kazandýn.", MSG_TYPE_INFO);
+			SendServerMessage(playerid, "Patladýn rakibin kazandý.", MSG_TYPE_INFO);
 
 			GiveCharacterMoney(PlayerBlackJack[playerid][pGuestBJ], bet, MONEY_SLOT_HAND);
 			TakeCharacterMoney(playerid, bet, MONEY_SLOT_HAND);
@@ -316,8 +387,8 @@ CMD:blackjack(playerid, params[])
 		}
 		if(PlayerBlackJack[playerid][pGuestBJ] == playerid)
 		{
-			SendServerMessage(PlayerBlackJack[playerid][pStarterBJ], "Your opponent has abandoned the game, you won.", MSG_TYPE_INFO);
-			SendServerMessage(playerid, "You abandoned the game, thus you lost.", MSG_TYPE_INFO);
+			SendServerMessage(PlayerBlackJack[playerid][pStarterBJ], "Rakibin patladý sen kazandýn.", MSG_TYPE_INFO);
+			SendServerMessage(playerid, "Patladýn rakibin kazandý.", MSG_TYPE_INFO);
 
 			GiveCharacterMoney(PlayerBlackJack[playerid][pGuestBJ], bet, MONEY_SLOT_HAND);
 			TakeCharacterMoney(playerid, bet, MONEY_SLOT_HAND);
@@ -326,7 +397,7 @@ CMD:blackjack(playerid, params[])
 		}
 		else return 1;
 	}
-	else return  SendServerMessage(playerid, "Invalid parameter.", MSG_TYPE_ERROR);
+	else return  SendServerMessage(playerid, "Geçersiz parametre.", MSG_TYPE_ERROR);
 
 	return 1;
 }
@@ -335,8 +406,8 @@ CMD:blackjack(playerid, params[])
 
 BJ_DeleteRequest(playerid); public BJ_DeleteRequest(playerid)
 {
-	SendServerMessage(playerid, "You have not accepted the blackjack invitation in time.", MSG_TYPE_INFO);
-	SendServerMessage(PlayerBlackJack[playerid][pRequestBJ], "The player has not accepted the blackjack invitation in time.", MSG_TYPE_INFO);
+	SendServerMessage(playerid, "Blackjack isteðini kabul etmedin.", MSG_TYPE_INFO);
+	SendServerMessage(PlayerBlackJack[playerid][pRequestBJ], "Blackjack isteðini zamanýnda kabul etmedi.", MSG_TYPE_INFO);
 	PlayerBlackJack[playerid][pRequestBJ] = -1;
 	KillTimer(PlayerBlackJack[playerid][pAcceptTimerBJ]); return 1;
 }
@@ -425,13 +496,13 @@ BJ_GiveCard(playerid)
 		PlayerBlackJack[playerid][pStarterStatusBJ] += Card[add_point][E_CARD_VALUE];
 		PlayerBlackJack[guest_id][pStarterStatusBJ] = PlayerBlackJack[playerid][pStarterStatusBJ];
 
-		PlayerTextDrawSetString(playerid, bj_gui_housedraws[5], sprintf("(%d) %s~n~~r~(House):~w~ %d points total", playerid, ReturnUserName(playerid), PlayerBlackJack[playerid][pStarterStatusBJ] ));
-		PlayerTextDrawSetString(guest_id, bj_gui_housedraws[5], sprintf("(%d) %s~n~~r~(House):~w~ %d points total", playerid, ReturnUserName(playerid), PlayerBlackJack[playerid][pStarterStatusBJ] ));
+		PlayerTextDrawSetString(playerid, bj_gui_housedraws[5], sprintf("(%d) %s~n~~r~(Ev):~w~ %d puan toplam", playerid, ReturnUserName(playerid), PlayerBlackJack[playerid][pStarterStatusBJ] ));
+		PlayerTextDrawSetString(guest_id, bj_gui_housedraws[5], sprintf("(%d) %s~n~~r~(Ev):~w~ %d puan toplam", playerid, ReturnUserName(playerid), PlayerBlackJack[playerid][pStarterStatusBJ] ));
 
-		SendServerMessage(playerid, sprintf("You've been dealt a \"%s\", containing %d points.",
-			Card[add_point][E_CARD_NAME], Card[add_point][E_CARD_VALUE]),MSG_TYPE_INFO);
-		SendServerMessage(guest_id, sprintf("Opponent has been dealt a \"%s\", containing %d points.",
-			Card[add_point][E_CARD_NAME], Card[add_point][E_CARD_VALUE]),MSG_TYPE_INFO);
+		SendServerMessage(playerid, sprintf("Sana bir \"%s\" daðýtýldý, %d puan içeriyor.",
+        Card[add_point][E_CARD_NAME], Card[add_point][E_CARD_VALUE]), MSG_TYPE_INFO);
+        SendServerMessage(guest_id, sprintf("Rakibe bir \"%s\" daðýtýldý, %d puan içeriyor.",
+        Card[add_point][E_CARD_NAME], Card[add_point][E_CARD_VALUE]), MSG_TYPE_INFO);
 
 		if(PlayerBlackJack[playerid][pStarterCardCount] < 1)
 		{
@@ -458,8 +529,8 @@ BJ_GiveCard(playerid)
 		}
 		if(PlayerBlackJack[playerid][pStarterStatusBJ] > 21)
 		{
-			SendServerMessage(playerid, sprintf("You busted with a total score of %d, your opponent has won.", PlayerBlackJack[playerid][pStarterStatusBJ]), MSG_TYPE_INFO);
-			SendServerMessage(guest_id, sprintf("Your opponent has busted with a total score of %d, you've won.", PlayerBlackJack[playerid][pStarterStatusBJ]), MSG_TYPE_INFO);
+			SendServerMessage(playerid, sprintf("%d puan ile patladýn, rakibin kazandý.", PlayerBlackJack[playerid][pStarterStatusBJ]), MSG_TYPE_INFO);
+			SendServerMessage(guest_id, sprintf("Rakibin %d puan ile patladý, sen kazandýn.", PlayerBlackJack[playerid][pStarterStatusBJ]), MSG_TYPE_INFO);
 
 			GiveCharacterMoney(guest_id, bet, MONEY_SLOT_HAND);
 			TakeCharacterMoney(playerid, bet, MONEY_SLOT_HAND);
@@ -468,26 +539,25 @@ BJ_GiveCard(playerid)
 		}
 		if(PlayerBlackJack[playerid][pStarterStatusBJ] == PlayerBlackJack[playerid][pGuestStatusBJ])
 		{
-			SendServerMessage(playerid, sprintf("You made the same score as your opponent: %d.", PlayerBlackJack[playerid][pStarterStatusBJ]), MSG_TYPE_INFO);
-			SendServerMessage(guest_id, sprintf("Your opponent has made the same score as you: %d.", PlayerBlackJack[playerid][pGuestStatusBJ]), MSG_TYPE_INFO);
+  		  SendServerMessage(playerid, sprintf("Rakibinle ayný skoru yaptýn: %d.", PlayerBlackJack[playerid][pStarterStatusBJ]), MSG_TYPE_INFO);
+  		  SendServerMessage(guest_id, sprintf("Rakibin seninle ayný skoru yaptý: %d.", PlayerBlackJack[playerid][pGuestStatusBJ]), MSG_TYPE_INFO);
 
+   		 GiveCharacterMoney(playerid, bet / 2, MONEY_SLOT_HAND);
+  		  GiveCharacterMoney(guest_id, bet / 2, MONEY_SLOT_HAND);
 
-			GiveCharacterMoney(playerid, bet / 2, MONEY_SLOT_HAND);
-			GiveCharacterMoney(guest_id, bet / 2, MONEY_SLOT_HAND);
-
-			return BJ_Stop(playerid, guest_id);
+    		return BJ_Stop(playerid, guest_id);
 		}
 		if(PlayerBlackJack[playerid][pStarterStatusBJ] > PlayerBlackJack[playerid][pGuestStatusBJ])
 		{
-			SendServerMessage(playerid, sprintf("You have exceeded your opponent's score (%d), you win.", PlayerBlackJack[playerid][pGuestStatusBJ]), MSG_TYPE_INFO);
-			SendServerMessage(guest_id, sprintf("Your opponent has passed your score (%d), you've lost.", PlayerBlackJack[playerid][pStarterStatusBJ]), MSG_TYPE_INFO);
+  		SendServerMessage(playerid, sprintf("Rakibinin skorunu geçtin (%d), kazandýn.", PlayerBlackJack[playerid][pGuestStatusBJ]), MSG_TYPE_INFO);
+		SendServerMessage(guest_id, sprintf("Rakibin senin skorunu geçti (%d), kaybettin.", PlayerBlackJack[playerid][pStarterStatusBJ]), MSG_TYPE_INFO);
 
-			GiveCharacterMoney(playerid, bet, MONEY_SLOT_HAND);
-			TakeCharacterMoney(guest_id, bet, MONEY_SLOT_HAND);
+ 		   GiveCharacterMoney(playerid, bet, MONEY_SLOT_HAND);
+ 		   TakeCharacterMoney(guest_id, bet, MONEY_SLOT_HAND);
 
-			return BJ_Stop(playerid, guest_id);
+		    return BJ_Stop(playerid, guest_id);
 		}
-		else return 1;
+else return 1;
 	}
 	else if(PlayerBlackJack[playerid][pTurnBJ] == playerid && PlayerBlackJack[playerid][pGuestBJ] == playerid)
 	{
@@ -496,13 +566,13 @@ BJ_GiveCard(playerid)
 		PlayerBlackJack[playerid][pGuestStatusBJ] += Card[add_point][E_CARD_VALUE];
 		PlayerBlackJack[starter_id][pGuestStatusBJ] = PlayerBlackJack[playerid][pGuestStatusBJ];
 
-		PlayerTextDrawSetString(starter_id, bj_gui_guestdraws[5], sprintf("(%d) %s~n~~r~(Guest):~w~ %d points total", playerid, ReturnUserName(playerid), PlayerBlackJack[playerid][pGuestStatusBJ] ));
-		PlayerTextDrawSetString(playerid, bj_gui_guestdraws[5], sprintf("(%d) %s~n~~r~(Guest):~w~ %d points total", playerid, ReturnUserName(playerid), PlayerBlackJack[playerid][pGuestStatusBJ] ));
+		PlayerTextDrawSetString(starter_id, bj_gui_guestdraws[5], sprintf("(%d) %s~n~~r~(Misafir):~w~ %d puan toplam", playerid, ReturnUserName(playerid), PlayerBlackJack[playerid][pGuestStatusBJ] ));
+		PlayerTextDrawSetString(playerid, bj_gui_guestdraws[5], sprintf("(%d) %s~n~~r~(Misafir):~w~ %d puan toplam", playerid, ReturnUserName(playerid), PlayerBlackJack[playerid][pGuestStatusBJ] ));
 
-		SendServerMessage(playerid, sprintf("You've been dealt a \"%s\", containing %d points.",
-			Card[add_point][E_CARD_NAME], Card[add_point][E_CARD_VALUE]), MSG_TYPE_INFO);
-		SendServerMessage(starter_id, sprintf("Opponent has been dealt a \"%s\", containing %d points.",
-			Card[add_point][E_CARD_NAME], Card[add_point][E_CARD_VALUE]), MSG_TYPE_INFO);
+		SendServerMessage(playerid, sprintf("Sana bir \"%s\" daðýtýldý, %d puan içeriyor.",
+    		Card[add_point][E_CARD_NAME], Card[add_point][E_CARD_VALUE]), MSG_TYPE_INFO);
+		SendServerMessage(starter_id, sprintf("Rakibe bir \"%s\" daðýtýldý, %d puan içeriyor.",
+    		Card[add_point][E_CARD_NAME], Card[add_point][E_CARD_VALUE]), MSG_TYPE_INFO);
 
 		if(PlayerBlackJack[playerid][pGuestCardCount] < 1) {
 
@@ -528,8 +598,8 @@ BJ_GiveCard(playerid)
 		}
 		if(PlayerBlackJack[playerid][pGuestStatusBJ] > 21)
 		{
-			SendServerMessage(playerid, sprintf("You bust (%d), your opponent has won.", PlayerBlackJack[playerid][pGuestStatusBJ]), MSG_TYPE_INFO);
-			SendServerMessage(starter_id, sprintf("Your opponent bust (%d), you won!", PlayerBlackJack[playerid][pGuestStatusBJ]), MSG_TYPE_INFO);
+			SendServerMessage(playerid, sprintf("Patladýn (%d), rakibin kazandý!", PlayerBlackJack[playerid][pGuestStatusBJ]), MSG_TYPE_INFO);
+			SendServerMessage(starter_id, sprintf("Rakibin patladý (%d), sen kazandýn!", PlayerBlackJack[playerid][pGuestStatusBJ]), MSG_TYPE_INFO);
 			
 
 			GiveCharacterMoney(starter_id, bet, MONEY_SLOT_HAND);
@@ -541,12 +611,12 @@ BJ_GiveCard(playerid)
 		{
 			PlayerBlackJack[playerid][pTurnBJ] = starter_id;
 			PlayerBlackJack[starter_id][pTurnBJ] = starter_id;
-			SendServerMessage(playerid, "You have made 21! Now it's your opponent's turn.", MSG_TYPE_INFO);
-			SendServerMessage(starter_id, "Your opponent has made 21! Now it's your turn.", MSG_TYPE_INFO);
+			SendServerMessage(playerid, "21 yaptýn, sýra karþý tarafta.", MSG_TYPE_INFO);
+			SendServerMessage(starter_id, "Rakibin 21 yaptý, sýra sende!", MSG_TYPE_INFO);
 		}
 		else return 1;
 	}
-	else SendServerMessage(playerid, "It is not your turn.", MSG_TYPE_ERROR);
+	else SendServerMessage(playerid, "Sýra sende deðilsin.", MSG_TYPE_ERROR);
 
 	return 1;
 }
@@ -608,7 +678,7 @@ BJ_Stop(playerid, pid)
 Blackjack_CreateStaticGUI() {
 
 
-	bj_gui_staticdraws[0] = TextDrawCreate(323.5000, 138.0000, "(( Use /blackjack to play ))");
+	bj_gui_staticdraws[0] = TextDrawCreate(323.5000, 138.0000, "(( /blackjack komutuyla oyna ))");
 	TextDrawFont(bj_gui_staticdraws[0], TEXT_DRAW_FONT_2);
 	TextDrawLetterSize(bj_gui_staticdraws[0], 0.2500, 1.0000);
 	TextDrawAlignment(bj_gui_staticdraws[0], TEXT_DRAW_ALIGN_CENTRE);
@@ -666,7 +736,7 @@ Blackjack_CreateStaticGUI() {
 	TextDrawBoxColor(bj_gui_staticdraws[4], 858993578);
 	TextDrawTextSize(bj_gui_staticdraws[4], 0.0000, 150.0000);
 
-	bj_gui_staticdraws[5] = TextDrawCreate(323.000, 156.0000, "Blackjack:~w~ One~r~ versus~w~ One");
+	bj_gui_staticdraws[5] = TextDrawCreate(323.000, 156.0000, "Blackjack:~w~ bir~r~ versus~w~ bir");
 	TextDrawFont(bj_gui_staticdraws[5], TEXT_DRAW_FONT_2);
 	TextDrawLetterSize(bj_gui_staticdraws[5], 0.2500, 1.0000);
 	TextDrawAlignment(bj_gui_staticdraws[5], TEXT_DRAW_ALIGN_CENTRE);
@@ -729,7 +799,7 @@ Blackjack_CreatePlayerGUI(playerid) {
 	PlayerTextDrawBackgroundColor(playerid, bj_gui_housedraws[4], 255);
 	PlayerTextDrawTextSize(playerid, bj_gui_housedraws[4], 25.0000, 35.0000);
 
-	bj_gui_housedraws[5] = CreatePlayerTextDraw(playerid, 323.0000, 220.5000, "(100) Firstname_Lastname~n~~r~(House):~w~ 21 points total");
+	bj_gui_housedraws[5] = CreatePlayerTextDraw(playerid, 323.0000, 220.5000, "(100) Ad soyad~n~~r~(Ev):~w~ 21 puan toplam");
 	PlayerTextDrawFont(playerid, bj_gui_housedraws[5], TEXT_DRAW_FONT_SPRITE_DRAW);
 	PlayerTextDrawLetterSize(playerid, bj_gui_housedraws[5], 0.2500, 1.0000);
 	PlayerTextDrawAlignment(playerid, bj_gui_housedraws[5], TEXT_DRAW_ALIGN_CENTRE);
