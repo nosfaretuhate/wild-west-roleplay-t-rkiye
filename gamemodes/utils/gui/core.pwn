@@ -148,7 +148,7 @@ UpdateGUI ( playerid ) {
 
 		TextDrawHideForPlayer ( playerid, gui_td_hudbox_date  ) ;
 
-		format ( string, sizeof ( string ), "%s the %d%s,~n~%s, %d", date_dayName ( serverDay, serverMonth, serverYear ),
+		format ( string, sizeof ( string ), "%s %d%s,~n~%s, %d", date_dayName ( serverDay, serverMonth, serverYear ),
 			serverDay, date_dayOrdinal ( serverDay ), date_getMonth ( serverMonth ), serverYear );
 
 		TextDrawSetString ( gui_td_hudbox_date, string ) ;
@@ -353,11 +353,11 @@ CMD:hud(playerid, params[]){
 	if(!HudHidden[playerid]){
 		HudHidden[playerid] = true;
 		HideHUDTextDraws(playerid);
-		SendServerMessage(playerid, "HUD has been turned off.", MSG_TYPE_INFO);
+		SendServerMessage(playerid, "Hud deaktif edildi.", MSG_TYPE_INFO);
 	} else {
 		HudHidden[playerid] = false;
 		ShowHUDTextDraws(playerid);
-		SendServerMessage(playerid, "HUD has been turned on.", MSG_TYPE_INFO);
+		SendServerMessage(playerid, "Hud aktif edildi.", MSG_TYPE_INFO);
 	}
 
 	return true;
@@ -370,7 +370,7 @@ CMD:toghud(playerid, params[]) {
 
 LoadWeaponGUI ( playerid ) {
 
-	gui_td_hudbox_gunname [ 0 ]  = CreatePlayerTextDraw(playerid, 553.5, 29.5, "Nothing Equipped");
+	gui_td_hudbox_gunname [ 0 ]  = CreatePlayerTextDraw(playerid, 553.5, 29.5, "Silahsiz");
 	PlayerTextDrawLetterSize(playerid, gui_td_hudbox_gunname [ 0 ] , 0.268333, 1.114666);
 	PlayerTextDrawBackgroundColor(playerid, gui_td_hudbox_gunname [ 0 ] , 51);
 	PlayerTextDrawColor (playerid,  gui_td_hudbox_gunname [ 0 ] , BORDER_COLOUR ) ;
@@ -406,7 +406,7 @@ UpdateWeaponGUI ( playerid ) {
 		switch ( Character [ playerid ] [ character_handweapon ] ) {
 		    case WEAPON_SHOTGUN, WEAPON_SAWEDOFF, WEAPON_RIFLE, WEAPON_SNIPER: {
 				if ( Character [ playerid ] [ character_handweapon ]  == WEAPON_SHOTGUN ) {
-					PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Shotgun" ) ;
+					PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Pompali Tufek" ) ;
 				    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 349);
 				}
 
@@ -416,12 +416,12 @@ UpdateWeaponGUI ( playerid ) {
 				}
 
 				else if ( Character [ playerid ] [ character_handweapon ]  == WEAPON_RIFLE ) {
-					PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Repeater Rifle" ) ;
+					PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Av tufegi" ) ;
 				    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 357);
 				}
 				
 				else if ( Character [ playerid ] [ character_handweapon ]  == WEAPON_SNIPER ) {
-					PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Scoped Rifle" ) ;
+					PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Durbunlu Av Tufegi" ) ;
 				    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 358);
 				}
 
@@ -437,20 +437,20 @@ UpdateWeaponGUI ( playerid ) {
 				}
 
 				else if ( Character [ playerid ] [ character_handweapon ]  == WEAPON_KNIFE ) {
-					PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Hunting Knife" ) ;
+					PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Av Bicagi" ) ;
 				    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 335);
 	   				PlayerTextDrawSetPreviewRot ( playerid, gui_td_hudbox_gunmodel  , 0, 30, 0, 1.25 ) ;
 				}
 
 				else if ( Character [ playerid ] [ character_handweapon ]  == WEAPON_BAT ) {
-					PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Baseball Bat" ) ;
+					PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Beyzbol Sopasi" ) ;
 				    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 336);
 	   				PlayerTextDrawSetPreviewRot ( playerid, gui_td_hudbox_gunmodel  , 0, 30, 0, 1.25 ) ;
 				}
 			}
 			
 			default: {
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Nothing Equipped" ) ;
+				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Silahsiz" ) ;
 				PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel , 18631);
 				PlayerTextDrawSetPreviewRot ( playerid, gui_td_hudbox_gunmodel , 0, 30, 0, 1.0 ) ;
 		    }
@@ -470,10 +470,10 @@ UpdateWeaponGUI ( playerid ) {
 			
 			if ( Character [ playerid ] [ character_handammo ] != 0) {
 			
-				format ( formats, sizeof ( formats ), "%d BULLETS", Character [ playerid ] [ character_handammo ] );
+				format ( formats, sizeof ( formats ), "%d MERMI", Character [ playerid ] [ character_handammo ] );
 			}
 		
-			else format ( formats, sizeof ( formats ), "NO AMMO" );
+			else format ( formats, sizeof ( formats ), "MERMI YOK" );
 		}
 
 		new bulletLoop ;
@@ -508,7 +508,7 @@ UpdateWeaponGUI ( playerid ) {
 
 	else if ( EquippedItem [ playerid ] ) {
 
-		gui_td_hudbox_bulletinfo   = CreatePlayerTextDraw(playerid, 552.5, 62, "No ammo" ) ;
+		gui_td_hudbox_bulletinfo   = CreatePlayerTextDraw(playerid, 552.5, 62, "MERMI YOK" ) ;
 		PlayerTextDrawLetterSize(playerid, gui_td_hudbox_bulletinfo  , 0.24, 1.114666);
 		PlayerTextDrawBackgroundColor(playerid, gui_td_hudbox_bulletinfo  , 51);
 		PlayerTextDrawColor (playerid, gui_td_hudbox_bulletinfo  , BORDER_COLOUR ) ;
@@ -518,100 +518,99 @@ UpdateWeaponGUI ( playerid ) {
 
 			case DYNAMITE: {
 			
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Dynamite" ) ;
+				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "DINAMIT" ) ;
 			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 1654);
   				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
 			}
 
 			case CAMERA: {
 				
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Flash Camera" ) ;
+				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "KAMERA" ) ;
 			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 19623);
   				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
 			}
 
 			case HUNTING_KNIFE: {
 				
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Hunting Knife" ) ;
+				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "AV BICAGI" ) ;
 			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 335);
   				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
 			}
 
 			case FISHING_ROD: {
 				
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Fishing Rod" ) ;
+				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "BALIK OLTASI" ) ;
 			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 18632);
   				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
 			}
 
 			case MINE_PICKAXE: {
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Pickaxe" ) ;
+				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "KAZMA" ) ;
 			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , PICKAXE);
   				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 4.5 ) ;
 			}
 
-			case LUMBER_HATCHET: {
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Hatchet" ) ;
-			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , HATCHET);
-  				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 4.5 ) ;
-			}
+case LUMBER_HATCHET: {
+                PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "El Baltasi" ) ;
+                PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , HATCHET);
+                PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 4.5 ) ;
+            }
 
-			case LIQUOR_PALELAGER: {
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Pale Lager" ) ;
-			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 1544);
-  				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
-			}
+            case LIQUOR_PALELAGER: {
+                PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Acik Renkli Bira" ) ;
+                PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 1544);
+                PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
+            }
 
-			case LIQUOR_MILDALE: {
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Mild Ale" ) ;
-			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 1543);
-  				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
-			}
+            case LIQUOR_MILDALE: {
+                PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Hafif Bira" ) ;
+                PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 1543);
+                PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
+            }
 
-			case LIQUOR_MALTLIQUOR: {
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Malt Liquor" ) ;
-			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 1486);
-  				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
-			}
+            case LIQUOR_MALTLIQUOR: {
+                PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Malt Likoru" ) ;
+                PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 1486);
+                PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
+            }
 
-			case LIQUOR_WHEATBEER: {
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Wheat Beer" ) ;
-			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 1484);
-  				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
-			}
+            case LIQUOR_WHEATBEER: {
+                PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Bugday Birasi" ) ;
+                PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 1484);
+                PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
+            }
 
-			case LIQUOR_WHITEWINE: {
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "White Wine" ) ;
-			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 19824);
-  				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
-			}
+            case LIQUOR_WHITEWINE: {
+                PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Beyaz Sarap" ) ;
+                PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 19824);
+                PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
+            }
 
-			case LIQUOR_REDWINE: {
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Red Wine" ) ;
-			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 19822);
-  				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
-			}
+            case LIQUOR_REDWINE: {
+                PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Kirmizi Sarap" ) ;
+                PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 19822);
+                PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
+            }
 
-			case LIQUOR_GRAINWHISKEY: {
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Grain Whiskey" ) ;
-			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 19823);
-  				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
-			}
+            case LIQUOR_GRAINWHISKEY: {
+                PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Tahil Viskisi" ) ;
+                PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 19823);
+                PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
+            }
 
-			case LIQUOR_MALTWHISKEY: {
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Malt Whiskey" ) ;
-			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 19820);
-  				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
-			}
+            case LIQUOR_MALTWHISKEY: {
+                PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Malt Viskisi" ) ;
+                PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 19820);
+                PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
+            }
 
-			case LIQUOR_VODKA: {
-				PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Moonshine Vodka" ) ;
-			    PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 19821);
-  				PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
-			}
-		}
-	}
-
+            case LIQUOR_VODKA: {
+                PlayerTextDrawSetString ( playerid, gui_td_hudbox_gunname [ 0 ] , "Kacak Vodka" ) ;
+                PlayerTextDrawSetPreviewModel(playerid, gui_td_hudbox_gunmodel  , 19821);
+                PlayerTextDrawSetPreviewRot (playerid,  gui_td_hudbox_gunmodel  , 0, -30, 0, 1 ) ;
+            }
+        }
+    }
 	PlayerTextDrawShow(playerid, gui_td_hudbox_bulletinfo  ) ;
 	PlayerTextDrawShow(playerid, gui_td_hudbox_gunname [ 0 ]  ) ;
 	PlayerTextDrawShow(playerid, gui_td_hudbox_gunmodel  ) ;
@@ -773,7 +772,7 @@ GUI_LoadStaticPlayerDraws() {
 	TextDrawBackgroundColor(guiTD[4], 255);
 	TextDrawTextSize(guiTD[4], 15.0000, 15.0000);
 
-	guiTD[5] = TextDrawCreate(619.5000, 271.0000, "TEMP");
+	guiTD[5] = TextDrawCreate(619.5000, 271.0000, "SICAKLIK");
 	TextDrawLetterSize(guiTD[5], 0.2500, 1.0000);
 	TextDrawAlignment(guiTD[5], TEXT_DRAW_ALIGN_RIGHT);
 	TextDrawColor(guiTD[5], -780181761);
@@ -801,7 +800,7 @@ GUI_LoadStaticPlayerDraws() {
 	TextDrawBackgroundColor(guiTD[7], 255);
 	TextDrawTextSize(guiTD[7], 15.0000, 15.0000);
 
-	guiTD[8] = TextDrawCreate(624.0000, 311.0000, "HEALTH");
+	guiTD[8] = TextDrawCreate(624.0000, 311.0000, "SAGLIK");
 	TextDrawLetterSize(guiTD[8], 0.2500, 1.0000);
 	TextDrawAlignment(guiTD[8], TEXT_DRAW_ALIGN_RIGHT);
 	TextDrawColor(guiTD[8], -780181761);
@@ -829,7 +828,7 @@ GUI_LoadStaticPlayerDraws() {
 	TextDrawBackgroundColor(guiTD[10], 255);
 	TextDrawTextSize(guiTD[10], 15.0000, 15.0000);
 
-	guiTD[11] = TextDrawCreate(624.0000, 352.5000, "HUNGER");
+	guiTD[11] = TextDrawCreate(624.0000, 352.5000, "ACLIK");
 	TextDrawLetterSize(guiTD[11], 0.2249, 1.0000);
 	TextDrawAlignment(guiTD[11], TEXT_DRAW_ALIGN_RIGHT);
 	TextDrawColor(guiTD[11], -780181761);
@@ -857,7 +856,7 @@ GUI_LoadStaticPlayerDraws() {
 	TextDrawBackgroundColor(guiTD[13], 255);
 	TextDrawTextSize(guiTD[13], 15.0000, 15.0000);
 
-	guiTD[14] = TextDrawCreate(623.5000, 392.5000, "THIRST");
+	guiTD[14] = TextDrawCreate(623.5000, 392.5000, "SUSUZLUK");
 	TextDrawLetterSize(guiTD[14], 0.2500, 1.0000);
 	TextDrawAlignment(guiTD[14], TEXT_DRAW_ALIGN_RIGHT);
 	TextDrawColor(guiTD[14], -780181761);
@@ -866,7 +865,7 @@ GUI_LoadStaticPlayerDraws() {
 	TextDrawBackgroundColor(guiTD[14], 255);
 	TextDrawTextSize(guiTD[14], 15.0000, 15.0000);
 
-	guiTD[15] = TextDrawCreate(623.5000, 238.0000, "PLAYER");
+	guiTD[15] = TextDrawCreate(623.5000, 238.0000, "OYUNCU");
 	TextDrawLetterSize(guiTD[15], 0.2500, 1.0000);
 	TextDrawAlignment(guiTD[15], TEXT_DRAW_ALIGN_RIGHT);
 	TextDrawColor(guiTD[15], -780181761);
@@ -875,7 +874,7 @@ GUI_LoadStaticPlayerDraws() {
 	TextDrawBackgroundColor(guiTD[15], 255);
 	TextDrawTextSize(guiTD[15], 0.0000, 0.0000);
 
-	guiTD[16] = TextDrawCreate(634.5000, 434.5000, "You can use /hud to show/hide the player hud.");
+	guiTD[16] = TextDrawCreate(634.5000, 434.5000, "/hud ile hudu kapatip acabilirsin.");
 	TextDrawLetterSize(guiTD[16], 0.2500, 1.0000);
 	TextDrawAlignment(guiTD[16], TEXT_DRAW_ALIGN_RIGHT);
 	TextDrawColor(guiTD[16], -780181761);
@@ -1136,7 +1135,7 @@ GUI_LoadStaticHorseDraws() {
 	TextDrawBoxColor(horseguiTD[4], -780181761);
 	TextDrawTextSize(horseguiTD[4], 15.0000, 15.0000);
 
-	horseguiTD[5] = TextDrawCreate(548.0000, 394.5000, "STAMINA");
+	horseguiTD[5] = TextDrawCreate(548.0000, 394.5000, "ENERJI");
 	TextDrawLetterSize(horseguiTD[5], 0.2500, 1.0000);
 	TextDrawColor(horseguiTD[5], -780181761);
 	TextDrawSetShadow(horseguiTD[5], 0);
@@ -1154,7 +1153,7 @@ GUI_LoadStaticHorseDraws() {
 	TextDrawBoxColor(horseguiTD[6], -780181761);
 	TextDrawTextSize(horseguiTD[6], 15.0000, 15.0000);
 
-	horseguiTD[7] = TextDrawCreate(510.5000, 394.5000, "HEALTH");
+	horseguiTD[7] = TextDrawCreate(510.5000, 394.5000, "SAGLIK");
 	TextDrawLetterSize(horseguiTD[7], 0.2500, 1.0000);
 	TextDrawColor(horseguiTD[7], -780181761);
 	TextDrawSetShadow(horseguiTD[7], 0);
@@ -1162,7 +1161,7 @@ GUI_LoadStaticHorseDraws() {
 	TextDrawBackgroundColor(horseguiTD[7], 255);
 	TextDrawTextSize(horseguiTD[7], 0.0000, 0.0000);
 
-	horseguiTD[8] = TextDrawCreate(506.5000, 365.0000, "HORSE INFORMATION");
+	horseguiTD[8] = TextDrawCreate(506.5000, 365.0000, "AT BILGILERI");
 	TextDrawLetterSize(horseguiTD[8], 0.2300, 1.0000);
 	TextDrawColor(horseguiTD[8], -780181761);
 	TextDrawSetShadow(horseguiTD[8], 1);

@@ -56,7 +56,7 @@ new CowObject [ MAX_PLAYERS ] ;
 
 LoadHorseSprintTextDraw () {
 
-	TD_HorseSprint = TextDrawCreate(265.0, 320.0, "Horse Sprint");
+	TD_HorseSprint = TextDrawCreate(265.0, 320.0, "AT ENERJISI");
 	TextDrawColor(TD_HorseSprint, 0xD17F5EFF ) ;
     TextDrawLetterSize(TD_HorseSprint, 0.500, 1.500);
 	TextDrawBackgroundColor(TD_HorseSprint, 51);
@@ -65,7 +65,7 @@ LoadHorseSprintTextDraw () {
 
 LoadHorseHealthTextDraw () {
 
-	TD_HorseHealth = TextDrawCreate(265.0, 360.0, "Horse Health");
+	TD_HorseHealth = TextDrawCreate(265.0, 360.0, "AT SAGLIGI");
 	TextDrawColor(TD_HorseHealth, 0xD17F5EFF ) ;
     TextDrawLetterSize(TD_HorseHealth, 0.500, 1.500);
 	TextDrawBackgroundColor(TD_HorseHealth, 51);
@@ -114,7 +114,7 @@ CMD:toghorsetds ( playerid, params [] ) {
 
 		if ( ! IsPlayerRidingHorse [ playerid ] ) {
 
-			return SendServerMessage ( playerid, "You're not riding a horse", MSG_TYPE_ERROR ) ; 
+			return SendServerMessage ( playerid, "At sürmüyorsun.", MSG_TYPE_ERROR ) ; 
 		}
 
 		DestroyPlayerProgressBar(playerid, PlayerHorse [ playerid ] [ HorseHealthBar ] ) ;
@@ -136,7 +136,7 @@ CMD:toghorsetds ( playerid, params [] ) {
 		TextDrawShowForPlayer(playerid, TD_HorseHealth ) ;
 		TextDrawShowForPlayer(playerid, TD_HorseSprint ) ;
 
-		SendServerMessage ( playerid, "You have enabled your horse textdraws.", MSG_TYPE_INFO ) ;
+		SendServerMessage ( playerid, "AT Textdrawlarýný aktif ettin.", MSG_TYPE_INFO ) ;
 	}
 
 	else if ( ! strcmp ( params, "disable" ) ) {
@@ -147,10 +147,10 @@ CMD:toghorsetds ( playerid, params [] ) {
 		DestroyPlayerProgressBar(playerid, PlayerHorse [ playerid ] [ HorseHealthBar ] ) ;
 		DestroyPlayerProgressBar(playerid, PlayerHorse [ playerid ] [ HorseSprintBar ] ) ;
 
-		SendServerMessage ( playerid, "You have disabled your horse textdraws.", MSG_TYPE_INFO ) ;
+		SendServerMessage ( playerid, "At textdrawlarýný kapattýn.", MSG_TYPE_INFO ) ;
 	}
 
-	else return SendServerMessage ( playerid, "/toghorsetds [enable / disable]", MSG_TYPE_ERROR ) ;
+	else return SendServerMessage ( playerid, "/toghorsetds [enable(aç) / disable(kapat)]", MSG_TYPE_ERROR ) ;
 
 
 	return true ;
@@ -160,12 +160,12 @@ CMD:respawnhorse ( playerid, params [] ) {
 
 	if ( Character [ playerid ] [ character_horseid ] == -1 ) {
 
-		return SendServerMessage ( playerid, "You don't have a horse, so you can't revive it.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Herhangi bir ata sahip deðilsin.", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( IsPlayerRidingHorse [ playerid ] ) {
 
-		return SendServerMessage ( playerid, "You can't do /respawnhorse while you're already on a horse", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "At üstünde iken bu komutu kullanamazsýn.", MSG_TYPE_ERROR ) ;
 	}
 	
 	if ( IsValidDynamicCP (PlayerMountHorseCP [ playerid ] [ 0 ] ) ) {
@@ -189,7 +189,7 @@ CMD:respawnhorse ( playerid, params [] ) {
 	else SetDynamicObjectPos ( CowObject [ playerid ], 0.0, 0.0, 0.0 ) ;
 
 
-	SendServerMessage ( playerid, "Your horse has been despawned. You can now use /spawnhorse again", MSG_TYPE_INFO ) ;
+	SendServerMessage ( playerid, "Atýn gizlendi, /respawnhorse ile spawn edebilirsin.", MSG_TYPE_INFO ) ;
 	//OldLog ( playerid, "horse/respawn", sprintf("(%d) %s has respawned their horse.", playerid, ReturnUserName ( playerid, true ))) ;
 
 	return true ;
@@ -205,63 +205,62 @@ CMD:nohorsesound ( playerid, params [] ) {
 
 		ToggleHorseSound [ playerid ] = true ;
 
-		SendServerMessage ( playerid, "Turned horse sound on. It can now replace ambient sound.", MSG_TYPE_INFO ) ;
+		SendServerMessage ( playerid, "At sesleri aktif edildi.", MSG_TYPE_INFO ) ;
 	}
 
 	else if ( ToggleHorseSound [ playerid ] ) {
 
 		ToggleHorseSound [ playerid ] = false ;
 
-		SendServerMessage ( playerid, "Turned horse sound off. Your ambient should now play over it.", MSG_TYPE_INFO ) ;
+		SendServerMessage ( playerid, "At sesleri deaktif edildi.", MSG_TYPE_INFO ) ;
 	}
 
 	return true ;
 }
-
 CMD:spawnhorse ( playerid, params [] ) {
 
-	//if ( ! Character [ playerid ] [ SelectedCharacter [ playerid ] ] [ character_horseid ] ) {
-	if ( Character [ playerid ] [ character_horseid ] == -1 ) {
+    //if ( ! Character [ playerid ] [ SelectedCharacter [ playerid ] ] [ character_horseid ] ) {
+    if ( Character [ playerid ] [ character_horseid ] == -1 ) {
 
-		return SendServerMessage ( playerid, "You don't have a horse.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Atýnýz yok.", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( Character [ playerid ] [ character_horsehealth ] <= 0 ) {
+    if ( Character [ playerid ] [ character_horsehealth ] <= 0 ) {
 
-		return SendServerMessage ( playerid, "Your horse is dead. Go to a stablemaster and /revive it.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Atýnýz ölmüþ. Bir ahýra gidin ve /revive komutuyla canlandýrýn.", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( PlayerHorse [ playerid ] [ IsHorseSpawned ] ) {
+    if ( PlayerHorse [ playerid ] [ IsHorseSpawned ] ) {
 
-		return SendServerMessage ( playerid, "You already have a horse spawned. Use /respawnhorse to despawn it.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Atýnýz zaten çaðrýlmýþ durumda. Göndermek için /respawnhorse kullanýn.", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( ! IsPlayerFree ( playerid ) ) {
+    if ( ! IsPlayerFree ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You can't spawn your horse right now.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Þu anda atýnýzý çaðýramazsýnýz.", MSG_TYPE_ERROR ) ;
+    }
 
-	if ( GetPlayerInterior ( playerid ) || GetPlayerVirtualWorld ( playerid ) ) {
+    if ( GetPlayerInterior ( playerid ) || GetPlayerVirtualWorld ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You can only spawn a horse outside.", MSG_TYPE_ERROR ) ;
-	}
+        return SendServerMessage ( playerid, "Atý sadece dýþarýdayken çaðýrabilirsiniz.", MSG_TYPE_ERROR ) ;
+    }
 
-	new type = Character [ playerid ] [ character_horseid ] ;
-	if ( type == 0 || type == 4 || type == 5 ) {
+    new type = Character [ playerid ] [ character_horseid ] ;
+    if ( type == 0 || type == 4 || type == 5 ) {
 
-		SendServerMessage ( playerid, "Your horse ID has been temporarily disabled due to a bug. You've been given a free (expensive) replacement!", MSG_TYPE_WARN);
-		Character [ playerid ] [ character_horseid ] = 3 ;
-	} 
+        SendServerMessage ( playerid, "At ID'niz bir hata nedeniyle geçici olarak devre dýþý býrakýldý. Size ücretsiz (pahalý) bir yedek verildi!", MSG_TYPE_WARN);
+        Character [ playerid ] [ character_horseid ] = 3 ;
+    } 
 
-	SendServerMessage ( playerid, "You've called your horse. It should be here soon.", MSG_TYPE_INFO ) ;
-	PlayAudioStreamForPlayer ( playerid, HORSE_SOUND_WHISTLE, 0, 0, 0, 5.0, false ) ;
+    SendServerMessage ( playerid, "Atýnýzý çaðýrdýnýz. Yakýnda burada olacaktýr.", MSG_TYPE_INFO ) ;
+    PlayAudioStreamForPlayer ( playerid, HORSE_SOUND_WHISTLE, 0, 0, 0, 5.0, false ) ;
 
-	//OldLog ( playerid, "horse/spawn", sprintf("(%d) %s has tried to spawn their horse.", playerid, ReturnUserName ( playerid, true ))) ;
+    //OldLog ( playerid, "horse/spawn", sprintf("(%d) %s has tried to spawn their horse.", playerid, ReturnUserName ( playerid, true ))) ;
 
-	PlayerHorse [ playerid ] [ IsHorseSpawned ] = true ;
-	SetTimerEx("HorseSpawnInit", 2000, false, "i", playerid);
+    PlayerHorse [ playerid ] [ IsHorseSpawned ] = true ;
+    SetTimerEx("HorseSpawnInit", 2000, false, "i", playerid);
 
-	return true ;
+    return true ;
 }
 
 CMD:sh(playerid, params[]){
@@ -294,7 +293,7 @@ public HorseSpawnTick(playerid) {
 	if ( Character [ playerid ] [ character_horseid ] < DONATOR_MOUNT_SLOT ) {
 		if (! IsValidDynamicObject ( HorseObject [ playerid ] ) ) {
 
-			return SendServerMessage ( playerid, "Failed to create horse", MSG_TYPE_ERROR );
+			return SendServerMessage ( playerid, "At oluþturma baþarsýz oldu.", MSG_TYPE_ERROR );
 		}
 
 		//SetDynamicObjectPos(HorseObject [ playerid ], x, y, z - 0.2 ) ;
@@ -306,17 +305,17 @@ public HorseSpawnTick(playerid) {
 
 		SetupHorseObject(playerid, x, y, z, a );
 
-		SendServerMessage ( playerid, "Your horse has spawned near your location. Press ~k~~VEHICLE_ENTER_EXIT~ to mount it. To toggle hud, use /toghorsetds.", MSG_TYPE_INFO ) ;
-	}
+     SendServerMessage ( playerid, "Atýnýz yakýnýnýzda belirdi. Binmek için ~k~~VEHICLE_ENTER_EXIT~ tuþuna basýn. HUD'ý açýp kapatmak için /toghorsetds kullanýn.", MSG_TYPE_INFO ) ;
+    }
 
 	else {
 		if (! IsValidDynamicObject ( CowObject [ playerid ] ) ) {
 
-			return SendServerMessage ( playerid, "Failed to create horse", MSG_TYPE_ERROR );
+			return SendServerMessage ( playerid, "Baþarýsýz.", MSG_TYPE_ERROR );
 		}
 
 		SetDynamicObjectPos(CowObject [ playerid ], x, y, z - 1.2 ) ;
-		SendServerMessage ( playerid, "Your cow has spawned near your location. Press ~k~~VEHICLE_ENTER_EXIT~ to mount it. To toggle hud, use /toghorsetds.", MSG_TYPE_INFO ) ;
+		SendServerMessage ( playerid, "Ýneðin yakýnýnýzda belirdi. Binmek için ~k~~VEHICLE_ENTER_EXIT~ tuþuna basýn. HUD'ý açýp kapatmak için /toghorsetds kullanýn.", MSG_TYPE_INFO ) ;
 	}
 
 	SetupHorseCheckpoints ( playerid ) ;
