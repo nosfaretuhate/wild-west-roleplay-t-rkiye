@@ -6,11 +6,11 @@ CMD:streamdis(playerid, params[]) {
 
 	if ( isnull ( params ) ) {
 
-		SendServerMessage(playerid,"/streamdis(tance) [low/medium/high]",MSG_TYPE_INFO);
-		SendServerMessage(playerid,"This command is used to change the amount of objects that show up for you.",MSG_TYPE_INFO);
-		SendServerMessage(playerid,"High - 2000 visible objects",MSG_TYPE_INFO);
-		SendServerMessage(playerid,"Medium - 1250 visible objects",MSG_TYPE_INFO);
-		SendServerMessage(playerid,"Low - 750 visible objects",MSG_TYPE_INFO);	
+		SendServerMessage(playerid,"/streamdis(tance) [low(düþük)/medium(orta)/high(yüksek)]",MSG_TYPE_INFO);
+		SendServerMessage(playerid,"Bu komut size gösterilecek objelerin hangi mesafede yükleneceðini belirler.",MSG_TYPE_INFO);
+		SendServerMessage(playerid,"High - 2000 obje",MSG_TYPE_INFO);
+		SendServerMessage(playerid,"Medium - 1250 obje",MSG_TYPE_INFO);
+		SendServerMessage(playerid,"Low - 750 obje",MSG_TYPE_INFO);	
 		return true ;
 	}
 
@@ -33,16 +33,16 @@ CMD:streamdis(playerid, params[]) {
 
 	else { 
 		
-		SendServerMessage(playerid,"/streamdis [low/medium/high]",MSG_TYPE_INFO);
-		SendServerMessage(playerid,"This command is used to change the amount of objects that show up for you.",MSG_TYPE_INFO);
-		SendServerMessage(playerid,"High - 2000 visible objects",MSG_TYPE_INFO);
-		SendServerMessage(playerid,"Medium - 1250 visible objects",MSG_TYPE_INFO);
-		SendServerMessage(playerid,"Low - 750 visible objects",MSG_TYPE_INFO);
+		SendServerMessage(playerid,"/streamdis(tance) [low(düþük)/medium(orta)/high(yüksek)]",MSG_TYPE_INFO);
+		SendServerMessage(playerid,"Bu komut size gösterilecek objelerin hangi mesafede yükleneceðini belirler.",MSG_TYPE_INFO);
+		SendServerMessage(playerid,"High - 2000 obje",MSG_TYPE_INFO);
+		SendServerMessage(playerid,"Medium - 1250 obje",MSG_TYPE_INFO);
+		SendServerMessage(playerid,"Low - 750 obje",MSG_TYPE_INFO);	
 		return true;
 	}
 
 
-	SendServerMessage(playerid,sprintf("You've set your streaming distance to \"%s\". (Limit: %d)", params, limit ),MSG_TYPE_INFO);
+	SendServerMessage(playerid,sprintf("Baþarýyla ayarlandý. \"%s\". (Limit: %d)", params, limit ),MSG_TYPE_INFO);
 
 	Streamer_SetVisibleItems(STREAMER_TYPE_OBJECT,limit,playerid);
 	//Streamer_RadiusMultiplier(STREAMER_TYPE_OBJECT,radius,playerid);

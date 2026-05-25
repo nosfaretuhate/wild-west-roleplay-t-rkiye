@@ -39,9 +39,9 @@ Init_Fires () {
 
 CMD:fire ( playerid, params [] ) {
 
-	WriteLog ( playerid, "abuse", sprintf("(%d) %s tried to abuse /fire. Perm ban them.", playerid, ReturnUserName ( playerid, true ) ) ) ;
+	WriteLog ( playerid, "abuse", sprintf("(%d) %s /fire abuse denedi yasakla!", playerid, ReturnUserName ( playerid, true ) ) ) ;
 
-	SendClientMessage(playerid, COLOR_YELLOW, "You're logged. Consider yourself banned." ) ;
+	SendClientMessage(playerid, COLOR_YELLOW, "Loglandýn, yasaklanacaksýn." ) ;
 /*
 	new Float: x, Float: y, Float: z ;
 	GetPlayerPos ( playerid, x, y, z ) ;
@@ -71,7 +71,7 @@ public OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA: areaid) {
 
 	if ( IsFireArea ( areaid ) ) {
 
-		SendClientMessage(playerid, -1, "You're now on fire!" ) ;
+		SendClientMessage(playerid, -1, "Yanýyorsun!" ) ;
 	}
 
 	#if defined fire_OnPlayerEnterDynamicArea
@@ -95,7 +95,7 @@ public OnPlayerLeaveDynamicArea(playerid, STREAMER_TAG_AREA: areaid) {
 
 	if ( IsFireArea ( areaid ) ) {
 
-		SendClientMessage(playerid, -1, "You're no longer on fire!" ) ;
+		SendClientMessage(playerid, -1, "Artýk yanmýyorsun!" ) ;
 	}
 
 	#if defined fire_OnPlayerLeaveDynamicArea

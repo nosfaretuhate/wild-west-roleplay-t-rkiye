@@ -159,7 +159,7 @@ public RefreshZoneWeather() {
 		}
 	}
 
-	SendClientMessageToAll(COLOR_STAFF, "[WEATHER]:{DEDEDE} The clouds have shifted and the weather has changed." ) ;
+	SendClientMessageToAll(COLOR_STAFF, "[HAVA DURUMU]:{DEDEDE} Bulutlar yer deðiþtirdi, hava deðiþti." ) ;
 
 	return true ;
 }
@@ -187,13 +187,13 @@ public OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA: areaid) {
 
 				if ( IsZoneSafeZone ( i ) ) {
 
-					SendServerMessage ( playerid, "You have entered a safezone. Use /safezone to see whether you are in a safezone or not. For big crimes (shootouts, gangwars), you need admin permission.", MSG_TYPE_WARN ) ;
-					SendServerMessage ( playerid, "In order to commit a small crime, three law enforcement officers have to be online (before 12 PM), after 12 PM only two will be necessary. (/servertime).", MSG_TYPE_WARN ) ;
+                   SendServerMessage ( playerid, "Güvenli bölgeye girdiniz. Güvenli bölgede olup olmadýðýnýzý görmek için /safezone kullanýn. Büyük suçlar (çatýþmalar, çete savaþlarý) için yönetici izni almanýz gerekir.", MSG_TYPE_WARN ) ;
+                    SendServerMessage ( playerid, "Küçük bir suç iþlemek için üç kolluk kuvveti memurunun aktif olmasý gerekir (saat 12:00'den önce), saat 12:00'den sonra sadece iki tanesi yeterli olacaktýr. (/servertime).", MSG_TYPE_WARN ) ;
 				}
 
 				if ( IsPlayerModerator ( playerid ) ) {
 
-					SendServerMessage ( playerid, sprintf("Entered zone %s (%d), setting weather to ID %d, current temperature is %d FÂ°", Zones [ i ] [ zone_name ], Zone_ID [ i ], Zone_Weather [ i ], GetZoneTemperature( i ) ), MSG_TYPE_INFO ) ;
+					SendServerMessage ( playerid, sprintf("Bölgeye giriþ yapýldý. %s (%d), Hava durumu %d olarak deðiþtirildi. Sýcaklýk: %d FÂ°", Zones [ i ] [ zone_name ], Zone_ID [ i ], Zone_Weather [ i ], GetZoneTemperature( i ) ), MSG_TYPE_INFO ) ;
 				}
 
 				return true ;

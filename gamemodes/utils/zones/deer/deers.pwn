@@ -147,13 +147,13 @@ CMD:respawndeers ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You need to be at least a moderator in order to be able to do this.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Yetersiz yetki.", MSG_TYPE_ERROR ) ;
 	}
 
 
 	if ( GetStaffGroup ( playerid ) < GENERAL_MOD ) {
 
-		return SendServerMessage ( playerid, "You need to be a general moderator in order to be able to perform this command.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Yetersiz yetki.", MSG_TYPE_ERROR ) ;
 	}
 
 
@@ -195,7 +195,7 @@ CMD:respawndeers ( playerid, params [] ) {
 		MoveDynamicObject (Wildlife [ i ] [ wildlife_object ], wildlife_x, wildlife_y, wildlife_z, 1.5 ) ;
 	}
 
-	SendModeratorWarning ( sprintf("[DEERS] (%d) %s has respawned all the wildlife.", playerid, ReturnUserName ( playerid )), MOD_WARNING_MED ) ;
+	SendModeratorWarning ( sprintf("[geyikler] (%d) %s tüm geyikleri respawn etti.", playerid, ReturnUserName ( playerid )), MOD_WARNING_MED ) ;
 
 	return true ;
 }
@@ -205,7 +205,7 @@ CMD:respawndeer(playerid, params[]) {
 	if ( playerid != INVALID_PLAYER_ID ) {
 		if ( ! IsPlayerModerator ( playerid ) ) {
 
-			return SendServerMessage ( playerid, "You need to be at least a moderator in order to be able to do this.", MSG_TYPE_ERROR ) ;
+			return SendServerMessage ( playerid, "Yetersiz yetki.", MSG_TYPE_ERROR ) ;
 		}
 	}
 
@@ -250,7 +250,7 @@ CMD:respawndeer(playerid, params[]) {
 	CA_FindZ_For2DCoord( wildlife_x, wildlife_y, wildlife_z );
 	MoveDynamicObject (Wildlife [ i ] [ wildlife_object ], wildlife_x, wildlife_y, wildlife_z, 1.5 ) ;
 
-	SendModeratorWarning ( sprintf("[DEERS] (%d) %s has respawned wildlife ID %d.", playerid, ReturnUserName ( playerid ), i), MOD_WARNING_MED ) ;
+	SendModeratorWarning ( sprintf("[geyik] (%d) %s adlý admin %d adlý npcyi respawn etti.", playerid, ReturnUserName ( playerid ), i), MOD_WARNING_MED ) ;
 
 	return true ;
 }
@@ -261,7 +261,7 @@ CreateWildlife ( spawnid ) {
 
 	if ( wildlifecount == -1 ) {
 
-		return printf("[Wildlife ERROR]: No slots left. Returned %d", wildlifecount ) ;
+		return printf("[Wildlife ERROR]: Slot yok. %d", wildlifecount ) ;
 	}
 
 	if ( spawnid >= sizeof ( Deer_SpawnList ) ) {
@@ -326,11 +326,11 @@ public OnPlayerEnterDynamicArea(playerid, areaid){
 
 			if ( Wildlife [ wildlife ] [ wildlife_state ] == WILDLIFE_STATE_DEAD && ViewingActionGUI [ playerid ] != ACTION_TYPE_GUN ) {
 
-				SendServerMessage ( playerid, "You can skin this animal by equipping a hunting knife and pressing ~k~~SNEAK_ABOUT~.", MSG_TYPE_INFO ) ;
+				SendServerMessage ( playerid, "Bu hayvanýn derisini elinde av býçaðý varken ~k~~SNEAK_ABOUT~ tuþuna basarak yüzebilirsin.", MSG_TYPE_INFO ) ;
 
 				SetupActionGUI ( playerid, ACTION_TYPE_DEER ) ;
 
-				ActionPanel_ChangeGUI(playerid, "Press ~k~~SNEAK_ABOUT~ to start skinning this animal.") ;
+				ActionPanel_ChangeGUI(playerid, "~k~~SNEAK_ABOUT~ TUSU ILE DERISINI YUZEBILIRSIN") ;
 				//PlayerTextDrawSetString(playerid, actionGUI_infoText , "Press ~k~~SNEAK_ABOUT~ to start skinning this deer.") ;
 
 				return true ;
@@ -453,7 +453,7 @@ CMD:gotodeer ( playerid, params [] ) {
 
 	if ( ! IsPlayerModerator ( playerid ) ) {
 
-		return SendServerMessage ( playerid, "You're not a moderator.", MSG_TYPE_ERROR ) ;
+		return SendServerMessage ( playerid, "Yetersiz yetki.", MSG_TYPE_ERROR ) ;
 	}
 
 	if ( sscanf ( params, "i", id ) ) {
@@ -465,7 +465,7 @@ CMD:gotodeer ( playerid, params [] ) {
 	GetDynamicObjectPos(Wildlife [ id ] [ wildlife_object ], x, y, z ) ;
 	ac_SetPlayerPos ( playerid, x, y, z ) ;
 
-	SendClientMessage(playerid, -1, sprintf("deer id %d", id ) ) ;
+	SendClientMessage(playerid, -1, sprintf("ýþýnlandýn. deer id: %d", id ) ) ;
 
 	return true ;
 }
@@ -863,24 +863,24 @@ Wildlife_Harvest ( playerid, deer_id ) {
 		new string [ 144 ], amount ;
 
 		amount = 1 + random ( 1 ) ;
-		if ( GivePlayerItemByParam ( playerid, PARAM_HUNTING, WILDLIFE_HIDE, amount, 750 + random ( 250 ), 0, 0 ) ) { 
+        if ( GivePlayerItemByParam ( playerid, PARAM_HUNTING, WILDLIFE_HIDE, amount, 750 + random ( 250 ), 0, 0 ) ) { 
 
-			strcat ( string, sprintf("| Looted %d skins of hide~n~",  amount), sizeof ( string )) ;
-		}
+            strcat ( string, sprintf("| %d adet deri toplandý~n~",  amount), sizeof ( string )) ;
+        }
 
-		amount = 1 + random ( 2 ) ;
-		if ( GivePlayerItemByParam ( playerid, PARAM_HUNTING, WILDLIFE_MEAT, 1 + random ( 2 ), 500 + random ( 250 ), 0, 0 ) ) { 
+        amount = 1 + random ( 2 ) ;
+        if ( GivePlayerItemByParam ( playerid, PARAM_HUNTING, WILDLIFE_MEAT, 1 + random ( 2 ), 500 + random ( 250 ), 0, 0 ) ) { 
 
-			strcat ( string, sprintf("| Looted %d slabs of meat~n~",  amount), sizeof ( string )) ;
-		}
+            strcat ( string, sprintf("| %d parça et toplandý~n~",  amount), sizeof ( string )) ;
+        }
 
-		amount = random ( 2 ) ;
-		if ( amount != 0 ) {
-			if ( GivePlayerItemByParam ( playerid, PARAM_HUNTING, WILDLIFE_MEAT_LEG, 1 + random ( 2 ), 1000 + random ( 250 ), 0, 0 ) ) { 
+        amount = random ( 2 ) ;
+        if ( amount != 0 ) {
+            if ( GivePlayerItemByParam ( playerid, PARAM_HUNTING, WILDLIFE_MEAT_LEG, 1 + random ( 2 ), 1000 + random ( 250 ), 0, 0 ) ) { 
 
-				strcat ( string, sprintf("| Looted %d meaty legs~n~",  amount), sizeof ( string )) ;
-			}
-		}
+                strcat ( string, sprintf("| %d adet etli but toplandý~n~",  amount), sizeof ( string )) ;
+            }
+        }
 
 		ActionPanel_ChangeGUI ( playerid, string ) ;
 
