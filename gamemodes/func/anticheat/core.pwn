@@ -262,7 +262,7 @@ ptask PlayerAntiCheat[750](playerid){ //350
 			if ( ++ player_ACTick_Fly [ playerid ] > MAX_ANTICHEAT_WARNINGS && GetPlayerInterior ( playerid ) == 0 && GetPlayerVirtualWorld ( playerid ) == 0) {
 
 				player_ACTick_Fly [ playerid ] = 0 ;
-	   			SendModeratorWarning ( sprintf("[HÝLE KORUMASI] (%d) %s uçma hilesi yapýyor olabilir! ZEMÝN: %.2f, OYUNCU YÜKSEKLÝÐÝ: %.2f", playerid, ReturnUserName ( playerid, true ), pos_x, height ), MOD_WARNING_HIGH);
+	   			//SendModeratorWarning ( sprintf("[HÝLE KORUMASI] (%d) %s uçma hilesi yapýyor olabilir! ZEMÝN: %.2f, OYUNCU YÜKSEKLÝÐÝ: %.2f", playerid, ReturnUserName ( playerid, true ), pos_x, height ), MOD_WARNING_HIGH);
 	   		}
 		}
 
